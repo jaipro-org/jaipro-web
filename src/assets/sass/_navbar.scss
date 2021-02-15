@@ -1,0 +1,123 @@
+.header-scrolled{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 75px;
+    background-color:#fff !important;
+    -webkit-box-shadow: 0 4px 6px 0 rgba(12,0,46,.05);
+    box-shadow: 0 4px 6px 0 rgba(12,0,46,.05);
+}
+.header-scrolled .navbar-brand img{
+    width: 125px;
+    height: auto;
+}
+.header-scrolled .nav-link-number {
+    display: none;
+}
+.navbar{
+    background-color: transparent;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    -webkit-transition: all .2s linear;
+    -o-transition: all .2s linear;
+    transition: all .2s linear;
+}
+.navbar-nav{
+    align-items: center;
+}
+.navbar-brand{
+    display: flex;
+    align-items: center;
+}
+.navbar-brand img {
+    margin-left: 15px;
+    width: 155px;
+    height: auto;
+}
+.navbar-brand-menu{
+    margin-right: 40px;
+}
+.menu-navbar-nav{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.nav-item{
+    margin-left: 15px;
+    margin-right: 15px;
+}
+.navbar-nav:not(.menu-navbar-nav) .nav-item:last-of-type {
+    margin-left: 0px!important;
+    margin-right: 0px!important;
+}
+.nav-item .nav-link{
+    text-align: right;
+}
+.nav-item .nav-link:hover .nav-link-number{
+    color: #FF3E81 !important; 
+}
+.nav-item .nav-link:hover .nav-link-menu{
+    color: #FF3E81 !important; 
+}
+.nav-link-number{
+    font-family: Poppins;
+    font-weight: 200!important;
+    font-size: 12px;
+    color: #CCCCCC;
+    letter-spacing: 1.5px;
+    line-height: 1;
+}
+.nav-link-menu{
+    font-family: Poppins;
+    font-weight: 600;
+    font-size: 18px;
+    color: #000;
+    line-height: 1;
+    margin-bottom: 0;
+}
+.learn-more-btn{
+    background-color: #3A88EC;
+    font-size: 18px;
+    font-family: Poppins;
+    font-weight: 600;
+    color: #fff;
+    padding: 12px 40px !important;
+    border-radius: 100px;
+}
+.learn-more-btn:hover{
+    color: #fff;
+    background-color: #FF3E81;
+}
+.btn-invert{
+    background-color: #FF3E81!important;
+}
+.btn-invert:hover{
+    background-color: #3A88EC!important;
+}
+.navbar-toggler-icon{
+    background-image: url("assets/img/menu.png");
+}
+@media screen and (max-width: 991.98px){
+.navbar{
+    background-color: #FFFFFF;
+    -webkit-box-shadow: 0 4px 6px 0 rgba(12,0,46,.05);
+    box-shadow: 0 4px 6px 0 rgba(12,0,46,.05);
+}
+.navbar-brand img {
+    width: 100px!important;
+    padding: 10px 0;
+}
+.header-scrolled{
+    height: inherit;
+}
+}
+@media screen and (max-width: 575.98px){
+    .navbar{
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    .menu-navbar-nav {
+        padding-bottom: 10px;
+    }
+}
