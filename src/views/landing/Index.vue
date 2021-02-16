@@ -83,29 +83,7 @@
 				</div>
 			</div>
 		</div>
-			<!-- SECTION LABEL -->
-			<div id=""></div>
-			<!-- SERVICES -->
-		<div class="services-section">
-			<div class="services-section-bg-graphics">
-				<img src="@/assets/img/services-section-bg.png">
-			</div>
-			<div class="container services-container">
-				<div class="col-lg-5 services-title-section">
-					<p class="services-subtitle">Our services</p>
-					<h2 class="services-title">Solving Problems</h2>
-					<p class="services-text">This is a great section to introduce your company and showcase your featured services.</p>		
-					<div class="services-accordion">
-						<button>Soy Especialista</button>
-	          <button>Como afiliamos a los especialistas</button>
-					</div>				
-				</div>
-				<div class="col-lg-6 offset-lg-1 services-header-img-section">
-					<img src="@/assets/img/services-header.png">
-				</div>
-			</div>
-		</div>
-		<!-- SECTION LABEL -->
+    <!-- SECTION LABEL -->
 		<div id="especialidades"></div>
 		<!-- ESPECIALIDADES -->
 		<div class="blog-section">
@@ -166,6 +144,27 @@
 				</div>
 			</div>
 		</div>
+			<!-- SECTION LABEL -->
+			<div id="afiliacion"></div>
+			<!-- SERVICES -->
+		<div class="services-section">
+			<div class="services-section-bg-graphics">
+				<img src="@/assets/img/services-section-bg.png">
+			</div>
+			<div class="container services-container">
+				<div class="col-lg-5 services-title-section">
+					<h2 class="services-title">Como afiliamos a los especialistas</h2>
+					<p class="services-text">This is a great section to introduce your company and showcase your featured services.</p>		
+					<div class="services-accordion">
+	          <button>Como afiliamos a los especialistas</button>
+					</div>				
+				</div>
+				<div class="col-lg-6 offset-lg-1 services-header-img-section">
+					<img src="@/assets/img/services-header.png">
+				</div>
+			</div>
+		</div>
+		
     <!-- SECTION LABEL -->
 		<div id="clients"></div>
     <!-- CLIENTS -->
@@ -232,16 +231,11 @@
 		<!-- CONTACT -->
 		<div class="contact-section">
 			<div class="container contact-container">
-				<div class="col-md-6 contact-title-section">
-					<p class="contact-subtitle">Contact</p>
-					<h2 class="contact-title">Questions?<br>Get in touch</h2>
-					<p class="contact-text">We'll be happy to help answer any of your questions. Send us an email and we'll get back to you shortly.</p>
+				<div class="contact-title-section">
+					<h2 class="contact-title">¿Tienes alguna duda?<br>Visita nuestro</h2>
 					<div class="learn-more-btn-section">
-						<a class="nav-link learn-more-btn btn-invert" href="mailto:name@domain.com">Send an Email</a>
+						<a class="nav-link learn-more-btn btn-invert" href="mailto:name@domain.com">Centro de ayuda</a>
 					</div>
-				</div>
-				<div class="col-md-6 contact-header-img">
-					<img src="@/assets/img/contact-header-img.png">
 				</div>
 			</div>
 		</div>

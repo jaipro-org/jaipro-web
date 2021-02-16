@@ -7,6 +7,13 @@
     background-color:#fff !important;
     -webkit-box-shadow: 0 4px 6px 0 rgba(12,0,46,.05);
     box-shadow: 0 4px 6px 0 rgba(12,0,46,.05);
+    .show {
+        display: block !important;
+        opacity: 1;
+    }
+    .hide {
+        display: none;
+    }
 }
 .header-scrolled .navbar-brand img{
     width: 125px;
@@ -22,6 +29,9 @@
     -webkit-transition: all .2s linear;
     -o-transition: all .2s linear;
     transition: all .2s linear;
+    .show {
+        display: none;
+    }
 }
 .navbar-nav{
     align-items: center;
@@ -46,6 +56,9 @@
 .nav-item{
     margin-left: 15px;
     margin-right: 15px;
+    .learn-more-btn {
+        // min-width: 248px;
+    }
 }
 .navbar-nav:not(.menu-navbar-nav) .nav-item:last-of-type {
     margin-left: 0px!important;

@@ -18,36 +18,30 @@
 				</button>
 				<div class="collapse navbar-collapse justify-content-around" id="navbarNav">
 					<ul class="navbar-nav menu-navbar-nav">
-						<li class="nav-item">
+						<!-- <li class="nav-item">
 							<a class="nav-link" href="#top">
 								<p class="nav-link-menu">Inicio</p>
 							</a>
+						</li> -->
+						<li class="nav-item show">
+							<a class="nav-link learn-more-btn btn-invert" href="#">Cotizar</a>
 						</li>
-						<li class="nav-item">
+						
+						<li class="nav-item hide">
 							<a class="nav-link" href="#services">
 								<p class="nav-link-menu">Servicios</p>
 							</a>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#especialidades">
-								<p class="nav-link-menu">Especialidades</p>
+						<li class="nav-item hide">
+							<a class="nav-link" href="#afiliacion">
+								<p class="nav-link-menu">Como afiliamos a los especialistas</p>
 							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="#clients">
-								<p class="nav-link-menu">Testimonios</p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#contact">
-								<p class="nav-link-menu">Contacto</p>
-							</a>
+							<a class="nav-link learn-more-btn" href="#">Hazte especialista</a>
 						</li>
 					</ul>
 					<ul class="navbar-nav">
-						<li class="nav-item">
-							<a class="nav-link learn-more-btn" href="#">Cotizar</a>
-						</li>
 						<li class="nav-item">
 							<b-dropdown size="lg" right variant="link" toggle-class="text-decoration-none" no-caret>
 								<template #button-content>
