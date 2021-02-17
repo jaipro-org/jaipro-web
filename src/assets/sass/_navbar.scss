@@ -7,11 +7,11 @@
     background-color:#fff !important;
     -webkit-box-shadow: 0 4px 6px 0 rgba(12,0,46,.05);
     box-shadow: 0 4px 6px 0 rgba(12,0,46,.05);
-    .show {
+    .show-item {
         display: block !important;
         opacity: 1;
     }
-    .hide {
+    .hide-item {
         display: none;
     }
 }
@@ -29,7 +29,13 @@
     -webkit-transition: all .2s linear;
     -o-transition: all .2s linear;
     transition: all .2s linear;
-    .show {
+    .show-item {
+        display: none;
+    }
+    .drop {
+        display: flex;
+    }
+    .sub_option {
         display: none;
     }
 }
@@ -109,13 +115,31 @@
     background-color: #3A88EC!important;
 }
 .navbar-toggler-icon{
-    background-image: url("assets/img/menu.png");
+    background-image: url("assets/img/menu.png") !important;
 }
 @media screen and (max-width: 991.98px){
 .navbar{
     background-color: #FFFFFF;
     -webkit-box-shadow: 0 4px 6px 0 rgba(12,0,46,.05);
     box-shadow: 0 4px 6px 0 rgba(12,0,46,.05);
+    .nav-item {
+        margin-top: 5px;
+        margin-bottom: 5px;
+        width: 100%;
+        .learn-more-btn {
+            width: 100%;
+            text-align: center;
+        }
+        .nav-link {
+            text-align: left;
+        }
+    }
+    .drop {
+        display: none;
+    }
+    .sub_option {
+        display: block;
+    }
 }
 .navbar-brand img {
     width: 100px!important;

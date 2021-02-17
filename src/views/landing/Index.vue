@@ -250,7 +250,7 @@ export default {
   components: { carousel },
   data() {
     return {
-
+      
     }
   },
   methods: {
