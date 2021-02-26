@@ -31,6 +31,11 @@
 								<p class="nav-link-menu">Como afiliamos a los especialistas</p>
 							</a>
 						</li>
+            <li class="nav-item only-m">
+							<a class="nav-link" href="#">
+								<p class="nav-link-menu">Buscar profesionales</p>
+							</a>
+						</li>
 						<li class="nav-item">
 							<a class="nav-link learn-more-btn" href="#">Hazte especialista</a>
 						</li>

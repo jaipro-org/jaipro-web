@@ -1,18 +1,6 @@
 <template>
   <div>
     <div class="header">
-      <b-form inline class="container">
-        <b-form-select
-          class="mb-2 mr-sm-2 mb-sm-0 form-control"
-          :options="[{ text: 'Categoría', value: null }, 'One', 'Two', 'Three']"
-          :value="null"
-        ></b-form-select>
-        <b-form-input
-          class="mb-2 mr-sm-2 mb-sm-0"
-          placeholder="Ubicación"
-        ></b-form-input>
-        <button class="search"><i class="fa fa-search"></i></button>
-      </b-form>
 			<div class="container header-container">
 				<div class="col-lg-6 header-img-section">
 					<img src="@/assets/img/header.png">
