@@ -26,10 +26,31 @@
 								<p class="nav-link-menu">Servicios</p>
 							</a>
 						</li>
-						<li class="nav-item hide-item">
+						<li class="nav-item hide-item primary-menu__list-item">
 							<a class="nav-link" href="#afiliacion">
-								<p class="nav-link-menu">Como afiliamos a los especialistas</p>
+								<p class="nav-link-menu">especialistas</p>
 							</a>
+              <div class="pin-container">
+                <span class="pin-icon" />
+              </div>
+              <div class="primary-menu__dropdown">
+                <b-container>
+                  <div class="primary-menu__dropdown-item-wrapper">
+                    <div class="primary-menu__dropdown-item">
+                      <a href="#afiliacion" class="primary-menu__dropdown-item-link">
+                        <h4>Como afiliamos a los especialistas</h4>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500</p>
+                      </a>
+                    </div>
+                    <div class="primary-menu__dropdown-item">
+                      <a href="#" class="primary-menu__dropdown-item-link">
+                        <h4>Buscar profesionales</h4>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500</p>
+                      </a>
+                    </div>
+                  </div>
+                </b-container>
+              </div>
 						</li>
             <li class="nav-item only-m">
 							<a class="nav-link" href="#">
