@@ -67,15 +67,15 @@
 								<template #button-content>
 									<i class="fa fa-bars"></i>
 								</template>
-								<b-dropdown-item v-b-modal.modal-register>Registrate</b-dropdown-item>
-								<b-dropdown-item v-b-modal.modal-login>Iniciar Sesión</b-dropdown-item>
+								<b-dropdown-item v-b-modal.modal-register @click="step_register=0">Registrate</b-dropdown-item>
+								<b-dropdown-item v-b-modal.modal-login @click="step_login=0">Iniciar Sesión</b-dropdown-item>
 							</b-dropdown>
 						</li>
 					</ul>
           <div class="sub_option">
             <hr />
-            <a class="nav-link" v-b-modal.modal-register>Registrate</a>
-						<a class="nav-link" v-b-modal.modal-login>Iniciar Sesión</a>
+            <a class="nav-link" v-b-modal.modal-register @click="step_register=0">Registrate</a>
+						<a class="nav-link" v-b-modal.modal-login @click="step_login=0">Iniciar Sesión</a>
           </div>
 				</b-collapse>
 			</div>
@@ -100,7 +100,7 @@
         <b-button block  variant="primary" class="btn-facebook">Continuar con Facebook<span class="btn-icon-right"><i class="fa fa-facebook"></i></span></b-button>
         <b-button block  variant="primary" class="btn-google">Continuar con Google<span class="btn-icon-right"><i class="fa fa-google"></i></span></b-button>
         <b-button block  variant="primary" class="btn-google-plus">Continuar con Microsoft<span class="btn-icon-right"><i class="fa fa-windows"></i></span></b-button>
-        <p class="text-right mt-4">No tienes Cuenta? <b-link>Registrate</b-link></p>
+        <p class="text-right mt-4">No tienes Cuenta? <b-link @click="showModalRegister()">Registrate</b-link></p>
       </template>
       <template v-if="step_login==1">
         <b-form-group
@@ -168,6 +168,10 @@ export default {
           navbar.classList.remove('header-scrolled');
         }
       };
+    },
+    showModalRegister() {
+      this.$bvModal.hide('modal-login');
+      this.$bvModal.show('modal-register');
     }
   }
 }

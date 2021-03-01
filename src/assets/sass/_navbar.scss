@@ -29,6 +29,7 @@
   -webkit-transition: all 0.2s linear;
   -o-transition: all 0.2s linear;
   transition: all 0.2s linear;
+  z-index: 10;
   .show-item {
     display: none;
   }

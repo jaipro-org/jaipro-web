@@ -25,8 +25,8 @@
         <div class="tab-pills">
           <!-- <button class="nav-link learn-more-btn btn-invert">Para Clientes</button>
           <button class="nav-link learn-more-btn">Para Especialistas</button> -->
-          <b-button variant="outline-primary" class="active">Para Clientes</b-button>
-          <b-button variant="outline-primary">Para Especialistas</b-button>
+          <b-button variant="outline-primary" @click="tabIndex=0" :class='{active : (tabIndex==0)}'>Para Clientes</b-button>
+          <b-button variant="outline-primary" @click="tabIndex=1" :class='{active : (tabIndex==1)}'>Para Especialistas</b-button>
         </div>
 			</div>
 			<div class="strategy-section-bg-graphics-section">
@@ -84,7 +84,8 @@
 			<div class="container blog-container">
 				<div class="blog-title-section">
 					<p class="blog-subtitle">Recent updates</p>
-					<h2 class="blog-title">Especialidades</h2>
+					<h2 v-if="tabIndex == 0"  class="blog-title">Servicios</h2>
+					<h2 v-else class="blog-title">Especialidades</h2>
 				</div>
 				<div class="blog-posts-section">
           <carousel :autoplay="true" :nav="false" :responsive="{0:{items:1,nav:false},600:{items:2},992:{items:3}}" :loop="true">
@@ -135,7 +136,7 @@
 			<!-- SECTION LABEL -->
 			<div id="afiliacion"></div>
 			<!-- SERVICES -->
-		<div class="services-section">
+		<div class="services-section" v-if="tabIndex == 0">
 			<div class="services-section-bg-graphics">
 				<img src="@/assets/img/services-section-bg.png">
 			</div>
@@ -160,7 +161,8 @@
 			<div class="container clients-container">
 				<div class="clients-title-section">
 					<p class="clients-subtitle">Our clients</p>
-					<h2 class="clients-title">Clientes Satisfechos</h2>
+					<h2 v-if="tabIndex == 0" class="clients-title">Clientes Satisfechos</h2>
+					<h2 v-else class="clients-title">Comentarios de especialistas</h2>
 				</div>
 				<div class="clients-container-cards">
           <div class="col-md-6 col-xs-12">
@@ -217,7 +219,7 @@
 		<!-- SECTION LABEL -->
 		<div id="contact"></div>
 		<!-- CONTACT -->
-		<div class="contact-section">
+		<div v-if="tabIndex == 0" class="contact-section">
 			<div class="container contact-container">
 				<div class="contact-title-section">
 					<h2 class="contact-title">¿Tienes alguna duda?<br>Visita nuestro</h2>
@@ -238,7 +240,7 @@ export default {
   components: { carousel },
   data() {
     return {
-      
+      tabIndex: 0
     }
   },
   methods: {
