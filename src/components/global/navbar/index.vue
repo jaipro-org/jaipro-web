@@ -43,19 +43,19 @@
                       </a>
                     </div>
                     <div class="primary-menu__dropdown-item">
-                      <a href="#" class="primary-menu__dropdown-item-link">
+                      <router-link to="/search-page" class="primary-menu__dropdown-item-link">
                         <h4>Buscar profesionales</h4>
                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500</p>
-                      </a>
+                      </router-link>
                     </div>
                   </div>
                 </b-container>
               </div>
 						</li>
             <li class="nav-item only-m">
-							<a class="nav-link" href="#">
+							<router-link class="nav-link" to="/search-page">
 								<p class="nav-link-menu">Buscar profesionales</p>
-							</a>
+							</router-link>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link learn-more-btn" href="#">Hazte especialista</a>

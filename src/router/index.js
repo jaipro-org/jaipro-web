@@ -6,12 +6,20 @@ Vue.use(VueRouter);
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes: [{
-    path: "/",
-    name: "landing",
-    meta: { layout: "default" },
-    component: () =>
-        import ("../views/landing/Index"),
+  routes: [
+    {
+      path: "/",
+      name: "landing",
+      meta: { layout: "master-landing" },
+      component: () =>
+        import ("../views/landing"),
+    },
+    {
+      path: "/search-page",
+      name: "search-page",
+      meta: { layout: "master-search-page" },
+      component: () =>
+        import ("../views/search-page"),
     },
   ],
 });

@@ -1,0 +1,95 @@
+<template>
+  <div class="ln-pt">
+    <b-container>
+      <b-card class="card_profesional">
+        <b-row>
+          <b-col md="3">
+            <b-img class="img_profile" :src="imgProfile"></b-img>
+            <b-form-rating :value="4" :v-model="2" variant="warning" class="mb-2"></b-form-rating>
+            <p class="total-rating text-center">4.7 <span>(13 valoraciones)</span></p>
+          </b-col>
+          <b-col md="9">
+            <div class="datos">
+              <h2>
+                Pedro Ramirez Estrada
+                <div class="verified h5 mb-0">
+                  <b-icon icon="check-circle-fill" />Verificado
+                </div>
+              </h2>
+              <div class="tags">
+                <b-link>Carpintero</b-link>
+                <b-link>Gasfitero</b-link>
+                <b-link>Electricista</b-link>
+              </div>
+              <p class="card-text">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.
+              </p>
+              <div class="btn-page">
+                <b-button class="mr-2" variant="primary">Ver Perfil</b-button>
+                <b-button variant="success">Cotizar</b-button>
+              </div>
+            </div>
+          </b-col>
+        </b-row>
+      </b-card>
+      <b-card class="card_profesional">
+        <b-row>
+          <b-col md="3">
+            <b-img class="img_profile" :src="imgProfile"></b-img>
+            <b-form-rating :value="4" :v-model="2" variant="warning" class="mb-2"></b-form-rating>
+            <p class="total-rating text-center">4.7 <span>(13 valoraciones)</span></p>
+          </b-col>
+          <b-col md="9">
+            <div class="datos">
+              <h2>
+                Pedro Ramirez Estrada
+                <div class="verified h5 mb-0">
+                  <b-icon icon="check-circle-fill" />Verificado
+                </div>
+              </h2>
+              <div class="tags">
+                <b-link>Carpintero</b-link>
+                <b-link>Gasfitero</b-link>
+                <b-link>Electricista</b-link>
+              </div>
+              <p class="card-text">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.
+              </p>
+              <div class="btn-page">
+                <b-button class="mr-2" variant="primary">Ver Perfil</b-button>
+                <b-button variant="success">Cotizar</b-button>
+              </div>
+            </div>
+          </b-col>
+        </b-row>
+      </b-card>
+    </b-container>
+  </div>
+</template>
+
+<script>
+import imgProfile from "@/assets/img/profile.png";
+
+export default {
+  components: { 
+
+   },
+  data() {
+    return {
+      imgProfile: imgProfile
+    }
+  },
+  methods: {
+    
+  }
+}
+
+</script>
+
+<style>
+
+</style>

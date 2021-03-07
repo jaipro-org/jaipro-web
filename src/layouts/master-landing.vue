@@ -1,6 +1,6 @@
 <script>
-import Nav from '@/components/global/Navbar';
-import Footer from "@/components/global/Footer";
+import Nav from '@/components/global/navbar/index';
+import Footer from "@/components/global/footer/index";
 
 export default {
   components: {
