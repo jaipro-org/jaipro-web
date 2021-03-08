@@ -22,12 +22,12 @@
 						</li>
 						
 						<li class="nav-item hide-item">
-							<a class="nav-link" href="#services">
+							<a class="nav-link" href="#services" v-smooth-scroll>
 								<p class="nav-link-menu">Servicios</p>
 							</a>
 						</li>
 						<li class="nav-item hide-item primary-menu__list-item">
-							<a class="nav-link" href="#afiliacion">
+							<a class="nav-link" href="#afiliacion" v-smooth-scroll>
 								<p class="nav-link-menu">especialistas</p>
 							</a>
               <div class="pin-container">
@@ -37,7 +37,7 @@
                 <b-container>
                   <div class="primary-menu__dropdown-item-wrapper">
                     <div class="primary-menu__dropdown-item">
-                      <a href="#afiliacion" class="primary-menu__dropdown-item-link">
+                      <a href="#afiliacion" v-smooth-scroll class="primary-menu__dropdown-item-link">
                         <h4>Como afiliamos a los especialistas</h4>
                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500</p>
                       </a>
@@ -173,6 +173,7 @@ export default {
       this.$bvModal.hide('modal-login');
       this.$bvModal.show('modal-register');
     }
+
   }
 }
 

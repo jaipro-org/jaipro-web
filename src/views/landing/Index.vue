@@ -15,8 +15,6 @@
 				</div>
 			</div>
 		</div>
-    <!-- SECTION LABEL -->
-			<div id="services"></div>
     <!-- STRATEGY SECTION -->
 		<div class="strategy-section">
 			<div class="pricing-title container">
@@ -72,7 +70,7 @@
 			</div>
 		</div>
     <!-- SECTION LABEL -->
-		<div id="especialidades"></div>
+		<div id="services"></div>
 		<!-- ESPECIALIDADES -->
 		<div class="blog-section">
 			<div class="blog-section-right-bg">
