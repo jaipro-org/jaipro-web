@@ -14,6 +14,7 @@
     "vue": "^2.6.12",
     "vue-owl-carousel": "^2.0.3",
     "vue-router": "^3.2.0",
+    "vue-select": "^3.11.2",
     "vue2-smooth-scroll": "^1.5.0",
     "vuex": "^3.4.0"
   },

@@ -1,10 +1,60 @@
 <template>
   <div class="ln-pt">
     <b-container>
+      <div class="panel filter">
+        <div class="panel-heading" v-b-toggle.collapse-1>Opciones de Búsqueda<i class="fa fa-search" /></div>
+        <b-collapse id="collapse-1">
+          <div class="panel-body">
+            <b-form-row>
+              <b-col>
+                <b-form-group label="Categoria">
+                  <v-select 
+                    multiple
+                    push-tags
+                    v-model="selected" 
+                    :options="['Albañil', 'Electricista', 'Gasfitero', 'Pintor']" 
+                  />
+                </b-form-group>
+              </b-col>
+              <b-col>
+                <b-form-group label="Especialidad">
+                  <v-select 
+                    multiple
+                    push-tags
+                    v-model="selected" 
+                    :options="['Todas', 'Alarmas', 'Cableado']" 
+                  />
+                </b-form-group>
+              </b-col>
+              <b-col>
+                <b-form-group label="Ubicación">
+                  <v-select 
+                    multiple
+                    push-tags
+                    v-model="selected" 
+                    :options="['Lima Norte', 'Lima Sur', 'Lima Este', 'Lima Oeste', 'Callao']" 
+                  />
+                </b-form-group>
+              </b-col>
+              <b-col style="align-self: flex-end">
+                <b-form-group>
+                  <b-button variant="outline-primary" size="sm">Más filtros</b-button>
+                </b-form-group>
+              </b-col>
+            </b-form-row>
+            <div>
+
+            </div>
+          </div>
+        </b-collapse>
+      </div>
       <b-card class="card_profesional">
         <b-row>
           <b-col md="3">
-            <b-img class="img_profile" :src="imgProfile"></b-img>
+            <div class="img_profile">
+              <b-img :src="imgProfile"></b-img>
+              <i class="fa fa-heart-o" />
+            </div>
             <b-form-rating :value="4" :v-model="2" variant="warning" class="mb-2"></b-form-rating>
             <p class="total-rating text-center">4.7 <span>(13 valoraciones)</span></p>
           </b-col>
@@ -37,7 +87,10 @@
       <b-card class="card_profesional">
         <b-row>
           <b-col md="3">
-            <b-img class="img_profile" :src="imgProfile"></b-img>
+            <div class="img_profile">
+              <b-img :src="imgProfile"></b-img>
+              <i class="fa fa-heart" />
+            </div>
             <b-form-rating :value="4" :v-model="2" variant="warning" class="mb-2"></b-form-rating>
             <p class="total-rating text-center">4.7 <span>(13 valoraciones)</span></p>
           </b-col>
@@ -80,11 +133,16 @@ export default {
    },
   data() {
     return {
-      imgProfile: imgProfile
+      imgProfile: imgProfile,
     }
   },
   methods: {
-    
+    myChangeEvent(val){
+      console.log(val);
+    },
+    mySelectEvent({id, text}){
+      console.log({id, text})
+    }
   }
 }
 

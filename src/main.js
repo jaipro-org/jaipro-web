@@ -6,7 +6,9 @@ import store from "./store";
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
-import VueSmoothScroll from 'vue2-smooth-scroll'
+import VueSmoothScroll from 'vue2-smooth-scroll';
+import vSelect from 'vue-select'
+import 'vue-select/dist/vue-select.css';
 
 
 import MasterLanding from "./layouts/master-landing.vue";
@@ -21,6 +23,7 @@ Vue.use(VueSmoothScroll, {
 })
 Vue.config.productionTip = false;
 
+Vue.component('v-select', vSelect)
 Vue.component("master-landing", MasterLanding);
 Vue.component("master-search-page", MasterSearchPage);
 
