@@ -17,9 +17,16 @@ const router = new VueRouter({
     {
       path: "/search-page",
       name: "search-page",
-      meta: { layout: "master-search-page" },
+      meta: { layout: "master-landing" },
       component: () =>
         import ("../views/search-page"),
+    },
+    {
+      path: "/professional-profile",
+      name: "professional-profile",
+      meta: { layout: "master-landing" },
+      component: () =>
+        import ("../views/professional-profile"),
     },
   ],
 });
