@@ -1,0 +1,9 @@
+.list-dots {
+  padding-left: 20px;
+  flex-wrap: wrap;
+  display: flex;
+  li {
+    width: 33%;
+    margin-bottom: 5px;
+  }
+}

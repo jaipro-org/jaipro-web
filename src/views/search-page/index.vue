@@ -62,9 +62,7 @@
             <div class="datos">
               <h2>
                 Pedro Ramirez Estrada
-                <div class="verified h5 mb-0">
-                  <b-icon icon="check-circle-fill" />Verificado
-                </div>
+                <b-icon class="verified" icon="check-circle-fill" />
               </h2>
               <div class="tags">
                 <b-link>Carpintero</b-link>
@@ -98,9 +96,7 @@
             <div class="datos">
               <h2>
                 Pedro Ramirez Estrada
-                <div class="verified h5 mb-0">
-                  <b-icon icon="check-circle-fill" />Verificado
-                </div>
+                <b-icon class="verified" icon="check-circle-fill" />
               </h2>
               <div class="tags">
                 <b-link>Carpintero</b-link>
