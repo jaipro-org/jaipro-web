@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Nav />
+    <NavBarClient />
     <div class="wrapper">
       <slot />
       <Footer />
@@ -9,13 +9,19 @@
 </template>
 
 <script>
-import Nav from "@/shared/components/SearchPage.vue";
+import NavBarClient from "@/shared/components/NavBarClient.vue";
 import Footer from "@/shared/components/FooterComponent.vue";
 
 export default {
   components: {
-    Nav,
+    NavBarClient,
     Footer,
   },
+  
 };
 </script>
+<style lang="scss" scoped>
+  .wrapper{
+    padding-top: 0 !important;
+  }
+</style>

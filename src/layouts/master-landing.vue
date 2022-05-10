@@ -1,21 +1,21 @@
-<script>
-import Nav from '@/components/global/navbar/index';
-import Footer from "@/components/global/footer/index";
-
-export default {
-  components: {
-    Nav,
-    Footer
-  }
-};
-</script>
-
 <template>
   <div>
-    <Nav />
+    <NavBar />
     <div class="wrapper">
       <slot />
       <Footer />
     </div>
   </div>
 </template>
+
+<script>
+import NavBar from "@/shared/components/NavBar.vue";
+import Footer from "@/shared/components/FooterComponent.vue";
+
+export default {
+  components: {
+    NavBar,
+    Footer,
+  },
+};
+</script>

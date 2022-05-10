@@ -2,49 +2,62 @@
   <div class="ln-pt">
     <b-container>
       <div class="panel filter">
-        <div class="panel-heading" v-b-toggle.collapse-1>Opciones de Búsqueda<i class="fa fa-search" /></div>
+        <div class="panel-heading" v-b-toggle.collapse-1>
+          Opciones de Búsqueda<i class="fa fa-search" />
+        </div>
         <b-collapse id="collapse-1">
           <div class="panel-body">
             <b-form-row>
               <b-col>
                 <b-form-group label="Categoria">
-                  <v-select 
+                  <v-select
                     multiple
                     push-tags
-                    v-model="selected" 
-                    :options="['Albañil', 'Electricista', 'Gasfitero', 'Pintor']" 
+                    v-model="selected"
+                    :options="[
+                      'Albañil',
+                      'Electricista',
+                      'Gasfitero',
+                      'Pintor',
+                    ]"
                   />
                 </b-form-group>
               </b-col>
               <b-col>
                 <b-form-group label="Especialidad">
-                  <v-select 
+                  <v-select
                     multiple
                     push-tags
-                    v-model="selected" 
-                    :options="['Todas', 'Alarmas', 'Cableado']" 
+                    v-model="selected"
+                    :options="['Todas', 'Alarmas', 'Cableado']"
                   />
                 </b-form-group>
               </b-col>
               <b-col>
                 <b-form-group label="Ubicación">
-                  <v-select 
+                  <v-select
                     multiple
                     push-tags
-                    v-model="selected" 
-                    :options="['Lima Norte', 'Lima Sur', 'Lima Este', 'Lima Oeste', 'Callao']" 
+                    v-model="selected"
+                    :options="[
+                      'Lima Norte',
+                      'Lima Sur',
+                      'Lima Este',
+                      'Lima Oeste',
+                      'Callao',
+                    ]"
                   />
                 </b-form-group>
               </b-col>
               <b-col style="align-self: flex-end">
                 <b-form-group>
-                  <b-button variant="outline-primary" size="sm">Más filtros</b-button>
+                  <b-button variant="outline-primary" size="sm"
+                    >Más filtros</b-button
+                  >
                 </b-form-group>
               </b-col>
             </b-form-row>
-            <div>
-
-            </div>
+            <div></div>
           </div>
         </b-collapse>
       </div>
@@ -55,8 +68,15 @@
               <b-img :src="imgProfile"></b-img>
               <i class="fa fa-heart-o" />
             </div>
-            <b-form-rating :value="4" :v-model="2" variant="warning" class="mb-2"></b-form-rating>
-            <p class="total-rating text-center">4.7 <span>(13 valoraciones)</span></p>
+            <b-form-rating
+              :value="4"
+              :v-model="2"
+              variant="warning"
+              class="mb-2"
+            ></b-form-rating>
+            <p class="total-rating text-center">
+              4.7 <span>(13 valoraciones)</span>
+            </p>
           </b-col>
           <b-col md="9">
             <div class="datos">
@@ -70,9 +90,11 @@
                 <b-link>Electricista</b-link>
               </div>
               <p class="card-text">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry. Lorem Ipsum has been the industry's standard dummy
+                text ever since the 1500s, when an unknown printer took a galley
+                of type and scrambled it to make a type specimen book. It has
+                survived not only five centuries.
               </p>
               <div class="btn-page">
                 <b-button class="mr-2" variant="primary">Ver Perfil</b-button>
@@ -89,8 +111,15 @@
               <b-img :src="imgProfile"></b-img>
               <i class="fa fa-heart" />
             </div>
-            <b-form-rating :value="4" :v-model="2" variant="warning" class="mb-2"></b-form-rating>
-            <p class="total-rating text-center">4.7 <span>(13 valoraciones)</span></p>
+            <b-form-rating
+              :value="4"
+              :v-model="2"
+              variant="warning"
+              class="mb-2"
+            ></b-form-rating>
+            <p class="total-rating text-center">
+              4.7 <span>(13 valoraciones)</span>
+            </p>
           </b-col>
           <b-col md="9">
             <div class="datos">
@@ -104,9 +133,11 @@
                 <b-link>Electricista</b-link>
               </div>
               <p class="card-text">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry. Lorem Ipsum has been the industry's standard dummy
+                text ever since the 1500s, when an unknown printer took a galley
+                of type and scrambled it to make a type specimen book. It has
+                survived not only five centuries.
               </p>
               <div class="btn-page">
                 <b-button class="mr-2" variant="primary">Ver Perfil</b-button>
@@ -124,26 +155,21 @@
 import imgProfile from "@/assets/img/profile.png";
 
 export default {
-  components: { 
-
-   },
+  components: {},
   data() {
     return {
       imgProfile: imgProfile,
-    }
+    };
   },
   methods: {
-    myChangeEvent(val){
+    myChangeEvent(val) {
       console.log(val);
     },
-    mySelectEvent({id, text}){
-      console.log({id, text})
-    }
-  }
-}
-
+    mySelectEvent({ id, text }) {
+      console.log({ id, text });
+    },
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
