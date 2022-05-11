@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <b-container fluid="xl">
     <router-view></router-view>
-  </div>
+  </b-container>
 </template>
 
 <script>

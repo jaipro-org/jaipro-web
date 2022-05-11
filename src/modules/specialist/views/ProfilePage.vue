@@ -1,5 +1,5 @@
 <template>
-  <b-row class=" profile-specialist__container mx-0 pb-2 pt-4 mt-0">
+  <b-row class="profile-specialist__container mx-0 pb-2 pt-4 mt-0">
     <b-col cols="12" lg="3" class="profile__menu">
       <div class="menu__container py-3 px-4 bg-white d-block d-lg-none">
         <div>
@@ -7,23 +7,38 @@
             <span>Mi resumen</span><i class="fa-solid fa-angle-down ml-2"></i>
           </div>
           <b-collapse id="collapse-3" class=" pl-4 pt-2">
-            <div class="pl-2" v-b-toggle.collapse-3 @click="goBox('presentation__box')">
+            <div class="pl-2"
+              v-b-toggle.collapse-3
+              @click="goBox('presentation__box')"
+              :class=" isPresentationSection ? 'menu-active' : ''"
+            >
               <span>Presentación</span>
             </div>
             <hr>
-            <div class="pl-2" v-b-toggle.collapse-3 @click="goBox('galery__box')">
+            <div
+              class="pl-2"
+              v-b-toggle.collapse-3
+              @click="goBox('galery__box')"
+              :class=" isGalerySection ? 'menu-active' : ''"
+            >
               <span>Galeria</span>
             </div>
             <hr>
-            <div class="pl-2" v-b-toggle.collapse-3 @click="goBox('experience__box')">
+            <div class="pl-2" v-b-toggle.collapse-3 @click="goBox('experience__box')"
+              :class=" isExperienceSection ? 'menu-active' : ''"
+            >
               <span>Experiencia</span>
             </div>
             <hr>
-            <div class="pl-2" v-b-toggle.collapse-3 @click="goBox('location__box')">
+            <div class="pl-2" v-b-toggle.collapse-3 @click="goBox('location__box')"
+              :class=" isLocationSection ? 'menu-active' : ''"
+            >
               <span>Locaciones de trabajo</span>
             </div>
             <hr>
-            <div class="pl-2" v-b-toggle.collapse-3 @click="goBox('acount__box')">
+            <div class="pl-2" v-b-toggle.collapse-3 @click="goBox('acount__box')"
+              :class=" isAcountSection ? 'menu-active' : ''"
+            >
               <span>Cuentas</span>
             </div>
           </b-collapse>
@@ -35,23 +50,33 @@
           <span>Mi resumen</span>
         </div>
         <hr>
-        <div class="text-center" @click="goBox('presentation__box')">
+        <div class="text-center" @click="goBox('presentation__box')"
+          :class=" isPresentationSection ? 'menu-active' : ''"
+        >
           <span>Presentación</span>
         </div>
         <hr>
-        <div class="text-center" @click="goBox('galery__box')">
+        <div class="text-center" @click="goBox('galery__box')"
+          :class=" isGalerySection ? 'menu-active' : ''"
+        >
           <span>Galeria</span>
         </div>
         <hr>
-        <div class="text-center" @click="goBox('experience__box')">
+        <div class="text-center" @click="goBox('experience__box')"
+          :class=" isExperienceSection ? 'menu-active' : ''"
+        >
           <span>Experiencia</span>
         </div>
         <hr>
-        <div class="text-center" @click="goBox('location__box')">
+        <div class="text-center" @click="goBox('location__box')"
+          :class=" isLocationSection? 'menu-active' : ''"
+        >
           <span>Locaciones de trabajo</span>
         </div>
         <hr>
-        <div class="text-center" @click="goBox('acount__box')">
+        <div class="text-center" @click="goBox('acount__box')"
+          :class=" isAcountSection ? 'menu-active' : ''"
+        >
           <span>Cuentas</span>
         </div>
       </div>
@@ -127,7 +152,7 @@
               <div class="experience__item p-3 mb-3">
                 <b-row class="mx-0">
                   <b-col cols="10" class="d-flex px-0">
-                    <div class="experience__image mr-1">
+                    <div class="experience__image mr-3">
                       <img src="@/assets/img-delete/experience.jpg" alt="">
                     </div>
                     <div>
@@ -181,7 +206,7 @@
               <div class="experience__item p-3 mb-3">
                 <b-row class="mx-0">
                   <b-col cols="10" class="d-flex px-0">
-                    <div class="experience__image mr-1">
+                    <div class="experience__image mr-3">
                       <img src="@/assets/img-delete/experience.jpg" alt="">
                     </div>
                     <div>
@@ -341,11 +366,24 @@ export default {
         { value: 3, text: "Puente Piedra" },
         { value: 4, text: "Chorrillos" },
       ],
+      section1: null,
+      section2: null,
+      section3: null,
+      section4: null,
+      section5: null,
     };
   },
   mounted(){
     this.isLoading = false
+    this.$nextTick(() => {
+      // this.section1 = document.getElementById('presentation__box').offsetTop
+      this.section2 = document.getElementById('galery__box').offsetTop - 10
+      this.section3 = document.getElementById('experience__box').offsetTop - 10
+      this.section4 = document.getElementById('location__box').offsetTop - 10
+      this.section5 = document.getElementById('acount__box').offsetTop - 10
+      });
   },
+
   methods: {
     setData() {
       alertSuccessButton("Se realizo la operacion correctamente");
@@ -387,6 +425,28 @@ export default {
         }
       }
       return false
+    },
+    isPresentationSection() {
+      return this.getScroll >= 0 && this.getScroll < this.section2  ? true : false 
+    },
+    isGalerySection() {
+      return this.getScroll >= this.section2  && this.getScroll < this.section3  ? true : false 
+    },
+    isExperienceSection() {
+      return this.getScroll >= this.section3  && this.getScroll < this.section4  ? true : false 
+    },
+    isLocationSection() {
+      return this.getScroll >= this.section4  && this.getScroll < this.section5  ? true : false 
+    },
+    isAcountSection() {
+      if(!this.isLoading){
+        let footer = document.getElementById("footer__limit");
+        let footerScrollY = Number(footer.offsetTop) - 320
+        return this.getScroll >= this.section5  && this.getScroll < footerScrollY ? true : false 
+      }else{
+        return false
+      }
+      
     }
   }
 };
@@ -414,9 +474,10 @@ export default {
 
     .menu__container--web{
       position: fixed;
-      width: 23%;
       top: 90px;
       padding-top: 0 ;
+      width: 100%;
+      max-width: 240px;
     }
   }
   .card{
@@ -435,6 +496,7 @@ export default {
 
     .button__action--success{
       color: rgb(64, 231, 114);
+      font-size: 2rem;
     }
 
     .button__action--float{
@@ -482,8 +544,8 @@ export default {
       border-radius: 2px;
 
       .experience__image{
-        width: 60px;
-        height: 60px;
+        width: 55px;
+        height: 55px;
         background-color: aqua;
 
         img{
@@ -494,11 +556,11 @@ export default {
       }
 
       .experience__title{
-        font-size: 1.3rem;
+        font-size: 1.1rem;
       }
 
       .experience__range{
-        font-size: 1.1rem;
+        font-size: 0.9rem;
       }
 
       .experience__subtitle{
@@ -537,6 +599,11 @@ export default {
 
     
   }
+}
+
+.menu-active{
+  background-color: #3a88ec !important;
+  color: white;
 }
 
 @media (max-width: 991px ){

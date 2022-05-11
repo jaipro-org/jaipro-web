@@ -40,6 +40,9 @@
           <b-card class="mb-4 pt-5 pt-md-4">
             <div class="image__user">
               <img src="@/assets/img-delete/profile.jpg" alt="">
+              <div v-b-modal.modal-1 class="button__action button__action--userImage text-warning">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </div>
             </div>
             <h4>Datos Personales</h4>
             <b-form @submit.prevent="setData" validated>
@@ -163,8 +166,50 @@
         </b-col>
       </b-row>
     </b-col>
+    <b-modal id="modal-1" title="Editar imagen de perfil" class="p-0" centered>
+      <template #modal-footer>
+        <div class="d-flex justify-content-between w-100">
+          <b-button variant="secondary">Cancelar</b-button>
+          <b-button variant="primary">Gurdar</b-button>
+        </div>
+      </template>
+      <div
+      >
+        <span class="span-info"
+          >Seleccione la imagen para elegir una nueva imagen de
+          Portada</span
+        >
+        <span
+          class="span-info"
+          :class="coverImage ? 'span-info--success' : 'span-info--danger'"
+          >*Este campo es obligatorio</span
+        >
+        <div
+          class="form-image__file mt-2"
+          :class="!coverImage ? 'form-image__file--aux' : ''"
+          @click="uploadImage"
+        >
+          <img
+            :src="
+              !coverImage
+                ? require('@/assets/img-delete/fileimage-up.png')
+                : coverImage
+            "
+            alt="image"
+          />
+        </div>
+        <b-form-file
+          style="display: none"
+          ref="portadaFile"
+          hidden
+          @change="changeFileCover"
+        ></b-form-file>
+      </div>
+    </b-modal>
     <b-col id="footer__limit"></b-col>
   </b-row>
+
+  
 </template>
 
 <script>
@@ -182,6 +227,8 @@ export default {
         { value: 3, text: "Puente Piedra" },
         { value: 4, text: "Chorrillos" },
       ],
+      fileImage: null,
+      coverImage: null,
     };
   },
   mounted(){
@@ -190,6 +237,23 @@ export default {
   methods: {
     setData() {
       alertSuccessButton("Se realizo la operacion correctamente");
+    },
+    uploadImage() {
+      const btnFile = this.$refs.portadaFile.$el.children[0];
+      btnFile.click();
+    },
+    changeFileCover(event) {
+      const file = event.target.files[0];
+      if (!file) {
+        this.fileImage = null;
+        this.coverImage = this.isModalEdit? this.form.imageUrl : null;
+        return;
+      }
+
+      this.fileImage = file;
+      const fr = new FileReader();
+      fr.onload = () => (this.coverImage = fr.result);
+      fr.readAsDataURL(file);
     },
   },
   computed: {
@@ -220,9 +284,10 @@ export default {
     }
     .menu__container--web{
       position: fixed;
-      width: 23%;
       top: 90px;
       padding-top: 0 ;
+      width: 100%;
+      max-width: 250px;
     }
   }  
   
@@ -254,8 +319,75 @@ export default {
         border-radius: 100%;
       }
     }
+
+    .button__action{
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .button__action--userImage{
+      display: flex;
+      position: absolute;
+      right: 5px;
+      bottom: 5px;
+      background-color: white;
+      border-radius: 100%;
+      font-size: 1.2rem;
+      padding: 5px;
+      box-shadow: 0px 1px 3px black;
+    }
+
+    .button__action--userImage:hover{
+      background-color: #007bff;
+      color: white !important;
+    }
+
   }
 }
+
+.form-image__file {
+  width: 100%;
+  height: 280px;
+  border: 1px solid #b6bdcc;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  cursor: pointer;
+}
+
+.form-image__file--aux {
+  padding: 20px 5px;
+}
+
+.form-image__file img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  margin: auto;
+}
+
+.form-image__file--aux img {
+  height: 160px;
+  width: auto;
+}
+
+  
+.span-info{
+  color: darkgray;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: block;
+}
+
+.span-info--danger{
+  color: #f64b4b
+}
+.span-info--success{
+  color: #60b841;
+}
+
 
 @media (max-width: 991px ){
   .profile-client__container{
@@ -269,7 +401,7 @@ export default {
     }
 
     .profile__content{
-      margin-top: 100;
+      padding-top: 180px;
     }
   }
 }
