@@ -48,21 +48,21 @@
             <b-form @submit.prevent="setData" validated>
               <b-row class="mx-0 justify-content-between mt-4">
                 <b-col cols="12" lg="5" class="mb-3">
-                  <b-form-group label="Nombre" label-for="input-1">
+                  <b-form-group label="Nombres" label-for="input-1">
                     <b-form-input
                       id="input-1"
                       type="text"
-                      placeholder="Ingrese su nombre"
+                      placeholder="Ingrese sus nombres"
                       required
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3">
-                  <b-form-group label="Apellido" label-for="input-2">
+                  <b-form-group label="Apellidos" label-for="input-2">
                     <b-form-input
                       id="input-2"
                       type="text"
-                      placeholder="Ingrese su apellido"
+                      placeholder="Ingrese sus apellidos"
                       required
                     ></b-form-input>
                   </b-form-group>
@@ -78,11 +78,11 @@
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3">
-                  <b-form-group label="Telefono" label-for="input-4">
+                  <b-form-group label="Teléfono" label-for="input-4">
                     <b-form-input
                       id="input-4"
                       type="text"
-                      placeholder="Ingrese su telefoo"
+                      placeholder="Ingrese su teléfono"
                       required
                     ></b-form-input>
                   </b-form-group>
@@ -130,9 +130,20 @@
         </b-col>
         <b-col cols="12">
           <b-card class="mb-4">
-            <h4>Actualizar password</h4>
+            <h4>Cambiar contraseña</h4>
             <b-form @submit.prevent="setData" validated>
               <b-row class="mx-0 mt-4">
+                <b-col cols="12" lg="7" class="mb-3">
+                  <b-form-group label="Contraseña actual" label-for="input-77">
+                    <b-form-input
+
+                      id="input-77"
+                      type="password"
+                      placeholder="Ingrese su contraseña actual"
+                      required
+                    ></b-form-input>
+                  </b-form-group>
+                </b-col>
                 <b-col cols="12" lg="7" class="mb-3">
                   <b-form-group label="Nueva contraseña" label-for="input-6">
                     <b-form-input
@@ -146,13 +157,13 @@
                 </b-col>
                 <b-col cols="12" lg="7" class="mb-3">
                   <b-form-group
-                    label="Repetir nueva contraseña"
+                    label="Confirmar nueva contraseña"
                     label-for="input-7"
                   >
                     <b-form-input
                       id="input-7"
                       type="password"
-                      placeholder="Repita su cotraseña"
+                      placeholder="Confirme su contraseña"
                       required
                     ></b-form-input>
                   </b-form-group>
@@ -209,7 +220,6 @@
     <b-col id="footer__limit"></b-col>
   </b-row>
 
-  
 </template>
 
 <script>

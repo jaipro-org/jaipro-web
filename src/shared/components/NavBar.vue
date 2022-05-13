@@ -190,16 +190,16 @@
       id="modal-register"
       ref="modal-register"
       centered
-      title="Registrate como cliente"
+      title="Registrate como"
       hide-footer
     >
       <template v-if="step_register == 0">
         <b-button block variant="primary" @click="step_register = 1"
-          >Como Cliente</b-button
+          >Cliente</b-button
         >
         <hr />
         <b-button block variant="primary" @click="toRegisterSpecialist"
-          >Como especialista</b-button
+          >Especialista</b-button
         >
       </template>
       <template v-if="step_register == 1">

@@ -15,6 +15,15 @@ export default {
         ),
     },
     {
+      path: "nuevo-proyecto",
+      name: "new-project",
+      meta: { layout: "client-landing" },
+      component: () =>
+        import(
+          "@/modules/client/views/NewProject.vue"
+        ),
+    },
+    {
       path: "/",
       redirect: { name: "client-profile" },
     },
