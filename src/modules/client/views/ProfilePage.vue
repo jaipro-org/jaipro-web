@@ -221,7 +221,6 @@
     </b-modal>
     <b-col id="footer__limit"></b-col>
   </b-row>
-
 </template>
 
 <script>
