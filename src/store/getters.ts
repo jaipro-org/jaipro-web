@@ -1,4 +1,4 @@
-import { StateGlobal } from './type';
+import { StateGlobal } from "./type";
 /****************************************/
 /*               AUTH - GETTERS         */
 /****************************************/

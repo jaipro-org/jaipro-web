@@ -10,7 +10,7 @@ Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
   {
-    path: "/home",
+    path: "/inicio",
     name: "home",
     meta: { layout: "master-landing" },
     component: Home,

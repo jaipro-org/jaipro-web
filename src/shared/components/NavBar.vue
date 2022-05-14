@@ -2,8 +2,8 @@
   <div>
     <nav
       id="navbar"
-      :class=" setScrollClass? 'header-scrolled' : '' "
-      class="navbar fixed-top  navbar-expand-lg navbar-header navbar-mobile"
+      :class="setScrollClass ? 'header-scrolled' : ''"
+      class="navbar fixed-top navbar-expand-lg navbar-header navbar-mobile"
     >
       <div class="navbar-container container">
         <!-- LOGO -->
@@ -228,15 +228,13 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
       step_login: 0,
       step_register: 0,
     };
-  },
-  mounted() {
   },
   methods: {
     showModalRegister() {
@@ -255,12 +253,12 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(['getScroll']),
+    ...mapGetters(["getScroll"]),
     setScrollClass() {
-      if (this.getScroll > 20) return true
-      else return false
-    }
-  }
+      if (this.getScroll > 20) return true;
+      else return false;
+    },
+  },
 };
 </script>
 

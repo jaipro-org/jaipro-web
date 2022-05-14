@@ -9,7 +9,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    scrollY : 0
+    scrollY: 0,
   },
   actions,
   mutations,

@@ -4,7 +4,14 @@
       <h1 class="text-center">Registro de Especialista</h1>
     </b-col>
     <b-col cols="12" md="8" class="mx-auto mt-4 px-0">
-      <form-wizard shape color="#3a88ec" ref="formWizard" title="" subtitle="" class="px-4 px-lg-0">
+      <form-wizard
+        shape
+        color="#3a88ec"
+        ref="formWizard"
+        title=""
+        subtitle=""
+        class="px-4 px-lg-0"
+      >
         <template slot="finish">
           <b-button
             variant="primary"
@@ -14,23 +21,15 @@
           >
         </template>
         <template slot="next">
-          <b-button
-            variant="primary"
-            class="step__button"
-            >Siguiente</b-button
-          >
+          <b-button variant="primary" class="step__button">Siguiente</b-button>
         </template>
         <template slot="prev">
-          <b-button
-            variant="primary"
-            class="step__button"
-            >Anterior</b-button
-          >
+          <b-button variant="primary" class="step__button">Anterior</b-button>
         </template>
         <tab-content title="Datos personales" :beforeChange="validateDataForm">
           <b-card class="mt-1 mb-2">
             <b-form @submit.prevent="" ref="dataForm" validated>
-              <b-row class="mx-0 justify-content-between ">
+              <b-row class="mx-0 justify-content-between">
                 <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group label="Nombres" label-for="input-3">
                     <b-form-input
@@ -106,7 +105,6 @@
               </button>
             </b-form>
           </b-card>
-          
         </tab-content>
         <tab-content title="Datos de trabajo" :beforeChange="validateWorkForm">
           <b-card class="mt-1 mb-2">
@@ -144,7 +142,7 @@
                   multiple
                   v-model="optionSelected"
                   :options="selectOptions"
-                  :reduce="option => option.value"
+                  :reduce="(option) => option.value"
                 />
               </b-col>
               <b-col cols="12" class="mx-auto mt-4 mb-1">
@@ -232,7 +230,10 @@
             <b-form @submit.prevent="" ref="acountForm" validated>
               <b-row class="mx-0 justify-content-between mt-4">
                 <b-col cols="12" lg="5" class="mb-3 px-0">
-                  <b-form-group label="Correo electrónico" label-for="input-acount-1">
+                  <b-form-group
+                    label="Correo electrónico"
+                    label-for="input-acount-1"
+                  >
                     <b-form-input
                       id="input-acount-1"
                       v-model="form.email"
@@ -282,7 +283,6 @@
               </button>
             </b-form>
           </b-card>
-          
         </tab-content>
         <tab-content title="Resumen">
           <b-card class="mb-4">
@@ -387,7 +387,7 @@
                   multiple
                   v-model="optionSelected"
                   :options="selectOptions"
-                  :reduce="option => option.value"
+                  :reduce="(option) => option.value"
                   disabled
                 />
               </b-col>
@@ -412,7 +412,7 @@
                         class="justify-content-center mx-auto work__temp"
                       >
                         <div class="text-center work__date">Años</div>
-                        
+
                         <b-form-input
                           v-model="workExperience[index].years"
                           type="text"
@@ -421,7 +421,6 @@
                           class="rounded-pill"
                           disabled
                         ></b-form-input>
-                        
                       </b-col>
                     </b-col>
                     <b-col cols="12" md="6" lg="5">
@@ -431,7 +430,7 @@
                         class="justify-content-center mx-auto work__temp"
                       >
                         <div class="text-center work__date">Meses</div>
-                        
+
                         <b-form-input
                           v-model="workExperience[index].months"
                           type="text"
@@ -440,7 +439,6 @@
                           class="rounded-pill"
                           disabled
                         ></b-form-input>
-                        
                       </b-col>
                     </b-col>
                   </b-row>
@@ -450,9 +448,12 @@
           </b-card>
           <b-card class="mb-4">
             <h6 class="mb-3">Datos de cuenta</h6>
-            <b-row class="mx-0 justify-content-between ">
+            <b-row class="mx-0 justify-content-between">
               <b-col cols="12" lg="5" class="mb-3">
-                <b-form-group label="Correo electrónico" label-for="input-acount-1">
+                <b-form-group
+                  label="Correo electrónico"
+                  label-for="input-acount-1"
+                >
                   <b-form-input
                     id="input-acount-1"
                     v-model="form.email"
@@ -531,7 +532,6 @@ export default {
         { value: 1, label: "SMP" },
         { value: 3, label: "Puente Piedra" },
         { value: 4, label: "Chorrillos" },
-
       ],
     };
   },
@@ -589,8 +589,8 @@ export default {
           const work = {
             id: value[lastAdd],
             name: res.text,
-            years: '',
-            months: '',
+            years: "",
+            months: "",
           };
 
           this.workExperience.push(work);
@@ -602,7 +602,7 @@ export default {
 </script>
 
 <style>
-.wizard-icon{
+.wizard-icon {
   font-style: normal;
 }
 .info-error {
