@@ -2,7 +2,7 @@ import { TabContent } from 'vue-form-wizard';
 <template>
   <b-row class="jobs__container mx-0 mt-0">
     <b-col cols="12" lg="8" class="pt-5">
-      <div>
+      <div class="mt-1">
         <b-card class="job__filters">
           <b-row class="mx-0">
             <b-col cols="12" lg="4" class="mb-3">
@@ -134,17 +134,17 @@ import { TabContent } from 'vue-form-wizard';
               </div>
               <b-row class="mx-0 justify-content-around mt-2">
                 <b-col cols="6" lg="3" class="mb-3">
-                  <div class="job-detail__image">
+                  <div class="job-detail__image" v-b-modal.modal-imagen>
                     <img src="@/assets/img-delete/pintor.jpg" alt="">
                   </div>
                 </b-col>
                 <b-col cols="6" lg="3" class="mb-3">
-                  <div class="job-detail__image">
+                  <div class="job-detail__image" v-b-modal.modal-imagen>
                     <img src="@/assets/img-delete/pintor.jpg" alt="">
                   </div>
                 </b-col>
                 <b-col cols="6" lg="3" class="mb-3">
-                  <div class="job-detail__image">
+                  <div class="job-detail__image" v-b-modal.modal-imagen>
                     <img src="@/assets/img-delete/pintor.jpg" alt="">
                   </div>
                 </b-col>
@@ -153,15 +153,14 @@ import { TabContent } from 'vue-form-wizard';
                 <b-btn variant="primary" v-b-modal.modal-proposal>Enviar propuestas</b-btn>
               </div>
 
-
             </div>
           </b-card>
         </b-col>
       </b-row>
     </b-col>
-    <b-col cols="12" lg="4" class="jobs__content jobs__content-web pt-5 d-none d-lg-block">
-      <h4>Trabajos</h4>
-      <div class="jobs__list px-3">
+    <b-col cols="12" lg="4" class="jobs__content jobs__content-web pt-3 d-none d-lg-block">
+      <h4 class="mb-1 px-3">Trabajos</h4>
+      <div class="jobs__list px-3 pt-1">
         <b-card class="job__item mb-4" v-for="(job, index) in jobsListFilter" :key="index">
           <span class="job__data d-block"><b>Solicitante:</b> {{job.petitioner}}</span>
           <span class="job__data d-block"><b>Categoría de servicio:</b></span>
@@ -190,7 +189,7 @@ import { TabContent } from 'vue-form-wizard';
       </div>
     </b-col>
 
-    <b-modal id="modal-proposal" title="Mi propuesta" centered>
+    <b-modal id="modal-proposal"  title="Mi propuesta" size="lg" centered>
       <template #modal-footer>
         <b-row class="mx-0 w-100">
           <b-col cols="12" class="d-flex justify-content-between w-100">
@@ -205,25 +204,27 @@ import { TabContent } from 'vue-form-wizard';
         <p>
           Estima un rango de tus honorarios por el trabajo. Excluye el precio de los materiales u otros
         </p>
-        <b-row class="mx-0 justify-content-around align-items-center">
+        <b-row class="mx-0 justify-content-around align-items-center mt-3">
           <b-col cols="5">
-              <b-input-group  prepend="S/">
+              <b-input-group  prepend="S/" id="input-proposal-1">
                 <b-form-input
                   placeholder="Minimo"
                   v-model="form.min"
                   oninput="this.value = value.replace(/[^0-9]/g, '')"
                   required
+                  class="rounded-right"
                 ></b-form-input>
               </b-input-group>
           </b-col>
           <span>-</span>
           <b-col cols="5">
-              <b-input-group  prepend="S/">
+              <b-input-group  prepend="S/" id="input-proposal-2">
                 <b-form-input
                   placeholder="Maximo"
                   oninput="this.value = value.replace(/[^0-9]/g, '')"
                   v-model="form.max"
                   required
+                  class="rounded-right"
                 ></b-form-input>
               </b-input-group>
           </b-col>
@@ -232,12 +233,13 @@ import { TabContent } from 'vue-form-wizard';
           id="input-group-3"
           label="Comentarios adicionales:"
           label-for="textarea"
-          class="mt-3"
+          class="mt-5"
         >
           <b-form-textarea
             id="textarea"
             v-model="form.coment"
             placeholder="Ingrese un comentario adicional"
+            class="rounded-left"
             rows="3"
             max-rows="6"
           ></b-form-textarea>
@@ -246,6 +248,22 @@ import { TabContent } from 'vue-form-wizard';
           <button type="submit" ref="btnModal"></button>
         </div>
       </b-form>
+    </b-modal>
+
+    <b-modal id="modal-imagen" class="modal__imagen" title="Imagen del trabajo">
+      <template #modal-footer>
+        <b-row class="mx-0 w-100">
+          <b-col cols="12" class="d-flex justify-content-between w-100">
+            <b-button variant="secondary" @click="$bvModal.hide('modal-imagen')"
+              >Cancelar</b-button
+            >
+            <b-button variant="primary" @click="$refs.btnModal.click()">Enviar</b-button>
+          </b-col>
+        </b-row>
+      </template>
+      <div id="imagen__content">
+        <img src="@/assets/img-delete/pintor.jpg" alt="">
+      </div>
     </b-modal>
   </b-row>
 </template>
@@ -488,9 +506,33 @@ export default {
       }
     }
   }
+
   
 }
 
+#imagen__content{
+  width: 350px;
+  height: 350px;
+  margin: auto;
+  max-width: 100%;
+
+  img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+#input-proposal-1 .input-group-prepend .input-group-text,
+#input-proposal-2 .input-group-prepend .input-group-text{
+  border-bottom-left-radius: 25px !important;
+  border-top-left-radius: 25px  !important;
+}
+#input-proposal-1 input,
+#input-proposal-2 input{
+  border-bottom-right-radius: 25px !important;
+  border-top-right-radius: 25px !important;
+}
 @media (max-width : 991px ) {
   .jobs__container{
     .job-detail__container{

@@ -205,93 +205,60 @@
             </div>
             <hr class="mt-0" />
             <div class="p-2">
-              <div class="experience__item p-3 mb-3">
+              <div class="experience__item p-3 mb-3"
+                v-for="(experience, id) in experiences" :key="id"
+              >
                 <b-row class="mx-0">
-                  <b-col cols="10" class="d-flex px-0">
-                    <div class="experience__image mr-3">
-                      <img src="@/assets/img-delete/experience.jpg" alt="" />
-                    </div>
-                    <div>
-                      <h1 class="experience__title">
-                        CONSTRUCCION Y ARQUITECTURA
-                      </h1>
-                      <h2 class="experience__range">
-                        ANIOS EN EL SECTOR: 5 años
-                      </h2>
-                    </div>
-                  </b-col>
-                  <b-col cols="2" class="px-0">
+                  <b-col cols="12" class="px-0 d-flex justify-content-end mb-2 d-block d-md-none">
                     <div
-                      class="button__action button__action--float2 text-warning"
+                      class="button__action text-warning mr-2"
                       @click="modalProfessionEdit"
                     >
                       <i class="fa-solid fa-pen-to-square"></i>
                     </div>
-                  </b-col>
-                </b-row>
-
-                <h1 class="experience__subtitle mt-3">ESPECIALIDADES</h1>
-                <b-row class="mx-0">
-                  <b-col cols="12" md="6" class="d-flex">
-                    <div>
-                      <i class="fa-solid fa-circle-notch mr-2 text-primary"></i>
+                    <div
+                      class="button__action text-danger"
+                      @click="deleteExperience(experience.id)"
+                    >
+                      <i class="fa-solid fa-circle-xmark"></i>
                     </div>
-                    <span> Concreto/Armado </span>
                   </b-col>
-                  <b-col cols="12" md="6" class="d-flex">
-                    <div>
-                      <i class="fa-solid fa-circle-notch mr-2 text-primary"></i>
-                    </div>
-                    <span> Concreto/Armado </span>
-                  </b-col>
-                  <b-col cols="12" md="6" class="d-flex">
-                    <div>
-                      <i class="fa-solid fa-circle-notch mr-2 text-primary"></i>
-                    </div>
-                    <span> Instalación de interruptores y tomacorrientes </span>
-                  </b-col>
-                  <b-col cols="12" md="6" class="d-flex">
-                    <div>
-                      <i class="fa-solid fa-circle-notch mr-2 text-primary"></i>
-                    </div>
-                    <span> Servicios Generales </span>
-                  </b-col>
-                </b-row>
-              </div>
-              <div class="experience__item p-3 mb-3">
-                <b-row class="mx-0">
-                  <b-col cols="10" class="d-flex px-0">
-                    <div class="experience__image mr-3">
+                  <b-col cols="12" md="10" class="d-flex  px-0">
+                    <div  class="experience__image ">
                       <img src="@/assets/img-delete/experience.jpg" alt="" />
                     </div>
-                    <div>
-                      <h1 class="experience__title">
-                        CONSTRUCCION Y ARQUITECTURA
+                    <div  class="pl-2 pl-md-3">
+                      <h1 class="experience__title ">
+                        {{experience.title}}
                       </h1>
-                      <h2 class="experience__range">
-                        ANIOS EN EL SECTOR: 5 años
+                      <h2 class="experience__range ">
+                        ANIOS EN EL SECTOR: {{experience.time}} años
                       </h2>
                     </div>
                   </b-col>
-                  <b-col cols="2" class="px-0">
+                  <b-col cols="2" class="px-0 d-none d-md-flex justify-content-end">
                     <div
-                      class="button__action button__action--float2 text-warning"
+                      class="button__action  text-warning mr-3"
+                      @click="modalProfessionEdit"
                     >
-                      <i
-                        class="fa-solid fa-pen-to-square"
-                        @click="modalProfessionEdit"
-                      ></i>
+                      <i class="fa-solid fa-pen-to-square"></i>
+                    </div>
+                    <div
+                      class="button__action text-danger"
+                      @click="deleteExperience(experience.id)"
+                    >
+                      <i class="fa-solid fa-circle-xmark"></i>
                     </div>
                   </b-col>
                 </b-row>
 
                 <h1 class="experience__subtitle mt-3">ESPECIALIDADES</h1>
                 <b-row class="mx-0">
-                  <b-col cols="12" md="6" class="d-flex">
+                  <b-col cols="12" md="6" class="d-flex" v-for="(especiality, id) in experience.specialities" :key="id">
                     <div>
                       <i class="fa-solid fa-circle-notch mr-2 text-primary"></i>
                     </div>
-                    <span> Concreto/Armado </span>
+                    <span> {{especiality.name}} </span>
                   </b-col>
                   <b-col cols="12" md="6" class="d-flex">
                     <div>
@@ -313,6 +280,7 @@
                   </b-col>
                 </b-row>
               </div>
+
             </div>
           </b-card>
         </b-col>
@@ -382,7 +350,7 @@
             <div class="px-4 py-2">
               <b-row
                 class="acount__item mx-0 mb-3 py-3"
-                v-for="acount in acountList"
+                v-for="acount in acountsList"
                 :key="acount.id"
               >
                 <b-col cols="10" class="d-flex align-items-center">
@@ -421,11 +389,12 @@
           <b-col
             cols="12"
             lg="11"
-            class="d-flex justify-content-between w-100 mx-auto"
+            class="d-flex justify-content-end w-100 mx-auto"
           >
             <b-button
               variant="secondary"
               @click="$bvModal.hide('modal-experience')"
+              class="mr-3"
               >Cancelar</b-button
             >
             <b-button variant="primary" @click="$refs.btnFormPresentation.click()">Guardar</b-button>
@@ -490,7 +459,7 @@
             </b-form-group>
           </b-col>
           <b-col cols="12" lg="11" class="mb-3">
-            <b-form-group label="Experiencia" label-for="input-pres-3">
+            <b-form-group label="Acerca de mi" label-for="input-pres-3">
               <b-form-textarea
                 id="input-pres-3"
                 v-model="formPresentation.experience"
@@ -498,6 +467,7 @@
                 rows="4"
                 max-rows="6"
                 required
+                class="rounded-right rounded-left"
               ></b-form-textarea>
             </b-form-group>
           </b-col>
@@ -618,70 +588,71 @@
       <b-form @submit.prevent="editExperience" validated>
         <b-row class="mx-0 px-0 px-lg-2">
           <b-col cols="12" lg="11" class="mx-auto">
-            <b-row class="mx-0">
-              <b-col cols="12" lg="5" class="px-0">
-                <b-form-group label="Profesión:" label-for="input-experience-1">
+            <h6>Profesiones:</h6>
+            <hr />
+            <b-row class="mx-0 mt-2">
+              <b-col cols="12"  lg="4" class="px-0 mb-4">
+                
                   <b-form-select
                     v-model="formProfession.selectedProfession"
                     :options="optionsProfessions"
                     id="input-experience-1"
                   ></b-form-select>
-                </b-form-group>
+                
               </b-col>
-            </b-row>
-          </b-col>
-
-          <b-col cols="12" lg="11" class="mt-3 mx-auto">
-            <b-row class="mx-0 justify-content-around">
-              <b-col cols="12" md="6" lg="5" class="mb-5 mb-md-0">
-                <b-col cols="7" md="6" class="mx-auto work__temp">
-                  <div class="text-center work__date">Años</div>
-                  <div
-                    class="work__buttons work__buttons--left"
-                    @click="substractYear()"
-                  >
-                    -
-                  </div>
-                  <b-form-input
-                    v-model="formProfession.workExperience.years"
-                    type="text"
-                    placeholder="0"
-                    required
-                    class="rounded-pill"
-                    oninput="this.value = value.replace(/[^0-9]/g, '')"
-                  ></b-form-input>
-                  <div
-                    class="work__buttons work__buttons--right"
-                    @click="addYear()"
-                  >
-                    +
-                  </div>
-                </b-col>
-              </b-col>
-              <b-col cols="12" md="6" lg="5">
-                <b-col cols="7" md="6" class="mx-auto work__temp">
-                  <div class="text-center work__date">Meses</div>
-                  <div
-                    class="work__buttons work__buttons--left"
-                    @click="substractMonth()"
-                  >
-                    -
-                  </div>
-                  <b-form-input
-                    v-model="formProfession.workExperience.months"
-                    type="text"
-                    placeholder="0"
-                    required
-                    class="rounded-pill"
-                    oninput="this.value = value.replace(/[^0-9]/g, '')"
-                  ></b-form-input>
-                  <div
-                    class="work__buttons work__buttons--right"
-                    @click="addMonth()"
-                  >
-                    +
-                  </div>
-                </b-col>
+              <b-col cols="12"  lg="8" class="mt-3 mx-auto">
+                <b-row class="mx-0 justify-content-around">
+                  <b-col cols="12" md="6" class="mb-5 mb-md-0">
+                    <b-col cols="7" md="8" class="mx-auto work__temp ">
+                      <div class="text-center work__date">Años</div>
+                      <div
+                        class="work__buttons work__buttons--left"
+                        @click="substractYear()"
+                      >
+                        -
+                      </div>
+                      <b-form-input
+                        v-model="formProfession.workExperience.years"
+                        type="text"
+                        placeholder="0"
+                        required
+                        class="rounded-pill"
+                        oninput="this.value = value.replace(/[^0-9]/g, '')"
+                      ></b-form-input>
+                      <div
+                        class="work__buttons work__buttons--right"
+                        @click="addYear()"
+                      >
+                        +
+                      </div>
+                    </b-col>
+                  </b-col>
+                  <b-col cols="12" md="6" >
+                    <b-col cols="7" md="8" class="mx-auto work__temp">
+                      <div class="text-center work__date">Meses</div>
+                      <div
+                        class="work__buttons work__buttons--left"
+                        @click="substractMonth()"
+                      >
+                        -
+                      </div>
+                      <b-form-input
+                        v-model="formProfession.workExperience.months"
+                        type="text"
+                        placeholder="0"
+                        required
+                        class="rounded-pill"
+                        oninput="this.value = value.replace(/[^0-9]/g, '')"
+                      ></b-form-input>
+                      <div
+                        class="work__buttons work__buttons--right"
+                        @click="addMonth()"
+                      >
+                        +
+                      </div>
+                    </b-col>
+                  </b-col>
+                </b-row>
               </b-col>
             </b-row>
           </b-col>
@@ -753,19 +724,20 @@
       <b-form @submit.prevent="editLocation" validated>
         <b-row class="mx-0">
           <b-col cols="12" lg="11" class="mx-auto">
-            <b-row class="mx-0">
+            <h6>Zona:</h6>
+            <hr />
+            <b-row class="mx-0 mt-2">
+              
               <b-col cols="12" lg="5" class="px-0">
-                <b-form-group label="Ubicación:" label-for="input-location-1">
-                  <b-form-select
-                    v-model="formLocation.selectedLocation"
-                    :options="optionsLocation"
-                    id="input-location-1"
-                  ></b-form-select>
-                </b-form-group>
+                <b-form-select
+                  v-model="formLocation.selectedLocation"
+                  :options="optionsLocation"
+                  id="input-location-1"
+                ></b-form-select>
               </b-col>
             </b-row>
           </b-col>
-          <b-col cols="12" lg="11" class="mt-3 mx-auto">
+          <b-col cols="12" lg="11" class="mt-5 mx-auto">
             <h6>Distritos disponibles</h6>
             <hr />
             <b-row class="mx-0 justify-content-around">
@@ -825,6 +797,7 @@
                 v-model="formAcount.selectedAcount"
                 :options="optionsAcount"
                 id="input-acount-1"
+                class="rounded-pill"
               ></b-form-select>
             </b-form-group>
           </b-col>
@@ -871,6 +844,54 @@ export default {
       isLoading: true,
       slide: 0,
       sliding: null,
+      experiences: [
+        {
+          id: 0,
+          title: 'Construccion y Techado',
+          time: 5,
+          specialities: [
+            {
+              id: 0,
+              name: 'Concreto/Armado'
+            },
+            {
+              id: 1,
+              name: 'Instalación de interruptores'
+            },
+            {
+              id: 2,
+              name: 'Servicios generales'
+            },
+            {
+              id: 3,
+              name: 'Servicios generales'
+            },
+          ]
+        },
+        {
+          id: 1,
+          title: 'Arquitectura',
+          time: 5,
+          specialities: [
+            {
+              id: 1,
+              name: 'Concreto/Armado'
+            },
+            {
+              id: 2,
+              name: 'Instalación de interruptores'
+            },
+            {
+              id: 3,
+              name: 'Servicios generales'
+            },
+            {
+              id: 4,
+              name: 'Servicios generales'
+            },
+          ]
+        }
+      ],
       locationsList: [
         {
           id: "1",
@@ -885,7 +906,7 @@ export default {
           value: "Lima Norte, Los Olivos, Independencia, San Martin de Porres",
         },
       ],
-      acountList: [
+      acountsList: [
         {
           id: "1",
           value: "XXXX XXXX XXXX 7698",
@@ -1057,8 +1078,12 @@ export default {
       this.locationsList.splice(index, 1);
     },
     deleteAcount(id) {
-      const index = this.acountList.findIndex((acount) => acount.id == id);
-      this.acountList.splice(index, 1);
+      const index = this.acountsList.findIndex((acount) => acount.id == id);
+      this.acountsList.splice(index, 1);
+    },
+    deleteExperience(id){
+      const index = this.experiences.findIndex((experience) => experience.id == id);
+      this.experiences.splice(index, 1);
     },
     onSlideStart() {
       this.sliding = true;
@@ -1100,7 +1125,6 @@ export default {
       const index = this.imageSelected;
       const file = event.target.files[0];
       if (!file) {
-        console.log("nooooooooo hayyyyyyyyy");
         this.formGalery.imagesList[index].url = null;
         this.formGalery.imagesList[index].file = null;
         return;
@@ -1379,8 +1403,8 @@ export default {
   }
 
   .experience__item--active {
-    border: 1px solid rgb(64, 231, 114);
-    background-color: rgb(64, 231, 114);
+    border: 1px solid #3a88ec;
+    background-color: #3a88ec;
     color: white;
 
     .experience__icon {
@@ -1389,8 +1413,8 @@ export default {
   }
 
   .experience__item:hover {
-    border: 1px solid #3a88ec;
-    background-color: #3a88ec;
+    border: 1px solid rgb(169, 169, 169);
+    background-color: rgb(169, 169, 169);
     color: white;
 
     .experience__icon {
@@ -1401,6 +1425,9 @@ export default {
   .work__date {
     position: absolute;
     top: -25px;
+    left: 0;
+    right: 0;
+    margin: auto;
   }
   .work__buttons {
     width: 40px;
@@ -1445,8 +1472,8 @@ export default {
   }
 
   .district__item--active {
-    border: 1px solid rgb(64, 231, 114);
-    background-color: rgb(64, 231, 114);
+    border: 1px solid #3a88ec;
+    background-color: #3a88ec;
     color: white;
 
     .district__icon {
@@ -1455,8 +1482,8 @@ export default {
   }
 
   .district__item:hover {
-    border: 1px solid #3a88ec;
-    background-color: #3a88ec;
+    border: 1px solid rgb(169, 169, 169);
+    background-color: rgb(169, 169, 169);
     color: white;
 
     .district__icon {
