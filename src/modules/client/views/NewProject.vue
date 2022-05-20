@@ -68,29 +68,59 @@
         <tab-content title="Describe tu proyecto" :beforeChange="validateWorkForm">
           <b-card class="mt-1 mb-2">
             <b-row class="mx-0 justify-content-between">
-              <b-col cols="12" lg="5" class="px-0">
-                <h5>Profesiones</h5>
+              <b-col cols="12" class="px-0">
+                <b-form-group
+                  label="Describe el servicio"
+                  label-for="txtDescription"
+                  class="mb-0"
+                >
+                  <b-form-textarea
+                    id="txtDescription"
+                    v-model="form.description"
+                    placeholder="..."
+                    no-resize
+                  ></b-form-textarea>
+                </b-form-group>
               </b-col>
-              <b-col cols="12" lg="5" class="px-0">
-                <h5>Locaciones de trabajo</h5>
-                <!-- <b-form-select
-                  v-model="optionSelected"
-                  :options="selectOptions"
-                  class="mt-3"
-                  multiple 
-                ></b-form-select>
-                -->
-
-                <!-- <v-select
-                  multiple
-                  v-model="optionSelected"
-                  :options="selectOptions"
-                  :reduce="option => option.value"
-                /> -->
-              </b-col>
-              <b-col cols="12" class="mx-auto mt-4 mb-1">
-                <h5>Experiencia en el rubro</h5>
-                
+            </b-row>
+            <b-row class="mx-0 justify-content-around">
+              <b-col cols="12" class="px-0">
+                <h6>Fotos de referencia</h6>
+                <b-col
+                  cols="6"
+                  md="5"
+                  lg="4"
+                  v-for="(image, index) in form.imagesList"
+                  :key="index"
+                >
+                  <div
+                    class="form-image__file mb-3"
+                    :class="!image.url ? 'form-image__file--aux' : ''"
+                  >
+                    <img
+                      @click="uploadImage(index)"
+                      :src="
+                        !image.url
+                          ? require('@/assets/img-delete/fileimage-up.png')
+                          : image.url
+                      "
+                      alt="image"
+                    />
+                    <div
+                      v-if="image.url"
+                      class="form-image__delete"
+                      @click="deleteImage(index)"
+                    >
+                      <i class="fa-solid fa-circle-xmark"></i>
+                    </div>
+                  </div>
+                  <b-form-file
+                    style="display: none"
+                    :ref="`portadaFile${index}`"
+                    hidden
+                    @change="changeFileCover"
+                  ></b-form-file>
+                </b-col>
               </b-col>
             </b-row>
           </b-card>
@@ -299,21 +329,39 @@ export default {
       form: {
         profession: null,
         district: null,
-        phone: "",
-        name: "",
-        lastName: "",
-        document: "",
-        adress: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
+        description: '',
+        phone: '',
+        name: '',
+        lastName: '',
+        document: '',
+        adress: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
         conditions: false,
+        imageSelected: 0,
+        imagesList: [
+          {
+            id: 0,
+            url: "",
+            file: null,
+          },
+          {
+            id: 1,
+            url: "",
+            file: null,
+          },
+          {
+            id: 2,
+            url: "",
+            file: null,
+          }
+        ],
       },
       workSelected: "",
       valid: "false",
       workExperience: [],
       selected: [],
-      optionSelected: [1],
       professionOptions: [
         { text: '-- Seleccione --', value: null },
         { text: "Pintor", value: 0 },
@@ -361,67 +409,119 @@ export default {
     registerSpecialist() {
       console.log("Se registrará un expediente");
     },
+    uploadImage(index) {
+      this.imageSelected = index;
+      const btnFile = this.$refs[`portadaFile${index}`][0].$el.children[0];
+      btnFile.click();
+    },
+    changeFileCover(event) {
+      const index = this.imageSelected;
+      const file = event.target.files[0];
+      if (!file) {
+        this.form.imagesList[index].url = null;
+        this.form.imagesList[index].file = null;
+        return;
+      }
+
+      this.form.imagesList[index].file = file;
+      const fr = new FileReader();
+      fr.onload = () => (this.form.imagesList[index].url = fr.result);
+      fr.readAsDataURL(file);
+    },
+    deleteImage(index) {
+      this.form.imagesList[index].url = null;
+      this.form.imagesList[index].file = null;
+    },
   },
 };
 </script>
 
 <style>
-.wizard-icon{
-  font-style: normal;
-}
-.info-error {
-  color: #e74343;
-}
-.cursor-pointer > * {
-  cursor: pointer;
-}
-.step__button {
-  border-radius: 4px;
-  /* padding: 9px 16px !important; */
-  border-radius: 25px;
-  padding: 12px 20px !important;
-  font-size: 1rem;
-}
-.work__name {
-  font-size: 1.05rem;
-  font-weight: 500;
-}
-.work__temp {
-  position: relative;
-  padding: 0 30px;
-}
-.work__date {
-  position: absolute;
-  top: -25px;
-}
-.work__buttons {
-  width: 40px;
-  height: 40px;
-  font-size: 1.2rem;
-  background-color: rgb(145, 145, 145);
-  color: white;
-  border-radius: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-}
+  .wizard-icon{
+    font-style: normal;
+  }
+  .info-error {
+    color: #e74343;
+  }
+  .cursor-pointer > * {
+    cursor: pointer;
+  }
+  .step__button {
+    border-radius: 4px;
+    /* padding: 9px 16px !important; */
+    border-radius: 25px;
+    padding: 12px 20px !important;
+    font-size: 1rem;
+  }
+  .work__name {
+    font-size: 1.05rem;
+    font-weight: 500;
+  }
+  .work__temp {
+    position: relative;
+    padding: 0 30px;
+  }
+  .work__date {
+    position: absolute;
+    top: -25px;
+  }
+  .work__buttons {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+    background-color: rgb(145, 145, 145);
+    color: white;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+  }
 
-.work__buttons:hover {
-  background-color: #347bd8;
-}
+  .work__buttons:hover {
+    background-color: #347bd8;
+  }
 
-.work__buttons--left {
-  left: -25px;
-}
-.work__buttons--right {
-  right: -25px;
-}
-.form-step-button {
-  display: none;
-}
+  .work__buttons--left {
+    left: -25px;
+  }
+  .work__buttons--right {
+    right: -25px;
+  }
+  .form-step-button {
+    display: none;
+  }
+
+  .form-image__file {
+    border: 1px solid rgba(66, 66, 66, 0.473);
+    border-radius: 10px;
+    height: 200px;
+    cursor: pointer;
+  }
+
+  .form-image__file--aux {
+    padding: 20px 5px;
+  }
+
+  .form-image__file img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    margin: auto;
+    border-radius: 10px;
+  }
+
+  .form-image__delete {
+    position: absolute;
+    top: 5px;
+    right: 25px;
+    font-size: 1.2rem;
+    color: rgb(241, 46, 46);
+    z-index: 10;
+    cursor: pointer;
+  }
 </style>
