@@ -10,7 +10,7 @@
             variant="primary"
             class="step__button"
             @click="registerSpecialist"
-            >Finalizar Registro</b-button
+            >Registrar proyecto</b-button
           >
         </template>
         <template slot="next">
@@ -27,14 +27,14 @@
             >Anterior</b-button
           >
         </template>
-        <tab-content title="¿Qué servicio necesitas?" :beforeChange="validateDataForm">
+        <tab-content title="Describe el servicio" :beforeChange="validateDataForm">
           <b-card class="mt-1 mb-2">
             <b-form @submit.prevent="" ref="dataForm" validated>
               <b-row class="mx-0 justify-content-between ">
                 <b-col cols="12" lg="5" class="mb-3 px-0">
-                  <b-form-group label="Profesión" label-for="input-3">
+                  <b-form-group label="Profesión" label-for="txtProfession">
                     <b-form-select
-                        id="input-3"
+                        id="txtProfession"
                         v-model="form.profession"
                         :options="professionOptions"
                         required
@@ -43,9 +43,9 @@
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3 px-0">
-                  <b-form-group label="Distrito" label-for="input-6">
+                  <b-form-group label="Distrito" label-for="txtDistrict">
                     <b-form-select
-                        id="input-6"
+                        id="txtDistrict"
                         v-model="form.district"
                         :options="districtOptions"
                         required
@@ -65,7 +65,7 @@
           </b-card>
           
         </tab-content>
-        <tab-content title="Describe tu proyecto" :beforeChange="validateWorkForm">
+        <tab-content title="Describe tu proyecto">
           <b-card class="mt-1 mb-2">
             <b-row class="mx-0 justify-content-between">
               <b-col cols="12" class="px-0">
@@ -79,21 +79,23 @@
                     v-model="form.description"
                     placeholder="..."
                     no-resize
+                    rows="5"
                   ></b-form-textarea>
                 </b-form-group>
               </b-col>
             </b-row>
+
+            <br>
+            <label for="">Fotos de referencia</label>
             <b-row class="mx-0 justify-content-around">
-              <b-col cols="12" class="px-0">
-                <h6>Fotos de referencia</h6>
-                <b-col
-                  cols="6"
-                  md="5"
-                  lg="4"
-                  v-for="(image, index) in form.imagesList"
-                  :key="index"
-                >
-                  <div
+              <b-col
+                cols="6"
+                md="5"
+                lg="4"
+                v-for="(image, index) in form.imagesList"
+                :key="index"
+              >
+                <div
                     class="form-image__file mb-3"
                     :class="!image.url ? 'form-image__file--aux' : ''"
                   >
@@ -120,31 +122,57 @@
                     hidden
                     @change="changeFileCover"
                   ></b-form-file>
-                </b-col>
               </b-col>
             </b-row>
           </b-card>
         </tab-content>
-        <tab-content title="Cuentanos de ti" :beforeChange="validateAcountForm">
+        <tab-content title="Cuéntanos de ti">
           <b-card class="mt-1 mb-2">
             <b-form @submit.prevent="" ref="acountForm" validated>
-              <b-row class="mx-0 justify-content-between mt-4">
+              <b-row class="mx-0 justify-content-between">
                 <b-col cols="12" lg="5" class="mb-3 px-0">
-                  <b-form-group label="Correo electrónico" label-for="input-acount-1">
+                  <b-form-group label="Nombres" label-for="txtName">
                     <b-form-input
-                      id="input-acount-1"
-                      v-model="form.email"
-                      type="email"
-                      placeholder="Ingrese su usuario"
+                      id="txtName"
+                      v-model="form.name"
+                      placeholder="Ingrese su nombre"
                       required
                       class="rounded-pill"
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3 px-0">
-                  <b-form-group label="Contraseña" label-for="input-acount-2">
+                  <b-form-group label="Apellidos" label-for="txtLastname">
                     <b-form-input
-                      id="input-acount-2"
+                      id="txtLastname"
+                      v-model="form.lastname"
+                      placeholder="Ingrese su apellidos"
+                      required
+                      class="rounded-pill"
+                    ></b-form-input>
+                  </b-form-group>
+                </b-col>
+              </b-row>
+              <br>
+              <h6 for="">Mi cuenta</h6>
+              <hr>
+              <b-row class="mx-0 justify-content-between mt-4">
+                <b-col cols="12" lg="5" class="mb-3 px-0">
+                  <b-form-group label="Correo electrónico" label-for="txtEmail">
+                    <b-form-input
+                      id="txtEmail"
+                      v-model="form.email"
+                      type="email"
+                      placeholder="Ingrese su correo"
+                      required
+                      class="rounded-pill"
+                    ></b-form-input>
+                  </b-form-group>
+                </b-col>
+                <b-col cols="12" lg="5" class="mb-3 px-0">
+                  <b-form-group label="Contraseña" label-for="txtPassword">
+                    <b-form-input
+                      id="txtPassword"
                       v-model="form.password"
                       type="password"
                       placeholder="Ingrese su contraseña"
@@ -153,18 +181,16 @@
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
-                <!-- Balancea la posicion de columnas -->
-                <b-col cols="12" lg="5" class="mb-3"> </b-col>
-                <b-col cols="12" lg="5" class="mb-3">
+                <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group
-                    label="Confirmar Contraseña"
-                    label-for="input-acount-2"
+                    label="Confirmar contraseña"
+                    label-for="txtConfirmPassword"
                   >
                     <b-form-input
-                      id="input-acount-2"
+                      id="txtConfirmPassword"
                       v-model="form.confirmPassowrd"
                       type="password"
-                      placeholder="Ingrese su contraseña nuevamente"
+                      placeholder="Confirme su contraseña"
                       required
                       class="rounded-pill"
                     ></b-form-input>
@@ -184,95 +210,98 @@
         </tab-content>
         <tab-content title="Resumen">
           <b-card class="mb-4">
-            <h6 class="mb-3">Datos Personales</h6>
+            <h6 class="mb-3">Describe el servicio</h6>
             <b-row class="mx-0 justify-content-between">
-              <b-col cols="12" lg="5" class="mb-3">
-                <b-form-group label="Nombres" label-for="input-3">
-                  <b-form-input
-                    id="input-3"
-                    v-model="form.name"
-                    type="text"
-                    placeholder="Ingrese su nombre"
-                    required
-                    class="rounded-pill"
-                    disabled
-                  ></b-form-input>
-                </b-form-group>
-              </b-col>
-              <b-col cols="12" lg="5" class="mb-3">
-                <b-form-group label="Apellidos" label-for="input-4">
-                  <b-form-input
-                    id="input-4"
-                    v-model="form.lastName"
-                    type="text"
-                    placeholder="Ingrese su apellido"
-                    required
-                    class="rounded-pill"
-                    disabled
-                  ></b-form-input>
-                </b-form-group>
-              </b-col>
-              <b-col cols="12" lg="5" class="mb-3">
-                <b-form-group label="Telefono" label-for="input-2">
-                  <b-form-input
-                    id="input-2"
-                    v-model="form.phone"
-                    type="text"
-                    placeholder="Ingrese su teléfono"
-                    required
-                    class="rounded-pill"
-                    disabled
-                  ></b-form-input>
-                </b-form-group>
-              </b-col>
-              <b-col cols="12" lg="5" class="mb-3">
+                <b-col cols="12" lg="5" class="mb-3 px-0">
+                  <b-form-group label="Profesión" label-for="txtProfession_r">
+                    <b-form-select
+                        id="txtProfession_r"
+                        v-model="form.profession"
+                        :options="professionOptions"
+                        required
+                        class="rounded-pill"
+                        disabled
+                    ></b-form-select>
+                  </b-form-group>
+                </b-col>
+                <b-col cols="12" lg="5" class="mb-3 px-0">
+                  <b-form-group label="Distrito" label-for="txtDistrict_r">
+                    <b-form-select
+                        id="txtDistrict_r"
+                        v-model="form.district"
+                        :options="districtOptions"
+                        required
+                        class="rounded-pill"
+                        disabled
+                    ></b-form-select>
+                  </b-form-group>
+                </b-col>
+            </b-row>
+          </b-card>
+          <b-card class="mb-4">
+            <h6 class="mb-3">Describe tu proyecto</h6>
+            <b-row class="mx-0 justify-content-between">
+              <b-col cols="12" class="px-0">
                 <b-form-group
-                  label="Documento o cédula de identidad"
-                  label-for="input-5"
+                  label="Describe el servicio"
+                  label-for="txtDescription_r"
+                  class="mb-0"
                 >
-                  <b-form-input
-                    id="input-5"
-                    v-model="form.document"
-                    type="text"
-                    placeholder="Ingrese su n° de documento"
-                    required
-                    class="rounded-pill"
+                  <b-form-textarea
+                    id="txtDescription_r"
+                    v-model="form.description"
+                    placeholder="..."
+                    no-resize
+                    rows="5"
                     disabled
-                  ></b-form-input>
+                  ></b-form-textarea>
                 </b-form-group>
               </b-col>
-              <b-col cols="12" lg="5" class="mb-3">
-                <b-form-group label="Dirección" label-for="input-6">
-                  <b-form-input
-                    id="input-6"
-                    v-model="form.adress"
-                    type="text"
-                    placeholder="Ingrese su dirección"
-                    required
-                    class="rounded-pill"
-                    disabled
-                  ></b-form-input>
-                </b-form-group>
+            </b-row>
+
+            <br>
+            <label for="">Fotos de referencia</label>
+            <b-row class="mx-0 justify-content-around">
+              <b-col
+                cols="6"
+                md="5"
+                lg="4"
+                v-for="(image, index) in form.imagesList"
+                :key="index"
+              >
+                <div
+                    class="form-image__file mb-3"
+                    :class="!image.url ? 'form-image__file--aux' : ''"
+                  >
+                    <img
+                      @click="uploadImage(index)"
+                      :src="
+                        !image.url
+                          ? require('@/assets/img-delete/fileimage-up.png')
+                          : image.url
+                      "
+                      alt="image"
+                    />
+                    <div
+                      v-if="image.url"
+                      class="form-image__delete"
+                      @click="deleteImage(index)"
+                    >
+                      <i class="fa-solid fa-circle-xmark"></i>
+                    </div>
+                  </div>
+                  <b-form-file
+                    style="display: none"
+                    :ref="`portadaFile${index}`"
+                    hidden
+                    @change="changeFileCover"
+                  ></b-form-file>
               </b-col>
             </b-row>
           </b-card>
           <b-card class="mb-4">
-            <h6 class="mb-3">Datos de trabajo</h6>
+            <h6 class="mb-3">Cuéntanos de ti</h6>
             <b-row class="mx-0 justify-content-between">
-              <b-col cols="12" lg="5">
-                <h5>Profesiones</h5>
-              </b-col>
-              <b-col cols="12" lg="5">
-                <h5>Locaciones de trabajo</h5>
-              </b-col>
-              <b-col cols="12" class="mx-auto mt-4">
-                <h5>Experiencia en el rubro</h5>
-              </b-col>
-            </b-row>
-          </b-card>
-          <b-card class="mb-4">
-            <h6 class="mb-3">Datos de cuenta</h6>
-            <b-row class="mx-0 justify-content-between ">
               <b-col cols="12" lg="5" class="mb-3">
                 <b-form-group label="Correo electrónico" label-for="input-acount-1">
                   <b-form-input
@@ -330,11 +359,8 @@ export default {
         profession: null,
         district: null,
         description: '',
-        phone: '',
         name: '',
-        lastName: '',
-        document: '',
-        adress: '',
+        lastname: '',
         email: '',
         password: '',
         confirmPassword: '',
