@@ -303,28 +303,39 @@
             <h6 class="mb-3">Cuéntanos de ti</h6>
             <b-row class="mx-0 justify-content-between">
               <b-col cols="12" lg="5" class="mb-3">
-                <b-form-group label="Correo electrónico" label-for="input-acount-1">
+                <b-form-group label="Nombres" label-for="txtName_r">
+                    <b-form-input
+                      id="txtName_r"
+                      v-model="form.name"
+                      placeholder="Ingrese su nombre"
+                      required
+                      class="rounded-pill"
+                      disabled
+                    ></b-form-input>
+                  </b-form-group>
+              </b-col>
+              <b-col cols="12" lg="5" class="mb-3">
+                <b-form-group label="Apellidos" label-for="txtLastname_r">
+                    <b-form-input
+                      id="txtLastname_r"
+                      v-model="form.lastname"
+                      placeholder="Ingrese su apellidos"
+                      required
+                      class="rounded-pill"
+                      disabled
+                    ></b-form-input>
+                  </b-form-group>
+              </b-col>
+              <b-col cols="12" lg="5" class="mb-3">
+                <b-form-group label="Correo electrónico" label-for="txtEmail_r">
                   <b-form-input
-                    id="input-acount-1"
+                    id="txtEmail_r"
                     v-model="form.email"
                     type="email"
                     placeholder="Ingrese su usuario"
                     required
                     class="rounded-pill"
                     disabled
-                  ></b-form-input>
-                </b-form-group>
-              </b-col>
-              <b-col cols="12" lg="5" class="mb-3">
-                <b-form-group label="Contraseña" label-for="input-acount-2">
-                  <b-form-input
-                    id="input-acount-2"
-                    v-model="form.password"
-                    type="password"
-                    placeholder="Ingrese su contraseña"
-                    disabled
-                    required
-                    class="rounded-pill"
                   ></b-form-input>
                 </b-form-group>
               </b-col>

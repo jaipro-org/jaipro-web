@@ -22,7 +22,10 @@
 							</a>
 						</li> -->
             <li class="nav-item show-item">
-              <a class="nav-link learn-more-btn btn-invert" href="#">Cotizar</a>
+              <!-- <a class="nav-link learn-more-btn btn-invert" href="#">Cotizar</a> -->
+              <router-link to="/cliente/nuevo-proyecto" custom v-slot="{ navigate, href }">
+                <a :href="href" @click="navigate" class="nav-link learn-more-btn btn-invert">Cotizar</a>
+              </router-link>
             </li>
 
             <li class="nav-item hide-item">
@@ -77,7 +80,9 @@
               </router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link learn-more-btn" href="#">Hazte especialista</a>
+              <router-link to="/auth/registrar" custom v-slot="{ navigate, href }">
+                <a :href="href" @click="navigate" class="nav-link learn-more-btn">Hazte especialista</a>
+              </router-link>
             </li>
           </ul>
           <ul class="navbar-nav drop">
