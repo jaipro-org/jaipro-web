@@ -22,9 +22,8 @@
 							</a>
 						</li> -->
             <li class="nav-item show-item">
-              <!-- <a class="nav-link learn-more-btn btn-invert" href="#">Cotizar</a> -->
               <router-link to="/cliente/nuevo-proyecto" custom v-slot="{ navigate, href }">
-                <a :href="href" @click="navigate" class="nav-link learn-more-btn btn-invert">Cotizar</a>
+                <a :href="href" @click="navigate" class="nav-link learn-more-btn btn-invert">Cotizar proyecto</a>
               </router-link>
             </li>
 
@@ -80,8 +79,8 @@
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/auth/registrar" custom v-slot="{ navigate, href }">
-                <a :href="href" @click="navigate" class="nav-link learn-more-btn">Hazte especialista</a>
+              <router-link to="/auth/registro-especialista" custom v-slot="{ navigate, href }">
+                <a :href="href" @click="navigate" class="nav-link learn-more-btn">Soy especialista</a>
               </router-link>
             </li>
           </ul>
@@ -102,7 +101,7 @@
                   @click="step_register = 0"
                   >Registrate</b-dropdown-item
                 >
-                <b-dropdown-item v-b-modal.modal-login @click="step_login = 0"
+                <b-dropdown-item v-b-modal.modal-login @click="$router.push({ name: 'login' })"
                   >Iniciar Sesión</b-dropdown-item
                 >
               </b-dropdown>
@@ -155,19 +154,6 @@
           >
         </b-form>
 
-        <!-- <hr /> -->
-        <!-- <b-button block variant="primary" class="btn-facebook"
-          >Continuar con Facebook<span class="btn-icon-right"
-            ><i class="fa fa-facebook"></i></span
-        ></b-button>
-        <b-button block variant="primary" class="btn-google"
-          >Continuar con Google<span class="btn-icon-right"
-            ><i class="fa fa-google"></i></span
-        ></b-button>
-        <b-button block variant="primary" class="btn-google-plus"
-          >Continuar con Microsoft<span class="btn-icon-right"
-            ><i class="fa fa-windows"></i></span
-        ></b-button> -->
         <p class="text-right mt-4">
           No tienes Cuenta?
           <b-link @click="showModalRegister()">Registrate</b-link>

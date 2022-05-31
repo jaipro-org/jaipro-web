@@ -5,7 +5,7 @@ export default {
     ),
   children: [
     {
-      path: "registrar",
+      path: "registro-especialista",
       name: "register-specialist",
       meta: { layout: "basic-landing" },
       component: () =>
