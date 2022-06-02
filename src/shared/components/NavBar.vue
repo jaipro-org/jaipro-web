@@ -96,14 +96,12 @@
                 <template #button-content>
                   <i class="fa fa-bars"></i>
                 </template>
-                <b-dropdown-item
-                  v-b-modal.modal-register
-                  @click="step_register = 0"
-                  >Registrate</b-dropdown-item
-                >
-                <b-dropdown-item v-b-modal.modal-login @click="$router.push({ name: 'login' })"
-                  >Iniciar Sesión</b-dropdown-item
-                >
+                <b-dropdown-item @click="$router.push({ name: 'register-type' })">
+                  Regístrate
+                </b-dropdown-item>
+                <b-dropdown-item @click="$router.push({ name: 'login' })">
+                  Iniciar sesión
+                </b-dropdown-item>
               </b-dropdown>
             </li>
           </ul>
@@ -111,13 +109,16 @@
             <hr />
             <a
               class="nav-link"
-              v-b-modal.modal-register
-              @click="step_register = 0"
-              >Registrate</a
+              @click="$router.push({ name: 'register-type' })"
             >
-            <a class="nav-link" v-b-modal.modal-login @click="step_login = 0"
-              >Iniciar Sesión</a
+              Regístrate
+            </a>
+            <a 
+              class="nav-link" 
+              @click="$router.push({ name: 'login' })"
             >
+              Iniciar sesión
+            </a>
           </div>
         </b-collapse>
       </div>
@@ -162,31 +163,10 @@
           >Especialista</b-button
         >
       </template>
-      <template v-if="step_register == 1">
-        <b-form @submit.prevent="registerClient">
-          <b-form-group label="Nombres" label-for="input-1">
-            <b-form-input id="input-1" type="text" required></b-form-input>
-          </b-form-group>
-          <b-form-group label="Apellidos" label-for="input-2">
-            <b-form-input type="text" id="input-2" required></b-form-input>
-          </b-form-group>
-          <b-form-group label="Correo electrónico" label-for="input-3">
-            <b-form-input type="text" id="input-3" required></b-form-input>
-          </b-form-group>
-          <b-form-group label="Contraseña" label-for="input-4">
-            <b-form-input type="password" id="input-4" required></b-form-input>
-          </b-form-group>
-          <b-form-group label="Confirmar contraseña" label-for="input-5">
-            <b-form-input type="password" id="input-5" required></b-form-input>
-          </b-form-group>
-          <b-button class="mt-5" block variant="primary" type="submit"
-            >Registrarse</b-button
-          >
-        </b-form>
-      </template>
     </b-modal>
   </div>
 </template>
+
 <script>
 import { mapGetters } from "vuex";
 export default {
