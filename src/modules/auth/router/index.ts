@@ -14,6 +14,15 @@ export default {
         ),
     },
     {
+      path: "registro-cliente",
+      name: "register-client",
+      meta: { layout: "basic-landing" },
+      component: () =>
+        import(
+          /* webpackChunkName: "register-specialist" */ "@/modules/auth/views/RegisterClient.vue"
+        ),
+    },
+    {
       path: "login",
       name: "login",
       meta: { layout: "basic-landing" },

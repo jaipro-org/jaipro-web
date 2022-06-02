@@ -128,37 +128,6 @@
       :title="step_login == 0 ? `Iniciar Sesión` : `Recuperar contraseña`"
       hide-footer
     >
-      <template v-if="step_login == 0">
-        <b-form @submit.prevent="login">
-          <b-form-group label="Usuario o email" label-for="input-login-1">
-            <b-form-input
-              placeholder="Correo electrónico"
-              type="email"
-              id="input-login-1"
-              required
-            ></b-form-input>
-          </b-form-group>
-          <b-form-group label="Contraseña" label-for="input-login-2">
-            <b-form-input
-              placeholder=""
-              type="password"
-              id="input-login-2"
-              required
-            ></b-form-input>
-          </b-form-group>
-          <div class="text-right mb-4">
-            <b-link @click="step_login = 1">Olvide mi contraseña</b-link>
-          </div>
-          <b-button block variant="primary" type="submit"
-            >Iniciar Sesión</b-button
-          >
-        </b-form>
-
-        <p class="text-right mt-4">
-          No tienes Cuenta?
-          <b-link @click="showModalRegister()">Registrate</b-link>
-        </p>
-      </template>
       <template v-if="step_login == 1">
         <b-form-group label="Correo electrónico">
           <b-form-input type="email" required></b-form-input>
@@ -185,7 +154,7 @@
       hide-footer
     >
       <template v-if="step_register == 0">
-        <b-button block variant="primary" @click="step_register = 1"
+        <b-button block variant="primary" @click="toRegisterClient"
           >Cliente</b-button
         >
         <hr />
@@ -234,6 +203,10 @@ export default {
     },
     toRegisterSpecialist() {
       this.$router.push({ name: "register-specialist" });
+      this.$bvModal.hide("modal-register");
+    },
+    toRegisterClient() {
+      this.$router.push({ name: "register-client" });
       this.$bvModal.hide("modal-register");
     },
     registerClient() {
