@@ -11,6 +11,8 @@ import MasterLanding from "./layouts/master-landing.vue";
 import ClientLanding from "./layouts/client-landing.vue";
 import SpecialistLanding from "./layouts/specialist-landing.vue";
 import MasterSearchPage from "./layouts/master-search-page.vue";
+import BasicLanding from './layouts/basic-landing.vue';
+
 
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import "bootstrap/dist/css/bootstrap.css";
@@ -34,6 +36,7 @@ Vue.component("v-select", vSelect);
 Vue.component("master-landing", MasterLanding);
 Vue.component("client-landing", ClientLanding);
 Vue.component("specialist-landing", SpecialistLanding);
+Vue.component("basic-landing", BasicLanding);
 Vue.component("master-search-page", MasterSearchPage);
 
 new Vue({

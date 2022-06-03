@@ -17,7 +17,7 @@ export default {
     {
       path: "nuevo-proyecto",
       name: "new-project",
-      meta: { layout: "client-landing" },
+      meta: { layout: "basic-landing" },
       component: () =>
         import(
           "@/modules/client/views/NewProject.vue"
