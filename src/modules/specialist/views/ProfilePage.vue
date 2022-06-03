@@ -518,8 +518,9 @@
     <b-modal id="modal-galery" title="Editar Galeria" size="lg" centered>
       <template #modal-footer>
         <b-row class="mx-0 w-100">
-          <b-col cols="12" class="d-flex justify-content-between w-100">
-            <b-button variant="secondary" @click="$bvModal.hide('modal-galery')"
+          <b-col cols="12"
+            class="d-flex justify-content-end w-100 mx-auto">
+            <b-button variant="secondary" class="mr-3" @click="$bvModal.hide('modal-galery')"
               >Cancelar</b-button
             >
             <b-button variant="primary">Guardar</b-button>
@@ -575,10 +576,11 @@
     >
       <template #modal-footer>
         <b-row class="mx-0 w-100">
-          <b-col cols="12" lg="11" class="d-flex justify-content-between w-100 mx-auto">
+          <b-col cols="12" lg="11" class="d-flex justify-content-end w-100 mx-auto">
             <b-button
               variant="secondary"
               @click="$bvModal.hide('modal-experience')"
+              class="mr-3"
               >Cancelar</b-button
             >
             <b-button variant="primary" @click="$refs.btnFormExperience.click()">Guardar</b-button>
@@ -711,10 +713,11 @@
     >
       <template #modal-footer>
         <b-row class="mx-0 w-100">
-          <b-col cols="12" lg="11" class="d-flex justify-content-between w-100 mx-auto">
+          <b-col cols="12" lg="11" class="d-flex justify-content-end w-100 mx-auto">
             <b-button
               variant="secondary"
               @click="$bvModal.hide('modal-location')"
+              class="mr-3"
               >Cancelar</b-button
             >
             <b-button variant="primary" @click="$refs.btnFormLocation.click()">Guardar</b-button>
@@ -781,8 +784,8 @@
     <b-modal id="modal-acount" title="Nueva Cuenta" centered>
       <template #modal-footer>
         <b-row class="mx-0 w-100">
-          <b-col cols="12" class="d-flex justify-content-between w-100">
-            <b-button variant="secondary" @click="$bvModal.hide('modal-acount')"
+          <b-col cols="12" class="d-flex justify-content-end w-100">
+            <b-button variant="secondary" class="mr-3" @click="$bvModal.hide('modal-acount')"
               >Cancelar</b-button
             >
             <b-button variant="primary" @click="$refs.btnFormAcount.click()">Guardar</b-button>
