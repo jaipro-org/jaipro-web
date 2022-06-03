@@ -1,12 +1,15 @@
 <template>
   <div>
-    <div class="access-box">
-      <b-row>
-        <b-col>
+    <div class="access-container">
+      <div class="login-container">
+        <div class="login-title-section">
+          <h2 class="login-title">Iniciar sesión</h2>
+        </div>
+        <div class="login-form-section">
           <b-form @submit.prevent="login">
             <b-form-group label="Correo electrónico" label-for="txtEmail_l">
               <b-form-input
-                v-model="loginForm.email"
+                v-model="email"
                 placeholder="Ingrese su correo"
                 type="email"
                 id="txtEmail_l"
@@ -16,7 +19,7 @@
             </b-form-group>
             <b-form-group label="Contraseña" label-for="txtPassword_l">
               <b-form-input
-                v-model="loginForm.password"
+                v-model="password"
                 placeholder="Ingrese su contraseña"
                 type="password"
                 id="txtPassword_l"
@@ -30,11 +33,15 @@
             <b-button block variant="primary" type="submit">Ingresar</b-button>
             <p class="text-right mt-4">
               ¿No tienes una cuenta?
-              <b-link @click="registerUser()">Regístrate</b-link>
+              <b-link 
+                @click="$router.push({ name: 'register-type' })"
+              >
+                Regístrate
+              </b-link>
             </p>
           </b-form>
-        </b-col>
-      </b-row>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -53,50 +60,58 @@
         ></b-button> -->
 </template>
 
-<script>
-export default {
-  data(){
-    return {
-      loginForm: {
-        email: '',
-        password: ''
-      }
-    }
-  },
-  methods: {
-    login() {
-      console.log("login here!");
-    },
-    forgotPassword() {
-      console.log("forgotPassword here!");
-    },
-    registerUser() {
-      console.log("registerUser here!");
-    },
-  },
-};
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+
+@Component
+export default class Login extends Vue {
+  email = "";
+  password = "";
+
+  login() {
+    console.log("login here!");
+  }
+
+  forgotPassword() {
+    console.log("forgotPassword here!");
+  }
+
+  registerUser() {
+    console.log("registerUser here!");
+  }
+}
 </script>
 
-<style>
-.box-common {
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
-  padding: 20px;
-  background-color: #fff;
-  margin-bottom: 20px;
-  border: 1px solid #d6d6d6;
+<style scoped>
+
+.access-container {
+  padding-top: 120px;
+  padding-bottom: 140px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
-.access-box {
+.login-title-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.login-title {
+    font-family: Montserrat;
+    font-weight: 800;
+    font-size: 45px;
+    line-height: 1;
+    color: #303669;
+    margin-bottom: 0;
+}
+
+.login-form-section {
   max-width: 425px;
   margin-left: auto;
   margin-right: auto;
-}
-
-.access-wrapper {
-  display: table-cell;
-  vertical-align: middle;
-  width: 100%;
 }
 </style>
