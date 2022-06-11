@@ -24,6 +24,33 @@ export default {
         ),
     },
     {
+      path: "especialista",
+      name: "client-especialist-profile",
+      meta: { layout: "client-basic-landing" },
+      component: () =>
+        import(
+          /* webpackChunkName: "client-especialist-profile" */ "@/modules/client/views/SpecialistProfile.vue"
+        ),
+    },
+    {
+      path: "detalle-proyecto",
+      name: "project-detail",
+      meta: { layout: "client-landing" },
+      component: () =>
+        import(
+          /* webpackChunkName: "project-detail" */ "@/modules/client/views/ProjectDetail.vue"
+        ),
+    },
+    {
+      path: "chat-especialista",
+      name: "specialist-chat",
+      meta: { layout: "client-landing" },
+      component: () =>
+        import(
+          /* webpackChunkName: "specialist-chat" */ "@/modules/client/views/SpecialistChat.vue"
+        ),
+    },
+    {
       path: "/",
       redirect: { name: "client-profile" },
     },
