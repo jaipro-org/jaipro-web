@@ -8,6 +8,7 @@ import vSelect from "vue-select";
 import VueSweetalert2 from "vue-sweetalert2";
 
 import MasterLanding from "./layouts/master-landing.vue";
+import ClientBasicLanding from "./layouts/client-basic-landing.vue";
 import ClientLanding from "./layouts/client-landing.vue";
 import SpecialistLanding from "./layouts/specialist-landing.vue";
 import MasterSearchPage from "./layouts/master-search-page.vue";
@@ -34,6 +35,7 @@ Vue.config.productionTip = false;
 
 Vue.component("v-select", vSelect);
 Vue.component("master-landing", MasterLanding);
+Vue.component("client-basic-landing", ClientBasicLanding);
 Vue.component("client-landing", ClientLanding);
 Vue.component("specialist-landing", SpecialistLanding);
 Vue.component("basic-landing", BasicLanding);

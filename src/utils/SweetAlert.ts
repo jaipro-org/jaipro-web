@@ -38,6 +38,25 @@ export const alertSuccessButton = (text: string) => {
   });
 };
 
+//Modal de alerta para confirmar una accion
+export const alertActionButton = (
+  title: string= 'Realizar accion',
+  text: string ,
+  btnText : string = 'Continuar',
+  icon: any = 'info',
+) => {
+  return Swal.fire({
+    icon: icon,
+    title: title,
+    text: text,
+    confirmButtonText: btnText,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      return true;
+    }
+  });
+};
+
 export const alertError = (
   text = "Sucedio un error, porfavor intentelo de nuevo!!"
 ) => {
