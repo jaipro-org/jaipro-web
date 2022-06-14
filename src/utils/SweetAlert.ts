@@ -20,6 +20,7 @@ export const alertSuccessfully = (text: string) => {
     allowOutsideClick: false,
     allowEscapeKey: false,
     showConfirmButton: false,
+    showCloseButton: true,
   });
 };
 
@@ -44,12 +45,14 @@ export const alertActionButton = (
   text: string ,
   btnText : string = 'Continuar',
   icon: any = 'info',
+  
 ) => {
   return Swal.fire({
     icon: icon,
     title: title,
     text: text,
     confirmButtonText: btnText,
+    showCloseButton: true,
   }).then((result) => {
     if (result.isConfirmed) {
       return true;
@@ -66,6 +69,7 @@ export const alertError = (
     text: text,
     allowOutsideClick: false,
     allowEscapeKey: false,
+    showCloseButton: true,
   });
 };
 

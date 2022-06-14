@@ -94,10 +94,7 @@ export default class RegisterClient extends Vue {
 
 <style scoped>
 .register-container {
-  padding-top: 70px;
-  padding-bottom: 70px;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding: 20px 15px 40px 15px;
 }
 
 .register-user-title-section {

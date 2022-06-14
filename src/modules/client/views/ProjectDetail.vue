@@ -42,13 +42,13 @@
           <b-card class="project-card">
             <div class="project-card__list-image d-flex flex-wrap w-100 justify-content-center">
               <div class="project-card__image ">
-                <img src="@/assets/img-delete/pintor.jpg" alt="">
+                <img src="@/assets/img-delete/pintor.jpg" alt="" @click="isShowModal=true" role="button">
               </div>
               <div class="project-card__image ">
-                <img src="@/assets/img-delete/pintor.jpg" alt="">
+                <img src="@/assets/img-delete/pintor.jpg" alt="" @click="isShowModal=true" role="button">
               </div>
               <div class="project-card__image ">
-                <img src="@/assets/img-delete/pintor.jpg" alt="">
+                <img src="@/assets/img-delete/pintor.jpg" alt="" @click="isShowModal=true" role="button">
               </div>
             </div>
           </b-card>
@@ -87,21 +87,24 @@
         
       </b-col>
     </b-row>
+
+    <modal-image v-show="isShowModal" @close-modal="isShowModal = false" />
   </div>
 </template>
 
 <script>
-import carousel from 'vue-owl-carousel'
+import ModalImage from '@/shared/components/ModalImage.vue'
 import {alertLoading,alertSuccessfully, alertActionButton, closeAlert} from '@/utils/SweetAlert'
 
 import ProposalCard from '@/modules/client/views/Components/ProposalCard.vue'
 export default {
   components:{
     ProposalCard,
-    carousel
+    ModalImage
   },
   data(){
     return {
+      isShowModal: false, //Maneja la gestion del modal de imagenes
       // A manera de ejemplo tenemos los estados para el projecto
       //   0 = 'abierto'
       //   1 = "con propuestas"
@@ -282,7 +285,7 @@ export default {
   }
 
   .project__title{
-    font-size: 1.8rem;
+    font-size: 1.5rem;
 
     &.project__title--proposal{
       i{

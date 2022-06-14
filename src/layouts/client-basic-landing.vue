@@ -1,21 +1,21 @@
 <template>
   <div>
-    <NavBarClient />
+    <NavBarBasic />
     <div class="wrapper">
       <slot />
-      <basic-footer/>
+      <Footer/>
     </div>
   </div>
 </template>
 
 <script>
-import NavBarClient from "@/shared/components/NavBarClient.vue";
-import BasicFooter from "@/shared/components/BasicFooter.vue";
+import NavBarBasic from "@/shared/components/NavBarBasic.vue";
+import Footer from "@/shared/components/FooterComponent.vue";
 
 export default {
   components: {
-    NavBarClient,
-    BasicFooter,
+    NavBarBasic,
+    Footer,
   },
 };
 </script>

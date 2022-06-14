@@ -52,23 +52,25 @@ export default {
   },
   data(){
     return {
-      isShow: false,
-      isActive: false,
+      isShow: true, // Controla el muestreo desplegado de la card
+      isActive: true, //Controla la activacion de la clase para la animación de despliegue
     }
   },
   methods: {
     openCollapse(){
       this.isShow= true
-      setTimeout(()=>{
+      const timeOut = setTimeout(()=>{
         this.isActive= true
+        clearTimeout(timeOut)
       }, 100)
       
     },
     closeCollapse(){
       this.isActive = false
-      setTimeout(()=>{
+      const timeOut = setTimeout(()=>{
         this.isShow = false
-      }, 1400)
+        clearTimeout(timeOut)
+      }, 600)
     }
   }
 }
@@ -95,6 +97,7 @@ export default {
 
     .exp-card__subtitle {
       font-size: 1.1rem;
+      margin-bottom: 16px;
     }
 
     .exp-card__image {
@@ -109,13 +112,14 @@ export default {
     }
   }
   .exp-card__item--collapse{
-    min-height: 20px;
     max-height: 20px;
     overflow-y: hidden;
-    transition: all 1.5s ease;
-  }
-  .exp-card__item--collapse.active{
-    max-height: 2000px;
+    transition: max-height 0.55s cubic-bezier(.26,.11,.29,1);
+
+    &.active{
+      max-height: 2000px;
+    }
+    
   }
   
 }

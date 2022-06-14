@@ -250,7 +250,7 @@ import { TabContent } from 'vue-form-wizard';
       </b-form>
     </b-modal>
 
-    <b-modal id="modal-imagen" class="modal__imagen" title="Imagen del trabajo">
+    <b-modal id="modal-imagen" class="modal__imagen" title="Imagen del trabajo" >
       <template #modal-footer>
         <b-row class="mx-0 w-100">
           <b-col cols="12" class="d-flex justify-content-between w-100">
