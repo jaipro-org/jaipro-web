@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-row class="mx-0">
+    <b-row class="mx-0" id="chat-box__container">
       <b-col cols="12" md="9" id="chat__container" class="bg-danger px-0">
         <div id="chat" class="border border-top-0">
           <div id="header-chat" class="d-flex align-items-center">
@@ -161,153 +161,163 @@ export default {
 </script>
 
 <style lang="scss">
-#chat__container{
-  height: calc(100vh - 80px);
+#chat-box__container{
+  padding-top: 20px;
+  padding-bottom: 10px;
 
-  #chat{
-    background-color: #eee;
-    height: 100%;
+  #chat__container{
+    height: calc(100vh - 110px);
+    min-height: 350px;
+    max-height: 850px;
 
-    #header-chat{
-      background-color: #555;
-      color: white;
-      padding: 10px;
-      text-align: center;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
-      height: 55px;
+    #chat{
+      background-color: white;
+      height: 100%;
 
-      .header-chat__image{
-        height: 30px;
-        width: 30px;
-        img{
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          border-radius: 100%;
-        }
-      }
-
-      .header-chat__name{
-        font-size: 1rem;
-      }
-    }
-
-    #message-box{
-      position: relative;
-
-      input{
-        border: none;
-        outline: none;
-        padding: 10px 60px 10px 20px;
-        width: 100%;
-        height: 60px;
-      }
-
-      .message-box__button{
-        border: 0;
-        height: 40px;
-        width: 40px;
-        background-color: #4193BF;
+      #header-chat{
+        background-color: #000;
         color: white;
-        border-radius: 100%;
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        cursor: pointer;
+        padding: 10px;
+        text-align: center;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+        height: 55px;
 
-        &:hover{
-          background-color: #3a88ec;
-        }
-      }
-    }
-
-    #messages{
-      padding: 15px;
-      height: calc(100% - 115px);
-      overflow: hidden;
-      overflow-y: scroll ;
-
-      .message{
-        .message__friend-image{
-          height: 40px;
-          width: 40px;
+        .header-chat__image{
+          height: 30px;
+          width: 30px;
           img{
-            height: 100%;
             width: 100%;
+            height: 100%;
             object-fit: cover;
             border-radius: 100%;
           }
         }
 
-        .fecha{
-          color: #777;
-          font-style: italic;
-          font-size: 12px;
-          margin-top: 5px;
+        .header-chat__name{
+          font-size: 1rem;
         }
-
-
-        .contents{
-          border-radius: 5px;
-          box-shadow: 2px 2px 3px rgba(0,0,0,0.3);
-          display: inline-block;
-          font-size: 13px;
-          padding: 15px;
-          vertical-align: top;
-          max-width: 350px;
-          &.contents--friend{
-            background-color: white;
-          }
-          &.contents--autor{
-            background-color: #3990BF;
-            color: white;
-          }
-        }
-        
-        .flecha-derecha{
-          display: inline-block;
-          margin-left: -6px;
-          margin-top: 10px;
-          width: 0; 
-          height: 0; 
-          border-top: 0px solid transparent;
-          border-bottom: 15px solid transparent;
-          border-left: 15px solid #3990BF;
-        }
-
-        .flecha-izquierda{
-          display: inline-block;
-          margin-right: -6px;
-          margin-top: 10px;
-          width: 0; 
-          height: 0; 
-          border-top: 0px solid transparent;
-          border-bottom: 15px solid transparent;
-          border-right: 15px solid white;
-        }
-        
       }
 
+      #message-box{
+        position: relative;
+        border-top: 1px solid rgb(211, 211, 211);
+        border-bottom: 1px solid rgb(211, 211, 211);
+
+        input{
+          border: none;
+          outline: none;
+          padding: 10px 60px 10px 20px;
+          width: 100%;
+          height: 60px;
+        }
+
+        .message-box__button{
+          border: 0;
+          height: 40px;
+          width: 40px;
+          background-color: #3a88ec;
+          color: white;
+          border-radius: 100%;
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          cursor: pointer;
+
+          &:hover{
+            background-color: #3a88ec;
+          }
+        }
+      }
+
+      #messages{
+        padding: 15px;
+        height: calc(100% - 115px);
+        overflow: hidden;
+        overflow-y: scroll ;
+
+        .message{
+          .message__friend-image{
+            height: 40px;
+            width: 40px;
+            img{
+              height: 100%;
+              width: 100%;
+              object-fit: cover;
+              border-radius: 100%;
+            }
+          }
+
+          .fecha{
+            color: #777;
+            font-style: italic;
+            font-size: 12px;
+            margin-top: 5px;
+          }
+
+
+          .contents{
+            border-radius: 5px;
+            box-shadow: 2px 2px 3px rgba(0,0,0,0.3);
+            display: inline-block;
+            font-size: 13px;
+            padding: 15px;
+            vertical-align: top;
+            max-width: 350px;
+            &.contents--friend{
+              background-color: #eee;
+            }
+            &.contents--autor{
+              background-color: #3a88ec;
+              color: white;
+            }
+          }
+          
+          .flecha-derecha{
+            display: inline-block;
+            margin-left: -6px;
+            margin-top: 10px;
+            width: 0; 
+            height: 0; 
+            border-top: 0px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-left: 15px solid #3a88ec;
+          }
+
+          .flecha-izquierda{
+            display: inline-block;
+            margin-right: -6px;
+            margin-top: 10px;
+            width: 0; 
+            height: 0; 
+            border-top: 0px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-right: 15px solid #eee;
+          }
+          
+        }
+
+      }
     }
+  }
+
+  #job__container{
+    background-color: #c9c9c977;
+    .job__title{
+      font-size: 1rem;
+    }
+
+    .job-detail_container{
+      max-height: 90%;
+      overflow: hidden;
+      overflow-y: auto;
+      .job-detail_content{
+        font-size: 0.9rem;
+      }
+    }
+
   }
 }
 
-#job__container{
-  background-color: #c9c9c977;
-  .job__title{
-    font-size: 1rem;
-  }
-
-  .job-detail_container{
-    max-height: 90%;
-    overflow: hidden;
-    overflow-y: auto;
-    .job-detail_content{
-      font-size: 0.9rem;
-    }
-  }
-
-}
 
 @media (max-width: 767px){
   #chat__container{

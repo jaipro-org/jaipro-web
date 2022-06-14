@@ -21,6 +21,5 @@ export default {
 <style lang="scss" scoped>
 .wrapper {
   padding-top: 0 !important;
-  padding-bottom: 15vh;
 }
 </style>

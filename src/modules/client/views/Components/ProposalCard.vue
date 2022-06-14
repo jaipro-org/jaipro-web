@@ -167,8 +167,8 @@ export default {
   },
   data(){
     return {
-      isShow: false,
-      isActive: false,
+      isShow: true,
+      isActive: true,
     }
   },
   methods: {
@@ -183,7 +183,7 @@ export default {
       this.isActive = false
       setTimeout(()=>{
         this.isShow = false
-      }, 1400)
+      }, 700)
     }
   }
 }
@@ -304,7 +304,7 @@ export default {
     min-height: 20px;
     max-height: 20px;
     overflow-y: hidden;
-    transition: all 1.5s ease;
+    transition: max-height 0.65s cubic-bezier(.26,.11,.29,1);
   }
   .proposal-card__item--collapse.active{
     max-height: 2000px;

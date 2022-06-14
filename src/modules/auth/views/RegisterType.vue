@@ -12,7 +12,7 @@
                 class="blog-post-card-container"
                 @click="$router.push({ name: 'register-client' })"
               >
-                <div class="blog-post-card">
+                <div class="blog-post-card blog-post-card--type">
                   <div class="blog-post-icon">
                     <img src="@/assets/img/blog-card-1.png" />
                   </div>
@@ -26,7 +26,7 @@
                 class="blog-post-card-container"
                 @click="$router.push({ name: 'register-specialist' })"
                 >
-                <div class="blog-post-card">
+                <div class="blog-post-card blog-post-card--type">
                   <div class="blog-post-icon">
                     <img src="@/assets/img/blog-card-2.png" />
                   </div>
@@ -54,8 +54,9 @@ export default class RegisterType extends Vue {}
 <style scoped>
 .register-type-container {
     display: flex;
-    padding-top: 70px;
-    padding-bottom: 70px;
+    padding-top: 20px;
+    padding-bottom: 10px;
     position: relative;
+    min-height: calc(100vh - 85px);
 }
 </style>

@@ -487,6 +487,11 @@
   flex-direction: column;
   border-radius: 50px;
   padding: 55px 40px;
+
+  &.blog-post-card--type{
+    padding: 40px ;
+  }
+
 }
 .blog-post-card:hover {
   box-shadow: 0 3px 17px rgba(0, 0, 0, 0.15);

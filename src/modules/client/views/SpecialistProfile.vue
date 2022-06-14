@@ -58,23 +58,22 @@
 
             </b-col>
           </b-row>
-          <b-row class="mt-4 mt-md-2 mx-0">
+          <b-row class="mt-5 mt-md-4 mx-0">
             <b-col cols="12">
-              <b-button
-                :variant="tabSelected == 'BIO'? 'primary': 'outline-primary'"
-                class="mr-2 mb-2"
+              <span
+                :class="tabSelected == 'BIO'? 'data-card__tab--active': ''"
+                class="data-card__tab mr-2 mb-2"
                 @click="setTab('BIO')"
-              >BIO</b-button>
-              <b-button
-                :variant="tabSelected == 'OPINIONES'? 'primary': 'outline-primary'"
-                class="mr-2 mb-2"
+              >BIO</span>
+              <span
+                :class="tabSelected == 'OPINIONES'? 'data-card__tab--active': ''"
+                class="data-card__tab mr-2 mb-2"
                 @click="setTab('OPINIONES')"
-              >OPINIONES</b-button>
-              <b-button
-                variant="outline-primary"
-                class="mr-2 mb-2"
+              >OPINIONES</span>
+              <span
+                class="data-card__tab mr-2 mb-2"
                 @click="handleGoGalery"
-              >GALERIA</b-button>
+              >GALERIA</span>
 
             </b-col>
           </b-row>
@@ -82,8 +81,9 @@
       </b-col>
       
     </b-row>
-    <b-row class="mx-0 mb-4" v-if="tabSelected == 'BIO'">
+    <b-row class="mx-0 " v-if="tabSelected == 'BIO'">
       <b-col cols="12">
+        <h1 class="section__title">Acerca del especialista</h1>
         <b-card class="card--shadow">
           <b-row class="mx-0">
             <b-col>
@@ -92,35 +92,31 @@
           </b-row>
         </b-card>
       </b-col>
-      <b-col cols="12">
+      <b-col cols="12" class="mt-5">
+        <h1 class="section__title">Experiencias</h1>
         <experience-card v-for="(experience, index) in experiences" :key="index" :experience="experience"></experience-card>
       </b-col>
-      <b-col cols="12" id="galery__box">
+      <b-col cols="12" id="galery__box" class="mb-5 mt-3">
+        <h1 class="section__title">Galería</h1>
         <b-card class="card--shadow">
-          <h4 class="mb-3">Galeria</h4>
-          <carousel :responsive="{0:{items:1,nav:false},600:{items:3,nav:false}}">
+          
+          <carousel :responsive="{0:{items:1,nav:false},600:{items:3,nav:false}}"  :touchDrag="false" :pullDrag="false" :mouseDrag="false">
             <template slot="prev"><span class="prev btn-carrousel btn-carrousel--left"><i class="fa-solid fa-angle-left"></i></span></template>
-            <img src="https://placeimg.com/200/200/any?1"  @dblclick="handleOpenModal">
+            <img src="https://placeimg.com/200/200/any?1"  @click="isShowModal=true" role="button">
 
-            <img src="https://placeimg.com/200/200/any?2"  @dblclick="handleOpenModal">
+            <img src="https://placeimg.com/200/200/any?2"  @click="isShowModal=true" role="button">
 
-            <img src="https://placeimg.com/200/200/any?3"  @dblclick="handleOpenModal">
-            <img src="https://placeimg.com/200/200/any?1"  @dblclick="handleOpenModal">
-            <img src="https://placeimg.com/200/200/any?2"  @dblclick="handleOpenModal">
+            <img src="https://placeimg.com/200/200/any?3" @click="isShowModal=true" role="button">
+            <img src="https://placeimg.com/200/200/any?1" @click="isShowModal=true" role="button">
+            <img src="https://placeimg.com/200/200/any?2" @click="isShowModal=true" role="button">
 
-            <img src="https://placeimg.com/200/200/any?3"  @dblclick="handleOpenModal">
+            <img src="https://placeimg.com/200/200/any?3" @click="isShowModal=true" role="button">
 
             <template slot="next"><span class="next btn-carrousel btn-carrousel--next"><i class="fa-solid fa-angle-right"></i></span></template>
         </carousel>
         
         </b-card>
       </b-col>
-
-      <b-modal id="modal-imagen" hide-footer  ref="modal-imagen" class="modal__imagen" title="Imagen de la galeria">
-        <div id="imagen__content">
-          <img src="@/assets/img-delete/pintor.jpg" alt="">
-        </div>
-      </b-modal>
     </b-row>
     <b-row class="mx-0">
       <b-col cols="12">
@@ -133,23 +129,25 @@
       </b-col>
     </b-row>
     
-    
+    <modal-image v-show="isShowModal" @close-modal="isShowModal = false" />
   </div>
 </template>
 
 <script>
 import carousel from 'vue-owl-carousel'
-
+import ModalImage from '@/shared/components/ModalImage.vue'
 import ExperienceCard from '@/modules/client/views/Components/ExperienceCard.vue'
 import OpinionCard from '@/modules/client/views/Components/OpinionCard.vue'
 export default {
   components:{
     ExperienceCard,
     OpinionCard,
-    carousel
+    carousel,
+    ModalImage
   },
   data(){
     return {
+      isShowModal: false, //Maneja la gestion del modal de imagenes
       experiences: [
         {
           id: 0,
@@ -224,9 +222,6 @@ export default {
     }
   },
   methods:{
-    handleOpenModal(){
-      this.$refs['modal-imagen'].show()
-    },
     setTab(value){
       this.tabSelected = value
     },
@@ -252,10 +247,26 @@ export default {
 <style  lang="scss" scoped>
 
 .cliente-especialist__container{
+  .section__title{
+    font-size: 1.5rem;
+  }
   .card--shadow{
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.274) !important;
   }
   .data-card{
+    .data-card__tab{
+      padding: 5px 8px;
+      &:hover{
+        text-decoration: underline;
+        color: #3a88ec;
+        cursor: pointer;
+      }
+
+      &.data-card__tab--active{
+        color: #3a88ec;
+        text-decoration: underline;
+      }
+    }
     .data-card--save{
       cursor: pointer;
       i{

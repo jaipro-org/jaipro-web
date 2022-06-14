@@ -85,10 +85,8 @@ export default class Login extends Vue {
 <style scoped>
 
 .access-container {
-  padding-top: 120px;
-  padding-bottom: 140px;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding: 40px 15px 25px 15px;
+  min-height: calc(100vh - 85px);
 }
 
 .login-title-section {
