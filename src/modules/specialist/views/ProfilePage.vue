@@ -558,7 +558,7 @@
           </div>
           <b-form-file
             style="display: none"
-            :ref="`portadaFile${index}`"
+            :id="`portadaFile${index}`"
             hidden
             @change="changeFileCover"
           ></b-form-file>
@@ -838,385 +838,387 @@
   </b-row>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Ref, Vue } from "vue-property-decorator";
+
 import { alertSuccessButton } from "@/utils/SweetAlert";
-import { mapGetters } from "vuex";
-export default {
-  data() {
-    return {
-      isLoading: true,
-      slide: 0,
-      sliding: null,
-      experiences: [
+import GeneralModule from '@/store/modules/general'
+
+@Component
+export default class ProfilePage extends Vue {
+  @Ref('presentationFile') readonly presentationFile!: any
+
+  isLoading:Boolean =  true;
+  slide:number = 0;
+  sliding:any = null;
+  experiences:Array<any> = [
+    {
+      id: 0,
+      title: 'Construccion y Techado',
+      time: 5,
+      specialities: [
         {
           id: 0,
-          title: 'Construccion y Techado',
-          time: 5,
-          specialities: [
-            {
-              id: 0,
-              name: 'Concreto/Armado'
-            },
-            {
-              id: 1,
-              name: 'Instalación de interruptores'
-            },
-            {
-              id: 2,
-              name: 'Servicios generales'
-            },
-            {
-              id: 3,
-              name: 'Servicios generales'
-            },
-          ]
+          name: 'Concreto/Armado'
         },
         {
           id: 1,
-          title: 'Arquitectura',
-          time: 5,
-          specialities: [
-            {
-              id: 1,
-              name: 'Concreto/Armado'
-            },
-            {
-              id: 2,
-              name: 'Instalación de interruptores'
-            },
-            {
-              id: 3,
-              name: 'Servicios generales'
-            },
-            {
-              id: 4,
-              name: 'Servicios generales'
-            },
-          ]
-        }
-      ],
-      locationsList: [
-        {
-          id: "1",
-          value: "Lima Norte, Los Olivos, Independencia, San Martin de Porres",
+          name: 'Instalación de interruptores'
         },
         {
-          id: "2",
-          value: "Lima Sur, San Miguel, Chorrillos, Asia",
+          id: 2,
+          name: 'Servicios generales'
         },
         {
-          id: "3",
-          value: "Lima Norte, Los Olivos, Independencia, San Martin de Porres",
+          id: 3,
+          name: 'Servicios generales'
         },
-      ],
-      acountsList: [
+      ]
+    },
+    {
+      id: 1,
+      title: 'Arquitectura',
+      time: 5,
+      specialities: [
         {
-          id: "1",
-          value: "XXXX XXXX XXXX 7698",
+          id: 1,
+          name: 'Concreto/Armado'
         },
         {
-          id: "2",
-          value: "XXXX XXXX XXXX 1569",
+          id: 2,
+          name: 'Instalación de interruptores'
         },
-      ],
-      imageSelected: 0,
-      formPresentation: {
-        image: {
-          url: null,
-          file: null,
+        {
+          id: 3,
+          name: 'Servicios generales'
         },
-        name: "",
-        lastName: "",
-        experience: "",
-        direction: "",
-        phone: "",
-        secondPhone: "",
-      },
-      formGalery: {
-        imagesList: [
-          {
-            id: 0,
-            url: "",
-            file: null,
-          },
-          {
-            id: 1,
-            url: "",
-            file: null,
-          },
-          {
-            id: 2,
-            url: "",
-            file: null,
-          },
-          {
-            id: 3,
-            url: "",
-            file: null,
-          },
-          {
-            id: 4,
-            url: "",
-            file: null,
-          },
-          {
-            id: 5,
-            url: "",
-            file: null,
-          },
-        ],
-      },
-      isModalProfessionEdit: true,
-      formProfession: {
-        selectedProfession: 0,
-        specialtiesList: [
-          {
-            id: 0,
-            active: true,
-            name: "Pintura de interiores",
-          },
-          {
-            id: 1,
-            active: false,
-            name: "Pintura de interiores",
-          },
-          {
-            id: 2,
-            active: true,
-            name: "Pintura de interiores",
-          },
-          {
-            id: 3,
-            active: true,
-            name: "Pintura de interiores",
-          },
-        ],
-        workExperience: {
-          years: "",
-          months: "",
+        {
+          id: 4,
+          name: 'Servicios generales'
         },
+      ]
+    }
+  ];
+  locationsList: Array<any> =[
+    {
+      id: "1",
+      value: "Lima Norte, Los Olivos, Independencia, San Martin de Porres",
+    },
+    {
+      id: "2",
+      value: "Lima Sur, San Miguel, Chorrillos, Asia",
+    },
+    {
+      id: "3",
+      value: "Lima Norte, Los Olivos, Independencia, San Martin de Porres",
+    },
+  ];
+  acountsList:Array<any> = [
+    {
+      id: "1",
+      value: "XXXX XXXX XXXX 7698",
+    },
+    {
+      id: "2",
+      value: "XXXX XXXX XXXX 1569",
+    },
+  ];
+  imageSelected:number = 0;
+  formPresentation:any = {
+    image: {
+      url: null,
+      file: null,
+    },
+    name: "",
+    lastName: "",
+    experience: "",
+    direction: "",
+    phone: "",
+    secondPhone: "",
+  };
+  formGalery:any = {
+    imagesList: [
+      {
+        id: 0,
+        url: "",
+        file: null,
       },
-      optionsProfessions: [
-        { value: 0, text: "Pintor" },
-        { value: 1, text: "Albañil" },
-        { value: 3, text: "Carpintero" },
-        { value: 4, text: "Lima" },
-      ],
-      isModalLocationEdit: true,
-      formLocation: {
-        selectedLocation: 0,
-        districtList: [
-          {
-            id: 0,
-            active: true,
-            name: "Los Olivos",
-          },
-          {
-            id: 1,
-            active: false,
-            name: "Puente Piedra",
-          },
-          {
-            id: 2,
-            active: true,
-            name: "Independencia",
-          },
-          {
-            id: 3,
-            active: true,
-            name: "San Martin de Porres",
-          },
-        ],
+      {
+        id: 1,
+        url: "",
+        file: null,
       },
-      optionsLocation: [
-        { value: 0, text: "Lima Norte" },
-        { value: 1, text: "Lima Sur" },
-        { value: 3, text: "Lima Este" },
-        { value: 4, text: "Lima Oeste" },
-      ],
-      formAcount: {
-        selectedAcount: 0,
-        numAcount: "",
-        cci: "",
+      {
+        id: 2,
+        url: "",
+        file: null,
       },
-      optionsAcount: [
-        { value: 0, text: "Interbank" },
-        { value: 1, text: "BCP" },
-        { value: 3, text: "Scotiabank" },
-        { value: 4, text: "Banbif" },
-      ],
-      section1: null,
-      section2: null,
-      section3: null,
-      section4: null,
-      section5: null,
-    };
-  },
+      {
+        id: 3,
+        url: "",
+        file: null,
+      },
+      {
+        id: 4,
+        url: "",
+        file: null,
+      },
+      {
+        id: 5,
+        url: "",
+        file: null,
+      },
+    ],
+  };
+  isModalProfessionEdit:boolean = true;
+  formProfession:any = {
+    selectedProfession: 0,
+    specialtiesList: [
+      {
+        id: 0,
+        active: true,
+        name: "Pintura de interiores",
+      },
+      {
+        id: 1,
+        active: false,
+        name: "Pintura de interiores",
+      },
+      {
+        id: 2,
+        active: true,
+        name: "Pintura de interiores",
+      },
+      {
+        id: 3,
+        active: true,
+        name: "Pintura de interiores",
+      },
+    ],
+    workExperience: {
+      years: "",
+      months: "",
+    },
+  }
+  optionsProfessions:Array<any> = [
+    { value: 0, text: "Pintor" },
+    { value: 1, text: "Albañil" },
+    { value: 3, text: "Carpintero" },
+    { value: 4, text: "Lima" },
+  ];
+  isModalLocationEdit:boolean = true;
+  formLocation:any = {
+    selectedLocation: 0,
+    districtList: [
+      {
+        id: 0,
+        active: true,
+        name: "Los Olivos",
+      },
+      {
+        id: 1,
+        active: false,
+        name: "Puente Piedra",
+      },
+      {
+        id: 2,
+        active: true,
+        name: "Independencia",
+      },
+      {
+        id: 3,
+        active: true,
+        name: "San Martin de Porres",
+      },
+    ],
+  };
+  optionsLocation:Array<any> = [
+    { value: 0, text: "Lima Norte" },
+    { value: 1, text: "Lima Sur" },
+    { value: 3, text: "Lima Este" },
+    { value: 4, text: "Lima Oeste" },
+  ];
+  formAcount: any = {
+    selectedAcount: 0,
+    numAcount: "",
+    cci: "",
+  };
+  optionsAcount:Array<any> = [
+    { value: 0, text: "Interbank" },
+    { value: 1, text: "BCP" },
+    { value: 3, text: "Scotiabank" },
+    { value: 4, text: "Banbif" },
+  ];
+  section1:any = null;
+  section2:any = null;
+  section3:any = null;
+  section4:any = null;
+  section5:any = null;
   mounted() {
     this.isLoading = false;
     this.$nextTick(() => {
       // this.section1 = document.getElementById('presentation__box').offsetTop
-      this.section2 = document.getElementById("galery__box").offsetTop - 10;
-      this.section3 = document.getElementById("experience__box").offsetTop - 10;
-      this.section4 = document.getElementById("location__box").offsetTop - 10;
-      this.section5 = document.getElementById("acount__box").offsetTop - 10;
+      this.section2 = (<HTMLInputElement>document.getElementById("galery__box")).offsetTop - 10;
+      this.section3 = (<HTMLInputElement>document.getElementById("experience__box")).offsetTop - 10;
+      this.section4 = (<HTMLInputElement>document.getElementById("location__box")).offsetTop - 10;
+      this.section5 = (<HTMLInputElement>document.getElementById("acount__box")).offsetTop - 10;
     });
-  },
-  methods: {
-    modalProfessionEdit() {
-      this.isModalProfessionEdit = true;
-      this.$refs["modal-experience"].show();
-    },
-    modalProfessionCreate() {
-      this.isModalProfessionEdit = false;
-      this.$refs["modal-experience"].show();
-    },
-    showModalLocation() {
-      this.$refs["modal-location"].show();
-    },
-    deleteLocation(id) {
-      const index = this.locationsList.findIndex(
-        (location) => location.id == id
-      );
-      this.locationsList.splice(index, 1);
-    },
-    deleteAcount(id) {
-      const index = this.acountsList.findIndex((acount) => acount.id == id);
-      this.acountsList.splice(index, 1);
-    },
-    deleteExperience(id){
-      const index = this.experiences.findIndex((experience) => experience.id == id);
-      this.experiences.splice(index, 1);
-    },
-    onSlideStart() {
-      this.sliding = true;
-    },
-    onSlideEnd() {
-      this.sliding = false;
-    },
-    goBox(boxName) {
-      const boxContainer = document.getElementById(`${boxName}`);
-      const top = boxContainer.offsetTop;
-      window.scroll({
-        top,
-        left: 0,
-        behavior: "smooth",
-      });
-    },
-    addYear() {
-      this.formProfession.workExperience.years++;
-    },
-    substractYear() {
-      if (this.formProfession.workExperience.years > 0) {
-        this.formProfession.workExperience.years--;
-      }
-    },
-    addMonth() {
-      this.formProfession.workExperience.months++;
-    },
-    substractMonth() {
-      if (this.formProfession.workExperience.months > 0) {
-        this.formProfession.workExperience.months--;
-      }
-    },
-    uploadImage(index) {
-      this.imageSelected = index;
-      const btnFile = this.$refs[`portadaFile${index}`][0].$el.children[0];
-      btnFile.click();
-    },
-    changeFileCover(event) {
-      const index = this.imageSelected;
-      const file = event.target.files[0];
-      if (!file) {
-        this.formGalery.imagesList[index].url = null;
-        this.formGalery.imagesList[index].file = null;
-        return;
-      }
+  }
 
-      this.formGalery.imagesList[index].file = file;
-      const fr = new FileReader();
-      fr.onload = () => (this.formGalery.imagesList[index].url = fr.result);
-      fr.readAsDataURL(file);
-    },
-    deleteImage(index) {
+
+  modalProfessionEdit() {
+    this.isModalProfessionEdit = true;
+    this.$bvModal.show('modal-experience')
+  }
+  modalProfessionCreate() {
+    this.isModalProfessionEdit = false;
+    this.$bvModal.show('modal-experience')
+  }
+  showModalLocation() {
+    this.$bvModal.show('modal-location')
+  }
+  deleteLocation(id: number) {
+    const index = this.locationsList.findIndex(
+      (location) => location.id == id
+    );
+    this.locationsList.splice(index, 1);
+  }
+  deleteAcount(id:string) {
+    const index = this.acountsList.findIndex((acount) => acount.id == id);
+    this.acountsList.splice(index, 1);
+  }
+  deleteExperience(id:number){
+    const index = this.experiences.findIndex((experience) => experience.id == id);
+    this.experiences.splice(index, 1);
+  }
+  onSlideStart() {
+    this.sliding = true;
+  }
+  onSlideEnd() {
+    this.sliding = false;
+  }
+  goBox(boxName:string) {
+    const boxContainer:any = document.getElementById(`${boxName}`);
+    const top:number = boxContainer.offsetTop;
+    window.scroll({
+      top,
+      left: 0,
+      behavior: "smooth",
+    });
+  }
+  addYear() {
+    this.formProfession.workExperience.years++;
+  }
+  substractYear() {
+    if (this.formProfession.workExperience.years > 0) {
+      this.formProfession.workExperience.years--;
+    }
+  }
+  addMonth() {
+    this.formProfession.workExperience.months++;
+  }
+  substractMonth() {
+    if (this.formProfession.workExperience.months > 0) {
+      this.formProfession.workExperience.months--;
+    }
+  }
+  uploadImage(index:any) {
+    this.imageSelected = index;
+    // const btnFile:any = <any>this.$refs[`portadaFile${index}`][0].$el.children[0];
+    const btnFile:any = document.getElementById(`portadaFile${index}`)
+    btnFile.click();
+  }
+
+  changeFileCover(event:any) {
+    const index = this.imageSelected;
+    const file:any = event.target.files[0];
+    if (!file) {
       this.formGalery.imagesList[index].url = null;
       this.formGalery.imagesList[index].file = null;
-    },
-    uploadPresentationImage() {
-      const btnFile = this.$refs.presentationFile.$el.children[0];
-      btnFile.click();
-    },
-    changeFilePresentation(event) {
-      const file = event.target.files[0];
-      if (!file) {
-        this.formPresentation.image.file = null;
-        this.formPresentation.image.url = null;
-        return;
-      }
-
-      this.formPresentation.image.file = file;
-      const fr = new FileReader();
-      fr.onload = () => (this.formPresentation.image.url = fr.result);
-      fr.readAsDataURL(file);
-    },
-    editPresentation(){
-      alertSuccessButton("Se realizo la operación exitosamente");
-    },
-    editExperience(){
-      alertSuccessButton("Se realizo la operación exitosamente");
-    },
-    editLocation(){
-      alertSuccessButton("Se realizo la operación exitosamente");
-    },
-    editAcount(){
-      alertSuccessButton("Se realizo la operación exitosamente");
+      return;
     }
-  },
-  computed: {
-    ...mapGetters(["getScroll"]),
-    menuChange() {
-      if (!this.isLoading) {
-        let footer = document.getElementById("footer__limit");
-        let footerScrollY = Number(footer.offsetTop) - 320;
 
-        if (this.getScroll > 70 && Number(this.getScroll) < footerScrollY) {
-          return true;
-        }
+    this.formGalery.imagesList[index].file = file;
+    const fr = new FileReader();
+    fr.onload = () => (this.formGalery.imagesList[index].url = fr.result);
+    fr.readAsDataURL(file);
+  }
+  deleteImage(index:any) {
+    this.formGalery.imagesList[index].url = null;
+    this.formGalery.imagesList[index].file = null;
+  }
+  uploadPresentationImage() {
+    const btnFile = this.presentationFile.$el.children[0];
+    btnFile.click();
+  }
+  changeFilePresentation(event:any) {
+    const file = event.target.files[0];
+    if (!file) {
+      this.formPresentation.image.file = null;
+      this.formPresentation.image.url = null;
+      return;
+    }
+
+    this.formPresentation.image.file = file;
+    const fr = new FileReader();
+    fr.onload = () => (this.formPresentation.image.url = fr.result);
+    fr.readAsDataURL(file);
+  }
+  editPresentation(){
+    alertSuccessButton("Se realizo la operación exitosamente");
+  }
+  editExperience(){
+    alertSuccessButton("Se realizo la operación exitosamente");
+  }
+  editLocation(){
+    alertSuccessButton("Se realizo la operación exitosamente");
+  }
+  editAcount(){
+    alertSuccessButton("Se realizo la operación exitosamente");
+  }
+
+  get menuChange() {
+    if (!this.isLoading) {
+      let footer:any = document.getElementById("footer__limit");
+      let footerScrollY:number = Number(footer.offsetTop) - 320;
+
+      if (GeneralModule.getScroll > 70 && Number(GeneralModule.getScroll) < footerScrollY) {
+        return true;
       }
+    }
+    return false;
+  }
+  get isPresentationSection() {
+    return GeneralModule.getScroll >= 0 && GeneralModule.getScroll < this.section2
+      ? true
+      : false;
+  }
+  get isGalerySection() {
+    return GeneralModule.getScroll >= this.section2 && GeneralModule.getScroll < this.section3
+      ? true
+      : false;
+  }
+  get isExperienceSection() {
+    return GeneralModule.getScroll >= this.section3 && GeneralModule.getScroll < this.section4
+      ? true
+      : false;
+  }
+  get isLocationSection() {
+    return GeneralModule.getScroll >= this.section4 && GeneralModule.getScroll < this.section5
+      ? true
+      : false;
+  }
+  get isAcountSection() {
+    if (!this.isLoading) {
+      let footer:any = document.getElementById("footer__limit");
+      let footerScrollY:number = Number(footer.offsetTop) - 320;
+      return GeneralModule.getScroll >= this.section5 && GeneralModule.getScroll < footerScrollY
+        ? true
+        : false;
+    } else {
       return false;
-    },
-    isPresentationSection() {
-      return this.getScroll >= 0 && this.getScroll < this.section2
-        ? true
-        : false;
-    },
-    isGalerySection() {
-      return this.getScroll >= this.section2 && this.getScroll < this.section3
-        ? true
-        : false;
-    },
-    isExperienceSection() {
-      return this.getScroll >= this.section3 && this.getScroll < this.section4
-        ? true
-        : false;
-    },
-    isLocationSection() {
-      return this.getScroll >= this.section4 && this.getScroll < this.section5
-        ? true
-        : false;
-    },
-    isAcountSection() {
-      if (!this.isLoading) {
-        let footer = document.getElementById("footer__limit");
-        let footerScrollY = Number(footer.offsetTop) - 320;
-        return this.getScroll >= this.section5 && this.getScroll < footerScrollY
-          ? true
-          : false;
-      } else {
-        return false;
-      }
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -23,6 +23,15 @@ export default {
         ),
     },
     {
+      path: "pagos",
+      name: "payments",
+      meta: { layout: "specialist-landing" },
+      component: () =>
+        import(
+          /* webpackChunkName: "payments" */ "@/modules/specialist/views/Payments.vue"
+        ),
+    },
+    {
       path: "/",
       redirect: { name: "specialist-profile" },
     },

@@ -1,3 +1,5 @@
+import { Route } from "vue-router";
+
 export default {
   component: () =>
     import(
@@ -23,6 +25,34 @@ export default {
           "@/modules/client/views/NewProject.vue"
         ),
     },
+    
+    {
+      path: "mis-proyectos/:type",
+      name: "my-projects",
+      meta: { layout: "client-landing" },
+      component: () =>
+        import(
+          /* webpackChunkName: "my-projects" */ "@/modules/client/views/MyProjects.vue"
+        ),
+        props: (route: Route) => {
+          const type = route.params.type
+          return {type}
+        }
+    },
+    {
+      path: "detalle-proyecto/:projectId",
+      name: "project-detail",
+      meta: { layout: "client-landing" },
+      component: () =>
+        import(
+          /* webpackChunkName: "project-detail" */ "@/modules/client/views/ProjectDetail.vue"
+        ),
+      props: (route: Route) => {
+        const projectId = route.params.projectId
+        return {projectId}
+      }
+
+    },
     {
       path: "especialista",
       name: "client-especialist-profile",
@@ -33,21 +63,30 @@ export default {
         ),
     },
     {
-      path: "detalle-proyecto",
-      name: "project-detail",
-      meta: { layout: "client-landing" },
-      component: () =>
-        import(
-          /* webpackChunkName: "project-detail" */ "@/modules/client/views/ProjectDetail.vue"
-        ),
-    },
-    {
       path: "chat-especialista",
       name: "specialist-chat",
       meta: { layout: "client-landing" },
       component: () =>
         import(
           /* webpackChunkName: "specialist-chat" */ "@/modules/client/views/SpecialistChat.vue"
+        ),
+    },
+    {
+      path: "notificaciones",
+      name: "notifications",
+      meta: { layout: "client-landing" },
+      component: () =>
+        import(
+          /* webpackChunkName: "notifications" */ "@/modules/client/views/Notifications.vue"
+        ),
+    },
+    {
+      path: "pago-online",
+      name: "pay-online",
+      meta: { layout: "client-landing" },
+      component: () =>
+        import(
+          /* webpackChunkName: "pay-online" */ "@/modules/client/views/PayOnLine.vue"
         ),
     },
     {

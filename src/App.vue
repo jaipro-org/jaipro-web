@@ -5,32 +5,37 @@
     </component>
   </div>
 </template>
-<script>
-import { mapActions } from "vuex";
+<script lang="ts">
+import GeneralModule from '@/store/modules/general'
+import { Component, Prop, Vue } from "vue-property-decorator";
 const default_layout = "landing";
 
-export default {
-  name: "App",
-  computed: {
-    layout() {
-      console.log(this.$route.meta.layout);
-      return this.$route.meta.layout || "master-" + default_layout;
-    },
-  },
-
+@Component({
+  name: 'App'
+})
+export default class App extends Vue{
   created() {
     this.onScroll();
-  },
-  methods: {
-    ...mapActions(["setScroll"]),
-    onScroll() {
-      window.onscroll = () => {
-        const scrollY = window.scrollY;
-        this.setScroll(scrollY);
-      };
-    },
-  },
-};
+  }
+
+  get layout():string {
+    if(this.$route){
+      if(this.$route.meta){
+        return this.$route.meta.layout
+      }
+    }
+    
+    return "master-" + default_layout
+    
+  }
+
+  onScroll() {
+    window.onscroll = () => {
+      const scrollY = window.scrollY;
+      GeneralModule.updateScroll(scrollY)
+    };
+  }
+}
 </script>
 <style lang="scss">
 @import "assets/sass/styles";

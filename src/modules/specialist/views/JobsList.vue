@@ -1,4 +1,3 @@
-import { TabContent } from 'vue-form-wizard';
 <template>
   <b-row class="jobs__container mx-0 mt-0">
     <b-col cols="12" lg="8" class="pt-5">
@@ -268,111 +267,119 @@ import { TabContent } from 'vue-form-wizard';
   </b-row>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Watch, Vue } from "vue-property-decorator";
 import { alertSuccessButton } from "@/utils/SweetAlert";
-export default {
-  data() {
-    return {
-      isWorkDetailActive: false,
-      totalRows: 0,
-      currentPage: 1,
-      perPage: 4,
-      categorySelected: 0,
-      selectCategories: [
-        {value: 0, label:'Todas'},
-        {value: 1, label: 'Albañil'},
-        {value: 2, label: 'Electricista'},
-        {value: 3, label: 'Gasfitero'},
-      ],
-      dateSelected: 0,
-      selectDates: [
-        {value: 0, label:'Todas'},
-        {value: 1, label: 'Hoy'},
-        {value: 2, label: 'Esta semana'},
-        {value: 3, label: 'Este mes'},
-      ],
-      locationSelected: 0,
-      selectLocations: [
-        {value: 0, label:'Todas'},
-        {value: 1, label: 'Lima Norte'},
-        {value: 2, label: 'Lima Sur'},
-        {value: 3, label: 'Lima Este'},
-      ],
-      jobsList : [
-        {
-          id: 1,
-          petitioner: 'Solicitante 1',
-          category: 'Categoria 1',
-          description: 'Descripcion de prueba para la card de trabajos'
-        },
-        {
-          id: 2,
-          petitioner: 'Solicitante 2',
-          category: 'Categoria 2',
-          description: 'Descripcion de prueba para la card de trabajos'
-        },
-        {
-          id: 3,
-          petitioner: 'Solicitante 3',
-          category: 'Categoria 3',
-          description: 'Descripcion de prueba para la card de trabajos'
-        },
-        {
-          id: 4,
-          petitioner: 'Solicitante 4',
-          category: 'Categoria 4',
-          description: 'Descripcion de prueba para la card de trabajos'
-        },
-        {
-          id: 5,
-          petitioner: 'Solicitante 5',
-          category: 'Categoria 5',
-          description: 'Descripcion de prueba para la card de trabajos'
-        },
-        {
-          id: 6,
-          petitioner: 'Solicitante 6',
-          category: 'Categoria 6',
-          description: 'Descripcion de prueba para la card de trabajos'
-        },
-        {
-          id: 7,
-          petitioner: 'Solicitante 7',
-          category: 'Categoria 7',
-          description: 'Descripcion de prueba para la card de trabajos'
-        }
-      ],
-      jobsListFilter : [],
-      form:{
-        min: '',
-        max: '',
-        coment: '',
-      },
+
+@Component
+export default class JobsList extends Vue {
+
+  isWorkDetailActive:Boolean =false;
+  totalRows:number = 0;
+  currentPage:number = 1;
+  perPage:number = 4;
+  categorySelected:number = 0;
+  selectCategories:Array<any>= [
+    {value: 0, label:'Todas'},
+    {value: 1, label: 'Albañil'},
+    {value: 2, label: 'Electricista'},
+    {value: 3, label: 'Gasfitero'},
+  ];
+  dateSelected:number = 0;
+  selectDates: Array<any>= [
+    {value: 0, label:'Todas'},
+    {value: 1, label: 'Hoy'},
+    {value: 2, label: 'Esta semana'},
+    {value: 3, label: 'Este mes'},
+  ]
+  locationSelected:number = 0;
+  selectLocations:Array<any>  =[
+    {value: 0, label:'Todas'},
+    {value: 1, label: 'Lima Norte'},
+    {value: 2, label: 'Lima Sur'},
+    {value: 3, label: 'Lima Este'},
+  ];
+  jobsList:Array<any> = [
+    {
+      id: 1,
+      petitioner: 'Solicitante 1',
+      category: 'Categoria 1',
+      description: 'Descripcion de prueba para la card de trabajos'
+    },
+    {
+      id: 2,
+      petitioner: 'Solicitante 2',
+      category: 'Categoria 2',
+      description: 'Descripcion de prueba para la card de trabajos'
+    },
+    {
+      id: 3,
+      petitioner: 'Solicitante 3',
+      category: 'Categoria 3',
+      description: 'Descripcion de prueba para la card de trabajos'
+    },
+    {
+      id: 4,
+      petitioner: 'Solicitante 4',
+      category: 'Categoria 4',
+      description: 'Descripcion de prueba para la card de trabajos'
+    },
+    {
+      id: 5,
+      petitioner: 'Solicitante 5',
+      category: 'Categoria 5',
+      description: 'Descripcion de prueba para la card de trabajos'
+    },
+    {
+      id: 6,
+      petitioner: 'Solicitante 6',
+      category: 'Categoria 6',
+      description: 'Descripcion de prueba para la card de trabajos'
+    },
+    {
+      id: 7,
+      petitioner: 'Solicitante 7',
+      category: 'Categoria 7',
+      description: 'Descripcion de prueba para la card de trabajos'
     }
-  },
+  ];
+  jobsListFilter:Array<any> = [];
+  form:any ={
+    min: '',
+    max: '',
+    coment: '',
+  };
+
   created( ){
     this.getAllJobs()
-  },
-  methods: {
-    getAllJobs(){
-      this.totalRows = this.jobsList.length
-      this.changePage(1)
-    },
-    changePage(page) {
-      this.jobsListFilter = this.jobsList.slice(
-        (page - 1) * this.perPage,
-        page * this.perPage
-      );
-    },
-    sendProposal(){
-      alertSuccessButton("Se envio una propuesta exitosamente");
-    }
-  },
-  watch: {
-    currentPage: function (value) {
-      this.changePage(value);
-    },
-  },
+  }
+
+  getAllJobs(){
+    this.totalRows = this.jobsList.length
+    this.changePage(1)
+  }
+  
+  changePage(page: number) {
+    this.jobsListFilter = this.jobsList.slice(
+      (page - 1) * this.perPage,
+      page * this.perPage
+    );
+  }
+
+  sendProposal(){
+    alertSuccessButton("Se envio una propuesta exitosamente");
+  }
+
+  // watch: {
+  //   currentPage: function (value) {
+  //     this.changePage(value);
+  //   },
+  // },
+
+  @Watch('currentPage')
+  currentPageChanged(newVal: number) {
+    this.changePage(newVal)
+  }
 };
 </script>
 

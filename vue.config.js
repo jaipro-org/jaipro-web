@@ -1,4 +1,5 @@
 module.exports = {
+  transpileDependencies: ['vuex-module-decorators'],
   css: {
     extract: {
       filename: "[name].css",
