@@ -26,16 +26,32 @@
               <h1 class="text-center">Armando Paredes</h1>
             </div>
             <div class="mx-3 navItem my-2 my-lg-0 d-flex d-lg-block">
-              <div class="text-center">
-                <i class="fa-solid fa-house mr-2 mr-lg-0"></i>
-              </div>
-              <span class="d-block">Inicio</span>
+              <router-link :to="{name : 'home'}" class="router-link">
+                <div class="text-center">
+                  <i class="fa-solid fa-house mr-2 mr-lg-0"></i>
+                </div>
+                <span class="d-block">Inicio</span>
+              </router-link>
+              
+            </div>
+
+            <div class="mx-3 navItem my-2 my-lg-0 d-flex d-lg-block">
+              <router-link :to="{name : 'notifications'}" class="router-link">
+                <div class="text-center">
+                  <i class="fa-solid fa-bell mr-2 mr-lg-0"></i>
+                </div>
+                <span class="d-block">Notificaciones</span>
+              </router-link>
+              
             </div>
             <div class="mx-3 navItem my-2 my-lg-0 d-flex d-lg-none">
-              <div class="text-center">
-                <i class="fa-solid fa-user mr-2"></i>
-              </div>
-              <span class="d-block">Ver Perfil</span>
+              <router-link :to="{name : 'client-profile'}" class="router-link">
+                <div class="text-center">
+                  <i class="fa-solid fa-user mr-2"></i>
+                </div>
+                <span class="d-block">Ver Perfil</span>
+              </router-link>
+              
             </div>
             <div class="mx-3 navItem my-2 my-lg-0 d-flex d-lg-none">
               <div class="text-center">
@@ -58,9 +74,12 @@
                   <h1 class="text-center dropdown__name">Armando Paredes</h1>
                 </div>
               </b-dropdown-item>
-              <b-dropdown-item href="#"
-                ><i class="fa-solid fa-user mr-2"></i>Ver
-                Perfil</b-dropdown-item
+              <b-dropdown-item href="#" class="navItem-collapse">
+                <router-link :to="{name : 'client-profile'}" class="router-link">
+                  <i class="fa-solid fa-user mr-2"></i>Ver
+                  Perfil
+                </router-link>
+              </b-dropdown-item
               >
               <b-dropdown-item href="#"
                 ><i class="fa-solid fa-right-from-bracket mr-2"></i>Cerrar
@@ -74,7 +93,7 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import GeneralModule from '@/store/modules/general'
 export default {
   data() {
     return {
@@ -83,9 +102,8 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getScroll"]),
     setScrollClass() {
-      if (this.getScroll > 20) return true;
+      if (GeneralModule.getScroll > 20) return true;
       else return false;
     },
   },
@@ -134,11 +152,32 @@ export default {
     span {
       font-size: 0.9rem;
     }
+
+    .router-link{
+      color: #7e7e7e;
+      text-decoration: none;
+
+      &:hover {
+        color: #3a88ec;
+      }
+
+      &.router-link-active{
+        color: #3a88ec !important;
+      }
+    }
   }
 
-  .navItem:hover {
-    color: #3a88ec;
+  .navItem-collapse{
+    .router-link{
+      color: #181818;
+      text-decoration: none;
+
+      &:hover {
+        color: #3a88ec;
+      }
+    }
   }
+
 
   .user__image {
     height: 40px;

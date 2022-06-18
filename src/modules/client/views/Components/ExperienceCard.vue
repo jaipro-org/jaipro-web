@@ -41,37 +41,33 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'ExperienceCard',
-  props: {
-    experience: {
-      type: Object,
-      required: true
-    }
-  },
-  data(){
-    return {
-      isShow: true, // Controla el muestreo desplegado de la card
-      isActive: true, //Controla la activacion de la clase para la animación de despliegue
-    }
-  },
-  methods: {
-    openCollapse(){
-      this.isShow= true
-      const timeOut = setTimeout(()=>{
-        this.isActive= true
-        clearTimeout(timeOut)
-      }, 100)
-      
-    },
-    closeCollapse(){
-      this.isActive = false
-      const timeOut = setTimeout(()=>{
-        this.isShow = false
-        clearTimeout(timeOut)
-      }, 600)
-    }
+<script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
+
+@Component({
+  name: 'ExperienceCard'
+})
+export default class ExperienceCard extends Vue{
+  @Prop({type: Object, required: true}) experience!:any
+
+  isShow:Boolean= true; // Controla el muestreo desplegado de la card
+  isActive:Boolean= true; //Controla la activacion de la clase para la animación de despliegue
+
+  openCollapse(){
+    this.isShow= true
+    const timeOut = setTimeout(()=>{
+      this.isActive= true
+      clearTimeout(timeOut)
+    }, 100)
+    
+  }
+  
+  closeCollapse(){
+    this.isActive = false
+    const timeOut = setTimeout(()=>{
+      this.isShow = false
+      clearTimeout(timeOut)
+    }, 600)
   }
 }
 </script>

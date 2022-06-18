@@ -133,22 +133,28 @@
   </div>
 </template>
 
-<script>
-import carousel from 'vue-owl-carousel'
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+
+// import carousel from 'vue-owl-carousel'
+const carousel = require('vue-owl-carousel');
 import ModalImage from '@/shared/components/ModalImage.vue'
 import ExperienceCard from '@/modules/client/views/Components/ExperienceCard.vue'
 import OpinionCard from '@/modules/client/views/Components/OpinionCard.vue'
-export default {
-  components:{
+
+@Component({
+  name: 'SpecialistProfile',
+  components: {
     ExperienceCard,
     OpinionCard,
     carousel,
     ModalImage
-  },
-  data(){
-    return {
-      isShowModal: false, //Maneja la gestion del modal de imagenes
-      experiences: [
+  }
+})
+export default class SpecialistProfile extends Vue{
+
+      isShowModal:Boolean = false; //Maneja la gestion del modal de imagenes
+      experiences:Array<any>= [
         {
           id: 0,
           title: 'Construccion y Techado',
@@ -195,8 +201,8 @@ export default {
             },
           ]
         }
-      ],
-      opinionsList: [
+      ];
+      opinionsList:Array<any>= [
         {
           name: 'Sandro Lopez',
           time: 'Enero 2021',
@@ -217,29 +223,26 @@ export default {
           time: 'Mayo 2022',
           comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae laudantium fugiat labore aspernatur natus accusantium temporibus. Voluptas ullam, voluptatum est, ab ipsam aliquid, unde eveniet obcaecati et fugit cum accusantium.'
         },
-      ],
-      tabSelected: 'BIO',
-    }
-  },
-  methods:{
-    setTab(value){
-      this.tabSelected = value
-    },
-    handleGoGalery(){
-      this.setTab('BIO')
-      const timeOut = setTimeout(()=>{
-        const boxContainer = document.getElementById(`galery__box`);
-        const top = boxContainer.offsetTop - 70;
-        window.scroll({
-          top,
-          left: 0,
-          behavior: "smooth",
-        });
-        clearTimeout(timeOut)
-      }, 100)
-      
+      ];
+      tabSelected:string = 'BIO';
+
+
+  setTab(value:string){
+    this.tabSelected = value
+  }
+  handleGoGalery(){
+    this.setTab('BIO')
+    const timeOut = setTimeout(()=>{
+      const boxContainer:any = document.getElementById(`galery__box`);
+      const top:number = boxContainer.offsetTop - 70;
+      window.scroll({
+        top,
+        left: 0,
+        behavior: "smooth",
+      });
+      clearTimeout(timeOut)
+    }, 100)
     
-    },
   }
 }
 </script>

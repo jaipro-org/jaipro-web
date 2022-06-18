@@ -73,6 +73,19 @@ export const alertError = (
   });
 };
 
+export const alertError2 = (
+  text = "Sucedio un error, porfavor intentelo de nuevo!!"
+) => {
+  Swal.fire({
+    icon: "error",
+    title: "Operación fallida!",
+    text: text,
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    showConfirmButton: false,
+  });
+};
+
 export const closeAlert = function () {
   Swal.close();
 };

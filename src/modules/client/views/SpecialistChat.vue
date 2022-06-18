@@ -104,57 +104,54 @@
   </div>
 </template>
 
-<script>
-export default {
-  data(){
-    return{
-      endMessagesDiv: null,
-      messagesDiv: null,
-      inputMessage: '',
-      // Se uso dos parametros message para las pruebas de maquetación,
-      // pero no es necesario que existan ambos al mismo tiempo a menos que la logica de negocio lo requiera
-      messages: [],
-      //Ejemplifica la estructuracion de los mensaje en pruebas de maquetacion
-      // typeUser -- 0 (friend) - 1 (autor) 
-      messagesAux: [
-        {
-          id: 1,
-          typeUser: 0, 
-          userId: '111',
-          contents: 'Hola que tal, en que podemos ayudarle?'
-        },
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
 
-      ]
+@Component
+export default class SpecialistChat extends Vue {
+  endMessagesDiv:any = null;
+  messagesDiv:any = null;
+  inputMessage:string = '';
+  // Se uso dos parametros message para las pruebas de maquetación,
+  // pero no es necesario que existan ambos al mismo tiempo a menos que la logica de negocio lo requiera
+  messages:Array<any> = []
+  //Ejemplifica la estructuracion de los mensaje en pruebas de maquetacion
+  // typeUser -- 0 (friend) - 1 (autor) 
+  messagesAux:Array<any> = [
+    {
+      id: 1,
+      typeUser: 0, 
+      userId: '111',
+      contents: 'Hola que tal, en que podemos ayudarle?'
+    },
 
-    }
-  },
+  ]
   mounted(){
     this.endMessagesDiv = document.getElementById('messages-end')
     this.messagesDiv = document.getElementById('messages')
-  },
-  methods: {
-    handleSendMessage(){
-      if(this.inputMessage != ''){
-        const message = {
-          id: 1,
-          typeUser: 1, 
-          userId: '111',
-          contents: this.inputMessage
-        }
-
-        this.messages.push(message)
-        this.inputMessage = ''
-        const timeOut = setTimeout(()=>{
-          const top = this.endMessagesDiv.offsetTop
-          this.messagesDiv.scroll({
-            top: top,
-            left: 0,
-            behavior: "smooth",
-          });
-          clearTimeout(timeOut)
-        }, 100)
-        
+  }
+  
+  handleSendMessage(){
+    if(this.inputMessage != ''){
+      const message = {
+        id: 1,
+        typeUser: 1, 
+        userId: '111',
+        contents: this.inputMessage
       }
+
+      this.messages.push(message)
+      this.inputMessage = ''
+      const timeOut = setTimeout(()=>{
+        const top = this.endMessagesDiv.offsetTop
+        this.messagesDiv.scroll({
+          top: top,
+          left: 0,
+          behavior: "smooth",
+        });
+        clearTimeout(timeOut)
+      }, 100)
+      
     }
   }
 }

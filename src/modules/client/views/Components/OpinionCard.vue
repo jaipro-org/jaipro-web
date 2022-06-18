@@ -31,23 +31,18 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'OpinionCard',
-  props: {
-    opinion: {
-      type: Object,
-      required: true
-    }
-  },
-  data(){
-    return {
-      isShow: false,
-      isActive: false,
-    }
-  },
-  methods: {
-  }
+<script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
+
+@Component({
+  name: 'OpinionCard'
+})
+export default class OpinionCard extends Vue {
+  @Prop({type:Object, required:true}) opinion!:any
+  
+  isShow:Boolean= false; // Controla el muestreo desplegado de la card
+  isActive:Boolean= false; //Controla la activacion de la clase para la animación de despliegue
+  
 }
 </script>
 

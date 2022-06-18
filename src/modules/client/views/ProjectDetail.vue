@@ -81,6 +81,9 @@
         <div class="proposals-list mb-3">
           <proposal-card
             :proposal="project.proposal"
+            @pay-cash="openModalPayCash"
+            @pay-online="redirectPayOnline"
+            @qualification-modal="openQualificationModal"
           ></proposal-card>
 
         </div>
@@ -88,83 +91,167 @@
       </b-col>
     </b-row>
 
+    <b-modal id="modal-pay-cash" ref="modal-pay-cash" title="Pago efectivo">
+      <template #modal-footer>
+        <div class="d-flex justify-content-end w-100">
+          <b-button variant="secondary" @click="closeModalPayCash" class="mr-3">Cancelar</b-button>
+          <b-button variant="primary" @click="payCash">Finalizar</b-button>
+        </div>
+      </template>
+      <div>
+        <span class="d-block text-center">Confirma el monto a pagar</span>
+        <div class="mt-3">
+          <span>Especialista:</span>
+          <span class="ml-2 modal-pay-cash__specialist">Pedro Ramirez Estrada</span>
+          
+        </div>
+        <b-form @submit.prevent="handlePayCash" v-model="form.payAmount" class="mt-2" validated>
+          <b-form-group
+            id="fieldset-horizontal"
+            label-cols-sm="6"
+            label-cols-lg="7"
+            content-cols-sm
+            content-cols-lg="5"
+            label="Montol total del servicio a cobrar:"
+            label-for="input-pay-amount"
+          >
+            <b-input-group size="lg" prepend="$">
+              <b-form-input
+                id="input-pay-amount"
+                required
+                oninput="this.value = value.replace(/[^0-9]/g, '')"
+              ></b-form-input>
+            </b-input-group>
+            
+          </b-form-group>
+          <button ref="button-form" type="submit" class="d-none"></button>
+        </b-form>
+      </div>
+    </b-modal>
+
+    <b-modal  id="modal-qualification" class="modal-qualification" title="Calificar">
+      <div class="d-flex flex-wrap justify-content-center flex-row-reverse">
+        <i
+          class="fa-solid fa-star mr-3 modal-qualification__icon"
+          role="button"
+          @click="checkQualifaction($event, 5)"
+        ></i>
+        <i
+          class="fa-solid fa-star mr-3 modal-qualification__icon"
+          role="button"
+          @click="checkQualifaction($event, 4)"
+        ></i>
+        <i
+          class="fa-solid fa-star mr-3 modal-qualification__icon"
+          role="button"
+          @click="checkQualifaction($event, 3)"
+        ></i>
+        <i
+          class="fa-solid fa-star mr-3 modal-qualification__icon"
+          role="button"
+          @click="checkQualifaction($event, 2)"
+        ></i>
+        <i
+          class="fa-solid fa-star mr-3 modal-qualification__icon"
+          role="button"
+          @click="checkQualifaction($event, 1)"
+        ></i>
+      </div>
+      <template #modal-footer>
+        <div>
+          <b-button variant="primary" @click="sendQualification">Enviar calificación</b-button>
+        </div>
+      </template>
+    </b-modal>
+
     <modal-image v-show="isShowModal" @close-modal="isShowModal = false" />
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import ModalImage from '@/shared/components/ModalImage.vue'
 import {alertLoading,alertSuccessfully, alertActionButton, closeAlert} from '@/utils/SweetAlert'
 
 import ProposalCard from '@/modules/client/views/Components/ProposalCard.vue'
-export default {
-  components:{
+import { Component, Prop, Vue, Ref } from "vue-property-decorator";
+@Component({
+  components: {
     ProposalCard,
     ModalImage
-  },
-  data(){
-    return {
-      isShowModal: false, //Maneja la gestion del modal de imagenes
-      // A manera de ejemplo tenemos los estados para el projecto
-      //   0 = 'abierto'
-      //   1 = "con propuestas"
-      //   2 = "con propuesta aceptada"
-      project: {
-        status: 1,
-        job: {
+  }
+})
+export default class ProjectDetail extends Vue {
+  @Prop({type: String, required: true}) projectId!:string ;
+  @Ref('button-form') readonly button!: HTMLButtonElement
+  
+  //Maneja la gestion del modal de imagenes
+  isShowModal:Boolean = false; 
+  // A manera de ejemplo tenemos los estados para el projecto
+  //   0 = 'abierto'
+  //   1 = "con propuestas"
+  //   2 = "con propuesta aceptada"
+  project:any = {
+    status: 1,
+    job: {
+      id: 0,
+      title: 'Carpintero',
+    },
+    proposal: {}, //Propuesta aceptada
+    detail: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendus tempore accusamus suscipit repellat esse laboriosam dolore. Libero quae optio voluptatibus? Nostrum vel nihil dolor soluta voluptatum tenetur iste, assumenda sunt, minus nemo facilis earum quis delectus possimus, illum eos expedita.'
+  };
+  // A manera de ejemplo tenemos los estados para las propuestas
+  //   0 = 'propuesto'
+  //   1 = "aceptado"
+  //   2 = "rechazado"
+  //   3 = "pagado"
+  isLoadingProposals:Boolean =  false;
+  proposals:Array<any> = [
+    {
+      id: 0,
+      name: 'Pedro Ramirez Estrada',
+      status: 0,
+      isQualified: false,
+      jobs: [
+        {
           id: 0,
           title: 'Carpintero',
         },
-        proposal: {}, //Propuesta aceptada
-        detail: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendus tempore accusamus suscipit repellat esse laboriosam dolore. Libero quae optio voluptatibus? Nostrum vel nihil dolor soluta voluptatum tenetur iste, assumenda sunt, minus nemo facilis earum quis delectus possimus, illum eos expedita.'
-      },
-      // A manera de ejemplo tenemos los estados para las propuestas
-      //   0 = 'propuesto'
-      //   1 = "aceptado"
-      //   2 = "rechazado"
-      isLoadingProposals : false,
-      proposals: [
+        {
+          id: 1,
+          title: 'Gasfitero',
+        },
+        {
+          id: 2,
+          title: 'Electricista',
+        }
+      ],
+      detail: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta voluptatibus dolor odio dolorum vitae iste vel',
+    },
+    {
+      id: 1,
+      name: 'Estiben Soza Bermudes',
+      status: 0,
+      isQualified: false,
+      jobs: [
         {
           id: 0,
-          name: 'Pedro Ramirez Estrada',
-          status: 0,
-          jobs: [
-            {
-              id: 0,
-              title: 'Carpintero',
-            },
-            {
-              id: 1,
-              title: 'Gasfitero',
-            },
-            {
-              id: 2,
-              title: 'Electricista',
-            }
-          ],
-          detail: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta voluptatibus dolor odio dolorum vitae iste vel',
+          title: 'Carpintero',
         },
         {
           id: 1,
-          name: 'Estiben Soza Bermudes',
-          status: 0,
-          jobs: [
-            {
-              id: 0,
-              title: 'Carpintero',
-            },
-            {
-              id: 1,
-              title: 'Gasfitero',
-            },
-          ],
-          detail: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta voluptatibus dolor odio dolorum vitae iste vel',
+          title: 'Gasfitero',
         },
       ],
-    }
-  },
-  methods:{
-    loadProposals(){
+      detail: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta voluptatibus dolor odio dolorum vitae iste vel',
+    },
+  ];
+
+  form:Object = {
+    payAmount:'',
+  }
+
+
+  loadProposals(){
       console.log('Cardar mas propuestas');
       this.isLoadingProposals = true
       const proposal = {
@@ -196,50 +283,104 @@ export default {
       },2000) 
       
       
-    },
-    async handleAcceptProposal(id){ 
-      const alertResult = await alertActionButton('Aceptación de oferta','¿Seguro que desea aceptar la oferta?', 'Aceptar', 'info')
-      if(alertResult){
-          //Simulación de carga del Backend
-          alertLoading()
-          const proposal = this.proposals.find(proposal => proposal.id == id)
-          proposal.status = 1
-          this.project.proposal = {...proposal}
-          this.project.status=2
-          const timeOut = setTimeout(() => {
-            alertSuccessfully('Se acepto la propuesta del projecto exitosamente')
-            const timeOut2 = setTimeout(()=>{
-              closeAlert()
-              clearTimeout(timeOut2)
-            },2500)
-            clearTimeout(timeOut)
-          }, 1500)
-
-      }
-
-      
-    },
-    async handleRejectProposal(id){ 
-      const alertResult = await alertActionButton('Rechazar oferta','¿Seguro que desea rechazar la oferta?', 'Rechazar', 'error')
-      if(alertResult){
+    }
+  async handleAcceptProposal(id:Number){ 
+    const alertResult = await alertActionButton('Aceptación de oferta','¿Seguro que desea aceptar la oferta?', 'Aceptar', 'info')
+    if(alertResult){
         //Simulación de carga del Backend
         alertLoading()
-        const timeOut =setTimeout(() => {
-          this.proposals.splice(id,1)
-          alertSuccessfully('Se rechazo la propuesta del projecto exitosamente')
-          const timeOut2 = setTimeout(function(){
+        const proposal = this.proposals.find(proposal => proposal.id == id)
+        proposal.status = 1
+        this.project.proposal = {...proposal}
+        this.project.status=2
+        const timeOut = setTimeout(() => {
+          alertSuccessfully('Se acepto la propuesta del projecto exitosamente')
+          const timeOut2 = setTimeout(()=>{
             closeAlert()
             clearTimeout(timeOut2)
           },2500)
           clearTimeout(timeOut)
         }, 1500)
-        
-      }
+
+    }   
+  }
+  async handleRejectProposal(id:number){ 
+    const alertResult = await alertActionButton('Rechazar oferta','¿Seguro que desea rechazar la oferta?', 'Rechazar', 'error')
+    if(alertResult){
+      //Simulación de carga del Backend
+      alertLoading()
+      const timeOut =setTimeout(() => {
+        this.proposals.splice(id,1)
+        alertSuccessfully('Se rechazo la propuesta del projecto exitosamente')
+        const timeOut2 = setTimeout(function(){
+          closeAlert()
+          clearTimeout(timeOut2)
+        },2500)
+        clearTimeout(timeOut)
+      }, 1500)
       
     }
     
   }
+
+  openModalPayCash(){
+    this.$bvModal.show('modal-pay-cash')
+  }
+  closeModalPayCash(){
+    this.$bvModal.hide('modal-pay-cash')
+  }
+  
+  payCash(){
+    this.button.click()
+  }
+  handlePayCash(){
+    console.log('Finalizar pago');
+    this.project.proposal.status = 3
+    this.closeModalPayCash()
+  }
+  //Redirecciona a la vista de pago online
+  redirectPayOnline(){
+    this.$router.push({name: 'pay-online'})
+  }
+
+  //Abrir el Modal de Calificacion
+  openQualificationModal(){
+    this.$bvModal.show('modal-qualification')
+  }
+  //Cerrar el Modal de calificación
+  closeQualificationModal(){
+    this.$bvModal.hide('modal-qualification')
+  }
+  //Enviar una calificacion
+  checkQualifaction( event:Event){
+    this.clearIcons()
+    const icon:any = event.target
+    icon.classList.add('active')
+  }
+  sendQualification(){
+    alertLoading()
+    this.project.proposal.isQualified = true
+    const timeOut = setTimeout(()=>{
+      alertSuccessfully('Se envio la calificación exitosamente')
+      this.clearIcons()
+      this.closeQualificationModal()
+      const timeOut2 = setTimeout(()=>{
+        closeAlert()
+        clearTimeout(timeOut2)
+      }, 1500)
+      clearTimeout(timeOut)
+    }, 1500)
+  }
+  //Limpiar iconos del modal de calificacion
+  clearIcons(){
+    const iconList = document.querySelectorAll('.modal-qualification__icon')
+    iconList.forEach(icon => {
+      icon.classList.remove('active')
+    });
+  }
+  
 }
+
 </script>
 
 <style  lang="scss" scoped>
@@ -294,8 +435,39 @@ export default {
     }
   }
 
-
+  
 }
+
+#modal-pay-cash{
+  .modal-pay-cash__specialist{
+    font-weight: 500;
+    font-size: 1.1rem;
+  }
+}
+
+#modal-qualification{
+  .modal-qualification__icon{
+    color: rgb(165, 165, 165);
+    font-size: 1.5rem;
+
+    &:hover{
+      color: rgb(255, 196, 0);
+    }
+    &:hover~.modal-qualification__icon{
+      color: rgb(255, 196, 0);
+    }
+
+    &.active{
+      color: rgb(255, 196, 0);
+    }
+
+    &.active~.modal-qualification__icon{
+      color: rgb(255, 196, 0);
+    }
+  }
+  
+}
+
 
 #imagen__content{
   width: 350px;

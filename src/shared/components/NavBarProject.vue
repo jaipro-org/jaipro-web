@@ -73,7 +73,7 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import GeneralModule from '@/store/modules/general'
 export default {
   data() {
     return {
@@ -82,9 +82,8 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getScroll"]),
     setScrollClass() {
-      if (this.getScroll > 20) return true;
+      if (GeneralModule.getScroll > 20) return true;
       else return false;
     },
   },

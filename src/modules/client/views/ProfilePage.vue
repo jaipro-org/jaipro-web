@@ -8,9 +8,9 @@
             ><span>Mis Proyectos</span
             ><i class="fa-solid fa-angle-down ml-2"></i>
           </div>
-          <b-collapse id="collapse-3" class="pl-4 py-2">
-            <span class="d-block mb-2">Vigentes (2)</span>
-            <span class="d-block">Pasados (3)</span>
+          <b-collapse visible id="collapse-3" class="pl-4 py-2">
+            <span class="d-block mb-2" @click="$router.push({name: 'my-projects', params: {type: 'current'}})">Vigentes (2)</span>
+            <span class="d-block" @click="$router.push({name: 'my-projects', params: {type: 'past'}})">Pasados (3)</span>
           </b-collapse>
         </div>
         <hr />
@@ -27,9 +27,9 @@
             ><span>Mis Proyectos</span
             ><i class="fa-solid fa-angle-down ml-2"></i>
           </div>
-          <b-collapse id="collapse-3" class="pl-4 py-2">
-            <span class="d-block mb-2">Vigentes (2)</span>
-            <span class="d-block">Pasados (3)</span>
+          <b-collapse visible id="collapse-3" class="pl-4 py-2">
+            <span class="d-block mb-2" @click="$router.push({name: 'my-projects', params: {type: 'current'}})">Vigentes (2)</span>
+            <span class="d-block" @click="$router.push({name: 'my-projects', params: {type: 'past'}})">Pasados (3)</span>
           </b-collapse>
         </div>
         <hr />
@@ -223,64 +223,64 @@
   </b-row>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Ref, Vue } from "vue-property-decorator";
 import { alertSuccessButton } from "@/utils/SweetAlert";
-import { mapGetters } from "vuex";
-export default {
-  data() {
-    return {
-      isLoading: true,
-      disctrictSelected: 0,
-      districtOptions: [
-        { value: 0, text: "Los Olivos" },
-        { value: 1, text: "SMP" },
-        { value: 2, text: "Selected Option" },
-        { value: 3, text: "Puente Piedra" },
-        { value: 4, text: "Chorrillos" },
-      ],
-      fileImage: null,
-      coverImage: null,
-    };
-  },
+import GeneralModule from '@/store/modules/general'
+
+@Component
+export default class ProfilePage extends Vue {
+  @Ref('portadaFile') readonly portadaFile!: any
+  
+  isLoading:Boolean =  true;
+  disctrictSelected:number =  0;
+  districtOptions: Array<any> = [
+    { value: 0, text: "Los Olivos" },
+    { value: 1, text: "SMP" },
+    { value: 2, text: "Selected Option" },
+    { value: 3, text: "Puente Piedra" },
+    { value: 4, text: "Chorrillos" },
+  ];
+  fileImage: any = null;
+  coverImage: any = null;
   mounted() {
     this.isLoading = false;
-  },
-  methods: {
-    setData() {
-      alertSuccessButton("Se realizo la operacion correctamente");
-    },
-    uploadImage() {
-      const btnFile = this.$refs.portadaFile.$el.children[0];
-      btnFile.click();
-    },
-    changeFileCover(event) {
-      const file = event.target.files[0];
-      if (!file) {
-        this.fileImage = null;
-        this.coverImage = this.isModalEdit ? this.form.imageUrl : null;
-        return;
-      }
+  }
 
-      this.fileImage = file;
-      const fr = new FileReader();
-      fr.onload = () => (this.coverImage = fr.result);
-      fr.readAsDataURL(file);
-    },
-  },
-  computed: {
-    ...mapGetters(["getScroll"]),
-    menuChange() {
-      if (!this.isLoading) {
-        let footer = document.getElementById("footer__limit");
-        let footerScrollY = Number(footer.offsetTop) - 320;
+  setData() {
+    alertSuccessButton("Se realizo la operacion correctamente");
+  }
 
-        if (this.getScroll > 70 && Number(this.getScroll) < footerScrollY) {
-          return true;
-        }
+  uploadImage() {
+    const btnFile = this.portadaFile.$el.children[0];
+    btnFile.click();
+  }
+
+  changeFileCover(event:any) {
+    const file:any = event.target.files[0];
+    if (!file) {
+      this.fileImage = null;
+      this.coverImage =  null;
+      return;
+    }
+
+    this.fileImage = file;
+    const fr = new FileReader();
+    fr.onload = () => (this.coverImage = fr.result);
+    fr.readAsDataURL(file);
+  }
+
+  get menuChange() {
+    if (!this.isLoading) {
+      let footer:any = document.getElementById("footer__limit");
+      let footerScrollY = Number(footer.offsetTop) - 320;
+
+      if (GeneralModule.getScroll > 70 && Number(GeneralModule.getScroll) < footerScrollY) {
+        return true;
       }
-      return false;
-    },
-  },
+    }
+    return false;
+  }
 };
 </script>
 
