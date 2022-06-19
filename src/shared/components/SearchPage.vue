@@ -17,7 +17,7 @@
           <ul class="navbar-nav menu-navbar-nav">
             <li class="nav-item only-m">
               <a class="nav-link" href="#">
-                <p class="nav-link-menu">Buscar profesionales</p>
+                <p class="nav-link-menu">Buscar especialistas</p>
               </a>
             </li>
             <li class="nav-item">
