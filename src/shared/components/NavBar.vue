@@ -61,7 +61,7 @@
                         to="/search-page"
                         class="primary-menu__dropdown-item-link"
                       >
-                        <h4>Buscar profesionales</h4>
+                        <h4>Buscar especialistas</h4>
                         <p>
                           Lorem Ipsum is simply dummy text of the printing and
                           typesetting industry. Lorem Ipsum has been the
@@ -75,7 +75,7 @@
             </li>
             <li class="nav-item only-m">
               <router-link class="nav-link" to="/search-page">
-                <p class="nav-link-menu">Buscar profesionales</p>
+                <p class="nav-link-menu">Buscar especialistas</p>
               </router-link>
             </li>
             <li class="nav-item">
