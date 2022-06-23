@@ -32,6 +32,15 @@ export default {
         ),
     },
     {
+      path: "notificaciones",
+      name: "notifications",
+      meta: { layout: "specialist-landing" },
+      component: () =>
+        import(
+          /* webpackChunkName: "notifications" */ "@/modules/specialist/views/Notifications.vue"
+        ),
+    },
+    {
       path: "/",
       redirect: { name: "specialist-profile" },
     },
