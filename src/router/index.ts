@@ -5,6 +5,7 @@ import AuthRouter from "@/modules/auth/router";
 import BackofficeRouter from "@/modules/backoffice/router";
 import ClientRouter from "@/modules/client/router";
 import SpecialistRouter from "@/modules/specialist/router";
+import GeneralRouter from "@/modules/general/router";
 
 Vue.use(VueRouter);
 
@@ -19,6 +20,11 @@ const routes: Array<RouteConfig> = [
     path: "/auth",
     meta: { layout: "master-landing" },
     ...AuthRouter,
+  },
+  {
+    path: "/general",
+    meta: { layout: "master-landing" },
+    ...GeneralRouter,
   },
   {
     path: "/backoffice",

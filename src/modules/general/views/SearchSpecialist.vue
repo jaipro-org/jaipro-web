@@ -1,5 +1,5 @@
 <template>
-  <div class="ln-pt">
+  <div class="pt-4">
     <b-container>
       <div class="panel filter">
         <div class="panel-heading" v-b-toggle.collapse-1>
@@ -97,7 +97,7 @@
                 survived not only five centuries.
               </p>
               <div class="btn-page">
-                <b-button class="mr-2" variant="primary">Ver Perfil</b-button>
+                <b-button class="mr-2" variant="primary" @click="$router.push({name: 'specialist'})">Ver Perfil</b-button>
                 <b-button variant="success">Cotizar</b-button>
               </div>
             </div>
@@ -140,7 +140,7 @@
                 survived not only five centuries.
               </p>
               <div class="btn-page">
-                <b-button class="mr-2" variant="primary">Ver Perfil</b-button>
+                <b-button class="mr-2" variant="primary" @click="$router.push({name: 'specialist'})">Ver Perfil</b-button>
                 <b-button variant="success">Cotizar</b-button>
               </div>
             </div>

@@ -44,7 +44,7 @@ export default {
 
   #modal-image__content{
     min-height: 340px;
-    min-width: 320px;
+    min-width: 120px;
     height: 80%;
     max-height: 650px;
     max-width: 950px;
@@ -77,7 +77,7 @@ export default {
     #modal-image__body{
       display: flex;
       overflow: hidden;
-      overflow-x: auto;
+      justify-content: center;
       height: 100%;
       width: 100%;
 

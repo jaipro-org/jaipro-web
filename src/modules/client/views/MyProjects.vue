@@ -62,7 +62,7 @@
         
       </b-button>
     </b-col>
-    <b-modal ref="modal-calification" id="modal-calification" class="modal-calification" title="Calificar">
+    <b-modal ref="modal-calification" id="modal-calification" centered class="modal-calification" title="Calificar">
       <div class="d-flex flex-wrap justify-content-center flex-row-reverse">
         <i
           class="fa-solid fa-star mr-3 modal-calification__icon"
@@ -309,10 +309,10 @@ export default class MyProjects extends Vue{
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.274) !important;
   }
   .profile__menu {
-    padding-top: 70px;
+    padding-top: 48px;
   }
   .projects__content {
-    padding-top: 70px;
+    padding-top: 48px;
 
     .projects__title{
       font-size: 1.5rem;
@@ -345,6 +345,10 @@ export default class MyProjects extends Vue{
   }
 
   
+}
+
+.collapse{
+  box-shadow: none !important;
 }
 
 

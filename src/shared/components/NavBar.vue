@@ -58,7 +58,7 @@
                     </div>
                     <div class="primary-menu__dropdown-item">
                       <router-link
-                        to="/search-page"
+                        :to="{name: 'search-specialist'}"
                         class="primary-menu__dropdown-item-link"
                       >
                         <h4>Buscar especialistas</h4>
@@ -74,7 +74,7 @@
               </div>
             </li>
             <li class="nav-item only-m">
-              <router-link class="nav-link" to="/search-page">
+              <router-link class="nav-link" :to="{name: 'search-specialist'}">
                 <p class="nav-link-menu">Buscar especialistas</p>
               </router-link>
             </li>
