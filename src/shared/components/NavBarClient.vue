@@ -26,11 +26,11 @@
               <h1 class="text-center">Armando Paredes</h1>
             </div>
             <div class="mx-3 navItem my-2 my-lg-0 d-flex d-lg-block">
-              <router-link :to="{name : 'home'}" class="router-link">
+              <router-link :to="{name : 'my-projects', params: {type:'current'}}" class="router-link">
                 <div class="text-center">
-                  <i class="fa-solid fa-house mr-2 mr-lg-0"></i>
+                  <i class="fa-solid fa-briefcase mr-2 mr-lg-0"></i>
                 </div>
-                <span class="d-block">Inicio</span>
+                <span class="d-block">Mis Proyectos</span>
               </router-link>
               
             </div>
