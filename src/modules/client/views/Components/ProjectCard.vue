@@ -20,7 +20,7 @@
           <b-button variant="primary" @click="handleRedirectView">Ver Detalle</b-button>
       </div>
       <div v-else class="d-flex justify-content-end mt-3"> 
-        <div>
+        <div class="d-flex align-items-center">
           <i
             class="fa-solid fa-star mr-3  project-card__icon-star"
             :class="{'active': project.isQualified}"

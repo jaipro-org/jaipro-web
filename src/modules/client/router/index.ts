@@ -53,15 +53,7 @@ export default {
       }
 
     },
-    {
-      path: "especialista",
-      name: "client-especialist-profile",
-      meta: { layout: "client-basic-landing" },
-      component: () =>
-        import(
-          /* webpackChunkName: "client-especialist-profile" */ "@/modules/client/views/SpecialistProfile.vue"
-        ),
-    },
+    
     {
       path: "chat-especialista",
       name: "specialist-chat",

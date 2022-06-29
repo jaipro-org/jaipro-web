@@ -93,8 +93,8 @@
                   <UploadImages
                     @changed="handleImages"
                     class="create-experience-img-input mt-2"
-                    :max="3"
-                    maxError="Número máximo de 3 imagenes excedido"
+                    :max="1"
+                    maxError="Número máximo de 1 imagenes excedido"
                     uploadMsg="Selecciona una imagen o"
                     otherMsg="Suelte una imagen aquí"
                     fileError="Solo se permiten archivos jpg o png"
@@ -252,6 +252,14 @@ export default class Payments extends Vue {
   }
 }
 
+input{
+  border-radius: 25px;
+}
+
+input:disabled{
+  border-radius: 25px;
+  background-color: #e9ecef !important;
+}
 
 
 </style>

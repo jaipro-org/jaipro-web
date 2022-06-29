@@ -108,10 +108,8 @@
         <b-form @submit.prevent="handlePayCash" v-model="form.payAmount" class="mt-2" validated>
           <b-form-group
             id="fieldset-horizontal"
-            label-cols-sm="6"
-            label-cols-lg="7"
-            content-cols-sm
-            content-cols-lg="5"
+            label-cols-sm="12"
+            content-cols-sm="12"
             label="Montol total del servicio a cobrar:"
             label-for="input-pay-amount"
           >
