@@ -25,10 +25,8 @@
               </div>
               <h1 class="text-center">Armando Paredes</h1>
             </div>
-            <div
-              class="mx-3 navItem my-2 my-lg-0 d-flex d-lg-block"
-            >
-              <router-link :to="{name : 'home'}" class="router-link">
+            <div class="mx-3 navItem my-2 my-lg-0 d-flex d-lg-block">
+              <router-link :to="{ name: 'home' }" class="router-link">
                 <div class="text-center">
                   <i class="fa-solid fa-house mr-2 mr-lg-0"></i>
                 </div>
@@ -36,7 +34,7 @@
               </router-link>
             </div>
             <div class="mx-3 navItem my-2 my-lg-0 d-flex d-lg-block">
-              <router-link :to="{name : 'payments'}" class="router-link">
+              <router-link :to="{ name: 'payments' }" class="router-link">
                 <div class="text-center">
                   <i class="fa-solid fa-credit-card"></i>
                 </div>
@@ -50,19 +48,29 @@
               <span class="d-block">Mis propuestas</span>
             </div>
             <div class="mx-3 navItem my-2 my-lg-0 d-flex d-lg-block">
-              <div class="text-center">
-                <i class="fa-solid fa-wrench mr-2 mr-lg-0"></i>
-              </div>
-              <span class="d-block">Trabajos</span>
+              <router-link :to="{ name: 'jobs-list' }" class="router-link">
+                <div class="text-center">
+                  <i class="fa-solid fa-wrench mr-2 mr-lg-0"></i>
+                </div>
+                <span class="d-block">Trabajos</span>
+              </router-link>
             </div>
             <div class="mx-3 navItem my-2 my-lg-0 d-flex d-lg-block">
-              <div class="text-center">
-                <i class="fa-solid fa-bell mr-2 mr-lg-0"></i>
-              </div>
-              <span class="d-block">Notificaciones</span>
+              <router-link
+                to="/especialista/notificaciones"
+                class="router-link"
+              >
+                <div class="text-center">
+                  <i class="fa-solid fa-bell mr-2 mr-lg-0"></i>
+                </div>
+                <span class="d-block">Notificaciones</span>
+              </router-link>
             </div>
             <div class="mx-3 navItem my-2 my-lg-0 d-flex d-lg-none">
-              <router-link :to="{name : 'specialist-profile'}" class="router-link">
+              <router-link
+                :to="{ name: 'specialist-profile' }"
+                class="router-link"
+              >
                 <div class="text-center">
                   <i class="fa-solid fa-user mr-2"></i>
                 </div>
@@ -91,9 +99,11 @@
                 </div>
               </b-dropdown-item>
               <b-dropdown-item href="#" class="navItem-collapse">
-                <router-link :to="{name : 'specialist-profile'}" class="router-link">
-                  <i class="fa-solid fa-user mr-2"></i>Ver
-                  Perfil
+                <router-link
+                  :to="{ name: 'specialist-profile' }"
+                  class="router-link"
+                >
+                  <i class="fa-solid fa-user mr-2"></i>Ver Perfil
                 </router-link>
               </b-dropdown-item>
               <b-dropdown-item href="#"
@@ -108,7 +118,7 @@
   </div>
 </template>
 <script>
-import GeneralModule from '@/store/modules/general'
+import GeneralModule from "@/store/modules/general";
 export default {
   data() {
     return {
@@ -168,7 +178,7 @@ export default {
       font-size: 0.9rem;
     }
 
-    .router-link{
+    .router-link {
       color: #7e7e7e;
       text-decoration: none;
 
@@ -176,16 +186,14 @@ export default {
         color: #3a88ec;
       }
 
-      &.router-link-active{
+      &.router-link-active {
         color: #3a88ec !important;
       }
     }
-
   }
 
-
-  .navItem-collapse{
-    .router-link{
+  .navItem-collapse {
+    .router-link {
       color: #181818;
       text-decoration: none;
 
@@ -194,7 +202,6 @@ export default {
       }
     }
   }
-
 
   .user__image {
     height: 40px;
@@ -213,6 +220,4 @@ export default {
 .collapse.show {
   box-shadow: 0px 3px 1px rgba(0, 0, 0, 0.11);
 }
-
-
 </style>

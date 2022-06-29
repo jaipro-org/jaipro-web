@@ -36,14 +36,16 @@
             variant="outline-primary"
             @click="tabIndex = 0"
             :class="{ active: tabIndex == 0 }"
-            >Para Clientes</b-button
           >
+            Clientes
+          </b-button>
           <b-button
             variant="outline-primary"
             @click="tabIndex = 1"
             :class="{ active: tabIndex == 1 }"
-            >Para Especialistas</b-button
           >
+            Especialistas
+          </b-button>
         </div>
       </div>
       <div class="strategy-section-bg-graphics-section">

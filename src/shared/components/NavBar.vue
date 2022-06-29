@@ -34,7 +34,7 @@
             </li>
             <li class="nav-item hide-item primary-menu__list-item">
               <a class="nav-link" href="#afiliacion" v-smooth-scroll>
-                <p class="nav-link-menu">especialistas</p>
+                <p class="nav-link-menu">Especialistas</p>
               </a>
               <div class="pin-container">
                 <span class="pin-icon" />

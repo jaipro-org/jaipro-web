@@ -2,7 +2,7 @@
   <div class="notifications__container mb-2">
     <b-row class=" mx-0 pt-4">
       <b-col cols="12" class="mb-3 mb-md-1">
-        <h1 class="notifications__title mb-3">Recientes</h1>
+        <h1 class="notifications__title">Nuevas</h1>
         <div class="notifications-list">
           <notification-card 
             v-for="(notification, index) in newNotifications" :key="index"
@@ -14,7 +14,7 @@
         <span class="d-block text-center notifications__subtitle" v-if="newNotifications.length <= 0">No se encontraron nuevas notificaciones</span>
       </b-col>
       <b-col cols="12" class="mb-3 mb-md-1">
-        <h1 class="notifications__title mb-3">Leídos</h1>
+        <h1 class="notifications__title">Anteriores</h1>
         <div class="notifications-list">
           <notification-card
             v-for="(notification, index) in oldNotifications" :key="index"
