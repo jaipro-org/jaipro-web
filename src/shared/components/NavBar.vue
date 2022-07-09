@@ -48,11 +48,9 @@
                         v-smooth-scroll
                         class="primary-menu__dropdown-item-link"
                       >
-                        <h4>Como afiliamos a los especialistas</h4>
+                        <h4>Como te afiliamos</h4>
                         <p>
-                          Lorem Ipsum is simply dummy text of the printing and
-                          typesetting industry. Lorem Ipsum has been the
-                          industry's standard dummy text ever since the 1500
+                          Conoce nuestro proceso de afiliación
                         </p>
                       </a>
                     </div>
@@ -63,9 +61,7 @@
                       >
                         <h4>Buscar especialistas</h4>
                         <p>
-                          Lorem Ipsum is simply dummy text of the printing and
-                          typesetting industry. Lorem Ipsum has been the
-                          industry's standard dummy text ever since the 1500
+                          Encuentra miles de especialistas interesados en tu proyecto
                         </p>
                       </router-link>
                     </div>

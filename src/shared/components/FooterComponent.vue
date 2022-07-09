@@ -53,10 +53,10 @@
     <!-- FOOTER CREDITS -->
     <div class="container footer-credits">
       <p>
-        &copy; 2020
-        <a href="https://www.codefest.co.uk" target="_blank" title="Codefest"
-          >Codefest</a
-        >&trade;. All Rights Reserved.
+        &copy; {{ new Date().getFullYear() }}
+        <!-- <a href="https://www.codefest.co.uk" target="_blank" title="Codefest">HogarEP</a> -->
+        HogarEP
+        &trade;. Todos los derechos reservados.
       </p>
     </div>
   </div>
