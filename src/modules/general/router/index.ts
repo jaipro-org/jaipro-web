@@ -19,6 +19,15 @@ export default {
         ),
     },
     {
+      path: "afiliacion",
+      name: "affiliation-page",
+      meta: { layout: "basic-landing" },
+      component: () =>
+        import(
+          /* webpackChunkName: "especialist" */ "@/modules/general/views/AffiliationPage.vue"
+        ),
+    },
+    {
       path: "/",
       redirect: { name: "search-specialist" },
     },
