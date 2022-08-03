@@ -30,7 +30,9 @@
                 <template #button-content>
                   <i class="fa fa-bars"></i>
                 </template>
-                <b-dropdown-item @click="$router.push({ name: 'register-type' })">
+                <b-dropdown-item
+                  @click="$router.push({ name: 'register-type' })"
+                >
                   Regístrate
                 </b-dropdown-item>
                 <b-dropdown-item @click="$router.push({ name: 'login' })">
@@ -47,10 +49,7 @@
             >
               Regístrate
             </a>
-            <a 
-              class="nav-link" 
-              @click="$router.push({ name: 'login' })"
-            >
+            <a class="nav-link" @click="$router.push({ name: 'login' })">
               Iniciar sesión
             </a>
           </div>
@@ -59,9 +58,10 @@
     </b-navbar>
   </div>
 </template>
-<script>
-import GeneralModule from '@/store/modules/general'
-export default {
+<script lang="ts">
+import { defineComponent } from "vue";
+
+export default defineComponent({
   data() {
     return {
       step_login: 0,
@@ -70,11 +70,11 @@ export default {
   },
   computed: {
     setScrollClass() {
-      if (GeneralModule.getScroll > 20) return true;
+      if (window.scrollY > 20) return true;
       else return false;
     },
   },
-};
+});
 </script>
 
 <style lang="scss">

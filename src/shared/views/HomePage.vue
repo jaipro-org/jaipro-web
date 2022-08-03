@@ -6,15 +6,16 @@
           <img src="@/assets/img/header.png" />
         </div>
         <div class="col-lg-5 offset-lg-1 header-title-section">
-          <!-- <p class="header-subtitle">Multipurpose landing template</p> -->
-          <h1 class="header-title">Cotiza, Conecta, Disfruta!</h1>
+          <p class="header-subtitle">Multipurpose landing template</p>
+          <h1 class="header-title">Beautifully simple, code.</h1>
           <p class="header-title-text">
-            Cotiza tu proyecto de hogar facil y rapido. Encuentra cientos de especialistas 
-            calificados interesados en tu proyecto
+            Codelander is a beautifully simple, clean and lightweight landing
+            page template for all types of businesses, with bold and bright
+            colours.
           </p>
           <div class="learn-more-btn-section">
             <a class="nav-link learn-more-btn btn-invert" href="#services"
-              >Quiero cotizar</a
+              >Cotizar</a
             >
           </div>
         </div>
@@ -23,11 +24,11 @@
     <!-- STRATEGY SECTION -->
     <div class="strategy-section">
       <div class="pricing-title container">
-        <h2>¿Como Funciona?</h2>
-        <!-- <p>
+        <h2>Como Funciona</h2>
+        <p>
           Offer multiple packages or monthly subscriptions? Why not showcase
           your featured price plans here, bold and beautifully.
-        </p> -->
+        </p>
         <div class="tab-pills">
           <!-- <button class="nav-link learn-more-btn btn-invert">Para Clientes</button>
           <button class="nav-link learn-more-btn">Para Especialistas</button> -->
@@ -50,61 +51,49 @@
       <div class="strategy-section-bg-graphics-section">
         <img src="@/assets/img/strategy-section-bg.png" />
       </div>
-      <div v-if="tabIndex == 0" class="container strategy-container">
-        <div class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section">
+      <div class="container strategy-container">
+        <div
+          class="col-lg-3 col-md-6 col-xs-8 offset-xs-2 strategy-card-section"
+        >
           <div class="strategy-card">
             <div class="strategy-card-icon-section">
               <img src="@/assets/img/strategy-1.png" />
             </div>
-            <h2>Publica tu proyecto</h2>
-            <p>En HogarEP podras publicar tu proyecto de hogar según las necesidades que tengas</p>
+            <h2>Strategy</h2>
+            <p>We'll work with you to develop the right strategy</p>
           </div>
         </div>
-        <div class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section">
+        <div
+          class="col-lg-3 col-md-6 col-xs-8 offset-xs-2 strategy-card-section"
+        >
           <div class="strategy-card">
             <div class="strategy-card-icon-section">
               <img src="@/assets/img/strategy-2.png" />
             </div>
-            <h2>Recibe propuestas</h2>
-            <p>Recibe diferentes propuestas, evalua el mejor talento para tu proyecto de hogar</p>
+            <h2>Automation</h2>
+            <p>Work synchronization and automated services</p>
           </div>
         </div>
-        <div class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section">
+        <div
+          class="col-lg-3 col-md-6 col-xs-8 offset-xs-2 strategy-card-section"
+        >
           <div class="strategy-card">
             <div class="strategy-card-icon-section">
               <img src="@/assets/img/strategy-3.png" />
             </div>
-            <h2>Realiza el pago y califica</h2>
-            <p>Abona los honorarios del especialista de forma segura y califica su servicio</p>
+            <h2>Deployment</h2>
+            <p>Dedicated servers to deploy and test applications</p>
           </div>
         </div>
-      </div>
-      <div v-else class="container strategy-container">
-        <div class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section">
+        <div
+          class="col-lg-3 col-md-6 col-xs-8 offset-xs-2 strategy-card-section"
+        >
           <div class="strategy-card">
             <div class="strategy-card-icon-section">
-              <img src="@/assets/img/strategy-1.png" />
+              <img src="@/assets/img/strategy-4.png" />
             </div>
-            <h2>Busca nuevas oportunidades</h2>
-            <p>En HogarEP podras tener acceso a cientos de trabajos según tu especialidad</p>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section">
-          <div class="strategy-card">
-            <div class="strategy-card-icon-section">
-              <img src="@/assets/img/strategy-2.png" />
-            </div>
-            <h2>Elige un proyecto de hogar</h2>
-            <p>Evalue los proyectos y envia tu propuesta de acuerdo a la necesidad del cliente</p>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section">
-          <div class="strategy-card">
-            <div class="strategy-card-icon-section">
-              <img src="@/assets/img/strategy-3.png" />
-            </div>
-            <h2>Realiza un trabajo de calidad</h2>
-            <p>Realiza un servicio de calidad, de esta forma tendras buenas calificaciones de tus clientes y te recomendarán</p>
+            <h2>Education</h2>
+            <p>Stay informed on all our tools and technologies</p>
           </div>
         </div>
       </div>
@@ -121,92 +110,51 @@
       </div>
       <div class="container blog-container">
         <div class="blog-title-section">
-          <!-- <p class="blog-subtitle">Recent updates</p> -->
-          <h2 class="blog-title">Servicios</h2>
+          <p class="blog-subtitle">Recent updates</p>
+          <h2 v-if="tabIndex == 0" class="blog-title">Servicios</h2>
+          <h2 v-else class="blog-title">Especialidades</h2>
         </div>
         <div class="blog-posts-section">
-          <carousel
-            :autoplay="true"
-            :nav="false"
-            :responsive="{
-              0: { items: 1, nav: false },
-              600: { items: 2 },
-              992: { items: 3 },
-            }"
-            :loop="true"
-          >
-            <div class="blog-post-card-container">
-              <div class="blog-post-card">
-                <div class="blog-post-icon">
-                  <img src="@/assets/img/blog-card-1.png" />
+          <Carousel :settings="settings" :breakpoints="breakpoints">
+            <Slide v-for="slide in 4" :key="slide">
+              <div class="blog-post-card-container">
+                <div class="blog-post-card">
+                  <div class="blog-post-icon">
+                    <img :src="`/img/blog-card-${slide}.png`" />
+                  </div>
+                  <h3 class="blog-post-title">Remote Working {{ slide }}</h3>
+                  <p class="blog-post-text">
+                    Making it easier to connect with every client worldwide
+                  </p>
+                  <a class="blog-post-link" href="#news">Read More</a>
                 </div>
-                <h3 class="blog-post-title">Pintura</h3>
-                <!-- <p class="blog-post-text">
-                  Making it easier to connect with every client worldwide
-                </p> -->
-                <!-- <a class="blog-post-link" href="#news">Read More</a> -->
               </div>
-            </div>
-            <div class="blog-post-card-container">
-              <div class="blog-post-card">
-                <div class="blog-post-icon">
-                  <img src="@/assets/img/blog-card-2.png" />
-                </div>
-                <h3 class="blog-post-title">Carpinteria</h3>
-                <!-- <p class="blog-post-text">
-                  Making it easier to connect with every client worldwide
-                </p> -->
-                <!-- <a class="blog-post-link" href="#news">Read More</a> -->
-              </div>
-            </div>
-            <div class="blog-post-card-container">
-              <div class="blog-post-card">
-                <div class="blog-post-icon">
-                  <img src="@/assets/img/blog-card-3.png" />
-                </div>
-                <h3 class="blog-post-title">Gasfiteria</h3>
-              </div>
-            </div>
-            <div class="blog-post-card-container">
-              <div class="blog-post-card">
-                <div class="blog-post-icon">
-                  <img src="@/assets/img/blog-card-3.png" />
-                </div>
-                <h3 class="blog-post-title">Construcción</h3>
-              </div>
-            </div>
-            <div class="blog-post-card-container">
-              <div class="blog-post-card">
-                <div class="blog-post-icon">
-                  <img src="@/assets/img/blog-card-3.png" />
-                </div>
-                <h3 class="blog-post-title">Electricidad</h3>
-              </div>
-            </div>
-          </carousel>
+            </Slide>
+
+            <template #addons>
+              <Navigation />
+              <Pagination />
+            </template>
+          </Carousel>
         </div>
       </div>
     </div>
     <!-- SECTION LABEL -->
     <div id="afiliacion"></div>
     <!-- SERVICES -->
-    <div class="services-section">
+    <div class="services-section" v-if="tabIndex == 0">
       <div class="services-section-bg-graphics">
         <img src="@/assets/img/services-section-bg.png" />
       </div>
       <div class="container services-container">
         <div class="col-lg-5 services-title-section">
-          <h2 class="services-title">Para especialistas</h2>
+          <h2 class="services-title">Como afiliamos a los especialistas</h2>
           <p class="services-text">
-            En HogarEP podras:
+            This is a great section to introduce your company and showcase your
+            featured services.
           </p>
-          <ul>
-            <li>Tener acceso a cientos de proyectos según tu especialidad</li>
-            <li>Ampliar tu catálogo de clientes</li>
-            <li>Incrementar tus ingresos</li>
-          </ul>
           <div class="services-accordion">
-            <button>Aplicar ahora</button>
+            <button>Como afiliamos a los especialistas</button>
           </div>
         </div>
         <div class="col-lg-6 offset-lg-1 services-header-img-section">
@@ -221,10 +169,11 @@
     <div class="clients-section">
       <div class="container clients-container">
         <div class="clients-title-section">
-          <!-- <p class="clients-subtitle">Our clients</p> -->
-          <h2 class="clients-title">
+          <p class="clients-subtitle">Our clients</p>
+          <h2 v-if="tabIndex == 0" class="clients-title">
             Clientes Satisfechos
           </h2>
+          <h2 v-else class="clients-title">Comentarios de especialistas</h2>
         </div>
         <div class="clients-container-cards">
           <div class="col-md-6 col-xs-12">
@@ -323,9 +272,9 @@
       </div>
     </div>
     <!-- SECTION LABEL -->
-    <!-- <div id="contact"></div> -->
+    <div id="contact"></div>
     <!-- CONTACT -->
-    <!-- <div class="contact-section">
+    <div v-if="tabIndex == 0" class="contact-section">
       <div class="container contact-container">
         <div class="contact-title-section">
           <h2 class="contact-title">
@@ -340,22 +289,43 @@
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
   </div>
 </template>
 
 <script>
-import carousel from "vue-owl-carousel";
+import "vue3-carousel/dist/carousel.css";
+import { defineComponent } from "vue";
 
-export default {
-  components: { carousel },
-  data() {
-    return {
-      tabIndex: 0,
-    };
-  },
+import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
+
+export default defineComponent({
+  name: "HomeComponent",
+  components: { Carousel, Slide, Pagination, Navigation },
+  data: () => ({
+    // carousel settings
+    settings: {
+      itemsToShow: 1,
+      snapAlign: "center",
+    },
+    // breakpoints are mobile first
+    // any settings not specified will fallback to the carousel settings
+    breakpoints: {
+      // 700px and up
+      700: {
+        itemsToShow: 3.5,
+        snapAlign: "center",
+      },
+      // 1024 and up
+      1024: {
+        itemsToShow: 3,
+        snapAlign: "start",
+      },
+    },
+    tabIndex: 0,
+  }),
   methods: {},
-};
+});
 </script>
 
 <style></style>

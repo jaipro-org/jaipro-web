@@ -8,16 +8,9 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import NavBarSpecialist from "@/shared/components/NavBarSpecialist.vue";
 import Footer from "@/shared/components/FooterComponent.vue";
-
-export default {
-  components: {
-    NavBarSpecialist,
-    Footer,
-  },
-};
 </script>
 <style lang="scss" scoped>
 .wrapper {

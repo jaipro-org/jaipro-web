@@ -75,20 +75,15 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+<script setup lang="ts">
+const name = "";
+const lastname = "";
+const email = "";
+const password = "";
+const confirmPassword = "";
 
-@Component
-export default class RegisterClient extends Vue {
-  name = "";
-  lastname = "";
-  email = "";
-  password = "";
-  confirmPassword = "";
-
-  registerClient() {
-    console.log("registerClient here!", this.name);
-  }
+function registerClient() {
+  console.log("registerClient here!", this.name);
 }
 </script>
 
@@ -98,21 +93,21 @@ export default class RegisterClient extends Vue {
 }
 
 .register-user-title-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin-bottom: 30px;
-    text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 30px;
+  text-align: center;
 }
 
 .register-user-title {
-    font-family: Montserrat;
-    font-weight: 800;
-    font-size: 45px;
-    line-height: 1;
-    color: #303669;
-    margin-bottom: 0;
+  font-family: Montserrat;
+  font-weight: 800;
+  font-size: 45px;
+  line-height: 1;
+  color: #303669;
+  margin-bottom: 0;
 }
 
 .register-user-form-section {

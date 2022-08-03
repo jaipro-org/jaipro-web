@@ -1,23 +1,16 @@
 <template>
   <div>
     <NavBarBasic />
-    <div class="wrapper">
+    <div className="wrapper">
       <slot />
-      <Footer/>
+      <Footer />
     </div>
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import NavBarBasic from "@/shared/components/NavBarBasic.vue";
 import Footer from "@/shared/components/FooterComponent.vue";
-
-export default {
-  components: {
-    NavBarBasic,
-    Footer,
-  },
-};
 </script>
 <style lang="scss" scoped>
 .wrapper {

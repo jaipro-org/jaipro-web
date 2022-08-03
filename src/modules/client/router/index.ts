@@ -1,4 +1,4 @@
-import { Route } from "vue-router";
+import { RouteLocationNormalized } from "vue-router";
 
 export default {
   component: () =>
@@ -34,7 +34,7 @@ export default {
         import(
           /* webpackChunkName: "my-projects" */ "@/modules/client/views/MyProjects.vue"
         ),
-        props: (route: Route) => {
+        props: (route: RouteLocationNormalized) => {
           const type = route.params.type
           return {type}
         }
@@ -47,9 +47,9 @@ export default {
         import(
           /* webpackChunkName: "project-detail" */ "@/modules/client/views/ProjectDetail.vue"
         ),
-      props: (route: Route) => {
-        const projectId = route.params.projectId
-        return {projectId}
+      props: (route: RouteLocationNormalized) => {
+        const projectId = Number(route.params.projectId);
+        return { projectId };
       }
 
     },

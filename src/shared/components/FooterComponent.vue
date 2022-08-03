@@ -55,9 +55,13 @@
       <p>
         &copy; {{ new Date().getFullYear() }}
         <!-- <a href="https://www.codefest.co.uk" target="_blank" title="Codefest">HogarEP</a> -->
-        HogarEP
-        &trade;. Todos los derechos reservados.
+        HogarEP &trade;. Todos los derechos reservados.
       </p>
     </div>
   </div>
 </template>
+<script lang="ts">
+import { defineComponent } from "vue";
+
+export default defineComponent({});
+</script>
