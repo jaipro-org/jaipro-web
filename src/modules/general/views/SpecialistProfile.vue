@@ -197,7 +197,6 @@ import ExperienceCard from "@/modules/client/views/Components/ExperienceCard.vue
 import OpinionCard from "@/modules/client/views/Components/OpinionCard.vue";
 import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
 
-
 export default defineComponent({
   name: "SpecialistProfile",
   components: {
@@ -325,9 +324,7 @@ export default defineComponent({
       }, 100);
     },
   },
-  mounted() {
-    console.log(this.experiences);
-  },
+  mounted() {},
 });
 </script>
 

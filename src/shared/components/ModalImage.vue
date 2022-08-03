@@ -2,34 +2,31 @@
   <div id="modal-image__container">
     <div id="modal-image__content">
       <div id="modal-image__close">
-        <i class="fa-solid fa-circle-xmark"
-          @click="$emit('close-modal')"
-        ></i>
+        <i class="fa-solid fa-circle-xmark" @click="$emit('close-modal')"></i>
       </div>
       <div id="modal-image__body">
-        <img src="@/assets/img-delete/pintor.jpg" alt="">
+        <img src="@/assets/img-delete/pintor.jpg" alt="" />
         <!-- Deberia usarse cuando se pase el prop de la imagen -->
         <!-- <img :src="image" alt=""> -->
-
       </div>
     </div>
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "ModalImage",
   props: {
     image: {
       type: String,
-      // required: true,
-    }
+    },
   },
-}
+});
 </script>
 
-<style  lang="scss" scopeds>
-#modal-image__container{
+<style lang="scss" scopeds>
+#modal-image__container {
   height: 100vh;
   width: 100vw;
   z-index: 100;
@@ -42,7 +39,7 @@ export default {
   top: 0;
   left: 0;
 
-  #modal-image__content{
+  #modal-image__content {
     min-height: 340px;
     min-width: 120px;
     height: 80%;
@@ -52,8 +49,8 @@ export default {
     padding: 5px;
     border-radius: 5px;
     position: relative;
-    
-    #modal-image__close{
+
+    #modal-image__close {
       position: absolute;
       top: 16px;
       right: 16px;
@@ -63,33 +60,31 @@ export default {
       background-color: white;
       border-radius: 100%;
 
-      i{
+      i {
         color: rgb(212, 212, 212);
         font-size: 1.8rem;
         cursor: pointer;
 
-        &:hover{
+        &:hover {
           color: #ff5050;
         }
       }
     }
 
-    #modal-image__body{
+    #modal-image__body {
       display: flex;
       overflow: hidden;
       justify-content: center;
       height: 100%;
       width: 100%;
 
-      img{
+      img {
         // width: 100%;
         margin: auto;
         height: 100%;
         object-fit: cover;
       }
     }
-
-   
   }
 }
 </style>
