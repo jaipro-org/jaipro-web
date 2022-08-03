@@ -1,9 +1,8 @@
-import Vue from "vue";
+import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-import store from "./store";
-import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
-import VueSmoothScroll from "vue2-smooth-scroll";
+import { BootstrapVue3 } from "bootstrap-vue-3";
+import VueSmoothScroll from "v-smooth-scroll";
 import vSelect from "vue-select";
 import VueSweetalert2 from "vue-sweetalert2";
 
@@ -12,37 +11,33 @@ import ClientBasicLanding from "./layouts/client-basic-landing.vue";
 import ClientLanding from "./layouts/client-landing.vue";
 import SpecialistLanding from "./layouts/specialist-landing.vue";
 import MasterSearchPage from "./layouts/master-search-page.vue";
-import BasicLanding from './layouts/basic-landing.vue';
+import BasicLanding from "./layouts/basic-landing.vue";
 
-
-import "bootstrap-vue/dist/bootstrap-vue.css";
+import "bootstrap-vue-3/dist/bootstrap-vue-3.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "vue-select/dist/vue-select.css";
 // If you don't need the styles, do not connect
 import "sweetalert2/dist/sweetalert2.min.css";
 // import "@/assets/style.css";
+// create an instance using the function
+const app = createApp(App);
 
-Vue.use(BootstrapVue);
-Vue.use(IconsPlugin);
-Vue.use(VueSweetalert2);
-Vue.use(VueSmoothScroll, {
+app.use(router);
+app.use(BootstrapVue3);
+app.use(VueSweetalert2);
+
+app.use(VueSmoothScroll, {
   duration: 1000,
   updateHistory: false,
   offset: -50,
 });
 
-Vue.config.productionTip = false;
+app.component("v-select", vSelect);
+app.component("master-landing", MasterLanding);
+app.component("client-basic-landing", ClientBasicLanding);
+app.component("client-landing", ClientLanding);
+app.component("specialist-landing", SpecialistLanding);
+app.component("basic-landing", BasicLanding);
+app.component("master-search-page", MasterSearchPage);
 
-Vue.component("v-select", vSelect);
-Vue.component("master-landing", MasterLanding);
-Vue.component("client-basic-landing", ClientBasicLanding);
-Vue.component("client-landing", ClientLanding);
-Vue.component("specialist-landing", SpecialistLanding);
-Vue.component("basic-landing", BasicLanding);
-Vue.component("master-search-page", MasterSearchPage);
-
-new Vue({
-  router,
-  store,
-  render: (h) => h(App),
-}).$mount("#app");
+app.mount("#app");
