@@ -6,16 +6,15 @@
           <img src="@/assets/img/header.png" />
         </div>
         <div class="col-lg-5 offset-lg-1 header-title-section">
-          <p class="header-subtitle">Multipurpose landing template</p>
-          <h1 class="header-title">Beautifully simple, code.</h1>
+          <!-- <p class="header-subtitle">Multipurpose landing template</p> -->
+          <h1 class="header-title">Cotiza, Conecta, Disfruta!</h1>
           <p class="header-title-text">
-            Codelander is a beautifully simple, clean and lightweight landing
-            page template for all types of businesses, with bold and bright
-            colours.
+            Cotiza tu proyecto de hogar facil y rapido. Encuentra cientos de especialistas
+            calificados interesados en tu proyecto
           </p>
           <div class="learn-more-btn-section">
             <a class="nav-link learn-more-btn btn-invert" href="#services"
-              >Cotizar</a
+              >Quiero cotizar</a
             >
           </div>
         </div>
@@ -24,11 +23,11 @@
     <!-- STRATEGY SECTION -->
     <div class="strategy-section">
       <div class="pricing-title container">
-        <h2>Como Funciona</h2>
-        <p>
+        <h2>¿Como Funciona?</h2>
+        <!-- <p>
           Offer multiple packages or monthly subscriptions? Why not showcase
           your featured price plans here, bold and beautifully.
-        </p>
+        </p> -->
         <div class="tab-pills">
           <!-- <button class="nav-link learn-more-btn btn-invert">Para Clientes</button>
           <button class="nav-link learn-more-btn">Para Especialistas</button> -->
@@ -51,49 +50,61 @@
       <div class="strategy-section-bg-graphics-section">
         <img src="@/assets/img/strategy-section-bg.png" />
       </div>
-      <div class="container strategy-container">
-        <div
-          class="col-lg-3 col-md-6 col-xs-8 offset-xs-2 strategy-card-section"
-        >
+      <div v-if="tabIndex == 0" class="container strategy-container">
+        <div class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section">
           <div class="strategy-card">
             <div class="strategy-card-icon-section">
               <img src="@/assets/img/strategy-1.png" />
             </div>
-            <h2>Strategy</h2>
-            <p>We'll work with you to develop the right strategy</p>
+            <h2>Publica tu proyecto</h2>
+            <p>En HogarEP podras publicar tu proyecto de hogar según las necesidades que tengas</p>
           </div>
         </div>
-        <div
-          class="col-lg-3 col-md-6 col-xs-8 offset-xs-2 strategy-card-section"
-        >
+        <div class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section">
           <div class="strategy-card">
             <div class="strategy-card-icon-section">
               <img src="@/assets/img/strategy-2.png" />
             </div>
-            <h2>Automation</h2>
-            <p>Work synchronization and automated services</p>
+            <h2>Recibe propuestas</h2>
+            <p>Recibe diferentes propuestas, evalua el mejor talento para tu proyecto de hogar</p>
           </div>
         </div>
-        <div
-          class="col-lg-3 col-md-6 col-xs-8 offset-xs-2 strategy-card-section"
-        >
+        <div class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section">
           <div class="strategy-card">
             <div class="strategy-card-icon-section">
               <img src="@/assets/img/strategy-3.png" />
             </div>
-            <h2>Deployment</h2>
-            <p>Dedicated servers to deploy and test applications</p>
+            <h2>Realiza el pago y califica</h2>
+            <p>Abona los honorarios del especialista de forma segura y califica su servicio</p>
           </div>
         </div>
-        <div
-          class="col-lg-3 col-md-6 col-xs-8 offset-xs-2 strategy-card-section"
-        >
+      </div>
+      <div v-else class="container strategy-container">
+        <div class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section">
           <div class="strategy-card">
             <div class="strategy-card-icon-section">
-              <img src="@/assets/img/strategy-4.png" />
+              <img src="@/assets/img/strategy-1.png" />
             </div>
-            <h2>Education</h2>
-            <p>Stay informed on all our tools and technologies</p>
+            <h2>Busca nuevas oportunidades</h2>
+            <p>En HogarEP podras tener acceso a cientos de trabajos según tu especialidad</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section">
+          <div class="strategy-card">
+            <div class="strategy-card-icon-section">
+              <img src="@/assets/img/strategy-2.png" />
+            </div>
+            <h2>Elige un proyecto de hogar</h2>
+            <p>Evalue los proyectos y envia tu propuesta de acuerdo a la necesidad del cliente</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section">
+          <div class="strategy-card">
+            <div class="strategy-card-icon-section">
+              <img src="@/assets/img/strategy-3.png" />
+            </div>
+            <h2>Realiza un trabajo de calidad</h2>
+            <p>Realiza un servicio de calidad, de esta forma tendras buenas calificaciones de tus clientes y te recomendarán</p>
           </div>
         </div>
       </div>
@@ -110,9 +121,8 @@
       </div>
       <div class="container blog-container">
         <div class="blog-title-section">
-          <p class="blog-subtitle">Recent updates</p>
-          <h2 v-if="tabIndex == 0" class="blog-title">Servicios</h2>
-          <h2 v-else class="blog-title">Especialidades</h2>
+          <!-- <p class="blog-subtitle">Recent updates</p> -->
+          <h2 class="blog-title">Servicios</h2>
         </div>
         <div class="blog-posts-section">
           <Carousel :settings="settings" :breakpoints="breakpoints">
@@ -142,19 +152,23 @@
     <!-- SECTION LABEL -->
     <div id="afiliacion"></div>
     <!-- SERVICES -->
-    <div class="services-section" v-if="tabIndex == 0">
+    <div class="services-section">
       <div class="services-section-bg-graphics">
         <img src="@/assets/img/services-section-bg.png" />
       </div>
       <div class="container services-container">
         <div class="col-lg-5 services-title-section">
-          <h2 class="services-title">Como afiliamos a los especialistas</h2>
+          <h2 class="services-title">Para especialistas</h2>
           <p class="services-text">
-            This is a great section to introduce your company and showcase your
-            featured services.
+            En HogarEP podras:
           </p>
+          <ul>
+            <li>Tener acceso a cientos de proyectos según tu especialidad</li>
+            <li>Ampliar tu catálogo de clientes</li>
+            <li>Incrementar tus ingresos</li>
+          </ul>
           <div class="services-accordion">
-            <button>Como afiliamos a los especialistas</button>
+            <button>Aplicar ahora</button>
           </div>
         </div>
         <div class="col-lg-6 offset-lg-1 services-header-img-section">
@@ -169,14 +183,13 @@
     <div class="clients-section">
       <div class="container clients-container">
         <div class="clients-title-section">
-          <p class="clients-subtitle">Our clients</p>
-          <h2 v-if="tabIndex == 0" class="clients-title">
+          <!-- <p class="clients-subtitle">Our clients</p> -->
+          <h2 class="clients-title">
             Clientes Satisfechos
           </h2>
-          <h2 v-else class="clients-title">Comentarios de especialistas</h2>
         </div>
         <div class="clients-container-cards">
-          <div class="col-md-6 col-xs-12">
+          <div class="col-md-6 col-xs-12 px-3">
             <div class="client-card">
               <p>
                 Excelente profesional. Tenía una asimetría de los párpados muy
@@ -199,7 +212,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6 col-xs-12">
+          <div class="col-md-6 col-xs-12 px-3">
             <div class="client-card">
               <p>
                 Excelente profesional. Tenía una asimetría de los párpados muy
@@ -222,7 +235,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6 col-xs-12">
+          <div class="col-md-6 col-xs-12 px-3">
             <div class="client-card">
               <p>
                 Excelente profesional. Tenía una asimetría de los párpados muy
@@ -245,7 +258,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6 col-xs-12">
+          <div class="col-md-6 col-xs-12 px-3">
             <div class="client-card">
               <p>
                 Excelente profesional. Tenía una asimetría de los párpados muy
@@ -272,9 +285,9 @@
       </div>
     </div>
     <!-- SECTION LABEL -->
-    <div id="contact"></div>
+    <!-- <div id="contact"></div> -->
     <!-- CONTACT -->
-    <div v-if="tabIndex == 0" class="contact-section">
+    <!-- <div class="contact-section">
       <div class="container contact-container">
         <div class="contact-title-section">
           <h2 class="contact-title">
@@ -289,11 +302,11 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import "vue3-carousel/dist/carousel.css";
 import { defineComponent } from "vue";
 

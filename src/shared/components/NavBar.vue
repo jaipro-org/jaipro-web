@@ -5,7 +5,7 @@
       :class="showScrollClass ? 'header-scrolled' : ''"
       class="navbar fixed-top navbar-expand-lg navbar-header navbar-mobile"
     >
-      <div class="navbar-container container">
+      <div class="navbar-container container d-none d-sm-flex">
         <!-- LOGO -->
         <div class="navbar-brand">
           <a class="navbar-brand-logo" @click="$router.push({ name: 'home' })">
