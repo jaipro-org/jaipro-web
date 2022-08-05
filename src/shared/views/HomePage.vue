@@ -54,7 +54,7 @@
         <div class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section">
           <div class="strategy-card">
             <div class="strategy-card-icon-section">
-              <img src="@/assets/img/strategy-1.png" />
+              <img :src="publishProjectSvg" />
             </div>
             <h2>Publica tu proyecto</h2>
             <p>En HogarEP podras publicar tu proyecto de hogar según las necesidades que tengas</p>
@@ -63,7 +63,8 @@
         <div class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section">
           <div class="strategy-card">
             <div class="strategy-card-icon-section">
-              <img src="@/assets/img/strategy-2.png" />
+              <!-- <img src="@/assets/img/svg/receive-proposals.svg" /> -->
+              <img :src="receiveProposalSvg" />
             </div>
             <h2>Recibe propuestas</h2>
             <p>Recibe diferentes propuestas, evalua el mejor talento para tu proyecto de hogar</p>
@@ -72,7 +73,8 @@
         <div class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section">
           <div class="strategy-card">
             <div class="strategy-card-icon-section">
-              <img src="@/assets/img/strategy-3.png" />
+              <!-- <img src="@/assets/img/svg/make-payment.svg" /> -->
+              <img :src="makePaymentSvg" />
             </div>
             <h2>Realiza el pago y califica</h2>
             <p>Abona los honorarios del especialista de forma segura y califica su servicio</p>
@@ -83,28 +85,28 @@
         <div class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section">
           <div class="strategy-card">
             <div class="strategy-card-icon-section">
-              <img src="@/assets/img/strategy-1.png" />
+              <img :src="applyAsSpecialistSvg" />
             </div>
-            <h2>Busca nuevas oportunidades</h2>
+            <h2>Aplica como especialista</h2>
             <p>En HogarEP podras tener acceso a cientos de trabajos según tu especialidad</p>
           </div>
         </div>
         <div class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section">
           <div class="strategy-card">
             <div class="strategy-card-icon-section">
-              <img src="@/assets/img/strategy-2.png" />
+              <img :src="searchForOpportunitiesSvg" />
             </div>
-            <h2>Elige un proyecto de hogar</h2>
+            <h2>Busca nuevas oportunidades</h2>
             <p>Evalue los proyectos y envia tu propuesta de acuerdo a la necesidad del cliente</p>
           </div>
         </div>
         <div class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section">
           <div class="strategy-card">
             <div class="strategy-card-icon-section">
-              <img src="@/assets/img/strategy-3.png" />
+              <img :src="workHomeProjectSvg" />
             </div>
-            <h2>Realiza un trabajo de calidad</h2>
-            <p>Realiza un servicio de calidad, de esta forma tendras buenas calificaciones de tus clientes y te recomendarán</p>
+            <h2>Trabaja en un proyecto de hogar</h2>
+            <p>Coordina y realiza un servicio de calidad, tus clientes te lo agradecerán</p>
           </div>
         </div>
       </div>
@@ -309,6 +311,12 @@
 <script lang="ts">
 import "vue3-carousel/dist/carousel.css";
 import { defineComponent } from "vue";
+import publishProjectSvg from "@/assets/svg/publish-project.svg";
+import receiveProposalSvg from "@/assets/svg/receive-proposals.svg";
+import makePaymentSvg from "@/assets/svg/make-payment.svg";
+import applyAsSpecialistSvg from "@/assets/svg/apply-as-specialist.svg";
+import searchForOpportunitiesSvg from "@/assets/svg/search-for-opportunities.svg";
+import workHomeProjectSvg from "@/assets/svg/work-on-home-project.svg";
 
 import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
 
@@ -336,6 +344,12 @@ export default defineComponent({
       },
     },
     tabIndex: 0,
+    publishProjectSvg,
+    receiveProposalSvg,
+    makePaymentSvg,
+    applyAsSpecialistSvg,
+    searchForOpportunitiesSvg,
+    workHomeProjectSvg
   }),
   methods: {},
 });
