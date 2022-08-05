@@ -33,7 +33,7 @@
               </a>
             </li>
             <li class="nav-item hide-item primary-menu__list-item">
-              <a class="nav-link" href="#afiliacion" v-smooth-scroll>
+              <a class="nav-link" href="#">
                 <p class="nav-link-menu">Especialistas</p>
               </a>
               <div class="pin-container">
@@ -43,16 +43,15 @@
                 <b-container>
                   <div class="primary-menu__dropdown-item-wrapper">
                     <div class="primary-menu__dropdown-item">
-                      <a
-                        href="#afiliacion"
-                        v-smooth-scroll
+                      <router-link
+                        :to="{name: 'affiliation-page'}"
                         class="primary-menu__dropdown-item-link"
                       >
                         <h4>Como te afiliamos</h4>
                         <p>
                           Conoce nuestro proceso de afiliación
                         </p>
-                      </a>
+                      </router-link>
                     </div>
                     <div class="primary-menu__dropdown-item">
                       <router-link
@@ -68,6 +67,11 @@
                   </div>
                 </b-container>
               </div>
+            </li>
+            <li class="nav-item hide-item">
+              <a class="nav-link" href="#how-it-works" v-smooth-scroll>
+                <p class="nav-link-menu">Como funciona</p>
+              </a>
             </li>
             <li class="nav-item only-m">
               <router-link class="nav-link" :to="{name: 'search-specialist'}">
