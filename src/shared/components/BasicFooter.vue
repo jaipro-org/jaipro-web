@@ -1,6 +1,6 @@
 <template>
   <div class="footer-section footer-section--basic text-center">
-    <span>&copy; Todos los derechos reservados HogarEP 2021</span>
+    <span>&copy; Todos los derechos reservados Jaipro 2021</span>
   </div>
 </template>
 

@@ -3,7 +3,7 @@
     <div class="header">
       <div class="container header-container">
         <div class="col-lg-6 header-img-section">
-          <img src="@/assets/img/header.png" />
+          <img src="@/assets/img/img001-min.jpg" />
         </div>
         <div class="col-lg-5 offset-lg-1 header-title-section">
           <!-- <p class="header-subtitle">Multipurpose landing template</p> -->
@@ -23,7 +23,7 @@
     <!-- STRATEGY SECTION -->
     <div class="strategy-section">
       <div class="pricing-title container">
-        <h2>¿Como Funciona?</h2>
+        <h2>¿Cómo Funciona?</h2>
         <!-- <p>
           Offer multiple packages or monthly subscriptions? Why not showcase
           your featured price plans here, bold and beautifully.
@@ -57,7 +57,7 @@
               <img :src="publishProjectSvg" />
             </div>
             <h2>Publica tu proyecto</h2>
-            <p>En HogarEP podras publicar tu proyecto de hogar según las necesidades que tengas</p>
+            <p>En Jaipro podras publicar tu proyecto de hogar según las necesidades que tengas</p>
           </div>
         </div>
         <div class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section">
@@ -88,7 +88,7 @@
               <img :src="applyAsSpecialistSvg" />
             </div>
             <h2>Aplica como especialista</h2>
-            <p>En HogarEP podras tener acceso a cientos de trabajos según tu especialidad</p>
+            <p>En Jaipro podras tener acceso a cientos de trabajos según tu especialidad</p>
           </div>
         </div>
         <div class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section">
@@ -123,22 +123,22 @@
       </div>
       <div class="container blog-container">
         <div class="blog-title-section">
-          <!-- <p class="blog-subtitle">Recent updates</p> -->
           <h2 class="blog-title">Servicios</h2>
         </div>
         <div class="blog-posts-section">
           <Carousel :settings="settings" :breakpoints="breakpoints">
-            <Slide v-for="slide in 4" :key="slide">
+            <Slide v-for="slide in specialties" :key="slide">
               <div class="blog-post-card-container">
                 <div class="blog-post-card">
                   <div class="blog-post-icon">
-                    <img :src="`/img/blog-card-${slide}.png`" />
+                    <!-- <img :src="slide.img" /> -->
+                    <img :src="`/img/services/${slide.img}`" />
                   </div>
-                  <h3 class="blog-post-title">Remote Working {{ slide }}</h3>
-                  <p class="blog-post-text">
+                  <h3 class="blog-post-title">{{ slide.name }}</h3>
+                  <!-- <p class="blog-post-text">
                     Making it easier to connect with every client worldwide
-                  </p>
-                  <a class="blog-post-link" href="#news">Read More</a>
+                  </p> -->
+                  <!-- <a class="blog-post-link" href="#news">Read More</a> -->
                 </div>
               </div>
             </Slide>
@@ -162,7 +162,7 @@
         <div class="col-lg-5 services-title-section">
           <h2 class="services-title">Para especialistas</h2>
           <p class="services-text">
-            En HogarEP podras:
+            En Jaipro podras:
           </p>
           <ul>
             <li>Tener acceso a cientos de proyectos según tu especialidad</li>
@@ -310,7 +310,7 @@
 
 <script lang="ts">
 import "vue3-carousel/dist/carousel.css";
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import publishProjectSvg from "@/assets/svg/publish-project.svg";
 import receiveProposalSvg from "@/assets/svg/receive-proposals.svg";
 import makePaymentSvg from "@/assets/svg/make-payment.svg";
@@ -319,20 +319,16 @@ import searchForOpportunitiesSvg from "@/assets/svg/search-for-opportunities.svg
 import workHomeProjectSvg from "@/assets/svg/work-on-home-project.svg";
 
 import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
+import Specialties from "@/interfaces/specialties";
 
 export default defineComponent({
   name: "HomeComponent",
   components: { Carousel, Slide, Pagination, Navigation },
-  data: () => ({
-    // carousel settings
-    settings: {
-      itemsToShow: 1,
-      snapAlign: "center",
-    },
-    // breakpoints are mobile first
-    // any settings not specified will fallback to the carousel settings
-    breakpoints: {
-      // 700px and up
+  setup(){
+    const tabIndex = ref(0);
+    const settings = ref({itemsToShow: 1, snapAlign: "center"});
+    const breakpoints = ref({
+      //700px and up
       700: {
         itemsToShow: 3.5,
         snapAlign: "center",
@@ -342,16 +338,27 @@ export default defineComponent({
         itemsToShow: 3,
         snapAlign: "start",
       },
-    },
-    tabIndex: 0,
-    publishProjectSvg,
-    receiveProposalSvg,
-    makePaymentSvg,
-    applyAsSpecialistSvg,
-    searchForOpportunitiesSvg,
-    workHomeProjectSvg
-  }),
-  methods: {},
+    });
+
+    const specialties = ref<Specialties[]>([
+      {name: 'Pintura', img: 'img003-min.jpg'},
+      {name: 'Carpinteria', img: 'img004-min.jpg'},
+      {name: 'Gasfiteria', img: 'img005-min.jpg'}
+    ]);
+
+    return {
+      tabIndex, 
+      settings,
+      breakpoints,
+      publishProjectSvg, 
+      receiveProposalSvg, 
+      makePaymentSvg,
+      applyAsSpecialistSvg,
+      searchForOpportunitiesSvg,
+      workHomeProjectSvg,
+      specialties
+    }
+  }
 });
 </script>
 

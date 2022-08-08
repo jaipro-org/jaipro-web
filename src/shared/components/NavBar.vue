@@ -130,7 +130,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import logo from "@/assets/svg/logo_6.svg";
+import logo from "@/assets/svg/logo.svg";
 
 export default defineComponent({
   data() {

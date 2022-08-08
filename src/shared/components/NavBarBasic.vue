@@ -10,7 +10,7 @@
       <b-container fluid="lg">
         <div class="navbar-brand">
           <a class="navbar-brand-logo" @click="$router.push({ name: 'home' })">
-            <img src="@/assets/img/logo.png" width="155px" />
+            <img :src="logo" width="155px" />
           </a>
         </div>
 
@@ -60,12 +60,14 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
+import logo from "@/assets/svg/logo.svg";
 
 export default defineComponent({
   data() {
     return {
       step_login: 0,
       step_register: 0,
+      logo
     };
   },
   computed: {
