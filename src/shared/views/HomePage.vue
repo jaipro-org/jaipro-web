@@ -132,7 +132,7 @@
                 <div class="blog-post-card">
                   <div class="blog-post-icon">
                     <!-- <img :src="slide.img" /> -->
-                    <img :src="`/img/services/${slide.img}`" />
+                    <img :src="slide.img" />
                   </div>
                   <h3 class="blog-post-title">{{ slide.name }}</h3>
                   <!-- <p class="blog-post-text">
@@ -162,7 +162,7 @@
         <div class="col-lg-5 services-title-section">
           <h2 class="services-title">Para especialistas</h2>
           <p class="services-text">
-            En Jaipro podras:
+            En Jaipro podrás:
           </p>
           <ul>
             <li>Tener acceso a cientos de proyectos según tu especialidad</li>
@@ -174,7 +174,7 @@
           </div>
         </div>
         <div class="col-lg-6 offset-lg-1 services-header-img-section">
-          <img src="@/assets/img/services-header.png" />
+          <img src="@/assets/img/img008-min.jpg" />
         </div>
       </div>
     </div>
@@ -341,9 +341,11 @@ export default defineComponent({
     });
 
     const specialties = ref<Specialties[]>([
-      {name: 'Pintura', img: 'img003-min.jpg'},
-      {name: 'Carpinteria', img: 'img004-min.jpg'},
-      {name: 'Gasfiteria', img: 'img005-min.jpg'}
+      { name: 'Pintura', img: require('@/assets/img/services/img003-min.jpg') },
+      { name: 'Carpinteria', img: require('@/assets/img/services/img004-min.jpg') },
+      { name: 'Gasfitería', img: require('@/assets/img/services/img005-min.jpg') },
+      { name: 'Construcción', img: require('@/assets/img/services/img006-min.jpg') },
+      { name: 'Electricidad', img: require('@/assets/img/services/img007-min.jpg') }
     ]);
 
     return {

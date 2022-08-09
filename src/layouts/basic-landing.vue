@@ -8,7 +8,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 
 import NavbarProject from '@/shared/components/NavBarProject.vue';
 

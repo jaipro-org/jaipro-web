@@ -8,7 +8,7 @@ import GeneralRouter from "@/modules/general/router";
 
 const myPageRoutes: Array<RouteRecordRaw> = [
   {
-    path: "/inicio",
+    path: "/",
     name: "home",
     meta: { layout: "master-landing" },
     component: Home,
@@ -37,10 +37,10 @@ const myPageRoutes: Array<RouteRecordRaw> = [
     meta: { layout: "master-landing" },
     ...SpecialistRouter,
   },
-  {
-    path: "/",
-    redirect: { name: "home" },
-  },
+  // {
+  //   path: "/",
+  //   redirect: { name: "home" },
+  // },
   {
     //Cualquier ruta que no coincida con las definidas previamente
     path: "/:pathMatch(.*)*",
