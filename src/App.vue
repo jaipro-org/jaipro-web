@@ -25,6 +25,7 @@ export default defineComponent({
       async (meta): Promise<void> => {
         if(meta) {
           valuePageLayout.value = meta.layout as string;
+          return;
         }
         valuePageLayout.value = "master-" + default_layout
       },

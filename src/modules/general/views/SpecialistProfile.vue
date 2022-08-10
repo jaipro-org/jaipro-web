@@ -4,7 +4,7 @@
       <b-col cols="12">
         <b-card class="data-card card--shadow">
           <b-row class="mx-0">
-            <b-col cols="12" class="d-block d-md-none text-right mb-3">
+            <b-col cols="12" class="d-block d-md-none text-end mb-3">
               <span class="data-card--save">
                 <i class="fa-solid fa-heart"></i>
                 Guardar
@@ -64,7 +64,7 @@
                 </div>
               </div>
             </b-col>
-            <b-col cols="2" class="d-none d-md-block text-right">
+            <b-col cols="2" class="d-none d-md-block text-end">
               <span class="data-card--save">
                 <i class="fa-solid fa-heart"></i>
                 Guardar

@@ -44,7 +44,7 @@
             {{ notification.description }}
           </div>
         </b-col>
-        <b-col cols="12" md="2" class="text-right"> Hace 4 horas </b-col>
+        <b-col cols="12" md="2" class="text-end"> Hace 4 horas </b-col>
       </b-row>
     </b-card>
   </div>

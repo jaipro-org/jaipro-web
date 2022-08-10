@@ -202,11 +202,7 @@
                   size="3rem"
                 ></b-avatar>
                 <div class="info">
-                  <b-form-rating
-                    value="3"
-                    variant="warning"
-                    class="mb-2"
-                  ></b-form-rating>
+                  <star-rating></star-rating>
                   <h6>Pedro Pablo Agustin</h6>
                 </div>
               </div>
@@ -225,11 +221,7 @@
                   size="3rem"
                 ></b-avatar>
                 <div class="info">
-                  <b-form-rating
-                    value="3"
-                    variant="warning"
-                    class="mb-2"
-                  ></b-form-rating>
+                  <star-rating></star-rating>
                   <h6>Pedro Pablo Agustin</h6>
                 </div>
               </div>
@@ -248,11 +240,7 @@
                   size="3rem"
                 ></b-avatar>
                 <div class="info">
-                  <b-form-rating
-                    value="3"
-                    variant="warning"
-                    class="mb-2"
-                  ></b-form-rating>
+                  <star-rating></star-rating>
                   <h6>Pedro Pablo Agustin</h6>
                 </div>
               </div>
@@ -271,11 +259,7 @@
                   size="3rem"
                 ></b-avatar>
                 <div class="info">
-                  <b-form-rating
-                    value="3"
-                    variant="warning"
-                    class="mb-2"
-                  ></b-form-rating>
+                  <star-rating></star-rating>
                   <h6>Pedro Pablo Agustin</h6>
                 </div>
               </div>
@@ -309,12 +293,12 @@
 <script lang="ts">
 import "vue3-carousel/dist/carousel.css";
 import { defineComponent } from "vue";
-
 import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
+import StarRating from "@/shared/components/public/StarRating.vue";
 
 export default defineComponent({
   name: "HomeComponent",
-  components: { Carousel, Slide, Pagination, Navigation },
+  components: {StarRating, Carousel, Slide, Pagination, Navigation },
   data: () => ({
     // carousel settings
     settings: {

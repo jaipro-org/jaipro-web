@@ -27,11 +27,11 @@
                 required
               ></b-form-input>
             </b-form-group>
-            <div class="text-right mb-4">
+            <div class="text-end mb-4">
               <b-link @click="forgotPassword()">Olvide mi contraseña</b-link>
             </div>
-            <b-button block variant="primary" type="submit">Ingresar</b-button>
-            <p class="text-right mt-4">
+            <b-button class="w-100" variant="primary" type="submit">Ingresar</b-button>
+            <p class="text-end mt-4">
               ¿No tienes una cuenta?
               <b-link @click="$router.push({ name: 'register-type' })">
                 Regístrate

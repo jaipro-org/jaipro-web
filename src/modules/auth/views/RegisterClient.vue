@@ -65,7 +65,7 @@
               >
               </b-form-input>
             </b-form-group>
-            <b-button class="mt-5" block variant="primary" type="submit">
+            <b-button class="mt-5 w-100" variant="primary" type="submit">
               Registrarse
             </b-button>
           </b-form>

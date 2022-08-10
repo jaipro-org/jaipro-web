@@ -36,7 +36,7 @@
 
             <div class="message message-autor d-flex justify-content-end">
               <div class="message__list">
-                <div class="message__item mb-3 text-right">
+                <div class="message__item mb-3 text-end">
                   <div class="contents contents--autor">
                     Buenos dias, les habla Juan
                   </div>
@@ -70,14 +70,14 @@
               <div class="message__list">
                 <div
                   class="message__item mb-3"
-                  :class="message.typeUser == 0 ? 'text-left' : 'text-right'"
+                  :class="message.typeUser == 0 ? 'text-start' : 'text-end'"
                 >
                   <div
                     class="flecha-izquierda"
                     v-if="message.typeUser == 0"
                   ></div>
                   <div
-                    class="contents text-left"
+                    class="contents text-start"
                     :class="
                       message.typeUser == 0
                         ? 'contents--friend'

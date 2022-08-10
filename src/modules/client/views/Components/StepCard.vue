@@ -16,7 +16,7 @@
         :class="{ active: isActive }"
       >
         <b-row class="mx-0">
-          <b-col cols="12" class="d-block d-md-none text-right mb-3">
+          <b-col cols="12" class="d-block d-md-none text-end mb-3">
             <i class="fa-solid fa-angle-up" @click="closeCollapse"></i>
           </b-col>
           <b-col
@@ -28,7 +28,7 @@
               {{ title }}
             </h1>
           </b-col>
-          <b-col cols="2" class="px-0 text-right d-none d-md-block">
+          <b-col cols="2" class="px-0 text-end d-none d-md-block">
             <i class="fa-solid fa-angle-up" @click="closeCollapse"></i>
           </b-col>
         </b-row>
