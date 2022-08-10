@@ -445,7 +445,7 @@ function clearIcons() {
       text-decoration: none;
       color: #7e7e7e;
 
-      & :hover {
+      &:hover {
         color: #3a88ec;
       }
     }
@@ -484,7 +484,7 @@ function clearIcons() {
   .project__title {
     font-size: 1.5rem;
 
-    & .project__title--proposal {
+    &.project__title--proposal {
       i {
         color: rgb(64, 231, 114);
       }
@@ -504,19 +504,19 @@ function clearIcons() {
     color: rgb(165, 165, 165);
     font-size: 1.5rem;
 
-    & :hover {
+    &:hover {
       color: rgb(255, 196, 0);
     }
 
-    & :hover ~ .modal-qualification__icon {
+    &:hover ~ .modal-qualification__icon {
       color: rgb(255, 196, 0);
     }
 
-    & .active {
+    &.active {
       color: rgb(255, 196, 0);
     }
 
-    & .active ~ .modal-qualification__icon {
+    &.active ~ .modal-qualification__icon {
       color: rgb(255, 196, 0);
     }
   }

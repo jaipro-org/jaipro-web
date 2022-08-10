@@ -23,7 +23,7 @@
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="#">
                 <div class="text-center">
-                  <i class="fa-solid fa-house mr-2 mr-lg-0"></i>
+                  <i class="fa-solid fa-house me-2 me-lg-0"></i>
                 </div>
                 <span class="d-block">Inicio</span>
               </a>
@@ -39,7 +39,7 @@
             <li class="nav-item">
               <a class="nav-link" href="#">
                 <div class="text-center">
-                  <i class="fa-solid fa-list-ul mr-2 mr-lg-0"></i>
+                  <i class="fa-solid fa-list-ul me-2 me-lg-0"></i>
                 </div>
                 <span class="d-block">Mis propuestas</span>
               </a>
@@ -47,7 +47,7 @@
             <li class="nav-item">
               <a class="nav-link" href="#">
                 <div class="text-center">
-                  <i class="fa-solid fa-wrench mr-2 mr-lg-0"></i>
+                  <i class="fa-solid fa-wrench me-2 me-lg-0"></i>
                 </div>
                 <span class="d-block">Trabajos</span>
               </a>
@@ -55,7 +55,7 @@
             <li class="nav-item">
               <a class="nav-link" href="#">
                 <div class="text-center">
-                  <i class="fa-solid fa-bell mr-2 mr-lg-0"></i>
+                  <i class="fa-solid fa-bell me-2 me-lg-0"></i>
                 </div>
                 <span class="d-block">Notificaciones</span>
               </a>

@@ -4,11 +4,11 @@
       <div class="menu__container py-3 px-4 bg-white d-block d-lg-none">
         <div>
           <div class="mb-2" v-b-toggle.collapse-3>
-            <i class="fa-solid fa-house-circle-check mr-2"></i
+            <i class="fa-solid fa-house-circle-check me-2"></i
             ><span>Mis Proyectos</span
-            ><i class="fa-solid fa-angle-down ml-2"></i>
+            ><i class="fa-solid fa-angle-down ms-2"></i>
           </div>
-          <b-collapse visible id="collapse-3" class="pl-4 py-2">
+          <b-collapse visible id="collapse-3" class="ps-4 py-2">
             <span
               class="d-block mb-2"
               @click="
@@ -29,7 +29,7 @@
           </b-collapse>
         </div>
         <hr />
-        <div><i class="fa-solid fa-heart mr-2"></i><span>Favoritos</span></div>
+        <div><i class="fa-solid fa-heart me-2"></i><span>Favoritos</span></div>
       </div>
       <div
         id="menu__container--web"
@@ -38,11 +38,11 @@
       >
         <div>
           <div class="mb-2" v-b-toggle.collapse-3>
-            <i class="fa-solid fa-house-circle-check mr-2"></i
+            <i class="fa-solid fa-house-circle-check me-2"></i
             ><span>Mis Proyectos</span
-            ><i class="fa-solid fa-angle-down ml-2"></i>
+            ><i class="fa-solid fa-angle-down ms-2"></i>
           </div>
-          <b-collapse visible id="collapse-3" class="pl-4 py-2">
+          <b-collapse visible id="collapse-3" class="ps-4 py-2">
             <span
               class="d-block mb-2"
               @click="
@@ -63,7 +63,7 @@
           </b-collapse>
         </div>
         <hr />
-        <div><i class="fa-solid fa-heart mr-2"></i><span>Favoritos</span></div>
+        <div><i class="fa-solid fa-heart me-2"></i><span>Favoritos</span></div>
       </div>
     </b-col>
     <b-col cols="12" lg="9" class="profile__content">

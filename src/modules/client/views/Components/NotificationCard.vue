@@ -19,13 +19,13 @@
                 })
               "
             >
-              <i class="fa-solid fa-trash-can mr-2 icon-danger"></i>Eliminar
+              <i class="fa-solid fa-trash-can me-2 icon-danger"></i>Eliminar
             </b-dropdown-item>
             <b-dropdown-item
               @click="$emit('handle-check', notification.id)"
               v-if="notification.status == 0"
             >
-              <i class="fa-solid fa-check mr-2 icon-success"></i>Marcar como
+              <i class="fa-solid fa-check me-2 icon-success"></i>Marcar como
               leído
             </b-dropdown-item>
           </b-nav-item-dropdown>
@@ -35,7 +35,7 @@
         <b-col
           cols="12"
           md="10"
-          class="d-flex flex-wrap justify-content-center justify-content-md-between pr-3 pr-md-0"
+          class="d-flex flex-wrap justify-content-center justify-content-md-between pe-3 pe-md-0"
         >
           <div class="notification-card__image">
             <img src="@/assets/img-delete/notification.png" alt="" />
@@ -91,7 +91,7 @@ const notification!: any = ref({});
   border: none !important;
   outline: none !important;
 
-  & ::after {
+  &::after {
     display: none !important;
   }
 }

@@ -6,7 +6,7 @@
           <div class="opinion-card__image">
             <img src="@/assets/img-delete/experience.jpg" alt="" />
           </div>
-          <div class="pl-2 pl-md-3">
+          <div class="ps-2 ps-md-3">
             <h1 class="opinion-card__title">
               {{ opinion.name }}
             </h1>
@@ -41,12 +41,17 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from "vue";
+import { toRefs, defineProps } from "vue";
 
-const opinion!: any = ref({});
+const props = defineProps<{
+  opinion: any;
+}>();
+
+const { opinion } = toRefs(props);
 
 const isShow = false; // Controla el muestreo desplegado de la card
 const isActive = false; //Controla la activacion de la clase para la animación de despliegue
+
 </script>
 
 <style lang="scss" scoped>
@@ -79,7 +84,7 @@ const isActive = false; //Controla la activacion de la clase para la animación 
         color: rgba(192, 192, 192, 0.733);
       }
 
-      & .opinion-card__star--active {
+      &.opinion-card__star--active {
         i {
           color: rgb(255, 196, 0);
         }

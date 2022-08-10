@@ -21,7 +21,7 @@
             <div class="exp-card__image">
               <img src="@/assets/img-delete/experience.jpg" alt="" />
             </div>
-            <div class="pl-2 pl-md-3">
+            <div class="ps-2 ps-md-3">
               <h1 class="exp-card__title">
                 {{ experience.title }}
               </h1>
@@ -44,7 +44,7 @@
             :key="id"
           >
             <div>
-              <i class="fa-solid fa-circle-notch mr-2 text-primary"></i>
+              <i class="fa-solid fa-circle-notch me-2 text-primary"></i>
             </div>
             <span> {{ especiality.name }} </span>
           </b-col>
@@ -128,7 +128,7 @@ export default defineComponent({
     overflow-y: hidden;
     transition: max-height 0.55s cubic-bezier(0.26, 0.11, 0.29, 1);
 
-    & .active {
+    &.active {
       max-height: 2000px;
     }
   }

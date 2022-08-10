@@ -113,7 +113,7 @@
                   <div class="job-detail__petitioner-image">
                     <img src="@/assets/img-delete/profile.jpg" alt="" />
                   </div>
-                  <h1 class="job-detail__name ml-3">Ernesto Chavez</h1>
+                  <h1 class="job-detail__name ms-3">Ernesto Chavez</h1>
                 </div>
                 <span>Hace 2 dias</span>
               </div>
@@ -123,15 +123,15 @@
               >
                 <span class="job-detail__state--open"
                   >Estado:
-                  <i class="fa-solid fa-circle ml-2 mr-1"></i> Abierto</span
+                  <i class="fa-solid fa-circle ms-2 me-1"></i> Abierto</span
                 >
                 <span class="job-detail__timer"
-                  ><i class="fa-solid fa-clock mr-1"></i>Urge contratar</span
+                  ><i class="fa-solid fa-clock me-1"></i>Urge contratar</span
                 >
               </div>
 
               <div class="mx-0 mt-4 align-items-center">
-                <div cols="5" md="4" lg="3" class="pl-0">
+                <div cols="5" md="4" lg="3" class="ps-0">
                   <b>Se necesita:</b>
                 </div>
                 <div cols="7" md="8" lg="9" class="d-flex">

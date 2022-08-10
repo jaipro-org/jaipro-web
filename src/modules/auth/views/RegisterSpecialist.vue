@@ -111,7 +111,7 @@
             <b-row class="mx-0 justify-content-between">
               <b-col cols="12" lg="5" class="px-0">
                 <h5>Profesiones</h5>
-                <b-form-group class="pl-3">
+                <b-form-group class="ps-3">
                   <b-form-checkbox-group
                     v-model="selected"
                     name="flavour-1"
@@ -130,13 +130,6 @@
               </b-col>
               <b-col cols="12" lg="5" class="px-0">
                 <h5>Locaciones de trabajo</h5>
-                <!-- <b-form-select
-                  v-model="optionSelected"
-                  :options="selectOptions"
-                  class="mt-3"
-                  multiple 
-                ></b-form-select>
-                -->
 
                 <v-select
                   multiple
@@ -148,7 +141,7 @@
               <b-col cols="12" class="mx-auto mt-4 mb-1">
                 <h5>Experiencia en el rubro</h5>
                 <div v-if="workExperience.length <= 0">
-                  <span class="pl-3 info-error"
+                  <span class="ps-3 info-error"
                     >No hay profesiones seleccionadas</span
                   >
                 </div>
@@ -363,7 +356,7 @@
             <b-row class="mx-0 justify-content-between">
               <b-col cols="12" lg="5">
                 <h5>Profesiones</h5>
-                <b-form-group class="pl-3">
+                <b-form-group class="ps-3">
                   <b-form-checkbox-group
                     v-model="selected"
                     name="flavour-1"
@@ -377,12 +370,6 @@
               </b-col>
               <b-col cols="12" lg="5">
                 <h5>Locaciones de trabajo</h5>
-                <!-- <b-form-select
-                  v-model="optionSelected"
-                  :options="selectOptions"
-                  class="mt-3"
-                  disabled
-                ></b-form-select> -->
                 <v-select
                   multiple
                   v-model="optionSelected"
@@ -394,7 +381,7 @@
               <b-col cols="12" class="mx-auto mt-4">
                 <h5>Experiencia en el rubro</h5>
                 <div v-if="workExperience.length <= 0">
-                  <span class="pl-3">No hay profesiones seleccionadas</span>
+                  <span class="ps-3">No hay profesiones seleccionadas</span>
                 </div>
                 <div v-else>
                   <b-row
@@ -495,10 +482,12 @@
   </b-row>
 </template>
 
-<script>
-import { FormWizard, TabContent } from "vue-form-wizard";
+<script lang="ts">
+import { FormWizard, TabContent } from "vue3-form-wizard";
 import "vue-form-wizard/dist/vue-form-wizard.min.css";
-export default {
+import { defineComponent } from "vue";
+
+export default defineComponent({
   components: {
     FormWizard,
     TabContent,
@@ -518,7 +507,7 @@ export default {
       },
       workSelected: "",
       valid: "false",
-      workExperience: [],
+      workExperience: [{"years": 2022, "months": 1, "id": 1, "name": "Carpintero"}],
       selected: [],
       optionSelected: [1],
       options: [
@@ -537,28 +526,28 @@ export default {
   },
   methods: {
     validateDataForm() {
-      this.$refs["form-data-button"].click();
-      return this.$refs["dataForm"].checkValidity();
+      /*this.$refs["form-data-button"].click();
+      return this.$refs["dataForm"].checkValidity();*/
     },
     validateWorkForm() {
       return this.workExperience.length > 0;
     },
     validateAcountForm() {
-      this.$refs["form-acount-button"].click();
-      return this.$refs["acountForm"].checkValidity();
+     /* this.$refs["form-acount-button"].click();
+      return this.$refs["acountForm"].checkValidity();*/
     },
-    addYear(index) {
+    addYear(index: number) {
       this.workExperience[index].years++;
     },
-    substractYear(index) {
+    substractYear(index: number) {
       if (this.workExperience[index].years > 0) {
         this.workExperience[index].years--;
       }
     },
-    addMonth(index) {
+    addMonth(index: number) {
       this.workExperience[index].months++;
     },
-    substractMonth(index) {
+    substractMonth(index: number) {
       if (this.workExperience[index].months > 0) {
         this.workExperience[index].months--;
       }
@@ -570,7 +559,7 @@ export default {
   watch: {
     selected(value, lastValue) {
       if (lastValue.length > value.length) {
-        value.forEach((value) => {
+        value.forEach((value: string) => {
           const index = lastValue.indexOf(value);
           lastValue.splice(index, 1);
         });
@@ -588,9 +577,9 @@ export default {
           );
           const work = {
             id: value[lastAdd],
-            name: res.text,
-            years: "",
-            months: "",
+            name: res!.text,
+            years: 0,
+            months: 0,
           };
 
           this.workExperience.push(work);
@@ -598,7 +587,7 @@ export default {
       }
     },
   },
-};
+});
 </script>
 
 <style>

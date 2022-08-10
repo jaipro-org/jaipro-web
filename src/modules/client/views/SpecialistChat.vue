@@ -4,7 +4,7 @@
       <b-col cols="12" md="9" id="chat__container" class="bg-danger px-0">
         <div id="chat" class="border border-top-0">
           <div id="header-chat" class="d-flex align-items-center">
-            <div class="header-chat__image mr-2">
+            <div class="header-chat__image me-2">
               <img src="@/assets/img-delete/profile2.jpg" alt="" />
             </div>
             <span class="header-char__name"
@@ -13,7 +13,7 @@
           </div>
           <div id="messages">
             <div class="message message-friend d-flex justify-content-start">
-              <div class="message__friend-image mr-2">
+              <div class="message__friend-image me-2">
                 <img
                   src="@/assets/img-delete/profile2.jpg"
                   alt=""
@@ -27,7 +27,7 @@
                   <div class="contents contents--friend">
                     Hola que tal, en que podemos ayudarle
                   </div>
-                  <div class="fecha ml-2">Enviado hace tres minutos</div>
+                  <div class="fecha ms-2">Enviado hace tres minutos</div>
                 </div>
               </div>
             </div>
@@ -41,7 +41,7 @@
                     Buenos dias, les habla Juan
                   </div>
                   <div class="flecha-derecha"></div>
-                  <div class="fecha ml-2">Enviado hace tres minutos</div>
+                  <div class="fecha ms-2">Enviado hace tres minutos</div>
                 </div>
               </div>
             </div>
@@ -57,7 +57,7 @@
               "
             >
               <div
-                class="message__friend-image mr-2"
+                class="message__friend-image me-2"
                 v-if="message.typeUser == 0"
               >
                 <img
@@ -91,7 +91,7 @@
                     v-if="message.typeUser == 1"
                   ></div>
 
-                  <div class="fecha ml-2">Enviado hace tres minutos</div>
+                  <div class="fecha ms-2">Enviado hace tres minutos</div>
                 </div>
               </div>
             </div>
@@ -249,7 +249,7 @@ function handleSendMessage() {
           right: 10px;
           cursor: pointer;
 
-          & :hover {
+          &:hover {
             background-color: #3a88ec;
           }
         }
@@ -290,11 +290,11 @@ function handleSendMessage() {
             vertical-align: top;
             max-width: 350px;
 
-            & .contents--friend {
+            &.contents--friend {
               background-color: #eee;
             }
 
-            & .contents--autor {
+            &.contents--autor {
               background-color: #3a88ec;
               color: white;
             }

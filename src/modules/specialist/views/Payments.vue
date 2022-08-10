@@ -127,7 +127,7 @@
                 </b-form-group>
               </b-col>
               <b-col cols="12" md="7">
-                <div for="asd" class="mr-5">Comprobante de pago</div>
+                <div for="asd" class="me-5">Comprobante de pago</div>
                 <span
                   class="info"
                   :class="cantImages ? 'info-success' : 'info-danger'"
@@ -285,11 +285,11 @@ function sendPay();
     .info {
       font-size: 0.9rem;
 
-      & .info-success {
+      &.info-success {
         color: rgb(64, 231, 114);
       }
 
-      & .info-danger {
+      &.info-danger {
         color: rgb(255, 51, 85);
       }
     }

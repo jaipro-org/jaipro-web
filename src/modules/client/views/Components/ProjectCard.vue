@@ -43,7 +43,7 @@
     <div v-else class="d-flex justify-content-end mt-3">
       <div class="d-flex align-items-center">
         <i
-          class="fa-solid fa-star mr-3 project-card__icon-star"
+          class="fa-solid fa-star me-3 project-card__icon-star"
           :class="{ active: project.isQualified }"
           v-b-tooltip.hover
           :title="
@@ -118,11 +118,11 @@ function handleRedirectView() {
     font-size: 1.3rem;
     color: rgb(165, 165, 165);
 
-    & :hover {
+    &:hover {
       color: rgb(255, 196, 0);
     }
 
-    & .active {
+    &.active {
       color: rgb(255, 196, 0);
     }
   }

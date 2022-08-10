@@ -33,7 +33,7 @@
             class="w-100 mb-4 notifications-list__btn-loading"
           >
             <i
-              class="fa-regular mr-2"
+              class="fa-regular me-2"
               :class="
                 isLoadingNotifications ? 'fas fa-spinner fa-spin' : 'fa-plus'
               "

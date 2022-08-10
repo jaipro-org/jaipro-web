@@ -14,7 +14,7 @@
                 Pedro Ramirez Estrada
                 <b-icon class="verified" icon="check-circle-fill" />
                 <div class="save h5 mb-0">
-                  <i class="fa fa-heart-o mr-2" />Guardar
+                  <i class="fa fa-heart-o me-2" />Guardar
                 </div>
               </h2>
               <div class="tags">
@@ -33,7 +33,7 @@
                 </p>
               </div>
               <div class="btn-page">
-                <b-button class="mr-2" variant="primary"
+                <b-button class="me-2" variant="primary"
                   >Directo a cotizar</b-button
                 >
               </div>

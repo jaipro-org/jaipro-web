@@ -24,6 +24,7 @@
     "vue-sweetalert2": "^5.0.2",
     "vue2-smooth-scroll": "^1.6.0",
     "vue3-carousel": "^0.1.40",
+    "vue3-form-wizard": "^0.0.4",
     "vuex": "^4.0.2"
   },
   "devDependencies": {

@@ -80,11 +80,11 @@
             </div>
           </div>
           <div class="mt-5 pay-online__timer text-center">
-            <i class="fa-regular fa-clock mr-2"></i>{{ timerData }}
+            <i class="fa-regular fa-clock me-2"></i>{{ timerData }}
           </div>
           <div class="text-center mt-4">
             <b-button variant="primary"
-              ><i class="fa-brands fa-whatsapp mr-2"></i>Enviar
+              ><i class="fa-brands fa-whatsapp me-2"></i>Enviar
               comprobante</b-button
             >
           </div>

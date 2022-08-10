@@ -97,7 +97,7 @@
               </p>
               <div class="btn-page">
                 <b-button
-                  class="mr-2"
+                  class="me-2"
                   variant="primary"
                   @click="$router.push({ name: 'specialist' })"
                   >Ver Perfil</b-button
@@ -144,7 +144,7 @@
               </p>
               <div class="btn-page">
                 <b-button
-                  class="mr-2"
+                  class="me-2"
                   variant="primary"
                   @click="$router.push({ name: 'specialist' })"
                   >Ver Perfil</b-button

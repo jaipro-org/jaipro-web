@@ -18,7 +18,7 @@
 
         <b-collapse id="nav-collapse" is-nav>
           <!-- Right aligned nav items -->
-          <b-navbar-nav class="ml-auto">
+          <b-navbar-nav class="ms-auto">
             <div class="navUser__box d-block d-lg-none">
               <div class="navUser__image mx-auto">
                 <img src="@/assets/img-delete/profile.jpg" alt="" />
@@ -28,7 +28,7 @@
             <div class="mx-3 navItem my-2 my-lg-0 d-flex d-lg-block">
               <router-link :to="{name : 'my-projects', params: {type:'current'}}" class="router-link">
                 <div class="text-center">
-                  <i class="fa-solid fa-briefcase mr-2 mr-lg-0"></i>
+                  <i class="fa-solid fa-briefcase me-2 me-lg-0"></i>
                 </div>
                 <span class="d-block">Mis Proyectos</span>
               </router-link>
@@ -38,7 +38,7 @@
             <div class="mx-3 navItem my-2 my-lg-0 d-flex d-lg-block">
               <router-link :to="{name : 'notifications'}" class="router-link">
                 <div class="text-center">
-                  <i class="fa-solid fa-bell mr-2 mr-lg-0"></i>
+                  <i class="fa-solid fa-bell me-2 me-lg-0"></i>
                 </div>
                 <span class="d-block">Notificaciones</span>
               </router-link>
@@ -47,7 +47,7 @@
             <div class="mx-3 navItem my-2 my-lg-0 d-flex d-lg-none">
               <router-link :to="{name : 'client-profile'}" class="router-link">
                 <div class="text-center">
-                  <i class="fa-solid fa-user mr-2"></i>
+                  <i class="fa-solid fa-user me-2"></i>
                 </div>
                 <span class="d-block">Ver Perfil</span>
               </router-link>
@@ -55,7 +55,7 @@
             </div>
             <div class="mx-3 navItem my-2 my-lg-0 d-flex d-lg-none">
               <div class="text-center">
-                <i class="fa-solid fa-right-from-bracket mr-2"></i>
+                <i class="fa-solid fa-right-from-bracket me-2"></i>
               </div>
               <span>Cerrar Session</span>
             </div>
@@ -76,13 +76,13 @@
               </b-dropdown-item>
               <b-dropdown-item href="#" class="navItem-collapse">
                 <router-link :to="{name : 'client-profile'}" class="router-link">
-                  <i class="fa-solid fa-user mr-2"></i>Ver
+                  <i class="fa-solid fa-user me-2"></i>Ver
                   Perfil
                 </router-link>
               </b-dropdown-item
               >
               <b-dropdown-item href="#"
-                ><i class="fa-solid fa-right-from-bracket mr-2"></i>Cerrar
+                ><i class="fa-solid fa-right-from-bracket me-2"></i>Cerrar
                 Session</b-dropdown-item
               >
             </b-nav-item-dropdown>

@@ -18,21 +18,21 @@
               <div class="data-card__image">
                 <img src="@/assets/img-delete/profile.jpg" alt="" />
               </div>
-              <div class="pl-2 pl-md-3">
+              <div class="ps-2 ps-md-3">
                 <h1 class="data-card__name">
                   Pedro Ramirez Estrada
-                  <span class="data-card__status ml-2">
+                  <span class="data-card__status ms-2">
                     <i class="fa-solid fa-circle-check"></i>
                   </span>
                 </h1>
                 <div>
-                  <b-badge variant="primary" class="mr-2 mb-1 px-2 py-2"
+                  <b-badge variant="primary" class="me-2 mb-1 px-2 py-2"
                     >Carpintero
                   </b-badge>
-                  <b-badge variant="primary" class="mr-2 mb-1 px-2 py-2"
+                  <b-badge variant="primary" class="me-2 mb-1 px-2 py-2"
                     >Gasfitero
                   </b-badge>
-                  <b-badge variant="primary" class="mr-2 mb-1 px-2 py-2"
+                  <b-badge variant="primary" class="me-2 mb-1 px-2 py-2"
                     >Electricista
                   </b-badge>
                 </div>
@@ -52,7 +52,7 @@
                   <span class="data-card__star"
                     ><i class="fa-solid fa-star"></i
                   ></span>
-                  <span class="text-primary ml-1">(13 valoraciones)</span>
+                  <span class="text-primary ms-1">(13 valoraciones)</span>
                 </div>
                 <div
                   class="d-flex justify-content-end justify-content-md-start"
@@ -75,7 +75,7 @@
             <b-col cols="12">
               <span
                 :class="tabSelected == 'BIO' ? 'data-card__tab--active' : ''"
-                class="data-card__tab mr-2 mb-2"
+                class="data-card__tab me-2 mb-2"
                 @click="setTab('BIO')"
                 >BIO</span
               >
@@ -83,11 +83,11 @@
                 :class="
                   tabSelected == 'OPINIONES' ? 'data-card__tab--active' : ''
                 "
-                class="data-card__tab mr-2 mb-2"
+                class="data-card__tab me-2 mb-2"
                 @click="setTab('OPINIONES')"
                 >OPINIONES</span
               >
-              <span class="data-card__tab mr-2 mb-2" @click="handleGoGalery"
+              <span class="data-card__tab me-2 mb-2" @click="handleGoGalery"
                 >GALERIA</span
               >
             </b-col>
@@ -342,13 +342,13 @@ export default defineComponent({
     .data-card__tab {
       padding: 5px 8px;
 
-      & :hover {
+      &:hover {
         text-decoration: underline;
         color: #3a88ec;
         cursor: pointer;
       }
 
-      & .data-card__tab--active {
+      &.data-card__tab--active {
         color: #3a88ec;
         text-decoration: underline;
       }
@@ -361,7 +361,7 @@ export default defineComponent({
         color: rgb(180, 176, 176);
       }
 
-      & :hover {
+      &:hover {
         color: #ff5050;
 
         i {
@@ -398,7 +398,7 @@ export default defineComponent({
         color: rgba(192, 192, 192, 0.733);
       }
 
-      & .data-card__star--active {
+      &.data-card__star--active {
         i {
           color: rgb(255, 196, 0);
         }
@@ -423,11 +423,11 @@ export default defineComponent({
     cursor: pointer;
     color: white;
 
-    & .btn-carrousel--next {
+    &.btn-carrousel--next {
       right: 40px;
     }
 
-    & .btn-carrousel--left {
+    &.btn-carrousel--left {
       left: 40px;
     }
   }

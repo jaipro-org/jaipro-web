@@ -4,11 +4,11 @@
       <div class="menu__container py-3 px-4 bg-white d-block d-lg-none">
         <div>
           <div v-b-toggle.collapse-3>
-            <span>Mi resumen</span><i class="fa-solid fa-angle-down ml-2"></i>
+            <span>Mi resumen</span><i class="fa-solid fa-angle-down ms-2"></i>
           </div>
-          <b-collapse id="collapse-3" class="pl-4 pt-2">
+          <b-collapse id="collapse-3" class="ps-4 pt-2">
             <div
-                class="pl-2"
+                class="ps-2"
                 v-b-toggle.collapse-3
                 @click="goBox('presentation__box')"
                 :class="isPresentationSection ? 'menu-active' : ''"
@@ -17,7 +17,7 @@
             </div>
             <hr/>
             <div
-                class="pl-2"
+                class="ps-2"
                 v-b-toggle.collapse-3
                 @click="goBox('galery__box')"
                 :class="isGalerySection ? 'menu-active' : ''"
@@ -26,7 +26,7 @@
             </div>
             <hr/>
             <div
-                class="pl-2"
+                class="ps-2"
                 v-b-toggle.collapse-3
                 @click="goBox('experience__box')"
                 :class="isExperienceSection ? 'menu-active' : ''"
@@ -35,7 +35,7 @@
             </div>
             <hr/>
             <div
-                class="pl-2"
+                class="ps-2"
                 v-b-toggle.collapse-3
                 @click="goBox('location__box')"
                 :class="isLocationSection ? 'menu-active' : ''"
@@ -44,7 +44,7 @@
             </div>
             <hr/>
             <div
-                class="pl-2"
+                class="ps-2"
                 v-b-toggle.collapse-3
                 @click="goBox('acount__box')"
                 :class="isAcountSection ? 'menu-active' : ''"
@@ -119,7 +119,7 @@
             </div>
             <h4>
               Armando paredes
-              <span class="profile__status ml-2"
+              <span class="profile__status ms-2"
               ><i class="fa-solid fa-circle-check"></i> Perfil
                 verificado</span
               >
@@ -145,7 +145,7 @@
             <div class="d-flex justify-content-between align-items-center">
               <h4 class="mb-0">
                 Galeria
-                <span class="profile__info text-warning ml-2"
+                <span class="profile__info text-warning ms-2"
                 ><i class="fa-solid fa-circle-info"></i
                 ></span>
               </h4>
@@ -192,7 +192,7 @@
             <div class="d-flex justify-content-between align-items-center">
               <h4 class="mb-0">
                 Experiencia
-                <span class="profile__info text-warning ml-2"
+                <span class="profile__info text-warning ms-2"
                 ><i class="fa-solid fa-circle-info"></i
                 ></span>
               </h4>
@@ -211,7 +211,7 @@
                 <b-row class="mx-0">
                   <b-col cols="12" class="px-0 d-flex justify-content-end mb-2 d-block d-md-none">
                     <div
-                        class="button__action text-warning mr-2"
+                        class="button__action text-warning me-2"
                         @click="modalProfessionEdit"
                     >
                       <i class="fa-solid fa-pen-to-square"></i>
@@ -227,7 +227,7 @@
                     <div class="experience__image ">
                       <img src="@/assets/img-delete/experience.jpg" alt=""/>
                     </div>
-                    <div class="pl-2 pl-md-3">
+                    <div class="ps-2 ps-md-3">
                       <h1 class="experience__title ">
                         {{ experience.title }}
                       </h1>
@@ -238,7 +238,7 @@
                   </b-col>
                   <b-col cols="2" class="px-0 d-none d-md-flex justify-content-end">
                     <div
-                        class="button__action  text-warning mr-3"
+                        class="button__action  text-warning me-3"
                         @click="modalProfessionEdit"
                     >
                       <i class="fa-solid fa-pen-to-square"></i>
@@ -256,25 +256,25 @@
                 <b-row class="mx-0">
                   <b-col cols="12" md="6" class="d-flex" v-for="(especiality, id) in experience.specialities" :key="id">
                     <div>
-                      <i class="fa-solid fa-circle-notch mr-2 text-primary"></i>
+                      <i class="fa-solid fa-circle-notch me-2 text-primary"></i>
                     </div>
                     <span> {{ especiality.name }} </span>
                   </b-col>
                   <b-col cols="12" md="6" class="d-flex">
                     <div>
-                      <i class="fa-solid fa-circle-notch mr-2 text-primary"></i>
+                      <i class="fa-solid fa-circle-notch me-2 text-primary"></i>
                     </div>
                     <span> Concreto/Armado </span>
                   </b-col>
                   <b-col cols="12" md="6" class="d-flex">
                     <div>
-                      <i class="fa-solid fa-circle-notch mr-2 text-primary"></i>
+                      <i class="fa-solid fa-circle-notch me-2 text-primary"></i>
                     </div>
                     <span> Instalación de interruptores y tomacorrientes </span>
                   </b-col>
                   <b-col cols="12" md="6" class="d-flex">
                     <div>
-                      <i class="fa-solid fa-circle-notch mr-2 text-primary"></i>
+                      <i class="fa-solid fa-circle-notch me-2 text-primary"></i>
                     </div>
                     <span> Servicios Generales </span>
                   </b-col>
@@ -289,7 +289,7 @@
             <div class="d-flex justify-content-between align-items-center">
               <h4 class="mb-0">
                 Locaciones de trabajo
-                <span class="profile__info text-warning ml-2"
+                <span class="profile__info text-warning ms-2"
                 ><i class="fa-solid fa-circle-info"></i
                 ></span>
               </h4>
@@ -335,7 +335,7 @@
             <div class="d-flex justify-content-between align-items-center">
               <h4 class="mb-0">
                 Cuentas
-                <span class="profile__info text-warning ml-2"
+                <span class="profile__info text-warning ms-2"
                 ><i class="fa-solid fa-circle-info"></i
                 ></span>
               </h4>
@@ -356,10 +356,10 @@
                 <b-col cols="10" class="d-flex align-items-center">
                   <b-form-checkbox size="lg"></b-form-checkbox>
                   <div class="d-flex flex-wrap">
-                    <div class="acount__image ml-2 mb-2 mb-md-0">
+                    <div class="acount__image ms-2 mb-2 mb-md-0">
                       <img src="@/assets/img-delete/visa-logo.jpg" alt=""/>
                     </div>
-                    <h3 class="mb-0 ml-2" for="checkbox-1">
+                    <h3 class="mb-0 ms-2" for="checkbox-1">
                       {{ acount.value }}
                     </h3>
                   </div>
@@ -394,7 +394,7 @@
             <b-button
                 variant="secondary"
                 @click="$bvModal.hide('modal-experience')"
-                class="mr-3"
+                class="me-3"
             >Cancelar
             </b-button
             >
@@ -521,7 +521,7 @@
         <b-row class="mx-0 w-100">
           <b-col cols="12"
                  class="d-flex justify-content-end w-100 mx-auto">
-            <b-button variant="secondary" class="mr-3" @click="$bvModal.hide('modal-galery')"
+            <b-button variant="secondary" class="me-3" @click="$bvModal.hide('modal-galery')"
             >Cancelar
             </b-button
             >
@@ -582,7 +582,7 @@
             <b-button
                 variant="secondary"
                 @click="$bvModal.hide('modal-experience')"
-                class="mr-3"
+                class="me-3"
             >Cancelar
             </b-button
             >
@@ -720,7 +720,7 @@
             <b-button
                 variant="secondary"
                 @click="$bvModal.hide('modal-location')"
-                class="mr-3"
+                class="me-3"
             >Cancelar
             </b-button
             >
@@ -789,7 +789,7 @@
       <template #modal-footer>
         <b-row class="mx-0 w-100">
           <b-col cols="12" class="d-flex justify-content-end w-100">
-            <b-button variant="secondary" class="mr-3" @click="$bvModal.hide('modal-acount')"
+            <b-button variant="secondary" class="me-3" @click="$bvModal.hide('modal-acount')"
             >Cancelar
             </b-button
             >

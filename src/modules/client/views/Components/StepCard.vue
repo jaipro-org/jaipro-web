@@ -90,7 +90,7 @@ function closeCollapse() {
     overflow-y: hidden;
     transition: max-height 0.65s cubic-bezier(0.26, 0.11, 0.29, 1);
 
-    & .active {
+    &.active {
       max-height: 2000px;
     }
   }

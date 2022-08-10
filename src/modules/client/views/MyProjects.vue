@@ -4,11 +4,11 @@
       <div class="menu__container py-3 px-4 bg-white d-block d-lg-none">
         <div>
           <div class="mb-2">
-            <i class="fa-solid fa-house-circle-check mr-2"></i
+            <i class="fa-solid fa-house-circle-check me-2"></i
             ><span>Mis Proyectos</span
-            ><i class="fa-solid fa-angle-down ml-2"></i>
+            ><i class="fa-solid fa-angle-down ms-2"></i>
           </div>
-          <b-collapse visible id="collapse-3" class="pl-4 py-2">
+          <b-collapse visible id="collapse-3" class="ps-4 py-2">
             <span
               class="d-block mb-2 menu__subitem"
               :class="{ active: isCurrentTab }"
@@ -24,7 +24,7 @@
           </b-collapse>
         </div>
         <hr />
-        <div><i class="fa-solid fa-heart mr-2"></i><span>Favoritos</span></div>
+        <div><i class="fa-solid fa-heart me-2"></i><span>Favoritos</span></div>
       </div>
       <div
         id="menu__container--web"
@@ -33,11 +33,11 @@
       >
         <div>
           <div class="mb-2">
-            <i class="fa-solid fa-house-circle-check mr-2"></i
+            <i class="fa-solid fa-house-circle-check me-2"></i
             ><span>Mis Proyectos</span
-            ><i class="fa-solid fa-angle-down ml-2"></i>
+            ><i class="fa-solid fa-angle-down ms-2"></i>
           </div>
-          <b-collapse visible id="collapse-3" class="pl-4 py-2">
+          <b-collapse visible id="collapse-3" class="ps-4 py-2">
             <span
               class="d-block mb-2 menu__subitem"
               :class="{ active: isCurrentTab }"
@@ -53,7 +53,7 @@
           </b-collapse>
         </div>
         <hr />
-        <div><i class="fa-solid fa-heart mr-2"></i><span>Favoritos</span></div>
+        <div><i class="fa-solid fa-heart me-2"></i><span>Favoritos</span></div>
       </div>
     </div>
     <div cols="12" lg="9" class="projects__content col-12 col-lg-9">
@@ -84,7 +84,7 @@
         class="w-100 mb-4 notifications-list__btn-loading"
       >
         <i
-          class="fa-regular mr-2"
+          class="fa-regular me-2"
           :class="isLoadingProjects ? 'fas fa-spinner fa-spin' : 'fa-plus'"
         ></i>
         {{ isLoadingProjects ? "Cargando" : "Ver mas" }}
@@ -101,27 +101,27 @@
     >
       <div class="d-flex flex-wrap justify-content-center flex-row-reverse">
         <i
-          class="fa-solid fa-star mr-3 modal-calification__icon"
+          class="fa-solid fa-star me-3 modal-calification__icon"
           role="button"
           @click="checkQualifaction($event, 5)"
         ></i>
         <i
-          class="fa-solid fa-star mr-3 modal-calification__icon"
+          class="fa-solid fa-star me-3 modal-calification__icon"
           role="button"
           @click="checkQualifaction($event, 4)"
         ></i>
         <i
-          class="fa-solid fa-star mr-3 modal-calification__icon"
+          class="fa-solid fa-star me-3 modal-calification__icon"
           role="button"
           @click="checkQualifaction($event, 3)"
         ></i>
         <i
-          class="fa-solid fa-star mr-3 modal-calification__icon"
+          class="fa-solid fa-star me-3 modal-calification__icon"
           role="button"
           @click="checkQualifaction($event, 2)"
         ></i>
         <i
-          class="fa-solid fa-star mr-3 modal-calification__icon"
+          class="fa-solid fa-star me-3 modal-calification__icon"
           role="button"
           @click="checkQualifaction($event, 1)"
         ></i>
@@ -357,7 +357,7 @@ const menuChange = computed(() => {
         cursor: pointer;
 
         .menu__subitem {
-          & .active {
+          &.active {
             color: #3a88ec;
           }
         }
@@ -395,19 +395,19 @@ const menuChange = computed(() => {
     color: rgb(165, 165, 165);
     font-size: 1.5rem;
 
-    & :hover {
+    &:hover {
       color: rgb(255, 196, 0);
     }
 
-    & :hover ~ .modal-calification__icon {
+    &:hover ~ .modal-calification__icon {
       color: rgb(255, 196, 0);
     }
 
-    & .active {
+    &.active {
       color: rgb(255, 196, 0);
     }
 
-    & .active ~ .modal-calification__icon {
+    &.active ~ .modal-calification__icon {
       color: rgb(255, 196, 0);
     }
   }

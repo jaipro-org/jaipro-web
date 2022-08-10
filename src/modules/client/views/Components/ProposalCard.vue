@@ -303,7 +303,7 @@ export default defineComponent({
         text-decoration: none;
         color: #7e7e7e;
 
-        & :hover {
+        &:hover {
           color: #3a88ec;
           text-decoration: underline;
         }
@@ -338,15 +338,15 @@ export default defineComponent({
       font-size: 2.3rem;
       cursor: pointer;
 
-      & .proposal-card__action--succes {
+      &.proposal-card__action--succes {
         color: rgb(64, 231, 114);
       }
 
-      & .proposal-card__action--danger {
+      &.proposal-card__action--danger {
         color: #ff5050;
       }
 
-      & .proposal-card__action--primary {
+      &.proposal-card__action--primary {
         color: #3a88ec;
       }
     }
@@ -356,7 +356,7 @@ export default defineComponent({
         color: rgba(192, 192, 192, 0.733);
       }
 
-      & .proposal-card__star--active {
+      &.proposal-card__star--active {
         i {
           color: rgb(255, 196, 0);
         }
@@ -376,11 +376,11 @@ export default defineComponent({
         font-size: 0.9rem;
         color: white;
 
-        & .pay-card__type--online {
+        &.pay-card__type--online {
           background-color: rgb(64, 231, 114);
         }
 
-        & .pay-card__type--cash {
+        &.pay-card__type--cash {
           background-color: rgb(255, 51, 85);
         }
       }
