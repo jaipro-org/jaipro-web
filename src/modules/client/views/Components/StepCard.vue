@@ -41,22 +41,27 @@
 </template>
 
 <script setup lang="ts">
-const title = "Paso";
+import { defineProps, ref, toRefs } from "vue";
 
-const isShow = true;
-const isActive = true;
+const props = defineProps<{
+  title: string;
+}>();
+const { title } = toRefs(props);
+
+const isShow = ref(true);
+const isActive = ref(true);
 
 function openCollapse() {
-  this.isShow = true;
+  isShow.value = true;
   setTimeout(() => {
-    this.isActive = true;
+    isActive.value = true;
   }, 100);
 }
 
 function closeCollapse() {
-  this.isActive = false;
+  isActive.value = false;
   setTimeout(() => {
-    this.isShow = false;
+    isShow.value = false;
   }, 700);
 }
 </script>

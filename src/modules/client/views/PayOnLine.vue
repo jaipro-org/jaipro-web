@@ -97,45 +97,50 @@
 <script setup lang="ts">
 import { alertError2, closeAlert } from "@/utils/SweetAlert";
 import StepCard from "@/modules/client/views/Components/StepCard.vue";
-import { computed, onBeforeUnmount, onMounted } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 
-const timerSeconds = 0;
-const timerMinutes = 0;
-const timeOut: any = null;
+const router = useRouter();
+
+const timerSeconds = ref(0);
+const timerMinutes = ref(0);
+const timeOut: any = ref(null);
+const maxSessionTimeForPayment = 3600;
 
 onMounted(() => {
-  this.startTimer();
+  startTimer();
 });
 
 onBeforeUnmount(() => {
-  if (this.timeOut) {
-    clearTimeout(this.timeOut);
+  if (timeOut) {
+    clearTimeout(timeOut);
   }
 });
 
 function startTimer() {
-  this.timerSeconds += 1;
-  if (this.timerSeconds == 60) {
-    this.timerSeconds = 0;
-    this.timerMinutes += 1;
+  timerSeconds.value += 1;
+  if (timerSeconds.value == 60) {
+    timerSeconds.value = 0;
+    timerMinutes.value += 1;
   }
 
-  if (this.timerMinutes == 1) {
+  if (timerMinutes.value == maxSessionTimeForPayment / 60) {
     alertError2("El tiempo de espera fue excedido");
-    setTimeout(() => {
-      this.$router.push({ name: "home" });
+    const timeoutExpireSession = setTimeout(() => {
+      router.push({ name: "home" });
       closeAlert();
+      clearTimeout(timeoutExpireSession);
     }, 2000);
     return;
   }
 
-  this.timeOut = setTimeout(() => {
-    this.startTimer();
+  timeOut.value = setTimeout(() => {
+    startTimer();
   }, 1000);
 }
 
 const timerData = computed(() => {
-  return `${this.timerMinutes}m ${this.timerSeconds}s`;
+  return `${timerMinutes.value}m ${timerSeconds.value}s`;
 });
 </script>
 

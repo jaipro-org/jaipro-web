@@ -218,10 +218,13 @@ import {
 } from "@/utils/SweetAlert";
 import ProposalCard from "@/modules/client/views/Components/ProposalCard.vue";
 import { defineProps, ref, toRefs } from "vue";
+import { useRouter } from "vue-router";
 
 const props = defineProps<{
   projectId: number;
 }>();
+
+const router = useRouter();
 
 const { projectId } = toRefs(props);
 
@@ -394,7 +397,7 @@ function handlePayCash() {
 
 //Redirecciona a la vista de pago online
 function redirectPayOnline() {
-  this.$router.push({ name: "pay-online" });
+  router.push({ name: "pay-online" });
 }
 
 //Abrir el Modal de Calificacion

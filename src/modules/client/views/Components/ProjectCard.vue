@@ -67,17 +67,23 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from "vue";
+import { defineProps, toRefs } from "vue";
+import { useRouter } from "vue-router";
 
-const project!: any = ref({});
+const props = defineProps<{
+  project: any;
+}>();
+
+const router = useRouter();
+const { project } = toRefs(props);
 
 function handleRedirectView() {
-  if (this.project.status == 2) {
-    this.$router.push({ name: "home" });
+  if (project.value.status == 2) {
+    router.push({ name: "home" });
   } else {
-    this.$router.push({
+    router.push({
       name: "project-detail",
-      params: { projectId: this.project.id },
+      params: { projectId: props.project!.id },
     });
   }
 }
