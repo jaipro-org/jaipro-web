@@ -5,33 +5,38 @@
       :class="setScrollClass ? 'header-client-scrolled' : ''"
       toggleable="lg"
       type="dark"
-      class="navbar py-1 bg-white navbar-dark navbar-expand-lg"
+      class="py-1 bg-white"
     >
       <b-container fluid="lg">
         <div class="navbar-brand">
           <a class="navbar-brand-logo" @click="$router.push({ name: 'home' })">
-            <img src="@/assets/img/logo.png" width="155px" />
+            <img :src="logo" width="155px" />
           </a>
         </div>
       </b-container>
     </b-navbar>
   </div>
 </template>
-<script>
-export default {
+<script lang="ts">
+import { store } from "@/store/modules/general";
+import { defineComponent } from "vue";
+import logo from "@/assets/svg/logo.svg";
+
+export default defineComponent({
   data() {
     return {
       step_login: 0,
       step_register: 0,
+      logo,
     };
   },
   computed: {
     setScrollClass() {
-      if (window.scrollY > 20) return true;
+      if (store.state.scrollY > 20) return true;
       else return false;
     },
   },
-};
+});
 </script>
 
 <style lang="scss">

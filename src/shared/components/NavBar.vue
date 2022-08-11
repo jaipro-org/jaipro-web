@@ -9,7 +9,7 @@
         <!-- LOGO -->
         <div class="navbar-brand">
           <a class="navbar-brand-logo" @click="$router.push({ name: 'home' })">
-            <img src="@/assets/img/logo.png" width="155px" />
+            <img :src="logo" width="155px" alt="jaipro-logo" />
           </a>
         </div>
         <button
@@ -145,52 +145,12 @@
         </div>
       </div>
     </nav>
-    <b-modal
-      id="modal-login"
-      centered
-      :title="step_login == 0 ? `Iniciar Sesión` : `Recuperar contraseña`"
-      hide-footer
-    >
-      <template v-if="step_login == 1">
-        <b-form-group label="Correo electrónico">
-          <b-form-input type="email" required></b-form-input>
-        </b-form-group>
-        <b-button block variant="primary" @click="step_login = 2"
-          >Recuperar contraseña
-        </b-button>
-      </template>
-      <template v-if="step_login == 2">
-        <p class="mb-5">
-          Un correo de recuperacion de password le ha sido...Revise su bandeja
-          de correo
-        </p>
-        <b-button block variant="primary" @click="step_login = 0"
-          >Aceptar
-        </b-button>
-      </template>
-    </b-modal>
-    <b-modal
-      id="modal-register"
-      ref="modal-register"
-      centered
-      title="Registrate como"
-      hide-footer
-    >
-      <template v-if="step_register == 0">
-        <b-button block variant="primary" @click="toRegisterClient"
-          >Cliente
-        </b-button>
-        <hr />
-        <b-button block variant="primary" @click="toRegisterSpecialist"
-          >Especialista
-        </b-button>
-      </template>
-    </b-modal>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
+import logo from "@/assets/svg/logo.svg";
 
 export default defineComponent({
   data() {
@@ -199,27 +159,8 @@ export default defineComponent({
       step_register: 0,
       showScrollClass: ref(false),
       currentScrollPosY: ref(window.scrollY),
+      logo
     };
-  },
-  methods: {
-    showModalRegister() {
-      // this.$bvModal.hide("modal-login");
-      // this.$bvModal.show("modal-register");
-    },
-    toRegisterSpecialist() {
-      // this.$router.push({ name: "register-specialist" });
-      // this.$bvModal.hide("modal-register");
-    },
-    toRegisterClient() {
-      // this.$router.push({ name: "register-client" });
-      // this.$bvModal.hide("modal-register");
-    },
-    registerClient() {
-      console.log("se registrara un cliente");
-    },
-    login() {
-      console.log("se iniciar session");
-    },
   },
   computed: {
     setScrollClass() {

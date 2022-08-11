@@ -6,7 +6,6 @@
   </div>
 </template>
 <script lang="ts">
-import { store } from "@/store/modules/general";
 import { useRoute, useRouter } from "vue-router";
 import { defineComponent, onMounted, ref } from "vue";
 import { watch } from "vue";

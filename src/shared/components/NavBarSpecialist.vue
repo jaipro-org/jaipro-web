@@ -4,7 +4,7 @@
       <div class="container-fluid container-lg">
         <div class="navbar-brand">
           <a class="navbar-brand-logo" @click="$router.push({ name: 'home' })">
-            <img src="@/assets/img/logo.png" width="155px" />
+            <img :src="logo" width="155px" />
           </a>
         </div>
         <button
@@ -89,18 +89,22 @@
     </nav>
   </div>
 </template>
-<script>
+<script lang="ts">
+import { store } from "@/store/modules/general";
 import { defineComponent } from "vue";
+import logo from "@/assets/svg/logo.svg";
+
 export default defineComponent({
   data() {
     return {
       step_login: 0,
       step_register: 0,
+      logo,
     };
   },
   computed: {
     setScrollClass() {
-      if (window.scrollY > 20) return true;
+      if (store.state.scrollY > 20) return true;
       else return false;
     },
   },

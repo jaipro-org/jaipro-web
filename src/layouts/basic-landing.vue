@@ -8,9 +8,8 @@
   </div>
 </template>
 
-<script>
-
-import NavbarProject from '@/shared/components/NavBarProject.vue';
+<script lang="ts">
+import NavbarProject from "@/shared/components/NavBarProject.vue";
 
 export default {
   components: {
