@@ -3,13 +3,12 @@
     <b-col cols="12" lg="3" class="profile__menu">
       <div class="menu__container py-3 px-4 bg-white d-block d-lg-none">
         <div>
-          <div v-b-toggle.collapse-3>
+          <div>
             <span>Mi resumen</span><i class="fa-solid fa-angle-down ms-2"></i>
           </div>
           <b-collapse id="collapse-3" class="ps-4 pt-2">
             <div
                 class="ps-2"
-                v-b-toggle.collapse-3
                 @click="goBox('presentation__box')"
                 :class="isPresentationSection ? 'menu-active' : ''"
             >
@@ -18,7 +17,6 @@
             <hr/>
             <div
                 class="ps-2"
-                v-b-toggle.collapse-3
                 @click="goBox('galery__box')"
                 :class="isGalerySection ? 'menu-active' : ''"
             >
@@ -27,7 +25,6 @@
             <hr/>
             <div
                 class="ps-2"
-                v-b-toggle.collapse-3
                 @click="goBox('experience__box')"
                 :class="isExperienceSection ? 'menu-active' : ''"
             >
@@ -36,7 +33,6 @@
             <hr/>
             <div
                 class="ps-2"
-                v-b-toggle.collapse-3
                 @click="goBox('location__box')"
                 :class="isLocationSection ? 'menu-active' : ''"
             >
@@ -45,7 +41,6 @@
             <hr/>
             <div
                 class="ps-2"
-                v-b-toggle.collapse-3
                 @click="goBox('acount__box')"
                 :class="isAcountSection ? 'menu-active' : ''"
             >
@@ -845,15 +840,14 @@
 
 <script setup lang="ts">
 import {alertSuccessButton} from "@/utils/SweetAlert";
-import GeneralModule from '@/store/modules/general'
 import {computed, onMounted, ref} from "vue";
 
-const presentationFile!: any = ref({});
+const presentationFile = ref({});
 
-const isLoading: Boolean = true;
-const slide: number = 0;
-const sliding: any = null;
-const experiences: Array<any> = [
+const isLoading = ref(true);
+const slide = ref(0);
+const sliding = ref(null);
+const experiences = ref([
   {
     id: 0,
     title: 'Construccion y Techado',
@@ -900,8 +894,8 @@ const experiences: Array<any> = [
       },
     ]
   }
-];
-const locationsList: Array<any> = [
+]);
+const locationsList = ref([
   {
     id: "1",
     value: "Lima Norte, Los Olivos, Independencia, San Martin de Porres",
@@ -914,8 +908,8 @@ const locationsList: Array<any> = [
     id: "3",
     value: "Lima Norte, Los Olivos, Independencia, San Martin de Porres",
   },
-];
-const acountsList: Array<any> = [
+]);
+const acountsList = ref([
   {
     id: "1",
     value: "XXXX XXXX XXXX 7698",
@@ -924,9 +918,9 @@ const acountsList: Array<any> = [
     id: "2",
     value: "XXXX XXXX XXXX 1569",
   },
-];
-const imageSelected: number = 0;
-const formPresentation: any = {
+]);
+const imageSelected = ref(0);
+const formPresentation = ref({
   image: {
     url: null,
     file: null,
@@ -937,8 +931,8 @@ const formPresentation: any = {
   direction: "",
   phone: "",
   secondPhone: "",
-};
-const formGalery: any = {
+});
+const formGalery = ref({
   imagesList: [
     {
       id: 0,
@@ -971,9 +965,9 @@ const formGalery: any = {
       file: null,
     },
   ],
-};
-const isModalProfessionEdit: boolean = true;
-const formProfession: any = {
+});
+const isModalProfessionEdit = ref(true);
+const formProfession = ref({
   selectedProfession: 0,
   specialtiesList: [
     {
@@ -1001,15 +995,15 @@ const formProfession: any = {
     years: "",
     months: "",
   },
-}
-const optionsProfessions: Array<any> = [
+});
+const optionsProfessions = ref([
   {value: 0, text: "Pintor"},
   {value: 1, text: "Albañil"},
   {value: 3, text: "Carpintero"},
   {value: 4, text: "Lima"},
-];
-const isModalLocationEdit: boolean = true;
-const formLocation: any = {
+]);
+const isModalLocationEdit = ref(true);
+const formLocation = ref({
   selectedLocation: 0,
   districtList: [
     {
@@ -1033,33 +1027,33 @@ const formLocation: any = {
       name: "San Martin de Porres",
     },
   ],
-};
-const optionsLocation: Array<any> = [
+});
+const optionsLocation = ref([
   {value: 0, text: "Lima Norte"},
   {value: 1, text: "Lima Sur"},
   {value: 3, text: "Lima Este"},
   {value: 4, text: "Lima Oeste"},
-];
-const formAcount: any = {
+]);
+const formAcount = ref({
   selectedAcount: 0,
   numAcount: "",
   cci: "",
-};
-const optionsAcount: Array<any> = [
+});
+const optionsAcount = ref([
   {value: 0, text: "Interbank"},
   {value: 1, text: "BCP"},
   {value: 3, text: "Scotiabank"},
   {value: 4, text: "Banbif"},
-];
-const section1: any = null;
-const section2: any = null;
-const section3: any = null;
-const section4: any = null;
-const section5: any = null;
+]);
+const section1 = ref(null);
+const section2 = ref(null);
+const section3 = ref(null);
+const section4 = ref(null);
+const section5 = ref(null);
+
 onMounted(() => {
-  this.isLoading = false;
+  isLoading.value = false;
   this.$nextTick(() => {
-    // this.section1 = document.getElementById('presentation__box').offsetTop
     this.section2 = (<HTMLInputElement>document.getElementById("galery__box")).offsetTop - 10;
     this.section3 = (<HTMLInputElement>document.getElementById("experience__box")).offsetTop - 10;
     this.section4 = (<HTMLInputElement>document.getElementById("location__box")).offsetTop - 10;
@@ -1200,11 +1194,11 @@ function editAcount() {
 }
 
 const menuChange = computed(() => {
-  if (!this.isLoading) {
+  if (!isLoading.value) {
     let footer: any = document.getElementById("footer__limit");
     let footerScrollY: number = Number(footer.offsetTop) - 320;
 
-    if (GeneralModule.getScroll > 70 && Number(GeneralModule.getScroll) < footerScrollY) {
+    if (window.scrollY > 70 && Number(window.scrollY) < footerScrollY) {
       return true;
     }
   }
@@ -1212,31 +1206,31 @@ const menuChange = computed(() => {
 });
 
 const isPresentationSection = computed(() => {
-  return GeneralModule.getScroll >= 0 && GeneralModule.getScroll < this.section2
+  return window.scrollY >= 0 && window.scrollY < section2.value
       ? true
       : false;
 });
 
 const isGalerySection = computed(() => {
-  return GeneralModule.getScroll >= this.section2 && GeneralModule.getScroll < this.section3
+  return window.scrollY >= section2.value && window.scrollY < section3.value
       ? true
       : false;
 });
 const isExperienceSection = computed(() => {
-  return GeneralModule.getScroll >= this.section3 && GeneralModule.getScroll < this.section4
+  return window.scrollY >= section3.value && window.scrollY < section4.value
       ? true
       : false;
 });
 const isLocationSection = computed(() => {
-  return GeneralModule.getScroll >= this.section4 && GeneralModule.getScroll < this.section5
+  return window.scrollY >= section4.value && window.scrollY < section5.value
       ? true
       : false;
 });
 const isAcountSection = computed(() => {
-  if (!this.isLoading) {
+  if (!isLoading.value) {
     let footer: any = document.getElementById("footer__limit");
     let footerScrollY: number = Number(footer.offsetTop) - 320;
-    return GeneralModule.getScroll >= this.section5 && GeneralModule.getScroll < footerScrollY
+    return window.scrollY >= section5.value && window.scrollY < footerScrollY
         ? true
         : false;
   } else {

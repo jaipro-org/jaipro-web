@@ -1,10 +1,10 @@
 <template>
   <div class="jobs__container mx-0 mt-0 row">
-    <div cols="12" lg="8" class="col-12 col-lg-8 pt-5">
+    <div class="col-12 col-lg-8 pt-5">
       <div class="mt-1">
         <b-card class="job__filters">
-          <div class="mx-0">
-            <div cols="12" lg="4" class="mb-3">
+          <div class="row mx-0">
+            <div class="col-12 col-lg-4 mb-3">
               <b-form-group label="Categoria" label-for="select-category">
                 <v-select
                   id="select-category"
@@ -15,7 +15,7 @@
                 />
               </b-form-group>
             </div>
-            <div cols="12" lg="4" class="mb-3">
+            <div class="col-12 col-lg-4 mb-3">
               <b-form-group label="Fecha" label-for="select-date">
                 <v-select
                   id="select-date"
@@ -26,7 +26,7 @@
                 />
               </b-form-group>
             </div>
-            <div cols="12" lg="4" class="mb-3">
+            <div class="col-12 col-lg-4 mb-3">
               <b-form-group label="Ubicación" label-for="select-location">
                 <v-select
                   id="select-location"
@@ -37,7 +37,7 @@
                 />
               </b-form-group>
             </div>
-            <div cols="12" class="d-flex justify-content-end">
+            <div class="col-12 d-flex justify-content-end">
               <b-button variant="primary">Buscar</b-button>
             </div>
           </div>
@@ -86,7 +86,7 @@
         class="mx-0"
         :class="!isWorkDetailActive ? 'job-detail__container' : ''"
       >
-        <div cols="12" class="px-0">
+        <div class="col-12 px-0">
           <div v-if="!isWorkDetailActive" class="job-detail__no-data">
             <div>
               <h4 class="text-center">
@@ -131,10 +131,10 @@
               </div>
 
               <div class="mx-0 mt-4 align-items-center">
-                <div cols="5" md="4" lg="3" class="ps-0">
+                <div class="col-5 col-lg-3 col-md-4 ps-0">
                   <b>Se necesita:</b>
                 </div>
-                <div cols="7" md="8" lg="9" class="d-flex">
+                <div class="col-7 col-lg-9 col-md-8 d-flex">
                   <span class="job-detail__work text-center">Pintor</span>
                 </div>
               </div>
@@ -159,18 +159,18 @@
               <div class="mt-3">
                 <span class="d-block mb-1"><b>Imagenes:</b> Ventanilla</span>
               </div>
-              <div class="mx-0 justify-content-around mt-2">
-                <div cols="6" lg="3" class="mb-3">
+              <div class="row mx-0 justify-content-around mt-2">
+                <div class="col-6 col-lg-3 mb-3">
                   <div class="job-detail__image" v-b-modal.modal-imagen>
                     <img src="@/assets/img-delete/pintor.jpg" alt="" />
                   </div>
                 </div>
-                <div cols="6" lg="3" class="mb-3">
+                <div class="col-6 col-lg-3 mb-3">
                   <div class="job-detail__image" v-b-modal.modal-imagen>
                     <img src="@/assets/img-delete/pintor.jpg" alt="" />
                   </div>
                 </div>
-                <div cols="6" lg="3" class="mb-3">
+                <div class="col-6 col-lg-3 mb-3">
                   <div class="job-detail__image" v-b-modal.modal-imagen>
                     <img src="@/assets/img-delete/pintor.jpg" alt="" />
                   </div>
@@ -187,8 +187,6 @@
       </div>
     </div>
     <div
-      cols="12"
-      lg="4"
       class="jobs__content jobs__content-web col-12 col-lg-4 pt-3 d-none d-lg-block"
     >
       <h4 class="mb-1 px-3">Trabajos</h4>
@@ -227,28 +225,20 @@
       </div>
     </div>
 
-    <b-modal id="modal-proposal" title="Mi propuesta" size="lg" centered>
-      <template #modal-footer>
-        <div class="mx-0 w-100">
-          <div cols="12" class="d-flex justify-content-between w-100">
-            <b-button
-              variant="secondary"
-              @click="$bvModal.hide('modal-proposal')"
-              >Cancelar</b-button
-            >
-            <b-button variant="primary" @click="$refs.btnModal.click()"
-              >Enviar</b-button
-            >
-          </div>
-        </div>
-      </template>
+    <b-modal
+      id="modal-proposal"
+      title="Mi propuesta"
+      size="lg"
+      centered
+      hide-footer
+    >
       <b-form @submit.prevent="sendProposal" ref="formModal" validated>
         <p>
           Estima un rango de tus honorarios por el trabajo. Excluye el precio de
           los materiales u otros
         </p>
-        <div class="mx-0 justify-content-around align-items-center mt-3">
-          <div cols="5">
+        <div class="row mx-0 justify-content-around align-items-center mt-3">
+          <div class="col-12 col-lg-5 col-sm-12">
             <b-input-group prepend="S/" id="input-proposal-1">
               <b-form-input
                 placeholder="Minimo"
@@ -259,8 +249,8 @@
               ></b-form-input>
             </b-input-group>
           </div>
-          <span>-</span>
-          <div cols="5">
+          <div class="col-12 col-lg-2 col-sm-12 text-center">-</div>
+          <div class="col-12 col-lg-5 col-sm-12">
             <b-input-group prepend="S/" id="input-proposal-2">
               <b-form-input
                 placeholder="Maximo"
@@ -291,6 +281,20 @@
           <button type="submit" ref="btnModal"></button>
         </div>
       </b-form>
+      <div class="modal-footer row mt-5 pb-0">
+        <div class="mx-0 w-100">
+          <div class="col-12 d-flex justify-content-between w-100">
+            <b-button
+              variant="secondary"
+              @click="$bvModal.hide('modal-proposal')"
+              >Cancelar</b-button
+            >
+            <b-button variant="primary" @click="$refs.btnModal.click()"
+              >Enviar</b-button
+            >
+          </div>
+        </div>
+      </div>
     </b-modal>
 
     <BModal
@@ -301,7 +305,7 @@
     >
       <template #modal-footer>
         <div class="mx-0 w-100">
-          <div cols="12" class="d-flex justify-content-between w-100">
+          <div class="col-12 cold-flex justify-content-between w-100">
             <b-button variant="secondary" @click="$bvModal.hide('modal-imagen')"
               >Cancelar</b-button
             >

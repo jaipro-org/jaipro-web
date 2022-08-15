@@ -1,99 +1,87 @@
 <template>
   <div class="nav__container">
-    <b-navbar
-      id="navbar-client"
-      :class="setScrollClass ? 'header-client-scrolled' : ''"
-      toggleable="lg"
-      type="dark"
-      class="py-1 bg-white"
-    >
-      <b-container fluid="lg">
+    <nav class="navbar navbar-expand-lg bg-light">
+      <div class="container-fluid container-lg">
         <div class="navbar-brand">
           <a class="navbar-brand-logo" @click="$router.push({ name: 'home' })">
             <img :src="logo" width="155px" />
           </a>
         </div>
-
-        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-
-        <b-collapse id="nav-collapse" is-nav>
-          <!-- Right aligned nav items -->
-          <b-navbar-nav class="ms-auto">
-            <div class="navUser__box d-block d-lg-none">
-              <div class="navUser__image mx-auto">
-                <img src="@/assets/img-delete/profile.jpg" alt="" />
-              </div>
-              <h1 class="text-center">Armando Paredes</h1>
-            </div>
-            <div class="mx-3 navItem my-2 my-lg-0 d-flex d-lg-block">
-              <router-link :to="{name : 'my-projects', params: {type:'current'}}" class="router-link">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <router-link
+                :to="{ name: 'my-projects', params: { type: 'current' } }"
+                class="router-link"
+              >
                 <div class="text-center">
                   <i class="fa-solid fa-briefcase me-2 me-lg-0"></i>
                 </div>
                 <span class="d-block">Mis Proyectos</span>
               </router-link>
-              
-            </div>
-
-            <div class="mx-3 navItem my-2 my-lg-0 d-flex d-lg-block">
-              <router-link :to="{name : 'notifications'}" class="router-link">
+            </li>
+            <li class="nav-item">
+              <router-link :to="{ name: 'client-notifications' }" class="router-link">
                 <div class="text-center">
                   <i class="fa-solid fa-bell me-2 me-lg-0"></i>
                 </div>
                 <span class="d-block">Notificaciones</span>
               </router-link>
-              
-            </div>
-            <div class="mx-3 navItem my-2 my-lg-0 d-flex d-lg-none">
-              <router-link :to="{name : 'client-profile'}" class="router-link">
-                <div class="text-center">
-                  <i class="fa-solid fa-user me-2"></i>
-                </div>
-                <span class="d-block">Ver Perfil</span>
-              </router-link>
-              
-            </div>
-            <div class="mx-3 navItem my-2 my-lg-0 d-flex d-lg-none">
-              <div class="text-center">
-                <i class="fa-solid fa-right-from-bracket me-2"></i>
-              </div>
-              <span>Cerrar Session</span>
-            </div>
-
-            <b-nav-item-dropdown right class="d-none d-lg-block">
-              <template #button-content>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
                 <div class="user__image">
                   <img src="@/assets/img-delete/profile.jpg" alt="" />
                 </div>
-              </template>
-              <b-dropdown-item is="div">
-                <div class="navUser__box">
-                  <div class="navUser__image mx-auto">
-                    <img src="@/assets/img-delete/profile.jpg" alt="" />
-                  </div>
-                  <h1 class="text-center dropdown__name">Armando Paredes</h1>
-                </div>
-              </b-dropdown-item>
-              <b-dropdown-item href="#" class="navItem-collapse">
-                <router-link :to="{name : 'client-profile'}" class="router-link">
-                  <i class="fa-solid fa-user me-2"></i>Ver
-                  Perfil
-                </router-link>
-              </b-dropdown-item
-              >
-              <b-dropdown-item href="#"
-                ><i class="fa-solid fa-right-from-bracket me-2"></i>Cerrar
-                Session</b-dropdown-item
-              >
-            </b-nav-item-dropdown>
-          </b-navbar-nav>
-        </b-collapse>
-      </b-container>
-    </b-navbar>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                  <router-link
+                    :to="{ name: 'client-profile' }"
+                    class="router-link dropdown-item"
+                  >
+                    <i class="fa-solid fa-user me-2"></i>Ver Perfil
+                  </router-link>
+                </li>
+                <li>
+                  <hr class="dropdown-divider" />
+                </li>
+                <li>
+                  <router-link
+                    :to="{ name: 'login' }"
+                    class="router-link dropdown-item"
+                  >
+                    <i class="fa-solid fa-right-from-bracket me-2"></i>Cerrar
+                    Session
+                  </router-link>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
   </div>
 </template>
 <script lang="ts">
-import { store } from '@/store/modules/general'
+import { store } from "@/store/modules/general";
 import logo from "@/assets/svg/logo.svg";
 import { defineComponent } from "vue";
 
@@ -102,7 +90,7 @@ export default defineComponent({
     return {
       step_login: 0,
       step_register: 0,
-      logo
+      logo,
     };
   },
   computed: {
@@ -157,7 +145,7 @@ export default defineComponent({
       font-size: 0.9rem;
     }
 
-    .router-link{
+    .router-link {
       color: #7e7e7e;
       text-decoration: none;
 
@@ -165,14 +153,14 @@ export default defineComponent({
         color: #3a88ec;
       }
 
-      &.router-link-active{
+      &.router-link-active {
         color: #3a88ec !important;
       }
     }
   }
 
-  .navItem-collapse{
-    .router-link{
+  .navItem-collapse {
+    .router-link {
       color: #181818;
       text-decoration: none;
 
@@ -181,7 +169,6 @@ export default defineComponent({
       }
     }
   }
-
 
   .user__image {
     height: 40px;

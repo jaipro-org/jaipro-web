@@ -20,12 +20,8 @@ export default {
       path: "nuevo-proyecto",
       name: "new-project",
       meta: { layout: "basic-landing" },
-      component: () =>
-        import(
-          "@/modules/client/views/NewProject.vue"
-        ),
+      component: () => import("@/modules/client/views/NewProject.vue"),
     },
-    
     {
       path: "mis-proyectos/:type",
       name: "my-projects",
@@ -34,10 +30,10 @@ export default {
         import(
           /* webpackChunkName: "my-projects" */ "@/modules/client/views/MyProjects.vue"
         ),
-        props: (route: RouteLocationNormalized) => {
-          const type = route.params.type
-          return {type}
-        }
+      props: (route: RouteLocationNormalized) => {
+        const type = route.params.type;
+        return { type };
+      },
     },
     {
       path: "detalle-proyecto/:projectId",
@@ -50,10 +46,8 @@ export default {
       props: (route: RouteLocationNormalized) => {
         const projectId = Number(route.params.projectId);
         return { projectId };
-      }
-
+      },
     },
-    
     {
       path: "chat-especialista",
       name: "specialist-chat",
@@ -65,7 +59,7 @@ export default {
     },
     {
       path: "notificaciones",
-      name: "notifications",
+      name: "client-notifications",
       meta: { layout: "client-landing" },
       component: () =>
         import(

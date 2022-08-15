@@ -119,15 +119,13 @@
       </div>
     </b-row>
 
-    <b-modal id="modal-pay-cash" ref="modal-pay-cash" title="Pago efectivo">
-      <template #modal-footer>
-        <div class="d-flex justify-content-end w-100">
-          <b-button variant="secondary" @click="closeModalPayCash" class="me-3"
-            >Cancelar</b-button
-          >
-          <b-button variant="primary" @click="payCash">Finalizar</b-button>
-        </div>
-      </template>
+    <b-modal
+      id="modal-pay-cash"
+      ref="modal-pay-cash"
+      title="Pago efectivo"
+      v-model="showModalPayCash"
+      hide-footer
+    >
       <div>
         <span class="d-block text-center">Confirma el monto a pagar</span>
         <div class="mt-3">
@@ -158,12 +156,30 @@
               </b-form-input>
             </b-input-group>
           </b-form-group>
-          <button ref="button-form" type="submit" class="d-none"></button>
+          <button ref="buttonForm" type="submit" class="d-none"></button>
         </b-form>
+      </div>
+      <div class="modal-footer">
+        <div class="row">
+          <div class="col-12 text-end">
+            <div class="d-flex justify-content-end w-100">
+              <b-button
+                variant="secondary"
+                @click="closeModalPayCash"
+                class="btn-lg me-3"
+                >Cancelar</b-button
+              >
+              <b-button class="btn-lg" variant="primary" @click="payCash"
+                >Finalizar</b-button
+              >
+            </div>
+          </div>
+        </div>
       </div>
     </b-modal>
 
     <b-modal
+      v-model="showModalQualification"
       id="modal-qualification"
       class="modal-qualification"
       title="Calificar"
@@ -227,6 +243,10 @@ const props = defineProps<{
 const router = useRouter();
 
 const { projectId } = toRefs(props);
+
+const showModalPayCash = ref(false);
+const showModalQualification = ref(false);
+const buttonForm = ref<HTMLButtonElement>();
 
 //Maneja la gestion del modal de imagenes
 const isShowModal = ref(false);
@@ -378,15 +398,15 @@ async function handleRejectProposal(id: number) {
 }
 
 function openModalPayCash() {
-  this.$bvModal.show("modal-pay-cash");
+  showModalPayCash.value = true;
 }
 
 function closeModalPayCash() {
-  this.$bvModal.hide("modal-pay-cash");
+  showModalPayCash.value = false;
 }
 
 function payCash() {
-  this.button.click();
+  buttonForm.value?.click();
 }
 
 function handlePayCash() {
@@ -402,12 +422,14 @@ function redirectPayOnline() {
 
 //Abrir el Modal de Calificacion
 function openQualificationModal() {
-  this.$bvModal.show("modal-qualification");
+  console.log("openQualificationModal");
+  showModalQualification.value = true;
 }
 
 //Cerrar el Modal de calificación
 function closeQualificationModal() {
-  this.$bvModal.hide("modal-qualification");
+  console.log("closeQualificationModal");
+  showModalQualification.value = false;
 }
 
 //Enviar una calificacion

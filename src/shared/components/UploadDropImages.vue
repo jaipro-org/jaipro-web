@@ -41,17 +41,17 @@
       </p>
     </div>
     <div
-      class="imgsPreview  "
+      class="imgsPreview"
       v-show="Imgs.length === 0 && prevImages.length > 0"
     >
-      <div class="imageHolder " v-for="(prevImage, i) in prevImages" :key="i">
+      <div class="imageHolder" v-for="(prevImage, i) in prevImages" :key="i">
         <img :src="prevImage" />
       </div>
       <div class="d-flex justify-content-center mt-3">
         <div class="plus" @click="append">+</div>
       </div>
     </div>
-    <div class="imgsPreview " v-show="Imgs.length > 0">
+    <div class="imgsPreview" v-show="Imgs.length > 0">
       <button type="button" class="clearButton" @click="reset">
         {{ clearAll ? clearAll : "clear All" }}
       </button>
@@ -350,7 +350,7 @@ export default {
   font-weight: 700;
 }
 
-.icon__container i{
-  font-size:3rem;
+.icon__container i {
+  font-size: 3rem;
 }
 </style>

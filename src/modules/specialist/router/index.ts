@@ -33,7 +33,7 @@ export default {
     },
     {
       path: "notificaciones",
-      name: "notifications",
+      name: "specialist-notifications",
       meta: { layout: "specialist-landing" },
       component: () =>
         import(

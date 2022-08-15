@@ -6,7 +6,7 @@
         <div
           class="d-flex d-md-block justify-content-end notification-card__butotn"
         >
-          <b-nav-item-dropdown right block offset="25" class="justify-self-end">
+          <b-nav-item-dropdown right block class="justify-self-end">
             <template #button-content>
               <i class="fa-solid fa-ellipsis" role="button"></i>
             </template>
@@ -31,11 +31,11 @@
           </b-nav-item-dropdown>
         </div>
       </div>
-      <b-row class="mt-2">
-        <b-col
+      <div class="row">
+        <div
           cols="12"
           md="10"
-          class="d-flex flex-wrap justify-content-center justify-content-md-between pe-3 pe-md-0"
+          class="d-flex flex-wrap justify-content-center justify-content-md-between pe-3 pe-md-0 col-12 col-md-10"
         >
           <div class="notification-card__image">
             <img src="@/assets/img-delete/notification.png" alt="" />
@@ -43,17 +43,22 @@
           <div class="notification-card__description">
             {{ notification.description }}
           </div>
-        </b-col>
-        <b-col cols="12" md="2" class="text-end"> Hace 4 horas </b-col>
-      </b-row>
+        </div>
+        <div cols="12" md="2" class="text-end col-12 col-md-2">
+          Hace 4 horas
+        </div>
+      </div>
     </b-card>
   </div>
 </template>
 
 <script setup lang="ts">
-import {ref} from "vue";
+import { defineProps, ref, toRefs } from "vue";
 
-const notification!: any = ref({});
+const props = defineProps<{
+  notification: any;
+}>();
+const { notification } = toRefs(props);
 </script>
 
 <style lang="scss">

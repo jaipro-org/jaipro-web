@@ -21,20 +21,20 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">
+              <router-link :to="{ name: 'home' }" class="router-link">
                 <div class="text-center">
                   <i class="fa-solid fa-house me-2 me-lg-0"></i>
                 </div>
                 <span class="d-block">Inicio</span>
-              </a>
+              </router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <router-link :to="{ name: 'payments' }" class="router-link">
                 <div class="text-center">
                   <i class="fa-solid fa-credit-card"></i>
                 </div>
                 <span class="d-block">Mis pagos</span>
-              </a>
+              </router-link>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">
@@ -45,20 +45,20 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <router-link :to="{ name: 'jobs-list' }" class="router-link">
                 <div class="text-center">
                   <i class="fa-solid fa-wrench me-2 me-lg-0"></i>
                 </div>
                 <span class="d-block">Trabajos</span>
-              </a>
+              </router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <router-link :to="{ name: 'specialist-notifications' }" class="router-link">
                 <div class="text-center">
                   <i class="fa-solid fa-bell me-2 me-lg-0"></i>
                 </div>
                 <span class="d-block">Notificaciones</span>
-              </a>
+              </router-link>
             </li>
             <li class="nav-item dropdown">
               <a
@@ -73,13 +73,25 @@
                 </div>
               </a>
               <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li>
+                  <router-link
+                    :to="{ name: 'specialist-profile' }"
+                    class="router-link dropdown-item"
+                  >
+                    <i class="fa-solid fa-user me-2"></i>Ver Perfil
+                  </router-link>
+                </li>
                 <li>
                   <hr class="dropdown-divider" />
                 </li>
                 <li>
-                  <a class="dropdown-item" href="#">Something else here</a>
+                  <router-link
+                    :to="{ name: 'login' }"
+                    class="router-link dropdown-item"
+                  >
+                    <i class="fa-solid fa-right-from-bracket me-2"></i>Cerrar
+                    Session
+                  </router-link>
                 </li>
               </ul>
             </li>

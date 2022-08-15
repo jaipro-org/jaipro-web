@@ -1,8 +1,8 @@
 <template>
   <div class="notifications__container mb-2">
-    <b-row class="mx-0 pt-4">
-      <b-col cols="12" class="mb-3 mb-md-1">
-        <h1 class="notifications__title">Nuevas</h1>
+    <div class="row mx-0 pt-4">
+      <div cols="12" class="col-12 mb-3 mb-md-1">
+        <h1 class="notifications__title mb-3">Recientes</h1>
         <div class="notifications-list">
           <notification-card
             v-for="(notification, index) in newNotifications"
@@ -17,9 +17,9 @@
           v-if="newNotifications.length <= 0"
           >No se encontraron nuevas notificaciones</span
         >
-      </b-col>
-      <b-col cols="12" class="mb-3 mb-md-1">
-        <h1 class="notifications__title">Anteriores</h1>
+      </div>
+      <div cols="12" class="col-12 mb-3 mb-md-1">
+        <h1 class="notifications__title mb-3">Leídos</h1>
         <div class="notifications-list">
           <notification-card
             v-for="(notification, index) in oldNotifications"
@@ -41,8 +41,8 @@
             {{ isLoadingNotifications ? "Cargando" : "Ver mas" }}
           </b-button>
         </div>
-      </b-col>
-    </b-row>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -54,9 +54,10 @@ import {
   closeAlert,
 } from "@/utils/SweetAlert";
 import NotificationCard from "@/modules/client/views/Components/NotificationCard.vue";
+import { ref } from "vue";
 
-const isLoadingNotifications = false;
-const newNotifications: any = [
+const isLoadingNotifications = ref(false);
+const newNotifications = ref([
   {
     id: 1,
     status: 0,
@@ -71,8 +72,8 @@ const newNotifications: any = [
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Id omnis sequi dolorem assumenda saa sd epe amet perspiciatis. Cupiditate incidunt dolorum pariatur, quisquam obcaecati ratione odio eveniet ",
   },
-];
-const oldNotifications: any = [
+]);
+const oldNotifications = ref([
   {
     id: 3,
     status: 1,
@@ -94,7 +95,7 @@ const oldNotifications: any = [
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Id omnis sequi dolorem assumenda saa sd epe amet perspiciatis. Cupiditate incidunt dolorum pariatur, quisquam obcaecati ratione odio eveniet ",
   },
-];
+]);
 
 // Eliminar una notificación
 async function handleDeleteNotification(notification: any) {
@@ -110,15 +111,15 @@ async function handleDeleteNotification(notification: any) {
     const timeOut = setTimeout(() => {
       let index = 0;
       if (notification.status == 0) {
-        index = this.newNotifications.findIndex(
+        index = newNotifications.value.findIndex(
           (not: any) => not.id == notification.id
         );
-        this.newNotifications.splice(index, 1);
+        newNotifications.value.splice(index, 1);
       } else {
-        index = this.oldNotifications.findIndex(
+        index = oldNotifications.value.findIndex(
           (not: any) => not.id == notification.id
         );
-        this.oldNotifications.splice(index, 1);
+        oldNotifications.value.splice(index, 1);
       }
 
       alertSuccessfully("Se elimino la notificación correctamente");
@@ -134,12 +135,14 @@ async function handleDeleteNotification(notification: any) {
 // Marcar como leida una notificación
 function handleCheckNotification(id: number) {
   alertLoading();
-  const notification = this.newNotifications.find((not: any) => not.id == id);
-  const index = this.newNotifications.findIndex((not: any) => not.id == id);
-  notification.status = 1;
+  const notification: any = newNotifications.value.find(
+    (not: any) => not.id == id
+  );
+  const index = newNotifications.value.findIndex((not: any) => not.id == id);
+  notification!.status = 1;
   const timeOut = setTimeout(() => {
-    this.oldNotifications.unshift(notification);
-    this.newNotifications.splice(index, 1);
+    oldNotifications.value.unshift(notification);
+    newNotifications.value.splice(index, 1);
     alertSuccessfully("Notificacion actualizada");
     const timeOut2 = setTimeout(() => {
       closeAlert();
@@ -151,7 +154,7 @@ function handleCheckNotification(id: number) {
 
 // Cargar mas notificación
 function loadNotifications() {
-  this.isLoadingNotifications = true;
+  isLoadingNotifications.value = true;
   const notifications = {
     id: 6,
     status: 1,
@@ -161,9 +164,9 @@ function loadNotifications() {
   };
 
   const timeOut = setTimeout(() => {
-    this.oldNotifications.push(notifications);
-    this.oldNotifications.push(notifications);
-    this.isLoadingNotifications = false;
+    oldNotifications.value.push(notifications);
+    oldNotifications.value.push(notifications);
+    isLoadingNotifications.value = false;
     clearTimeout(timeOut);
   }, 2000);
 }

@@ -3,7 +3,7 @@
     <b-col cols="12" lg="3" class="profile__menu">
       <div class="menu__container py-3 px-4 bg-white d-block d-lg-none">
         <div>
-          <div class="mb-2" v-b-toggle.collapse-3>
+          <div class="mb-2">
             <i class="fa-solid fa-house-circle-check me-2"></i
             ><span>Mis Proyectos</span
             ><i class="fa-solid fa-angle-down ms-2"></i>
@@ -37,7 +37,7 @@
         class="menu__container py-3 px-4 bg-white d-none d-lg-block"
       >
         <div>
-          <div class="mb-2" v-b-toggle.collapse-3>
+          <div class="mb-2">
             <i class="fa-solid fa-house-circle-check me-2"></i
             ><span>Mis Proyectos</span
             ><i class="fa-solid fa-angle-down ms-2"></i>

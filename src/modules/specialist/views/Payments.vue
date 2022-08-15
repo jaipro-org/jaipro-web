@@ -1,11 +1,11 @@
 <template>
   <div id="payments__container" class="mb-2 pt-4">
     <h1 class="payments__title">Mis pagos - Realizar pagos</h1>
-    <b-row class="mx-0 pt-2">
+    <div class="row mx-0 pt-2">
       <b-col cols="12" class="mb-3 mb-md-1 px-0">
         <b-card class="payments__card">
           <h1 class="payments__title-card">Información del cliente</h1>
-          <b-row class="mx-0 pt-2">
+          <div class="row mx-0 pt-2">
             <b-col cols="12" md="8" class="mt-3">
               <b-form-group
                 label-cols="12"
@@ -39,7 +39,7 @@
                 <b-form-input v-model="client.location" disabled></b-form-input>
               </b-form-group>
             </b-col>
-          </b-row>
+          </div>
         </b-card>
       </b-col>
       <b-col cols="12" class="mb-3 mb-md-1 px-0">
@@ -47,7 +47,7 @@
           <h1 class="payments__title2-card text-center">
             Puedes realizar tus pagos por medio de las plataformas digitales
           </h1>
-          <b-row class="mx-0 justify-content-around mt-4">
+          <div class="row mx-0 justify-content-around mt-4">
             <b-col cols="12" md="4" class="mb-3 mb-md-1">
               <h2 class="payments__subtitle-card text-center">
                 YAPE, TUNKI, PLIN
@@ -77,7 +77,7 @@
                 </div>
               </div>
             </b-col>
-          </b-row>
+          </div>
         </b-card>
       </b-col>
       <b-col cols="12" class="mb-3 mb-md-1 px-0">
@@ -101,7 +101,7 @@
             </b-table>
           </div>
           <b-form @submit.prevent="sendPay" validated>
-            <b-row class="mx-0">
+            <div class="row mx-0">
               <b-col cols="12" md="5">
                 <b-form-group
                   id="group-bank-select"
@@ -146,7 +146,7 @@
                   />
                 </div>
               </b-col>
-            </b-row>
+            </div>
             <button type="submit" ref="form-button" class="d-none">
               submit
             </button>
@@ -163,7 +163,7 @@
           >Pagar
         </b-button>
       </b-col>
-    </b-row>
+    </div>
   </div>
 </template>
 
@@ -174,20 +174,20 @@ import {
   closeAlert,
 } from "@/utils/SweetAlert";
 import UploadImages from "@/shared/components/UploadDropImages.vue";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 
-const eventImages: Array<any> = [];
-const form: any = {
+const eventImages = ref([]);
+const form: any = ref({
   bank: 0,
   numberOperation: "",
-};
-const client: any = {
+});
+const client: any = ref({
   name: "Alberto Perez",
   category: "Pintor",
   speciality: "Pintura de interiores",
   location: "Los Olivos, lima Peru",
-};
-const fields: Array<any> = [
+});
+const fields = ref([
   {
     key: "code_payment",
     label: "Código de pago",
@@ -200,29 +200,27 @@ const fields: Array<any> = [
     key: "comission_payment",
     label: "Comisión a pagar",
   },
-];
-const items: Array<any> = [
+]);
+const items = ref([
   { code_payment: "ABD12345", amount_charged: "1200", comission_payment: "30" },
-];
-const options: Array<any> = [
+]);
+const options = ref([
   { value: 0, text: "BCP" },
   { value: 1, text: "BBVA" },
   { value: 2, text: "INTERBANK" },
-];
+]);
 
 const cantImages = computed(() => {
-  return this.eventImages.length > 0 ? true : false;
+  return eventImages.value.length > 0 ? true : false;
 });
 
 function handleImages(files: any) {
-  this.eventImages = files;
+  eventImages.value = files;
 }
 
-function sendPay();
-
-{
+function sendPay() {
   console.log("realizar pago");
-  if (this.cantImages) {
+  if (cantImages.value) {
     alertLoading();
     const timeOut = setTimeout(() => {
       alertSuccessfully("Se envio el pago exitosamente");
