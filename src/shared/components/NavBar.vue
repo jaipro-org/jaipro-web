@@ -39,14 +39,18 @@
                 >
               </router-link>
             </li>
-
+            <li class="nav-item hide-item">
+              <a class="nav-link" href="#how-it-works" v-smooth-scroll>
+                <p class="nav-link-menu">Cómo funciona</p>
+              </a>
+            </li>
             <li class="nav-item hide-item">
               <a class="nav-link" href="#services" v-smooth-scroll>
                 <p class="nav-link-menu">Servicios</p>
               </a>
             </li>
             <li class="nav-item hide-item primary-menu__list-item">
-              <a class="nav-link" href="#afiliacion" v-smooth-scroll>
+              <a class="nav-link" href="#">
                 <p class="nav-link-menu">Especialistas</p>
               </a>
               <div class="pin-container">
@@ -56,18 +60,15 @@
                 <b-container>
                   <div class="primary-menu__dropdown-item-wrapper">
                     <div class="primary-menu__dropdown-item">
-                      <a
-                        href="#afiliacion"
-                        v-smooth-scroll
+                      <router-link
+                        :to="{name: 'affiliation-page'}"
                         class="primary-menu__dropdown-item-link"
                       >
-                        <h4>Como afiliamos a los especialistas</h4>
+                        <h4>Como te afiliamos</h4>
                         <p>
-                          Lorem Ipsum is simply dummy text of the printing and
-                          typesetting industry. Lorem Ipsum has been the
-                          industry's standard dummy text ever since the 1500
+                          Conoce nuestro proceso de afiliación
                         </p>
-                      </a>
+                      </router-link>
                     </div>
                     <div class="primary-menu__dropdown-item">
                       <router-link
@@ -76,9 +77,7 @@
                       >
                         <h4>Buscar especialistas</h4>
                         <p>
-                          Lorem Ipsum is simply dummy text of the printing and
-                          typesetting industry. Lorem Ipsum has been the
-                          industry's standard dummy text ever since the 1500
+                          Encuentra miles de especialistas interesados en tu proyecto
                         </p>
                       </router-link>
                     </div>

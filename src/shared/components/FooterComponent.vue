@@ -6,7 +6,7 @@
     <!-- Footer Column 1 -->
     <div class="container footer-container">
       <div class="col-lg-3 col-md-6 footer-logo">
-        <img src="@/assets/img/logo_footer.png" />
+        <img :src="logoFooterSvg" />
         <!-- <p class="footer-susection-text">
           A beautiful landing page template by Codefest.
         </p> -->
@@ -62,6 +62,16 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
+import logoFooterSvg from "@/assets/svg/logo-footer.svg";
 
-export default defineComponent({});
+export default defineComponent({
+  name: "FooterComponent",
+  setup(){
+
+
+    return {
+      logoFooterSvg
+    }
+  }
+});
 </script>

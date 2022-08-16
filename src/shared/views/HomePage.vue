@@ -13,13 +13,17 @@
             especialistas calificados interesados en tu proyecto
           </p>
           <div class="learn-more-btn-section">
-            <a class="nav-link learn-more-btn btn-invert" href="#services"
+            <!-- <a class="nav-link learn-more-btn btn-invert" href="#services"
               >Quiero cotizar</a
-            >
+            > -->
+            <router-link to="/cliente/nuevo-proyecto" custom v-slot="{ navigate, href }">
+              <a :href="href" @click="navigate" class="nav-link learn-more-btn btn-invert">Quiero cotizar</a>
+            </router-link>
           </div>
         </div>
       </div>
     </div>
+    <div id="how-it-works"></div>
     <!-- STRATEGY SECTION -->
     <div class="strategy-section">
       <div class="pricing-title container">
@@ -362,7 +366,7 @@ export default defineComponent({
       applyAsSpecialistSvg,
       searchForOpportunitiesSvg,
       workHomeProjectSvg,
-      specialties,
+      specialties
     };
   },
 });
