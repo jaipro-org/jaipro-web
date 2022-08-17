@@ -1,25 +1,25 @@
 <template>
-  <div class="nav__container">
-    <b-navbar
-      id="navbar-client"
-      :class="setScrollClass ? 'header-client-scrolled' : ''"
-      toggleable="lg"
-      type="dark"
-      class="py-1 bg-white"
+  <div>
+    <nav
+      id="navbar"
+      :class="showScrollClass ? 'header-scrolled' : ''"
+      class="navbar fixed-top navbar-expand-lg navbar-header navbar-mobile"
     >
-      <b-container fluid="lg">
+      <div class="navbar-container container">
+        <!-- LOGO -->
         <div class="navbar-brand">
           <a class="navbar-brand-logo" @click="$router.push({ name: 'home' })">
-            <img :src="logo" width="155px" />
+            <img :src="logo" width="155px" alt="jaipro-logo" />
           </a>
         </div>
-      </b-container>
-    </b-navbar>
+      </div>
+    </nav>
   </div>
 </template>
+
 <script lang="ts">
 import { store } from "@/store/modules/general";
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import logo from "@/assets/svg/logo.svg";
 
 export default defineComponent({
@@ -27,81 +27,39 @@ export default defineComponent({
     return {
       step_login: 0,
       step_register: 0,
-      logo,
+      showScrollClass: ref(false),
+      currentScrollPosY: ref(window.scrollY),
+      logo
     };
   },
+  // computed: {
+  //   setScrollClass() {
+  //     if (store.state.scrollY > 20) return true;
+  //     else return false;
+  //   },
+  // },
   computed: {
     setScrollClass() {
-      if (store.state.scrollY > 20) return true;
+      console.log("OK", window.scrollY);
+      if (window.scrollY > 20) return true;
       else return false;
     },
+  },
+  watch: {
+    currentScrollPosY(val, oldVal) {
+      if (val > 20) {
+        this.showScrollClass = true;
+      } else {
+        this.showScrollClass = false;
+      }
+    },
+  },
+  created() {
+    setInterval(() => {
+      this.currentScrollPosY = window.scrollY;
+    }, 100);
   },
 });
 </script>
 
-<style lang="scss">
-.nav__container {
-  position: sticky;
-  top: 0;
-  left: 0;
-  z-index: 3;
-
-  .header-client-scrolled {
-    width: 100%;
-    height: 75px;
-    background-color: #fff !important;
-    box-shadow: 0 4px 6px 0 rgb(12 0 46 / 5%);
-  }
-
-  .navUser__box {
-    .navUser__image {
-      width: 60px;
-      height: 60px;
-      margin: auto;
-
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 100%;
-      }
-    }
-
-    h1 {
-      font-size: 1.2rem;
-    }
-
-    .dropdown__name {
-      font-size: 0.95rem;
-    }
-  }
-
-  .navItem {
-    cursor: pointer;
-    span {
-      font-size: 0.9rem;
-    }
-  }
-
-  .navItem:hover {
-    color: #3a88ec;
-  }
-
-  .user__image {
-    height: 40px;
-    width: 40px;
-    display: inline-flex;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 100%;
-    }
-  }
-}
-
-.collapse.show {
-  box-shadow: 0px 3px 1px rgba(0, 0, 0, 0.11);
-}
-</style>
+<style></style>

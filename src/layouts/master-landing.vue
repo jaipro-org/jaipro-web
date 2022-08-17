@@ -18,14 +18,6 @@ export default defineComponent({
   components: {
     NavBar,
     Footer,
-  },
-  data() {
-    return {
-      componentClassName: "master-landing.vue",
-    };
-  },
-  mounted() {
-    console.log("componentClassName:", this.componentClassName);
-  },
+  }
 });
 </script>

@@ -21,7 +21,7 @@
           </b-col>
           <b-col md="4">
             <div class="img_profile">
-              <b-img :src="publicProjectSvg"></b-img>
+              <b-img :src="mainBannerImg" height="300px"></b-img>
             </div>
           </b-col>
         </b-row>
@@ -101,7 +101,7 @@
 </template>
 
 <script lang="ts">
-import publicProjectSvg from "@/assets/svg/publish-project.svg";
+import mainBannerImg from "@/assets/img/img009-min.jpg";
 
 import { defineComponent } from "vue";
 
@@ -110,7 +110,7 @@ export default defineComponent({
     setup(){
 
         return {
-            publicProjectSvg
+            mainBannerImg
         }
     }
 })

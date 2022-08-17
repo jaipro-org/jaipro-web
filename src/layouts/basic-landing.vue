@@ -18,7 +18,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.wrapper {
-  padding-top: 0 !important;
-}
+// .wrapper {
+//   padding-top: 0 !important;
+// }
 </style>

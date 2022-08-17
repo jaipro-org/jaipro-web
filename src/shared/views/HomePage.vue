@@ -90,7 +90,7 @@
           <div class="strategy-card">
             <div class="strategy-card-icon-section">
               <!-- <img src="@/assets/img/svg/make-payment.svg" /> -->
-              <img :src="makePaymentSvg" />
+              <img :src="makePaymentSvg" alt="make-payment-img" />
             </div>
             <h2>Realiza el pago y califica</h2>
             <p>
@@ -165,7 +165,6 @@
               <div class="blog-post-card-container">
                 <div class="blog-post-card">
                   <div class="blog-post-icon">
-                    <!-- <img :src="slide.img" /> -->
                     <img :src="slide.img" />
                   </div>
                   <h3 class="blog-post-title">{{ slide.name }}</h3>
