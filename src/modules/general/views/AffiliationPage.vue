@@ -3,95 +3,115 @@
     <b-container>
       <div class="header-section">
         <b-row>
-          <b-col md="8">
-            <div class="datos">
-              <h2>Sé un especialista con Jaipro!</h2>
-              <p>
+          <b-col md="7">
+            <div class="header-info-section">
+              <h2 class="header-title">Sé un especialista con Jaipro!</h2>
+              <p class="header-subtitle">
                 Obtén acceso a cientos de trabajos en su ciudad y cree su propio
                 horario
               </p>
-              <div class="btn-page">
+              <div class="header-button">
                 <b-button
                   class="mr-2"
                   variant="primary"
-                  >Aplicar ahora
+                  @click="$router.push({ name: 'register-specialist' })"
+                >
+                  Aplicar ahora
                 </b-button>
               </div>
             </div>
           </b-col>
-          <b-col md="4">
-            <div class="img_profile">
-              <b-img :src="mainBannerImg" height="300px"></b-img>
+          <b-col md="5">
+            <div class="header-img-section">
+              <b-img
+                thumbnail
+                fluid
+                :src="mainBannerImg"
+                height="300px"
+              ></b-img>
             </div>
           </b-col>
         </b-row>
       </div>
       <div class="flow-section">
-        <b-row>
-          <b-col md="4">
-            <div class="img_profile">
-              <!-- <b-img :src="imgProfile"></b-img> -->
-            </div>
-          </b-col>
-          <b-col md="8">
-            <div>
-              <h3>1. Registro como especialista</h3>
-              <p class="card-text">
-                Registrate como un especialista completando el formulario de
-                registro en la web
-              </p>
-            </div>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col md="4">
-            <div class="img_profile">
-              <!-- <b-img :src="imgProfile"></b-img> -->
-            </div>
-          </b-col>
-          <b-col md="8">
-            <div>
-              <h3>2. Validación de información</h3>
-              <p>
-                Despues del registro, nos pondremos en contacto con usted para
-                validar sus datos y experiencia como especialista
-              </p>
-            </div>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col md="4">
-            <div class="img_profile">
-              <!-- <b-img :src="imgProfile"></b-img> -->
-            </div>
-          </b-col>
-          <b-col md="8">
-            <div>
-              <h3>3. Perfil verificado</h3>
-              <p>
-                Si todo va bien, obtendras la insignia de verificado en tu
-                perfil y estarás listo(a) para buscar nuevas oportunidades de
-                trabajo
-              </p>
-            </div>
-          </b-col>
-        </b-row>
+        <div class="flow-title-section">
+          <h2 class="flow-title">Afíliate rápido y fácil</h2>
+        </div>
+        <div class="flow-list-section">
+          <div class="flow-list-item">
+            <b-row>
+              <b-col md="7">
+                <div class="flow-text">
+                  <h3>1. Registro como especialista</h3>
+                  <p>
+                    Regístrate como un especialista completando el formulario de
+                    registro en la web
+                  </p>
+                </div>
+              </b-col>
+              <b-col md="5">
+                <div class="flow-img">
+                  <b-img center :src="registerAsSpecialistSvg" height="200px"></b-img>
+                </div>
+              </b-col>
+            </b-row>
+          </div>
+          <div class="flow-list-item">
+            <b-row>
+              <b-col md="7">
+                <div class="flow-text">
+                  <h3>2. Validación de información</h3>
+                  <p>
+                    Despues del registro, nos pondremos en contacto con usted
+                    para validar sus datos y experiencia como especialista
+                  </p>
+                </div>
+              </b-col>
+              <b-col md="5">
+                <div class="flow-img">
+                  <b-img center :src="checkInfoSvg" height="200px"></b-img>
+                </div>
+              </b-col>
+            </b-row>
+          </div>
+          <div class="flow-list-item">
+            <b-row>
+              <b-col md="7">
+                <div class="flow-text">
+                  <h3>3. Perfil verificado</h3>
+                  <p>
+                    Si todo va bien, obtendrás la insignia de verificado en tu
+                    perfil y estarás listo(a) para buscar nuevas oportunidades
+                    de trabajo
+                  </p>
+                </div>
+              </b-col>
+              <b-col md="5">
+                <div class="flow-img">
+                  <b-img center :src="profileVerifiedSvg" height="200px"></b-img>
+                </div>
+              </b-col>
+            </b-row>
+          </div>
+        </div>
       </div>
       <div class="rq-section">
         <div class="rq-title-section">
           <h2 class="rq-title">Requerimientos</h2>
         </div>
-        <div class="rq-text-section">
+        <div class="rq-list-section">
           <b-row>
             <b-col md="12">
-              <p class="rq-text">It is a long established fact that a reader will be distracted by the readable content of a page when 
-                looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution 
-                of letters, as opposed to using 'Content here, content here', making it look like readable English. 
-                Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, 
-                and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions 
-                have evolved over the years, sometimes by accident, sometimes
-                 on purpose (injected humour and the like).
-              </p>
+              <ul class="rq-list">
+                <li>
+                  Debe tener experiencia comprobada con los servicios que esta
+                  solicitando
+                </li>
+                <li>
+                  Debe estar autorizado para trabajar en el pais de registro
+                </li>
+                <li>Debe tener buenas habilidades de servicio al cliente</li>
+              </ul>
             </b-col>
           </b-row>
         </div>
@@ -102,20 +122,82 @@
 
 <script lang="ts">
 import mainBannerImg from "@/assets/img/img009-min.jpg";
+import checkInfoSvg from "@/assets/svg/check-information.svg";
+import profileVerifiedSvg from "@/assets/svg/profile-verified.svg";
+import registerAsSpecialistSvg from "@/assets/svg/register-as-specialist.svg";
 
 import { defineComponent } from "vue";
 
 export default defineComponent({
-    name: "AffiliationPageComponent",
-    setup(){
-
-        return {
-            mainBannerImg
-        }
-    }
-})
-
+  name: "AffiliationPageComponent",
+  setup() {
+    return {
+      mainBannerImg,
+      checkInfoSvg,
+      profileVerifiedSvg,
+      registerAsSpecialistSvg,
+    };
+  },
+});
 </script>
 
-<style>
+<style lang="scss" scoped>
+.flow-list-section p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #000;
+  font-family: Poppins;
+  font-weight: 300;
+  max-width: 600px;
+}
+
+.flow-section,
+.rq-section {
+  padding-top: 55px;
+  padding-bottom: 55px;
+}
+
+.rq-title-section,
+.flow-title-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.rq-title,
+.flow-title,
+.header-title {
+  font-family: Montserrat;
+  font-weight: 800;
+  font-size: 45px;
+  line-height: 1;
+  color: #303669;
+  margin-bottom: 20px;
+}
+
+.header-title {
+  font-family: Montserrat;
+  font-weight: 800;
+  font-size: 60px;
+  line-height: 1;
+  padding-bottom: 25px;
+  color: #303669;
+}
+
+.rq-list {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #000;
+  font-family: Poppins;
+  font-weight: 300;
+}
+
+.flow-list-item {
+  padding-left: 50px;
+  padding-bottom: 15px;
+}
+
 </style> 

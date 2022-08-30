@@ -3,17 +3,19 @@
     <NavbarProject />
     <div class="wrapper">
       <slot />
-      <!-- <Footer /> -->
+      <BasicFooter />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import NavbarProject from "@/shared/components/NavBarProject.vue";
+import BasicFooter from "@/shared/components/BasicFooter.vue";
 
 export default {
   components: {
     NavbarProject,
+    BasicFooter
   },
 };
 </script>
