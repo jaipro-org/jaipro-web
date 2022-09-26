@@ -3,4 +3,4 @@ interface Specialties {
     img: string
 }
 
-export default Specialties
+export default Specialties;

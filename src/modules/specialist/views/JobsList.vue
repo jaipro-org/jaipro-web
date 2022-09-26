@@ -107,7 +107,12 @@
               </div>
               <hr />
               <div
-                class="d-flex justify-content-between align-items-center flex-wrap"
+                class="
+                  d-flex
+                  justify-content-between
+                  align-items-center
+                  flex-wrap
+                "
               >
                 <div class="d-flex align-items-center">
                   <div class="job-detail__petitioner-image">
@@ -187,7 +192,12 @@
       </div>
     </div>
     <div
-      class="jobs__content jobs__content-web col-12 col-lg-4 pt-3 d-none d-lg-block"
+      class="
+        jobs__content jobs__content-web
+        col-12 col-lg-4
+        pt-3
+        d-none d-lg-block
+      "
     >
       <h4 class="mb-1 px-3">Trabajos</h4>
       <div class="jobs__list px-3 pt-1">
@@ -322,114 +332,138 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
 import { alertSuccessButton } from "@/utils/SweetAlert";
 import { defineComponent, onMounted, ref, watch, watchEffect } from "vue";
+import Job from "@/interfaces/Job.interface";
+import DropDownItem from "@/interfaces/DropDownItem.interface";
 
-const isWorkDetailActive = ref(false);
-const totalRows = ref(0);
-const currentPage = ref(1);
-const perPage = ref(4);
-const categorySelected = ref(0);
-const selectCategories = ref([
-  { value: 0, label: "Todas" },
-  { value: 1, label: "Albañil" },
-  { value: 2, label: "Electricista" },
-  { value: 3, label: "Gasfitero" },
-]);
-const dateSelected = ref(0);
-const selectDates = ref([
-  { value: 0, label: "Todas" },
-  { value: 1, label: "Hoy" },
-  { value: 2, label: "Esta semana" },
-  { value: 3, label: "Este mes" },
-]);
-const locationSelected = ref(0);
-const selectLocations = ref([
-  { value: 0, label: "Todas" },
-  { value: 1, label: "Lima Norte" },
-  { value: 2, label: "Lima Sur" },
-  { value: 3, label: "Lima Este" },
-]);
-const jobsList = ref([
-  {
-    id: 1,
-    petitioner: "Solicitante 1",
-    category: "Categoria 1",
-    description: "Descripcion de prueba para la card de trabajos",
-  },
-  {
-    id: 2,
-    petitioner: "Solicitante 2",
-    category: "Categoria 2",
-    description: "Descripcion de prueba para la card de trabajos",
-  },
-  {
-    id: 3,
-    petitioner: "Solicitante 3",
-    category: "Categoria 3",
-    description: "Descripcion de prueba para la card de trabajos",
-  },
-  {
-    id: 4,
-    petitioner: "Solicitante 4",
-    category: "Categoria 4",
-    description: "Descripcion de prueba para la card de trabajos",
-  },
-  {
-    id: 5,
-    petitioner: "Solicitante 5",
-    category: "Categoria 5",
-    description: "Descripcion de prueba para la card de trabajos",
-  },
-  {
-    id: 6,
-    petitioner: "Solicitante 6",
-    category: "Categoria 6",
-    description: "Descripcion de prueba para la card de trabajos",
-  },
-  {
-    id: 7,
-    petitioner: "Solicitante 7",
-    category: "Categoria 7",
-    description: "Descripcion de prueba para la card de trabajos",
-  },
-]);
-const jobsListFilter = ref([{}]);
-const form = ref({
-  min: "",
-  max: "",
-  coment: "",
-});
+export default defineComponent({
+  name: "JobsListComponent",
+  setup() {
+    const isWorkDetailActive = ref<boolean>(false);
+    const totalRows = ref<number>(0);
+    const currentPage = ref<number>(1);
+    const perPage = ref<number>(4);
+    const categorySelected = ref<number>(0);
+    const selectCategories = ref<DropDownItem[]>([
+      { value: 0, label: "Todas" },
+      { value: 1, label: "Albañil" },
+      { value: 2, label: "Electricista" },
+      { value: 3, label: "Gasfitero" },
+    ]);
+    const dateSelected = ref<number>(0);
+    const selectDates = ref<DropDownItem[]>([
+      { value: 0, label: "Todas" },
+      { value: 1, label: "Hoy" },
+      { value: 2, label: "Esta semana" },
+      { value: 3, label: "Este mes" },
+    ]);
+    const locationSelected = ref<number>(0);
+    const selectLocations = ref<DropDownItem[]>([
+      { value: 0, label: "Todas" },
+      { value: 1, label: "Lima Norte" },
+      { value: 2, label: "Lima Sur" },
+      { value: 3, label: "Lima Este" },
+    ]);
+    const jobsList = ref<Job[]>([
+      {
+        id: 1,
+        petitioner: "Solicitante 1",
+        category: "Categoria 1",
+        description: "Descripcion de prueba para la card de trabajos",
+      },
+      {
+        id: 2,
+        petitioner: "Solicitante 2",
+        category: "Categoria 2",
+        description: "Descripcion de prueba para la card de trabajos",
+      },
+      {
+        id: 3,
+        petitioner: "Solicitante 3",
+        category: "Categoria 3",
+        description: "Descripcion de prueba para la card de trabajos",
+      },
+      {
+        id: 4,
+        petitioner: "Solicitante 4",
+        category: "Categoria 4",
+        description: "Descripcion de prueba para la card de trabajos",
+      },
+      {
+        id: 5,
+        petitioner: "Solicitante 5",
+        category: "Categoria 5",
+        description: "Descripcion de prueba para la card de trabajos",
+      },
+      {
+        id: 6,
+        petitioner: "Solicitante 6",
+        category: "Categoria 6",
+        description: "Descripcion de prueba para la card de trabajos",
+      },
+      {
+        id: 7,
+        petitioner: "Solicitante 7",
+        category: "Categoria 7",
+        description: "Descripcion de prueba para la card de trabajos",
+      },
+    ]);
+    const jobsListFilter = ref<Job[]>([]);
+    const form = ref({
+      min: "",
+      max: "",
+      coment: "",
+    });
 
-function getAllJobs() {
-  totalRows.value = jobsList.value.length;
-  changePage(1);
-}
+    const changePage = (page: number) => {
+      jobsListFilter.value = jobsList.value.slice(
+        (page - 1) * perPage.value,
+        page * perPage.value
+      );
+    }
 
-function changePage(page: number) {
-  jobsListFilter.value = jobsList.value.slice(
-    (page - 1) * perPage.value,
-    page * perPage.value
-  );
-}
+    const getAllJobs = () => {
+      totalRows.value = jobsList.value.length;
+      changePage(1);
+    }
 
-function sendProposal() {
-  alertSuccessButton("Se envio una propuesta exitosamente");
-}
+    const sendProposal = () => {
+      alertSuccessButton("Se envio una propuesta exitosamente");
+    }
 
-watch(currentPage, (newValue, oldValue) => {
-  //changePage(newValue);
-  console.log(newValue, oldValue);
-});
+    watch(currentPage, (newValue, oldValue) => {
+      //changePage(newValue);
+      console.log(newValue, oldValue);
+    });
 
-watchEffect(() => {
-  //console.log(currentPage.value);
-  changePage(currentPage.value);
-});
+    watchEffect(() => {
+      //console.log(currentPage.value);
+      changePage(currentPage.value);
+    });
 
-onMounted(() => {
-  getAllJobs();
+    onMounted(() => {
+      getAllJobs();
+    });
+
+    return {
+      isWorkDetailActive,
+      totalRows,
+      currentPage,
+      perPage,
+      categorySelected,
+      selectCategories,
+      dateSelected,
+      selectDates,
+      locationSelected,
+      selectLocations,
+      jobsList,
+      jobsListFilter,
+      form,
+      sendProposal
+    };
+  },
 });
 </script>
 

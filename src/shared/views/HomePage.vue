@@ -313,7 +313,7 @@ import searchForOpportunitiesSvg from "@/assets/svg/search-for-opportunities.svg
 import workHomeProjectSvg from "@/assets/svg/work-on-home-project.svg";
 
 import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
-import Specialties from "@/interfaces/specialties";
+import Specialties from "@/interfaces/Specialties";
 import StarRating from "@/shared/components/public/StarRating.vue";
 
 export default defineComponent({
@@ -337,22 +337,10 @@ export default defineComponent({
 
     const specialties = ref<Specialties[]>([
       { name: "Pintura", img: require("@/assets/img/services/img003-min.jpg") },
-      {
-        name: "Carpinteria",
-        img: require("@/assets/img/services/img004-min.jpg"),
-      },
-      {
-        name: "Gasfitería",
-        img: require("@/assets/img/services/img005-min.jpg"),
-      },
-      {
-        name: "Construcción",
-        img: require("@/assets/img/services/img006-min.jpg"),
-      },
-      {
-        name: "Electricidad",
-        img: require("@/assets/img/services/img007-min.jpg"),
-      },
+      { name: "Carpinteria", img: require("@/assets/img/services/img004-min.jpg") },
+      { name: "Gasfitería", img: require("@/assets/img/services/img005-min.jpg") },
+      { name: "Construcción", img: require("@/assets/img/services/img006-min.jpg") },
+      { name: "Electricidad", img: require("@/assets/img/services/img007-min.jpg") }
     ]);
 
     return {
