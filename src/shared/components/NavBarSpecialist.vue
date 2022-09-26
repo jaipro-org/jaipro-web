@@ -33,16 +33,16 @@
                 <div class="text-center">
                   <i class="fa-solid fa-credit-card"></i>
                 </div>
-                <span class="d-block">Mis pagos</span>
+                <span class="d-block">Pagos</span>
               </router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <router-link :to="{ name: 'proposals' }" class="router-link">
                 <div class="text-center">
-                  <i class="fa-solid fa-list-ul me-2 me-lg-0"></i>
+                  <i class="fa-solid fa-wrench me-2 me-lg-0"></i>
                 </div>
-                <span class="d-block">Mis propuestas</span>
-              </a>
+                <span class="d-block">Propuestas</span>
+              </router-link>
             </li>
             <li class="nav-item">
               <router-link :to="{ name: 'jobs-list' }" class="router-link">

@@ -313,7 +313,7 @@ import searchForOpportunitiesSvg from "@/assets/svg/search-for-opportunities.svg
 import workHomeProjectSvg from "@/assets/svg/work-on-home-project.svg";
 
 import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
-import Specialties from "@/interfaces/Specialties";
+import Specialties from "@/interfaces/Specialty.interface";
 import StarRating from "@/shared/components/public/StarRating.vue";
 
 export default defineComponent({

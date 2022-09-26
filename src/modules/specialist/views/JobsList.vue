@@ -44,7 +44,7 @@
         </b-card>
       </div>
       <div class="jobs__content jobs__content--movil pt-3 d-lg-none mb-5">
-        <h4>Trabajos</h4>
+        <h4 class="text-center">Trabajos</h4>
         <div class="jobs__list px-3">
           <b-card
             class="job__item mb-4"

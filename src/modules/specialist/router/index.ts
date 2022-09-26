@@ -41,6 +41,15 @@ export default {
         ),
     },
     {
+      path: "propuestas",
+      name: "proposals",
+      meta: { layout: "specialist-landing" },
+      component: () =>
+        import(
+          /* webpackChunkName: "proposals" */ "@/modules/specialist/views/Proposals.vue"
+        ),
+    },
+    {
       path: "/",
       redirect: { name: "specialist-profile" },
     },
