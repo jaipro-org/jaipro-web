@@ -314,6 +314,7 @@ import workHomeProjectSvg from "@/assets/svg/work-on-home-project.svg";
 
 import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
 import Specialties from "@/interfaces/Specialty.interface";
+import Testimony from "@/interfaces/Testimony.interface";
 import StarRating from "@/shared/components/public/StarRating.vue";
 
 export default defineComponent({
@@ -343,6 +344,13 @@ export default defineComponent({
       { name: "Electricidad", img: require("@/assets/img/services/img007-min.jpg") }
     ]);
 
+    const testimonials = ref<Testimony[]>([
+      {name: "Pedro Pablo Agustin", text: "Excelente profesional. Tenía una asimetría de los párpados muy marcada, otros Medicos me habían dicho que no se podría quedar 100% igual"},
+      {name: "Pedro Pablo Agustin", text: "Excelente profesional. Tenía una asimetría de los párpados muy marcada, otros Medicos me habían dicho que no se podría quedar 100% igual"},
+      {name: "Pedro Pablo Agustin", text: "Excelente profesional. Tenía una asimetría de los párpados muy marcada, otros Medicos me habían dicho que no se podría quedar 100% igual"},
+      {name: "Pedro Pablo Agustin", text: "Excelente profesional. Tenía una asimetría de los párpados muy marcada, otros Medicos me habían dicho que no se podría quedar 100% igual"}
+    ]);
+
     return {
       tabIndex,
       settings,
@@ -353,7 +361,8 @@ export default defineComponent({
       applyAsSpecialistSvg,
       searchForOpportunitiesSvg,
       workHomeProjectSvg,
-      specialties
+      specialties,
+      testimonials
     };
   },
 });
