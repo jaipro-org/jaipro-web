@@ -315,11 +315,11 @@ import workHomeProjectSvg from "@/assets/svg/work-on-home-project.svg";
 import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
 import Specialties from "@/interfaces/Specialty.interface";
 import Testimony from "@/interfaces/Testimony.interface";
-import StarRating from "@/shared/components/public/StarRating.vue";
+import StarRatingComponent from "@/shared/components/public/StarRating.vue";
 
 export default defineComponent({
   name: "HomeComponent",
-  components: { StarRating, Carousel, Slide, Pagination, Navigation },
+  components: { StarRatingComponent, Carousel, Slide, Pagination, Navigation },
   setup() {
     const tabIndex = ref(0);
     const settings = ref({ itemsToShow: 1, snapAlign: "center" });

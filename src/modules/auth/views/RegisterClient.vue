@@ -9,7 +9,7 @@
           <b-form @submit.prevent="registerClient">
             <b-form-group label="Nombres" label-for="txtName_r">
               <b-form-input
-                v-model="name"
+                v-model="firstname"
                 id="txtName_r"
                 type="text"
                 placeholder="Ingrese sus nombres"
@@ -75,16 +75,33 @@
   </div>
 </template>
 
-<script setup lang="ts">
-const name = "";
-const lastname = "";
-const email = "";
-const password = "";
-const confirmPassword = "";
+<script lang="ts">
+import { defineComponent, ref } from "vue";
 
-function registerClient() {
-  console.log("registerClient here!", this.name);
-}
+export default defineComponent({
+  name: "RegisterComponent",
+  setup(){
+    const firstname = ref("");
+    const lastname = ref("");
+    const password = ref("");
+    const confirmPassword = ref("");
+    const email = ref("");
+
+    const registerClient = () => {
+      console.log("registerClient here!");
+    };
+
+    return{
+      firstname,
+      lastname,
+      email,
+      password,
+      confirmPassword,
+      registerClient
+    }
+  }
+});
+
 </script>
 
 <style scoped>

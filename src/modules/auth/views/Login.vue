@@ -44,21 +44,37 @@
   </div>
 </template>
 
-<script setup lang="ts">
-const email = "";
-const password = "";
+<script lang="ts">
+import { defineComponent, ref } from "vue";
 
-function login() {
-  console.log("login here!");
-}
+export default defineComponent({
+  name: "LoginComponent",
+  setup(){
+    const email = ref("");
+    const password = ref("");
 
-function forgotPassword() {
-  console.log("forgotPassword here!");
-}
+    const login = () => {
+      console.log("login here!");
+    };
 
-function registerUser() {
-  console.log("registerUser here!");
-}
+    const forgotPassword = () => {
+      console.log("forgotPassword here!");
+    };
+
+    const registerUser = () => {
+      console.log("registerUser here!");
+    };
+
+    return{
+      email,
+      password,
+      login,
+      forgotPassword,
+      registerUser
+    }
+  }
+});
+
 </script>
 
 <style scoped>

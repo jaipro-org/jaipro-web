@@ -1,7 +1,7 @@
 <template>
   <div class="b-rating-container">
     <span
-      v-for="index in 5"
+      v-for="index in totalStar"
       :key="index"
       tabindex="-1"
       class="b-rating-star flex-grow-1 b-rating-star-full"
@@ -26,13 +26,24 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { ref } from "vue";
+<script lang="ts">
+import { defineComponent, ref } from "vue";
 
-const opinion!: any = ref({});
+export default defineComponent({
+  name: "StarRatingComponent",
+  setup(){
+    const isShow = ref(false); // Controla el muestreo desplegado de la card
+    const isActive = ref(false); //Controla la activacion de la clase para la animación de despliegue
+    const totalStar = ref(5);
 
-const isShow = false; // Controla el muestreo desplegado de la card
-const isActive = false; //Controla la activacion de la clase para la animación de despliegue
+    return{
+      isShow,
+      isActive,
+      totalStar
+    }
+  }
+});
+
 </script>
 
 <style lang="scss" scoped>

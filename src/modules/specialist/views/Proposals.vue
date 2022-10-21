@@ -365,7 +365,7 @@
   </div>
 </template>
   
-  <script lang="ts">
+<script lang="ts">
 import { alertSuccessButton } from "@/utils/SweetAlert";
 import { defineComponent, onMounted, ref, watch, watchEffect } from "vue";
 import Proposal from "@/interfaces/Proposal.interface";

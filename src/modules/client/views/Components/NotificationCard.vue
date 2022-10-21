@@ -52,13 +52,22 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { defineProps, ref, toRefs } from "vue";
+<script lang="ts">
+import { defineComponent, defineProps, ref, toRefs } from "vue";
 
-const props = defineProps<{
-  notification: any;
-}>();
-const { notification } = toRefs(props);
+export default defineComponent({
+  name: "NotificationCardComponent",
+  props:{
+    notification: Object
+  },
+  setup(props){
+    const { notification } = toRefs(props);
+
+    return{
+      notification
+    }
+  }
+});
 </script>
 
 <style lang="scss">
