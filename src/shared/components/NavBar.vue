@@ -85,6 +85,11 @@
                 </b-container>
               </div>
             </li>
+            <li class="nav-item hide-item">
+              <a class="nav-link" href="#how-it-works" v-smooth-scroll>
+                <p class="nav-link-menu">Como funciona</p>
+              </a>
+            </li>
             <li class="nav-item only-m">
               <router-link class="nav-link" :to="{ name: 'login' }">
                 <p class="nav-link-menu">Buscar especialistas</p>
