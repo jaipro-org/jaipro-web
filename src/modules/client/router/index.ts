@@ -1,4 +1,4 @@
-import { Route } from "vue-router";
+import { RouteLocationNormalized } from "vue-router";
 
 export default {
   component: () =>
@@ -20,12 +20,8 @@ export default {
       path: "nuevo-proyecto",
       name: "new-project",
       meta: { layout: "basic-landing" },
-      component: () =>
-        import(
-          "@/modules/client/views/NewProject.vue"
-        ),
+      component: () => import("@/modules/client/views/NewProject.vue"),
     },
-    
     {
       path: "mis-proyectos/:type",
       name: "my-projects",
@@ -34,10 +30,10 @@ export default {
         import(
           /* webpackChunkName: "my-projects" */ "@/modules/client/views/MyProjects.vue"
         ),
-        props: (route: Route) => {
-          const type = route.params.type
-          return {type}
-        }
+      props: (route: RouteLocationNormalized) => {
+        const type = route.params.type;
+        return { type };
+      },
     },
     {
       path: "detalle-proyecto/:projectId",
@@ -47,13 +43,11 @@ export default {
         import(
           /* webpackChunkName: "project-detail" */ "@/modules/client/views/ProjectDetail.vue"
         ),
-      props: (route: Route) => {
-        const projectId = route.params.projectId
-        return {projectId}
-      }
-
+      props: (route: RouteLocationNormalized) => {
+        const projectId = Number(route.params.projectId);
+        return { projectId };
+      },
     },
-    
     {
       path: "chat-especialista",
       name: "specialist-chat",
@@ -65,7 +59,7 @@ export default {
     },
     {
       path: "notificaciones",
-      name: "notifications",
+      name: "client-notifications",
       meta: { layout: "client-landing" },
       component: () =>
         import(

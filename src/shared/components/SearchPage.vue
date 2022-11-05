@@ -8,7 +8,7 @@
         <!-- LOGO -->
         <div class="navbar-brand">
           <a class="navbar-brand-logo" href="#">
-            <img src="@/assets/img/logo.png" width="155px" />
+            <img :src="logo" width="155px" />
           </a>
         </div>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -66,12 +66,17 @@
     </nav>
   </div>
 </template>
-<script>
-export default {
+<script lang="ts">
+
+import { defineComponent } from "vue";
+import logo from "@/assets/svg/logo.svg";
+
+export default defineComponent({
   data() {
     return {
       step_login: 0,
       step_register: 0,
+      logo
     };
   },
   mounted() {
@@ -79,7 +84,7 @@ export default {
   },
   methods: {
     navChangeColor() {
-      let navbar = document.querySelector("#navbar");
+      let navbar: any = document.querySelector("#navbar");
       window.onscroll = () => {
         if (window.scrollY > 20) {
           navbar.classList.add("header-scrolled");
@@ -87,11 +92,7 @@ export default {
           navbar.classList.remove("header-scrolled");
         }
       };
-    },
-    showModalRegister() {
-      this.$bvModal.hide("modal-login");
-      this.$bvModal.show("modal-register");
-    },
+    }
   },
-};
+});
 </script>

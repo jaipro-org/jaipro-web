@@ -1,4 +1,4 @@
-# hogarep-web
+# Jaipro
 
 ## Project setup
 ```

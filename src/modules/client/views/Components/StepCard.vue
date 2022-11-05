@@ -1,98 +1,103 @@
 <template>
   <div>
-    <b-card class="step-card" >
-      <div class="d-flex justify-content-between step-card__item" v-if="!isShow" >
+    <b-card class="step-card">
+      <div
+        class="d-flex justify-content-between step-card__item"
+        v-if="!isShow"
+      >
         <h1 class="step-card__title">
-          {{title}}
+          {{ title }}
         </h1>
         <i class="fa-solid fa-angle-down" @click="openCollapse"></i>
       </div>
-      <div v-else class="step-card__item step-card__item--collapse" :class="{'active':isActive}">
+      <div
+        v-else
+        class="step-card__item step-card__item--collapse"
+        :class="{ active: isActive }"
+      >
         <b-row class="mx-0">
-          <b-col cols="12" class="d-block d-md-none text-right mb-3">
+          <b-col cols="12" class="d-block d-md-none text-end mb-3">
             <i class="fa-solid fa-angle-up" @click="closeCollapse"></i>
           </b-col>
-          <b-col cols="12" md="10" class="d-flex flex-wrap justify-content-center justify-content-md-start  px-0">
+          <b-col
+            cols="12"
+            md="10"
+            class="d-flex flex-wrap justify-content-center justify-content-md-start px-0"
+          >
             <h1 class="step-card__title">
-              {{title}}
+              {{ title }}
             </h1>
           </b-col>
-          <b-col cols="2" class="px-0 text-right d-none d-md-block ">
+          <b-col cols="2" class="px-0 text-end d-none d-md-block">
             <i class="fa-solid fa-angle-up" @click="closeCollapse"></i>
           </b-col>
-          
         </b-row>
         <div class="mt-3">
           <slot></slot>
         </div>
       </div>
-
     </b-card>
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue, Ref } from "vue-property-decorator";
+<script setup lang="ts">
+import { defineProps, ref, toRefs } from "vue";
 
-@Component
-export default class StepCard extends Vue{
-  @Prop({type: String, required: false, default: 'Paso'}) title!:string ;
+const props = defineProps<{
+  title: string;
+}>();
+const { title } = toRefs(props);
 
-  isShow:Boolean =  true;
-  isActive:Boolean =  true;
+const isShow = ref(true);
+const isActive = ref(true);
 
-  openCollapse(){
-    this.isShow= true
-    setTimeout(()=>{
-      this.isActive= true
-    }, 100)
-    
-  }
-  closeCollapse(){
-    this.isActive = false
-    setTimeout(()=>{
-      this.isShow = false
-    }, 700)
-  }
+function openCollapse() {
+  isShow.value = true;
+  setTimeout(() => {
+    isActive.value = true;
+  }, 100);
 }
 
+function closeCollapse() {
+  isActive.value = false;
+  setTimeout(() => {
+    isShow.value = false;
+  }, 700);
+}
 </script>
 
 <style lang="scss" scoped>
-
-.step-card{
+.step-card {
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.274) !important;
-  .step-card__item{
-    i{
+
+  .step-card__item {
+    i {
       cursor: pointer;
     }
-    .step-card__title--collapse{
+
+    .step-card__title--collapse {
       font-size: 1.3rem;
       margin-bottom: 0;
       font-weight: 600;
     }
 
-    .step-card__title{
+    .step-card__title {
       font-size: 1.7rem;
       margin-bottom: 0;
       font-weight: 600;
       color: #3a88ec !important;
     }
-
   }
 
-  .step-card__item--collapse{
+  .step-card__item--collapse {
     min-height: 20px;
     max-height: 20px;
     overflow-y: hidden;
-    transition: max-height 0.65s cubic-bezier(.26,.11,.29,1);
+    transition: max-height 0.65s cubic-bezier(0.26, 0.11, 0.29, 1);
 
-    &.active{
+    &.active {
       max-height: 2000px;
     }
   }
-
-  
 }
-
 </style>

@@ -68,12 +68,11 @@
               <b-img :src="imgProfile"></b-img>
               <i class="fa fa-heart-o" />
             </div>
-            <b-form-rating
-              :value="4"
-              :v-model="2"
-              variant="warning"
-              class="mb-2"
-            ></b-form-rating>
+            <div
+              class="b-rating form-control align-items-center mb-2 text-center align-middle"
+            >
+              <star-rating></star-rating>
+            </div>
             <p class="total-rating text-center">
               4.7 <span>(13 valoraciones)</span>
             </p>
@@ -97,7 +96,12 @@
                 survived not only five centuries.
               </p>
               <div class="btn-page">
-                <b-button class="mr-2" variant="primary" @click="$router.push({name: 'specialist'})">Ver Perfil</b-button>
+                <b-button
+                  class="me-2"
+                  variant="primary"
+                  @click="$router.push({ name: 'specialist' })"
+                  >Ver Perfil</b-button
+                >
                 <b-button variant="success">Cotizar</b-button>
               </div>
             </div>
@@ -111,12 +115,11 @@
               <b-img :src="imgProfile"></b-img>
               <i class="fa fa-heart" />
             </div>
-            <b-form-rating
-              :value="4"
-              :v-model="2"
-              variant="warning"
-              class="mb-2"
-            ></b-form-rating>
+            <div
+              class="b-rating form-control align-items-center mb-2 text-center align-middle"
+            >
+              <star-rating></star-rating>
+            </div>
             <p class="total-rating text-center">
               4.7 <span>(13 valoraciones)</span>
             </p>
@@ -140,7 +143,12 @@
                 survived not only five centuries.
               </p>
               <div class="btn-page">
-                <b-button class="mr-2" variant="primary" @click="$router.push({name: 'specialist'})">Ver Perfil</b-button>
+                <b-button
+                  class="me-2"
+                  variant="primary"
+                  @click="$router.push({ name: 'specialist' })"
+                  >Ver Perfil</b-button
+                >
                 <b-button variant="success">Cotizar</b-button>
               </div>
             </div>
@@ -151,25 +159,24 @@
   </div>
 </template>
 
-<script>
-import imgProfile from "@/assets/img/profile.png";
+<script setup lang="ts">
+import profileImg from "@/assets/img/profile.png";
+import StarRating from "@/shared/components/public/StarRating.vue";
+import { ref } from "vue";
 
-export default {
-  components: {},
-  data() {
-    return {
-      imgProfile: imgProfile,
-    };
-  },
-  methods: {
-    myChangeEvent(val) {
-      console.log(val);
-    },
-    mySelectEvent({ id, text }) {
-      console.log({ id, text });
-    },
-  },
-};
+const imgProfile = ref(profileImg);
+
+function myChangeEvent(val) {
+  console.log(val);
+}
+function mySelectEvent({ id, text }) {
+  console.log({ id, text });
+}
 </script>
 
-<style></style>
+<style>
+.b-rating-container {
+  position: relative;
+  top: 20%;
+}
+</style>

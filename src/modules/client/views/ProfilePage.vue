@@ -3,18 +3,33 @@
     <b-col cols="12" lg="3" class="profile__menu">
       <div class="menu__container py-3 px-4 bg-white d-block d-lg-none">
         <div>
-          <div class="mb-2" v-b-toggle.collapse-3>
-            <i class="fa-solid fa-house-circle-check mr-2"></i
+          <div class="mb-2">
+            <i class="fa-solid fa-house-circle-check me-2"></i
             ><span>Mis Proyectos</span
-            ><i class="fa-solid fa-angle-down ml-2"></i>
+            ><i class="fa-solid fa-angle-down ms-2"></i>
           </div>
-          <b-collapse visible id="collapse-3" class="pl-4 py-2">
-            <span class="d-block mb-2" @click="$router.push({name: 'my-projects', params: {type: 'current'}})">Vigentes (2)</span>
-            <span class="d-block" @click="$router.push({name: 'my-projects', params: {type: 'past'}})">Pasados (3)</span>
+          <b-collapse visible id="collapse-3" class="ps-4 py-2">
+            <span
+              class="d-block mb-2"
+              @click="
+                $router.push({
+                  name: 'my-projects',
+                  params: { type: 'current' },
+                })
+              "
+              >Vigentes (2)</span
+            >
+            <span
+              class="d-block"
+              @click="
+                $router.push({ name: 'my-projects', params: { type: 'past' } })
+              "
+              >Pasados (3)</span
+            >
           </b-collapse>
         </div>
         <hr />
-        <div><i class="fa-solid fa-heart mr-2"></i><span>Favoritos</span></div>
+        <div><i class="fa-solid fa-heart me-2"></i><span>Favoritos</span></div>
       </div>
       <div
         id="menu__container--web"
@@ -22,18 +37,33 @@
         class="menu__container py-3 px-4 bg-white d-none d-lg-block"
       >
         <div>
-          <div class="mb-2" v-b-toggle.collapse-3>
-            <i class="fa-solid fa-house-circle-check mr-2"></i
+          <div class="mb-2">
+            <i class="fa-solid fa-house-circle-check me-2"></i
             ><span>Mis Proyectos</span
-            ><i class="fa-solid fa-angle-down ml-2"></i>
+            ><i class="fa-solid fa-angle-down ms-2"></i>
           </div>
-          <b-collapse visible id="collapse-3" class="pl-4 py-2">
-            <span class="d-block mb-2" @click="$router.push({name: 'my-projects', params: {type: 'current'}})">Vigentes (2)</span>
-            <span class="d-block" @click="$router.push({name: 'my-projects', params: {type: 'past'}})">Pasados (3)</span>
+          <b-collapse visible id="collapse-3" class="ps-4 py-2">
+            <span
+              class="d-block mb-2"
+              @click="
+                $router.push({
+                  name: 'my-projects',
+                  params: { type: 'current' },
+                })
+              "
+              >Vigentes (2)</span
+            >
+            <span
+              class="d-block"
+              @click="
+                $router.push({ name: 'my-projects', params: { type: 'past' } })
+              "
+              >Pasados (3)</span
+            >
           </b-collapse>
         </div>
         <hr />
-        <div><i class="fa-solid fa-heart mr-2"></i><span>Favoritos</span></div>
+        <div><i class="fa-solid fa-heart me-2"></i><span>Favoritos</span></div>
       </div>
     </b-col>
     <b-col cols="12" lg="9" class="profile__content">
@@ -141,12 +171,12 @@
                 <b-col cols="12" lg="7" class="mb-3">
                   <b-form-group label="Contraseña actual" label-for="input-77">
                     <b-form-input
-
                       id="input-77"
                       type="password"
                       placeholder="Ingrese su contraseña actual"
                       required
-                    ></b-form-input>
+                    >
+                    </b-form-input>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="7" class="mb-3">
@@ -156,7 +186,8 @@
                       type="password"
                       placeholder="Ingrese su contraseña"
                       required
-                    ></b-form-input>
+                    >
+                    </b-form-input>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="7" class="mb-3">
@@ -169,7 +200,8 @@
                       type="password"
                       placeholder="Confirme su contraseña"
                       required
-                    ></b-form-input>
+                    >
+                    </b-form-input>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" class="d-flex mb-3 justify-content-end">
@@ -223,65 +255,60 @@
   </b-row>
 </template>
 
-<script lang="ts">
-import { Component, Ref, Vue } from "vue-property-decorator";
+<script setup lang="ts">
 import { alertSuccessButton } from "@/utils/SweetAlert";
-import GeneralModule from '@/store/modules/general'
+import { ref, onMounted, computed } from "vue";
 
-@Component
-export default class ProfilePage extends Vue {
-  @Ref('portadaFile') readonly portadaFile!: any
-  
-  isLoading:Boolean =  true;
-  disctrictSelected:number =  0;
-  districtOptions: Array<any> = [
-    { value: 0, text: "Los Olivos" },
-    { value: 1, text: "SMP" },
-    { value: 2, text: "Selected Option" },
-    { value: 3, text: "Puente Piedra" },
-    { value: 4, text: "Chorrillos" },
-  ];
-  fileImage: any = null;
-  coverImage: any = null;
-  mounted() {
-    this.isLoading = false;
+const portadaFile!: any = ref();
+const isLoading = ref(true);
+const disctrictSelected = ref(0);
+const districtOptions = ref([
+  { value: 0, text: "Los Olivos" },
+  { value: 1, text: "SMP" },
+  { value: 2, text: "Selected Option" },
+  { value: 3, text: "Puente Piedra" },
+  { value: 4, text: "Chorrillos" },
+]);
+const fileImage: any = ref(null);
+const coverImage: any = ref(null);
+onMounted(() => {
+  isLoading.value = false;
+});
+
+function setData() {
+  alertSuccessButton("Se realizo la operacion correctamente");
+}
+
+function uploadImage() {
+  const btnFile = portadaFile.$el.children[0];
+  btnFile.click();
+}
+
+function changeFileCover(event: any) {
+  const file: any = event.target.files[0];
+  if (!file) {
+    fileImage.value = null;
+    coverImage.value = null;
+    return;
   }
 
-  setData() {
-    alertSuccessButton("Se realizo la operacion correctamente");
-  }
+  fileImage.value = file;
+  const fr = new FileReader();
+  fr.onload = () => (coverImage.value = fr.result);
+  fr.readAsDataURL(file);
+}
 
-  uploadImage() {
-    const btnFile = this.portadaFile.$el.children[0];
-    btnFile.click();
-  }
-
-  changeFileCover(event:any) {
-    const file:any = event.target.files[0];
-    if (!file) {
-      this.fileImage = null;
-      this.coverImage =  null;
-      return;
+const menuChange = computed(() => {
+  if (!isLoading.value) {
+    let footer: any = document.getElementById("footer__limit");
+    let footerScrollY = Number(footer.offsetTop) - 320;
+    const scrollY = window.scrollY;
+    if (scrollY > 70 && Number(scrollY) < footerScrollY) {
+      return true;
     }
-
-    this.fileImage = file;
-    const fr = new FileReader();
-    fr.onload = () => (this.coverImage = fr.result);
-    fr.readAsDataURL(file);
   }
-
-  get menuChange() {
-    if (!this.isLoading) {
-      let footer:any = document.getElementById("footer__limit");
-      let footerScrollY = Number(footer.offsetTop) - 320;
-
-      if (GeneralModule.getScroll > 70 && Number(GeneralModule.getScroll) < footerScrollY) {
-        return true;
-      }
-    }
-    return false;
-  }
-};
+  return false;
+});
 </script>
 
 <style lang="scss" scoped>
@@ -289,10 +316,12 @@ export default class ProfilePage extends Vue {
   .profile__menu {
     .menu__container {
       box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.274) !important;
+
       div {
         cursor: pointer;
       }
     }
+
     .menu__container--web {
       position: fixed;
       top: 90px;
@@ -305,9 +334,11 @@ export default class ProfilePage extends Vue {
   .card {
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.274) !important;
   }
+
   .profile__menu {
     padding-top: 70px;
   }
+
   .profile__content {
     padding-top: 70px;
 
@@ -393,6 +424,7 @@ export default class ProfilePage extends Vue {
 .span-info--danger {
   color: #f64b4b;
 }
+
 .span-info--success {
   color: #60b841;
 }

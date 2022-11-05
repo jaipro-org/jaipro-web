@@ -3,16 +3,19 @@
     <div class="header">
       <div class="container header-container">
         <div class="col-lg-6 header-img-section">
-          <img src="@/assets/img/header.png" />
+          <img src="@/assets/img/img001-min.jpg" />
         </div>
         <div class="col-lg-5 offset-lg-1 header-title-section">
           <!-- <p class="header-subtitle">Multipurpose landing template</p> -->
           <h1 class="header-title">Cotiza, Conecta, Disfruta!</h1>
           <p class="header-title-text">
-            Cotiza tu proyecto de hogar facil y rapido. Encuentra cientos de especialistas 
-            calificados interesados en tu proyecto
+            Cotiza tu proyecto de hogar facil y rapido. Encuentra cientos de
+            especialistas calificados interesados en tu proyecto
           </p>
           <div class="learn-more-btn-section">
+            <!-- <a class="nav-link learn-more-btn btn-invert" href="#services"
+              >Quiero cotizar</a
+            > -->
             <router-link to="/cliente/nuevo-proyecto" custom v-slot="{ navigate, href }">
               <a :href="href" @click="navigate" class="nav-link learn-more-btn btn-invert">Quiero cotizar</a>
             </router-link>
@@ -20,12 +23,11 @@
         </div>
       </div>
     </div>
-    <!-- SECTION LABEL -->
     <div id="how-it-works"></div>
     <!-- STRATEGY SECTION -->
     <div class="strategy-section">
       <div class="pricing-title container">
-        <h2>¿Como Funciona?</h2>
+        <h2>¿Cómo Funciona?</h2>
         <!-- <p>
           Offer multiple packages or monthly subscriptions? Why not showcase
           your featured price plans here, bold and beautifully.
@@ -53,60 +55,92 @@
         <img src="@/assets/img/strategy-section-bg.png" />
       </div>
       <div v-if="tabIndex == 0" class="container strategy-container">
-        <div class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section">
+        <div
+          class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section"
+        >
           <div class="strategy-card">
             <div class="strategy-card-icon-section">
-              <img src="@/assets/img/strategy-1.png" />
+              <img :src="publishProjectSvg" />
             </div>
             <h2>Publica tu proyecto</h2>
-            <p>En HogarEP podras publicar tu proyecto de hogar según las necesidades que tengas</p>
+            <p>
+              En Jaipro podras publicar tu proyecto de hogar según las
+              necesidades que tengas
+            </p>
           </div>
         </div>
-        <div class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section">
+        <div
+          class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section"
+        >
           <div class="strategy-card">
             <div class="strategy-card-icon-section">
-              <img src="@/assets/img/strategy-2.png" />
+              <!-- <img src="@/assets/img/svg/receive-proposals.svg" /> -->
+              <img :src="receiveProposalSvg" />
             </div>
             <h2>Recibe propuestas</h2>
-            <p>Recibe diferentes propuestas, evalua el mejor talento para tu proyecto de hogar</p>
+            <p>
+              Recibe diferentes propuestas, evalua el mejor talento para tu
+              proyecto de hogar
+            </p>
           </div>
         </div>
-        <div class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section">
+        <div
+          class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section"
+        >
           <div class="strategy-card">
             <div class="strategy-card-icon-section">
-              <img src="@/assets/img/strategy-3.png" />
+              <!-- <img src="@/assets/img/svg/make-payment.svg" /> -->
+              <img :src="makePaymentSvg" alt="make-payment-img" />
             </div>
             <h2>Realiza el pago y califica</h2>
-            <p>Abona los honorarios del especialista de forma segura y califica su servicio</p>
+            <p>
+              Abona los honorarios del especialista de forma segura y califica
+              su servicio
+            </p>
           </div>
         </div>
       </div>
       <div v-else class="container strategy-container">
-        <div class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section">
+        <div
+          class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section"
+        >
           <div class="strategy-card">
             <div class="strategy-card-icon-section">
-              <img src="@/assets/img/strategy-1.png" />
+              <img :src="applyAsSpecialistSvg" />
+            </div>
+            <h2>Aplica como especialista</h2>
+            <p>
+              En Jaipro podras tener acceso a cientos de trabajos según tu
+              especialidad
+            </p>
+          </div>
+        </div>
+        <div
+          class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section"
+        >
+          <div class="strategy-card">
+            <div class="strategy-card-icon-section">
+              <img :src="searchForOpportunitiesSvg" />
             </div>
             <h2>Busca nuevas oportunidades</h2>
-            <p>En HogarEP podras tener acceso a cientos de trabajos según tu especialidad</p>
+            <p>
+              Evalue los proyectos y envia tu propuesta de acuerdo a la
+              necesidad del cliente
+            </p>
           </div>
         </div>
-        <div class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section">
+        <div
+          class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section"
+        >
           <div class="strategy-card">
             <div class="strategy-card-icon-section">
-              <img src="@/assets/img/strategy-2.png" />
+              <img :src="workHomeProjectSvg" />
             </div>
-            <h2>Elige un proyecto de hogar</h2>
-            <p>Evalue los proyectos y envia tu propuesta de acuerdo a la necesidad del cliente</p>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6 col-xs-8 offset-xs-2 strategy-card-section">
-          <div class="strategy-card">
-            <div class="strategy-card-icon-section">
-              <img src="@/assets/img/strategy-3.png" />
-            </div>
-            <h2>Realiza un trabajo de calidad</h2>
-            <p>Realiza un servicio de calidad, de esta forma tendras buenas calificaciones de tus clientes y te recomendarán</p>
+            <h2>Trabaja en un proyecto de hogar</h2>
+            <p>
+              Coordina y realiza un servicio de calidad, tus clientes te lo
+              agradecerán
+            </p>
           </div>
         </div>
       </div>
@@ -123,69 +157,30 @@
       </div>
       <div class="container blog-container">
         <div class="blog-title-section">
-          <!-- <p class="blog-subtitle">Recent updates</p> -->
           <h2 class="blog-title">Servicios</h2>
         </div>
         <div class="blog-posts-section">
-          <carousel
-            :autoplay="true"
-            :nav="false"
-            :responsive="{
-              0: { items: 1, nav: false },
-              600: { items: 2 },
-              992: { items: 3 },
-            }"
-            :loop="true"
-          >
-            <div class="blog-post-card-container">
-              <div class="blog-post-card">
-                <div class="blog-post-icon">
-                  <img src="@/assets/img/blog-card-1.png" />
+          <Carousel :settings="settings" :breakpoints="breakpoints">
+            <Slide v-for="slide in specialties" :key="slide">
+              <div class="blog-post-card-container">
+                <div class="blog-post-card">
+                  <div class="blog-post-icon">
+                    <img :src="slide.img" />
+                  </div>
+                  <h3 class="blog-post-title">{{ slide.name }}</h3>
+                  <!-- <p class="blog-post-text">
+                    Making it easier to connect with every client worldwide
+                  </p> -->
+                  <!-- <a class="blog-post-link" href="#news">Read More</a> -->
                 </div>
-                <h3 class="blog-post-title">Pintura</h3>
-                <!-- <p class="blog-post-text">
-                  Making it easier to connect with every client worldwide
-                </p> -->
-                <!-- <a class="blog-post-link" href="#news">Read More</a> -->
               </div>
-            </div>
-            <div class="blog-post-card-container">
-              <div class="blog-post-card">
-                <div class="blog-post-icon">
-                  <img src="@/assets/img/blog-card-2.png" />
-                </div>
-                <h3 class="blog-post-title">Carpinteria</h3>
-                <!-- <p class="blog-post-text">
-                  Making it easier to connect with every client worldwide
-                </p> -->
-                <!-- <a class="blog-post-link" href="#news">Read More</a> -->
-              </div>
-            </div>
-            <div class="blog-post-card-container">
-              <div class="blog-post-card">
-                <div class="blog-post-icon">
-                  <img src="@/assets/img/blog-card-3.png" />
-                </div>
-                <h3 class="blog-post-title">Gasfiteria</h3>
-              </div>
-            </div>
-            <div class="blog-post-card-container">
-              <div class="blog-post-card">
-                <div class="blog-post-icon">
-                  <img src="@/assets/img/blog-card-3.png" />
-                </div>
-                <h3 class="blog-post-title">Construcción</h3>
-              </div>
-            </div>
-            <div class="blog-post-card-container">
-              <div class="blog-post-card">
-                <div class="blog-post-icon">
-                  <img src="@/assets/img/blog-card-3.png" />
-                </div>
-                <h3 class="blog-post-title">Electricidad</h3>
-              </div>
-            </div>
-          </carousel>
+            </Slide>
+
+            <template #addons>
+              <Navigation />
+              <Pagination />
+            </template>
+          </Carousel>
         </div>
       </div>
     </div>
@@ -199,9 +194,7 @@
       <div class="container services-container">
         <div class="col-lg-5 services-title-section">
           <h2 class="services-title">Para especialistas</h2>
-          <p class="services-text">
-            En HogarEP podras:
-          </p>
+          <p class="services-text">En Jaipro podrás:</p>
           <ul>
             <li>Tener acceso a cientos de proyectos según tu especialidad</li>
             <li>Ampliar tu catálogo de clientes</li>
@@ -212,7 +205,7 @@
           </div>
         </div>
         <div class="col-lg-6 offset-lg-1 services-header-img-section">
-          <img src="@/assets/img/services-header.png" />
+          <img src="@/assets/img/img008-min.jpg" />
         </div>
       </div>
     </div>
@@ -224,12 +217,10 @@
       <div class="container clients-container">
         <div class="clients-title-section">
           <!-- <p class="clients-subtitle">Our clients</p> -->
-          <h2 class="clients-title">
-            Clientes Satisfechos
-          </h2>
+          <h2 class="clients-title">Clientes Satisfechos</h2>
         </div>
         <div class="clients-container-cards">
-          <div class="col-md-6 col-xs-12">
+          <div class="col-md-6 col-xs-12 px-3">
             <div class="client-card">
               <p>
                 Excelente profesional. Tenía una asimetría de los párpados muy
@@ -242,17 +233,13 @@
                   size="3rem"
                 ></b-avatar>
                 <div class="info">
-                  <b-form-rating
-                    value="3"
-                    variant="warning"
-                    class="mb-2"
-                  ></b-form-rating>
+                  <star-rating></star-rating>
                   <h6>Pedro Pablo Agustin</h6>
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-md-6 col-xs-12">
+          <div class="col-md-6 col-xs-12 px-3">
             <div class="client-card">
               <p>
                 Excelente profesional. Tenía una asimetría de los párpados muy
@@ -265,17 +252,13 @@
                   size="3rem"
                 ></b-avatar>
                 <div class="info">
-                  <b-form-rating
-                    value="3"
-                    variant="warning"
-                    class="mb-2"
-                  ></b-form-rating>
+                  <star-rating></star-rating>
                   <h6>Pedro Pablo Agustin</h6>
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-md-6 col-xs-12">
+          <div class="col-md-6 col-xs-12 px-3">
             <div class="client-card">
               <p>
                 Excelente profesional. Tenía una asimetría de los párpados muy
@@ -288,17 +271,13 @@
                   size="3rem"
                 ></b-avatar>
                 <div class="info">
-                  <b-form-rating
-                    value="3"
-                    variant="warning"
-                    class="mb-2"
-                  ></b-form-rating>
+                  <star-rating></star-rating>
                   <h6>Pedro Pablo Agustin</h6>
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-md-6 col-xs-12">
+          <div class="col-md-6 col-xs-12 px-3">
             <div class="client-card">
               <p>
                 Excelente profesional. Tenía una asimetría de los párpados muy
@@ -311,11 +290,7 @@
                   size="3rem"
                 ></b-avatar>
                 <div class="info">
-                  <b-form-rating
-                    value="3"
-                    variant="warning"
-                    class="mb-2"
-                  ></b-form-rating>
+                  <star-rating></star-rating>
                   <h6>Pedro Pablo Agustin</h6>
                 </div>
               </div>
@@ -324,40 +299,73 @@
         </div>
       </div>
     </div>
-    <!-- SECTION LABEL -->
-    <!-- <div id="contact"></div> -->
-    <!-- CONTACT -->
-    <!-- <div class="contact-section">
-      <div class="container contact-container">
-        <div class="contact-title-section">
-          <h2 class="contact-title">
-            ¿Tienes alguna duda?<br />Visita nuestro
-          </h2>
-          <div class="learn-more-btn-section">
-            <a
-              class="nav-link learn-more-btn btn-invert"
-              href="mailto:name@domain.com"
-              >Centro de ayuda</a
-            >
-          </div>
-        </div>
-      </div>
-    </div> -->
   </div>
 </template>
 
-<script>
-import carousel from "vue-owl-carousel";
+<script lang="ts">
+import "vue3-carousel/dist/carousel.css";
+import { defineComponent, ref } from "vue";
+import publishProjectSvg from "@/assets/svg/publish-project.svg";
+import receiveProposalSvg from "@/assets/svg/receive-proposals.svg";
+import makePaymentSvg from "@/assets/svg/make-payment.svg";
+import applyAsSpecialistSvg from "@/assets/svg/apply-as-specialist.svg";
+import searchForOpportunitiesSvg from "@/assets/svg/search-for-opportunities.svg";
+import workHomeProjectSvg from "@/assets/svg/work-on-home-project.svg";
 
-export default {
-  components: { carousel },
-  data() {
+import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
+import Specialties from "@/interfaces/Specialty.interface";
+import Testimony from "@/interfaces/Testimony.interface";
+import StarRatingComponent from "@/shared/components/public/StarRating.vue";
+
+export default defineComponent({
+  name: "HomeComponent",
+  components: { StarRatingComponent, Carousel, Slide, Pagination, Navigation },
+  setup() {
+    const tabIndex = ref(0);
+    const settings = ref({ itemsToShow: 1, snapAlign: "center" });
+    const breakpoints = ref({
+      //700px and up
+      700: {
+        itemsToShow: 3.5,
+        snapAlign: "center",
+      },
+      // 1024 and up
+      1024: {
+        itemsToShow: 3,
+        snapAlign: "start",
+      },
+    });
+
+    const specialties = ref<Specialties[]>([
+      { name: "Pintura", img: require("@/assets/img/services/img003-min.jpg") },
+      { name: "Carpinteria", img: require("@/assets/img/services/img004-min.jpg") },
+      { name: "Gasfitería", img: require("@/assets/img/services/img005-min.jpg") },
+      { name: "Construcción", img: require("@/assets/img/services/img006-min.jpg") },
+      { name: "Electricidad", img: require("@/assets/img/services/img007-min.jpg") }
+    ]);
+
+    const testimonials = ref<Testimony[]>([
+      {name: "Pedro Pablo Agustin", text: "Excelente profesional. Tenía una asimetría de los párpados muy marcada, otros Medicos me habían dicho que no se podría quedar 100% igual"},
+      {name: "Pedro Pablo Agustin", text: "Excelente profesional. Tenía una asimetría de los párpados muy marcada, otros Medicos me habían dicho que no se podría quedar 100% igual"},
+      {name: "Pedro Pablo Agustin", text: "Excelente profesional. Tenía una asimetría de los párpados muy marcada, otros Medicos me habían dicho que no se podría quedar 100% igual"},
+      {name: "Pedro Pablo Agustin", text: "Excelente profesional. Tenía una asimetría de los párpados muy marcada, otros Medicos me habían dicho que no se podría quedar 100% igual"}
+    ]);
+
     return {
-      tabIndex: 0,
+      tabIndex,
+      settings,
+      breakpoints,
+      publishProjectSvg,
+      receiveProposalSvg,
+      makePaymentSvg,
+      applyAsSpecialistSvg,
+      searchForOpportunitiesSvg,
+      workHomeProjectSvg,
+      specialties,
+      testimonials
     };
   },
-  methods: {},
-};
+});
 </script>
 
 <style></style>

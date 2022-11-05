@@ -3,13 +3,12 @@
     <b-col cols="12" lg="3" class="profile__menu">
       <div class="menu__container py-3 px-4 bg-white d-block d-lg-none">
         <div>
-          <div v-b-toggle.collapse-3>
-            <span>Mi resumen</span><i class="fa-solid fa-angle-down ml-2"></i>
+          <div>
+            <span>Mi resumen</span><i class="fa-solid fa-angle-down ms-2"></i>
           </div>
-          <b-collapse id="collapse-3" class="pl-4 pt-2">
+          <b-collapse id="collapse-3" class="ps-4 pt-2">
             <div
-              class="pl-2"
-              v-b-toggle.collapse-3
+              class="ps-2"
               @click="goBox('presentation__box')"
               :class="isPresentationSection ? 'menu-active' : ''"
             >
@@ -17,8 +16,7 @@
             </div>
             <hr />
             <div
-              class="pl-2"
-              v-b-toggle.collapse-3
+              class="ps-2"
               @click="goBox('galery__box')"
               :class="isGalerySection ? 'menu-active' : ''"
             >
@@ -26,8 +24,7 @@
             </div>
             <hr />
             <div
-              class="pl-2"
-              v-b-toggle.collapse-3
+              class="ps-2"
               @click="goBox('experience__box')"
               :class="isExperienceSection ? 'menu-active' : ''"
             >
@@ -35,8 +32,7 @@
             </div>
             <hr />
             <div
-              class="pl-2"
-              v-b-toggle.collapse-3
+              class="ps-2"
               @click="goBox('location__box')"
               :class="isLocationSection ? 'menu-active' : ''"
             >
@@ -44,8 +40,7 @@
             </div>
             <hr />
             <div
-              class="pl-2"
-              v-b-toggle.collapse-3
+              class="ps-2"
               @click="goBox('acount__box')"
               :class="isAcountSection ? 'menu-active' : ''"
             >
@@ -107,7 +102,7 @@
     <b-col cols="12" lg="9" class="profile__content">
       <b-row class="mx-0">
         <b-col cols="12" id="presentation__box">
-          <b-card class="mb-4 pt-5 ">
+          <b-card class="mb-4 pt-5">
             <div class="image__user">
               <img src="@/assets/img-delete/profile.jpg" alt="" />
             </div>
@@ -119,7 +114,7 @@
             </div>
             <h4>
               Armando paredes
-              <span class="profile__status ml-2"
+              <span class="profile__status ms-2"
                 ><i class="fa-solid fa-circle-check"></i> Perfil
                 verificado</span
               >
@@ -145,7 +140,7 @@
             <div class="d-flex justify-content-between align-items-center">
               <h4 class="mb-0">
                 Galeria
-                <span class="profile__info text-warning ml-2"
+                <span class="profile__info text-warning ms-2"
                   ><i class="fa-solid fa-circle-info"></i
                 ></span>
               </h4>
@@ -155,35 +150,28 @@
             </div>
             <hr class="mt-0" />
             <div class="py-2">
-              <b-carousel
+              <Carousel
+                :settings="settings"
+                :breakpoints="breakpoints"
+                :autoplay="2000" :wrap-around="true"
                 id="carousel-1"
-                v-model="slide"
-                :interval="3000"
-                controls
-                indicators
-                background="#ababab"
-                img-width="1024"
-                img-height="480"
-                style="text-shadow: 1px 1px 2px #333"
-                @sliding-start="onSlideStart"
-                @sliding-end="onSlideEnd"
               >
                 <!-- Text slides with image -->
-                <b-carousel-slide
-                  img-src="https://picsum.photos/1024/480/?image=52"
-                ></b-carousel-slide>
+                <Slide v-for="photo in galleryPhotos" :key="photo">
+                  <div class="carousel__item">
+                    <img
+                      class="gallery-item"
+                      :src="photo.img"
+                      :alt="photo.alt"
+                    />
+                  </div>
+                </Slide>
 
-                <!-- Slides with custom text -->
-                <b-carousel-slide
-                  img-src="https://picsum.photos/1024/480/?image=54"
-                >
-                </b-carousel-slide>
-
-                <!-- Slides with image only -->
-                <b-carousel-slide
-                  img-src="https://picsum.photos/1024/480/?image=58"
-                ></b-carousel-slide>
-              </b-carousel>
+                <template #addons>
+                  <Navigation />
+                  <Pagination />
+                </template>
+              </Carousel>
             </div>
           </b-card>
         </b-col>
@@ -192,7 +180,7 @@
             <div class="d-flex justify-content-between align-items-center">
               <h4 class="mb-0">
                 Experiencia
-                <span class="profile__info text-warning ml-2"
+                <span class="profile__info text-warning ms-2"
                   ><i class="fa-solid fa-circle-info"></i
                 ></span>
               </h4>
@@ -205,13 +193,18 @@
             </div>
             <hr class="mt-0" />
             <div class="p-2">
-              <div class="experience__item p-3 mb-3"
-                v-for="(experience, id) in experiences" :key="id"
+              <div
+                class="experience__item p-3 mb-3"
+                v-for="(experience, id) in experiences"
+                :key="id"
               >
                 <b-row class="mx-0">
-                  <b-col cols="12" class="px-0 d-flex justify-content-end mb-2 d-block d-md-none">
+                  <b-col
+                    cols="12"
+                    class="px-0 d-flex justify-content-end mb-2 d-block d-md-none"
+                  >
                     <div
-                      class="button__action text-warning mr-2"
+                      class="button__action text-warning me-2"
                       @click="modalProfessionEdit"
                     >
                       <i class="fa-solid fa-pen-to-square"></i>
@@ -223,22 +216,25 @@
                       <i class="fa-solid fa-circle-xmark"></i>
                     </div>
                   </b-col>
-                  <b-col cols="12" md="10" class="d-flex  px-0">
-                    <div  class="experience__image ">
+                  <b-col cols="12" md="10" class="d-flex px-0">
+                    <div class="experience__image">
                       <img src="@/assets/img-delete/experience.jpg" alt="" />
                     </div>
-                    <div  class="pl-2 pl-md-3">
-                      <h1 class="experience__title ">
-                        {{experience.title}}
+                    <div class="ps-2 ps-md-3">
+                      <h1 class="experience__title">
+                        {{ experience.title }}
                       </h1>
-                      <h2 class="experience__range ">
-                        ANIOS EN EL SECTOR: {{experience.time}} años
+                      <h2 class="experience__range">
+                        ANIOS EN EL SECTOR: {{ experience.time }} años
                       </h2>
                     </div>
                   </b-col>
-                  <b-col cols="2" class="px-0 d-none d-md-flex justify-content-end">
+                  <b-col
+                    cols="2"
+                    class="px-0 d-none d-md-flex justify-content-end"
+                  >
                     <div
-                      class="button__action  text-warning mr-3"
+                      class="button__action text-warning me-3"
                       @click="modalProfessionEdit"
                     >
                       <i class="fa-solid fa-pen-to-square"></i>
@@ -254,33 +250,38 @@
 
                 <h1 class="experience__subtitle mt-3">ESPECIALIDADES</h1>
                 <b-row class="mx-0">
-                  <b-col cols="12" md="6" class="d-flex" v-for="(especiality, id) in experience.specialities" :key="id">
+                  <b-col
+                    cols="12"
+                    md="6"
+                    class="d-flex"
+                    v-for="(especiality, id) in experience.specialities"
+                    :key="id"
+                  >
                     <div>
-                      <i class="fa-solid fa-circle-notch mr-2 text-primary"></i>
+                      <i class="fa-solid fa-circle-notch me-2 text-primary"></i>
                     </div>
-                    <span> {{especiality.name}} </span>
+                    <span> {{ especiality.name }} </span>
                   </b-col>
                   <b-col cols="12" md="6" class="d-flex">
                     <div>
-                      <i class="fa-solid fa-circle-notch mr-2 text-primary"></i>
+                      <i class="fa-solid fa-circle-notch me-2 text-primary"></i>
                     </div>
                     <span> Concreto/Armado </span>
                   </b-col>
                   <b-col cols="12" md="6" class="d-flex">
                     <div>
-                      <i class="fa-solid fa-circle-notch mr-2 text-primary"></i>
+                      <i class="fa-solid fa-circle-notch me-2 text-primary"></i>
                     </div>
                     <span> Instalación de interruptores y tomacorrientes </span>
                   </b-col>
                   <b-col cols="12" md="6" class="d-flex">
                     <div>
-                      <i class="fa-solid fa-circle-notch mr-2 text-primary"></i>
+                      <i class="fa-solid fa-circle-notch me-2 text-primary"></i>
                     </div>
                     <span> Servicios Generales </span>
                   </b-col>
                 </b-row>
               </div>
-
             </div>
           </b-card>
         </b-col>
@@ -289,7 +290,7 @@
             <div class="d-flex justify-content-between align-items-center">
               <h4 class="mb-0">
                 Locaciones de trabajo
-                <span class="profile__info text-warning ml-2"
+                <span class="profile__info text-warning ms-2"
                   ><i class="fa-solid fa-circle-info"></i
                 ></span>
               </h4>
@@ -335,7 +336,7 @@
             <div class="d-flex justify-content-between align-items-center">
               <h4 class="mb-0">
                 Cuentas
-                <span class="profile__info text-warning ml-2"
+                <span class="profile__info text-warning ms-2"
                   ><i class="fa-solid fa-circle-info"></i
                 ></span>
               </h4>
@@ -354,12 +355,12 @@
                 :key="acount.id"
               >
                 <b-col cols="10" class="d-flex align-items-center">
-                  <b-form-checkbox size="lg"> </b-form-checkbox>
+                  <b-form-checkbox size="lg"></b-form-checkbox>
                   <div class="d-flex flex-wrap">
-                    <div class="acount__image ml-2 mb-2 mb-md-0">
+                    <div class="acount__image ms-2 mb-2 mb-md-0">
                       <img src="@/assets/img-delete/visa-logo.jpg" alt="" />
                     </div>
-                    <h3 class="mb-0 ml-2" for="checkbox-1">
+                    <h3 class="mb-0 ms-2" for="checkbox-1">
                       {{ acount.value }}
                     </h3>
                   </div>
@@ -394,14 +395,18 @@
             <b-button
               variant="secondary"
               @click="$bvModal.hide('modal-experience')"
-              class="mr-3"
-              >Cancelar</b-button
+              class="me-3"
+              >Cancelar
+            </b-button>
+            <b-button
+              variant="primary"
+              @click="$refs.btnFormPresentation.click()"
+              >Guardar</b-button
             >
-            <b-button variant="primary" @click="$refs.btnFormPresentation.click()">Guardar</b-button>
           </b-col>
         </b-row>
       </template>
-      <b-form @submit.prevent="editPresentation"  validated>
+      <b-form @submit.prevent="editPresentation" validated>
         <b-row class="justify-content-around px-0 px-lg-2 mx-0">
           <b-col cols="12" lg="8" class="mb-4 mx-auto">
             <div
@@ -421,12 +426,13 @@
               />
             </div>
 
-            <b-form-file
+            <input
+              type="file"
               style="display: none"
               ref="presentationFile"
               hidden
               @change="changeFilePresentation"
-            ></b-form-file>
+            />
             <span class="d-block text-center"
               >Seleccionar la imagen para actualizarla</span
             >
@@ -518,16 +524,18 @@
     <b-modal id="modal-galery" title="Editar Galeria" size="lg" centered>
       <template #modal-footer>
         <b-row class="mx-0 w-100">
-          <b-col cols="12"
-            class="d-flex justify-content-end w-100 mx-auto">
-            <b-button variant="secondary" class="mr-3" @click="$bvModal.hide('modal-galery')"
-              >Cancelar</b-button
-            >
+          <b-col cols="12" class="d-flex justify-content-end w-100 mx-auto">
+            <b-button
+              variant="secondary"
+              class="me-3"
+              @click="$bvModal.hide('modal-galery')"
+              >Cancelar
+            </b-button>
             <b-button variant="primary">Guardar</b-button>
           </b-col>
         </b-row>
       </template>
-      <b-row class="justify-content-around  mx-0">
+      <b-row class="justify-content-around mx-0">
         <b-col
           cols="6"
           md="5"
@@ -573,39 +581,44 @@
       "
       size="lg"
       centered
+      v-model="showModalExperience"
     >
       <template #modal-footer>
         <b-row class="mx-0 w-100">
-          <b-col cols="12" lg="11" class="d-flex justify-content-end w-100 mx-auto">
+          <b-col
+            cols="12"
+            lg="11"
+            class="d-flex justify-content-end w-100 mx-auto"
+          >
             <b-button
               variant="secondary"
               @click="$bvModal.hide('modal-experience')"
-              class="mr-3"
-              >Cancelar</b-button
+              class="me-3"
+              >Cancelar
+            </b-button>
+            <b-button variant="primary" @click="$refs.btnFormExperience.click()"
+              >Guardar</b-button
             >
-            <b-button variant="primary" @click="$refs.btnFormExperience.click()">Guardar</b-button>
           </b-col>
         </b-row>
       </template>
       <b-form @submit.prevent="editExperience" validated>
-        <b-row class="mx-0 px-0 px-lg-2">
+        <div class="row mx-0 px-0 px-lg-2">
           <b-col cols="12" lg="11" class="mx-auto">
             <h6>Profesiones:</h6>
             <hr />
-            <b-row class="mx-0 mt-2">
-              <b-col cols="12"  lg="4" class="px-0 mb-4">
-                
-                  <b-form-select
-                    v-model="formProfession.selectedProfession"
-                    :options="optionsProfessions"
-                    id="input-experience-1"
-                  ></b-form-select>
-                
+            <div class="row mx-0 mt-2">
+              <b-col cols="12" lg="4" class="px-0 mb-4">
+                <b-form-select
+                  v-model="formProfession.selectedProfession"
+                  :options="optionsProfessions"
+                  id="input-experience-1"
+                ></b-form-select>
               </b-col>
-              <b-col cols="12"  lg="8" class="mt-3 mx-auto">
-                <b-row class="mx-0 justify-content-around">
+              <b-col cols="12" lg="8" class="mt-3 mx-auto">
+                <div class="row mx-0 justify-content-around">
                   <b-col cols="12" md="6" class="mb-5 mb-md-0">
-                    <b-col cols="7" md="8" class="mx-auto work__temp ">
+                    <b-col cols="7" md="8" class="mx-auto work__temp">
                       <div class="text-center work__date">Años</div>
                       <div
                         class="work__buttons work__buttons--left"
@@ -629,7 +642,7 @@
                       </div>
                     </b-col>
                   </b-col>
-                  <b-col cols="12" md="6" >
+                  <b-col cols="12" md="6">
                     <b-col cols="7" md="8" class="mx-auto work__temp">
                       <div class="text-center work__date">Meses</div>
                       <div
@@ -654,9 +667,9 @@
                       </div>
                     </b-col>
                   </b-col>
-                </b-row>
+                </div>
               </b-col>
-            </b-row>
+            </div>
           </b-col>
 
           <b-col cols="12" lg="11" class="mt-4 mx-auto">
@@ -694,7 +707,7 @@
               </b-col>
             </b-row>
           </b-col>
-        </b-row>
+        </div>
         <div style="display: none">
           <button type="submit" ref="btnFormExperience"></button>
         </div>
@@ -713,14 +726,20 @@
     >
       <template #modal-footer>
         <b-row class="mx-0 w-100">
-          <b-col cols="12" lg="11" class="d-flex justify-content-end w-100 mx-auto">
+          <b-col
+            cols="12"
+            lg="11"
+            class="d-flex justify-content-end w-100 mx-auto"
+          >
             <b-button
               variant="secondary"
               @click="$bvModal.hide('modal-location')"
-              class="mr-3"
-              >Cancelar</b-button
+              class="me-3"
+              >Cancelar
+            </b-button>
+            <b-button variant="primary" @click="$refs.btnFormLocation.click()"
+              >Guardar</b-button
             >
-            <b-button variant="primary" @click="$refs.btnFormLocation.click()">Guardar</b-button>
           </b-col>
         </b-row>
       </template>
@@ -730,7 +749,6 @@
             <h6>Zona:</h6>
             <hr />
             <b-row class="mx-0 mt-2">
-              
               <b-col cols="12" lg="5" class="px-0">
                 <b-form-select
                   v-model="formLocation.selectedLocation"
@@ -785,10 +803,15 @@
       <template #modal-footer>
         <b-row class="mx-0 w-100">
           <b-col cols="12" class="d-flex justify-content-end w-100">
-            <b-button variant="secondary" class="mr-3" @click="$bvModal.hide('modal-acount')"
-              >Cancelar</b-button
+            <b-button
+              variant="secondary"
+              class="me-3"
+              @click="$bvModal.hide('modal-acount')"
+              >Cancelar
+            </b-button>
+            <b-button variant="primary" @click="$refs.btnFormAcount.click()"
+              >Guardar</b-button
             >
-            <b-button variant="primary" @click="$refs.btnFormAcount.click()">Guardar</b-button>
           </b-col>
         </b-row>
       </template>
@@ -838,388 +861,435 @@
   </b-row>
 </template>
 
-<script lang="ts">
-import { Component, Ref, Vue } from "vue-property-decorator";
-
+<script setup lang="ts">
+import "vue3-carousel/dist/carousel.css";
 import { alertSuccessButton } from "@/utils/SweetAlert";
-import GeneralModule from '@/store/modules/general'
+import { computed, onMounted, ref } from "vue";
+import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
 
-@Component
-export default class ProfilePage extends Vue {
-  @Ref('presentationFile') readonly presentationFile!: any
+const galleryPhotos = [
+  {
+    img: "https://picsum.photos/1024/480/?image=52",
+    alt: "Photo1",
+  },
+  {
+    img: "https://picsum.photos/1024/480/?image=54",
+    alt: "Photo3",
+  },
+  {
+    img: "https://picsum.photos/1024/480/?image=58",
+    alt: "Photo3",
+  },
+];
+const settings = ref({ itemsToShow: 1, snapAlign: "center" });
+const breakpoints = ref({
+  //700px and up
+  700: {
+    itemsToShow: 1,
+    snapAlign: "center",
+  },
+  // 1024 and up
+  1024: {
+    itemsToShow: 1,
+    snapAlign: "center",
+  },
+});
+const presentationFile = ref<HTMLInputElement>();
 
-  isLoading:Boolean =  true;
-  slide:number = 0;
-  sliding:any = null;
-  experiences:Array<any> = [
-    {
-      id: 0,
-      title: 'Construccion y Techado',
-      time: 5,
-      specialities: [
-        {
-          id: 0,
-          name: 'Concreto/Armado'
-        },
-        {
-          id: 1,
-          name: 'Instalación de interruptores'
-        },
-        {
-          id: 2,
-          name: 'Servicios generales'
-        },
-        {
-          id: 3,
-          name: 'Servicios generales'
-        },
-      ]
-    },
-    {
-      id: 1,
-      title: 'Arquitectura',
-      time: 5,
-      specialities: [
-        {
-          id: 1,
-          name: 'Concreto/Armado'
-        },
-        {
-          id: 2,
-          name: 'Instalación de interruptores'
-        },
-        {
-          id: 3,
-          name: 'Servicios generales'
-        },
-        {
-          id: 4,
-          name: 'Servicios generales'
-        },
-      ]
-    }
-  ];
-  locationsList: Array<any> =[
-    {
-      id: "1",
-      value: "Lima Norte, Los Olivos, Independencia, San Martin de Porres",
-    },
-    {
-      id: "2",
-      value: "Lima Sur, San Miguel, Chorrillos, Asia",
-    },
-    {
-      id: "3",
-      value: "Lima Norte, Los Olivos, Independencia, San Martin de Porres",
-    },
-  ];
-  acountsList:Array<any> = [
-    {
-      id: "1",
-      value: "XXXX XXXX XXXX 7698",
-    },
-    {
-      id: "2",
-      value: "XXXX XXXX XXXX 1569",
-    },
-  ];
-  imageSelected:number = 0;
-  formPresentation:any = {
-    image: {
-      url: null,
-      file: null,
-    },
-    name: "",
-    lastName: "",
-    experience: "",
-    direction: "",
-    phone: "",
-    secondPhone: "",
-  };
-  formGalery:any = {
-    imagesList: [
+const isLoading = ref(true);
+const showModalExperience = ref(false);
+const slide = ref(0);
+const sliding = ref(false);
+const experiences = ref([
+  {
+    id: 0,
+    title: "Construccion y Techado",
+    time: 5,
+    specialities: [
       {
         id: 0,
-        url: "",
-        file: null,
+        name: "Concreto/Armado",
       },
       {
         id: 1,
-        url: "",
-        file: null,
+        name: "Instalación de interruptores",
       },
       {
         id: 2,
-        url: "",
-        file: null,
+        name: "Servicios generales",
       },
       {
         id: 3,
-        url: "",
-        file: null,
+        name: "Servicios generales",
+      },
+    ],
+  },
+  {
+    id: 1,
+    title: "Arquitectura",
+    time: 5,
+    specialities: [
+      {
+        id: 1,
+        name: "Concreto/Armado",
+      },
+      {
+        id: 2,
+        name: "Instalación de interruptores",
+      },
+      {
+        id: 3,
+        name: "Servicios generales",
       },
       {
         id: 4,
-        url: "",
-        file: null,
-      },
-      {
-        id: 5,
-        url: "",
-        file: null,
+        name: "Servicios generales",
       },
     ],
-  };
-  isModalProfessionEdit:boolean = true;
-  formProfession:any = {
-    selectedProfession: 0,
-    specialtiesList: [
-      {
-        id: 0,
-        active: true,
-        name: "Pintura de interiores",
-      },
-      {
-        id: 1,
-        active: false,
-        name: "Pintura de interiores",
-      },
-      {
-        id: 2,
-        active: true,
-        name: "Pintura de interiores",
-      },
-      {
-        id: 3,
-        active: true,
-        name: "Pintura de interiores",
-      },
-    ],
-    workExperience: {
-      years: "",
-      months: "",
+  },
+]);
+const locationsList = ref([
+  {
+    id: "1",
+    value: "Lima Norte, Los Olivos, Independencia, San Martin de Porres",
+  },
+  {
+    id: "2",
+    value: "Lima Sur, San Miguel, Chorrillos, Asia",
+  },
+  {
+    id: "3",
+    value: "Lima Norte, Los Olivos, Independencia, San Martin de Porres",
+  },
+]);
+const acountsList = ref([
+  {
+    id: "1",
+    value: "XXXX XXXX XXXX 7698",
+  },
+  {
+    id: "2",
+    value: "XXXX XXXX XXXX 1569",
+  },
+]);
+const imageSelected = ref(0);
+const formPresentation = ref({
+  image: {
+    url: null,
+    file: null,
+  },
+  name: "",
+  lastName: "",
+  experience: "",
+  direction: "",
+  phone: "",
+  secondPhone: "",
+});
+const formGalery = ref({
+  imagesList: [
+    {
+      id: 0,
+      url: "",
+      file: null,
     },
+    {
+      id: 1,
+      url: "",
+      file: null,
+    },
+    {
+      id: 2,
+      url: "",
+      file: null,
+    },
+    {
+      id: 3,
+      url: "",
+      file: null,
+    },
+    {
+      id: 4,
+      url: "",
+      file: null,
+    },
+    {
+      id: 5,
+      url: "",
+      file: null,
+    },
+  ],
+});
+const isModalProfessionEdit = ref(true);
+const formProfession = ref({
+  selectedProfession: 0,
+  specialtiesList: [
+    {
+      id: 0,
+      active: true,
+      name: "Pintura de interiores",
+    },
+    {
+      id: 1,
+      active: false,
+      name: "Pintura de interiores",
+    },
+    {
+      id: 2,
+      active: true,
+      name: "Pintura de interiores",
+    },
+    {
+      id: 3,
+      active: true,
+      name: "Pintura de interiores",
+    },
+  ],
+  workExperience: {
+    years: 2022,
+    months: 12,
+  },
+});
+const optionsProfessions = ref([
+  { value: 0, text: "Pintor" },
+  { value: 1, text: "Albañil" },
+  { value: 3, text: "Carpintero" },
+  { value: 4, text: "Lima" },
+]);
+const isModalLocationEdit = ref(true);
+const formLocation = ref({
+  selectedLocation: 0,
+  districtList: [
+    {
+      id: 0,
+      active: true,
+      name: "Los Olivos",
+    },
+    {
+      id: 1,
+      active: false,
+      name: "Puente Piedra",
+    },
+    {
+      id: 2,
+      active: true,
+      name: "Independencia",
+    },
+    {
+      id: 3,
+      active: true,
+      name: "San Martin de Porres",
+    },
+  ],
+});
+const optionsLocation = ref([
+  { value: 0, text: "Lima Norte" },
+  { value: 1, text: "Lima Sur" },
+  { value: 3, text: "Lima Este" },
+  { value: 4, text: "Lima Oeste" },
+]);
+const formAcount = ref({
+  selectedAcount: 0,
+  numAcount: "",
+  cci: "",
+});
+const optionsAcount = ref([
+  { value: 0, text: "Interbank" },
+  { value: 1, text: "BCP" },
+  { value: 3, text: "Scotiabank" },
+  { value: 4, text: "Banbif" },
+]);
+const section1 = ref(null);
+const section2 = ref(null);
+const section3 = ref(null);
+const section4 = ref(null);
+const section5 = ref(null);
+
+onMounted(() => {
+  isLoading.value = false;
+  /*this.$nextTick(() => {
+    this.section2 = (<HTMLInputElement>document.getElementById("galery__box")).offsetTop - 10;
+    this.section3 = (<HTMLInputElement>document.getElementById("experience__box")).offsetTop - 10;
+    this.section4 = (<HTMLInputElement>document.getElementById("location__box")).offsetTop - 10;
+    this.section5 = (<HTMLInputElement>document.getElementById("acount__box")).offsetTop - 10;
+  });*/
+});
+
+function modalProfessionEdit() {
+  isModalProfessionEdit.value = true;
+  showModalExperience.value = true;
+}
+
+function modalProfessionCreate() {
+  isModalProfessionEdit.value = false;
+  showModalExperience.value = true;
+}
+
+function showModalLocation() {
+  // this.$bvModal.show("modal-location");
+}
+
+function deleteLocation(id: number) {
+  const index = locationsList.value.findIndex(
+    (location) => Number(location.id) == id
+  );
+  locationsList.value.splice(index, 1);
+}
+
+function deleteAcount(id: string) {
+  const index = acountsList.value.findIndex((acount) => acount.id == id);
+  acountsList.value.splice(index, 1);
+}
+
+function deleteExperience(id: number) {
+  const index = experiences.value.findIndex(
+    (experience) => experience.id == id
+  );
+  experiences.value.splice(index, 1);
+}
+
+function onSlideStart() {
+  sliding.value = true;
+}
+
+function onSlideEnd() {
+  sliding.value = false;
+}
+
+function goBox(boxName: string) {
+  const boxContainer: any = document.getElementById(`${boxName}`);
+  const top: number = boxContainer.offsetTop;
+  window.scroll({
+    top,
+    left: 0,
+    behavior: "smooth",
+  });
+}
+
+function addYear() {
+  formProfession.value.workExperience.years++;
+}
+
+function substractYear() {
+  if (formProfession.value.workExperience.years > 0) {
+    formProfession.value.workExperience.years--;
   }
-  optionsProfessions:Array<any> = [
-    { value: 0, text: "Pintor" },
-    { value: 1, text: "Albañil" },
-    { value: 3, text: "Carpintero" },
-    { value: 4, text: "Lima" },
-  ];
-  isModalLocationEdit:boolean = true;
-  formLocation:any = {
-    selectedLocation: 0,
-    districtList: [
-      {
-        id: 0,
-        active: true,
-        name: "Los Olivos",
-      },
-      {
-        id: 1,
-        active: false,
-        name: "Puente Piedra",
-      },
-      {
-        id: 2,
-        active: true,
-        name: "Independencia",
-      },
-      {
-        id: 3,
-        active: true,
-        name: "San Martin de Porres",
-      },
-    ],
-  };
-  optionsLocation:Array<any> = [
-    { value: 0, text: "Lima Norte" },
-    { value: 1, text: "Lima Sur" },
-    { value: 3, text: "Lima Este" },
-    { value: 4, text: "Lima Oeste" },
-  ];
-  formAcount: any = {
-    selectedAcount: 0,
-    numAcount: "",
-    cci: "",
-  };
-  optionsAcount:Array<any> = [
-    { value: 0, text: "Interbank" },
-    { value: 1, text: "BCP" },
-    { value: 3, text: "Scotiabank" },
-    { value: 4, text: "Banbif" },
-  ];
-  section1:any = null;
-  section2:any = null;
-  section3:any = null;
-  section4:any = null;
-  section5:any = null;
-  mounted() {
-    this.isLoading = false;
-    this.$nextTick(() => {
-      // this.section1 = document.getElementById('presentation__box').offsetTop
-      this.section2 = (<HTMLInputElement>document.getElementById("galery__box")).offsetTop - 10;
-      this.section3 = (<HTMLInputElement>document.getElementById("experience__box")).offsetTop - 10;
-      this.section4 = (<HTMLInputElement>document.getElementById("location__box")).offsetTop - 10;
-      this.section5 = (<HTMLInputElement>document.getElementById("acount__box")).offsetTop - 10;
-    });
+}
+
+function addMonth() {
+  formProfession.value.workExperience.months++;
+}
+
+function substractMonth() {
+  if (formProfession.value.workExperience.months > 0) {
+    formProfession.value.workExperience.months--;
+  }
+}
+
+function uploadImage(index: any) {
+  imageSelected.value = index;
+  // const btnFile:any = <any>this.$refs[`portadaFile${index}`][0].$el.children[0];
+  const btnFile: any = document.getElementById(`portadaFile${index}`);
+  btnFile.click();
+}
+
+function changeFileCover(event: any) {
+  const index = imageSelected.value;
+  const file: any = event.target.files[0];
+  if (!file) {
+    formGalery.value.imagesList[index].url = "";
+    formGalery.value.imagesList[index].file = null;
+    return;
+  }
+  console.log("changeFileCover");
+  formGalery.value.imagesList[index].file = file;
+  const fr = new FileReader();
+  fr.onload = () =>
+    (formGalery.value.imagesList[index].url = String(fr.result));
+  fr.readAsDataURL(file);
+}
+
+function deleteImage(index: any) {
+  formGalery.value.imagesList[index].url = "";
+  formGalery.value.imagesList[index].file = null;
+}
+
+function uploadPresentationImage() {
+  const btnFile = presentationFile.value!;
+  btnFile.click();
+}
+
+function changeFilePresentation(event: any) {
+  const file = event.target.files[0];
+  if (!file) {
+    formPresentation.value.image.file = null;
+    formPresentation.value.image.url = null;
+    return;
   }
 
+  formPresentation.value.image.file = file;
+  const fr = new FileReader();
+  fr.onload = () => (formPresentation.value.image.url = fr.result);
+  fr.readAsDataURL(file);
+}
 
-  modalProfessionEdit() {
-    this.isModalProfessionEdit = true;
-    this.$bvModal.show('modal-experience')
-  }
-  modalProfessionCreate() {
-    this.isModalProfessionEdit = false;
-    this.$bvModal.show('modal-experience')
-  }
-  showModalLocation() {
-    this.$bvModal.show('modal-location')
-  }
-  deleteLocation(id: number) {
-    const index = this.locationsList.findIndex(
-      (location) => location.id == id
-    );
-    this.locationsList.splice(index, 1);
-  }
-  deleteAcount(id:string) {
-    const index = this.acountsList.findIndex((acount) => acount.id == id);
-    this.acountsList.splice(index, 1);
-  }
-  deleteExperience(id:number){
-    const index = this.experiences.findIndex((experience) => experience.id == id);
-    this.experiences.splice(index, 1);
-  }
-  onSlideStart() {
-    this.sliding = true;
-  }
-  onSlideEnd() {
-    this.sliding = false;
-  }
-  goBox(boxName:string) {
-    const boxContainer:any = document.getElementById(`${boxName}`);
-    const top:number = boxContainer.offsetTop;
-    window.scroll({
-      top,
-      left: 0,
-      behavior: "smooth",
-    });
-  }
-  addYear() {
-    this.formProfession.workExperience.years++;
-  }
-  substractYear() {
-    if (this.formProfession.workExperience.years > 0) {
-      this.formProfession.workExperience.years--;
+function editPresentation() {
+  alertSuccessButton("Se realizo la operación exitosamente");
+}
+
+function editExperience() {
+  alertSuccessButton("Se realizo la operación exitosamente");
+}
+
+function editLocation() {
+  alertSuccessButton("Se realizo la operación exitosamente");
+}
+
+function editAcount() {
+  alertSuccessButton("Se realizo la operación exitosamente");
+}
+
+const menuChange = computed(() => {
+  if (!isLoading.value) {
+    let footer: any = document.getElementById("footer__limit");
+    let footerScrollY: number = Number(footer.offsetTop) - 320;
+
+    if (window.scrollY > 70 && Number(window.scrollY) < footerScrollY) {
+      return true;
     }
   }
-  addMonth() {
-    this.formProfession.workExperience.months++;
-  }
-  substractMonth() {
-    if (this.formProfession.workExperience.months > 0) {
-      this.formProfession.workExperience.months--;
-    }
-  }
-  uploadImage(index:any) {
-    this.imageSelected = index;
-    // const btnFile:any = <any>this.$refs[`portadaFile${index}`][0].$el.children[0];
-    const btnFile:any = document.getElementById(`portadaFile${index}`)
-    btnFile.click();
-  }
+  return false;
+});
 
-  changeFileCover(event:any) {
-    const index = this.imageSelected;
-    const file:any = event.target.files[0];
-    if (!file) {
-      this.formGalery.imagesList[index].url = null;
-      this.formGalery.imagesList[index].file = null;
-      return;
-    }
+const isPresentationSection = computed(() => {
+  return window.scrollY >= 0 && window.scrollY < section2.value ? true : false;
+});
 
-    this.formGalery.imagesList[index].file = file;
-    const fr = new FileReader();
-    fr.onload = () => (this.formGalery.imagesList[index].url = fr.result);
-    fr.readAsDataURL(file);
-  }
-  deleteImage(index:any) {
-    this.formGalery.imagesList[index].url = null;
-    this.formGalery.imagesList[index].file = null;
-  }
-  uploadPresentationImage() {
-    const btnFile = this.presentationFile.$el.children[0];
-    btnFile.click();
-  }
-  changeFilePresentation(event:any) {
-    const file = event.target.files[0];
-    if (!file) {
-      this.formPresentation.image.file = null;
-      this.formPresentation.image.url = null;
-      return;
-    }
-
-    this.formPresentation.image.file = file;
-    const fr = new FileReader();
-    fr.onload = () => (this.formPresentation.image.url = fr.result);
-    fr.readAsDataURL(file);
-  }
-  editPresentation(){
-    alertSuccessButton("Se realizo la operación exitosamente");
-  }
-  editExperience(){
-    alertSuccessButton("Se realizo la operación exitosamente");
-  }
-  editLocation(){
-    alertSuccessButton("Se realizo la operación exitosamente");
-  }
-  editAcount(){
-    alertSuccessButton("Se realizo la operación exitosamente");
-  }
-
-  get menuChange() {
-    if (!this.isLoading) {
-      let footer:any = document.getElementById("footer__limit");
-      let footerScrollY:number = Number(footer.offsetTop) - 320;
-
-      if (GeneralModule.getScroll > 70 && Number(GeneralModule.getScroll) < footerScrollY) {
-        return true;
-      }
-    }
+const isGalerySection = computed(() => {
+  return window.scrollY >= section2.value && window.scrollY < section3.value
+    ? true
+    : false;
+});
+const isExperienceSection = computed(() => {
+  return window.scrollY >= section3.value && window.scrollY < section4.value
+    ? true
+    : false;
+});
+const isLocationSection = computed(() => {
+  return window.scrollY >= section4.value && window.scrollY < section5.value
+    ? true
+    : false;
+});
+const isAcountSection = computed(() => {
+  if (!isLoading.value) {
+    let footer: any = document.getElementById("footer__limit");
+    let footerScrollY: number = Number(footer.offsetTop) - 320;
+    return window.scrollY >= section5.value && window.scrollY < footerScrollY
+      ? true
+      : false;
+  } else {
     return false;
   }
-  get isPresentationSection() {
-    return GeneralModule.getScroll >= 0 && GeneralModule.getScroll < this.section2
-      ? true
-      : false;
-  }
-  get isGalerySection() {
-    return GeneralModule.getScroll >= this.section2 && GeneralModule.getScroll < this.section3
-      ? true
-      : false;
-  }
-  get isExperienceSection() {
-    return GeneralModule.getScroll >= this.section3 && GeneralModule.getScroll < this.section4
-      ? true
-      : false;
-  }
-  get isLocationSection() {
-    return GeneralModule.getScroll >= this.section4 && GeneralModule.getScroll < this.section5
-      ? true
-      : false;
-  }
-  get isAcountSection() {
-    if (!this.isLoading) {
-      let footer:any = document.getElementById("footer__limit");
-      let footerScrollY:number = Number(footer.offsetTop) - 320;
-      return GeneralModule.getScroll >= this.section5 && GeneralModule.getScroll < footerScrollY
-        ? true
-        : false;
-    } else {
-      return false;
-    }
-  }
-};
+});
 </script>
 
 <style lang="scss" scoped>
@@ -1228,9 +1298,11 @@ export default class ProfilePage extends Vue {
     .menu__container {
       z-index: 3;
       box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.274) !important;
+
       hr {
         margin: 0;
       }
+
       div {
         padding: 10px 0;
         cursor: pointer;
@@ -1241,7 +1313,6 @@ export default class ProfilePage extends Vue {
         color: white;
       }
     }
-
     .menu__container--web {
       position: fixed;
       top: 90px;
@@ -1253,9 +1324,11 @@ export default class ProfilePage extends Vue {
   .card {
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.274) !important;
   }
+
   .profile__menu {
     padding-top: 70px;
   }
+
   .profile__content {
     padding-top: 70px;
 
@@ -1274,6 +1347,7 @@ export default class ProfilePage extends Vue {
       top: 20px;
       right: 20px;
     }
+
     .button__action--float2 {
       position: absolute;
       right: 0px;
@@ -1304,11 +1378,11 @@ export default class ProfilePage extends Vue {
 
     .profile__status {
       font-size: 1.1rem;
+
       i {
         color: rgb(64, 231, 114);
       }
     }
-
     .experience__item {
       border: 2px solid rgba(80, 80, 80, 0.226);
       border-radius: 2px;
@@ -1323,7 +1397,6 @@ export default class ProfilePage extends Vue {
           object-fit: cover;
         }
       }
-
       .experience__title {
         font-size: 1.1rem;
       }
@@ -1336,7 +1409,6 @@ export default class ProfilePage extends Vue {
         font-size: 1.1rem;
       }
     }
-
     .locattion__item {
       border: 1px solid rgba(0, 0, 0, 0.342);
       border-radius: 4px;
@@ -1348,7 +1420,6 @@ export default class ProfilePage extends Vue {
         margin-bottom: 0;
       }
     }
-
     .acount__item {
       border-bottom: 1px solid rgba(0, 0, 0, 0.342);
 
@@ -1365,7 +1436,6 @@ export default class ProfilePage extends Vue {
     }
   }
 }
-
 #modal-presentation {
   .form-image__file {
     width: 210px;
@@ -1406,7 +1476,6 @@ export default class ProfilePage extends Vue {
       border-right: 1px solid rgba(0, 0, 0, 0.521);
     }
   }
-
   .experience__item--active {
     border: 1px solid #3a88ec;
     background-color: #3a88ec;
@@ -1416,7 +1485,6 @@ export default class ProfilePage extends Vue {
       border-right: 1px solid white;
     }
   }
-
   .experience__item:hover {
     border: 1px solid rgb(169, 169, 169);
     background-color: rgb(169, 169, 169);
@@ -1426,7 +1494,6 @@ export default class ProfilePage extends Vue {
       border-right: 1px solid white;
     }
   }
-
   .work__date {
     position: absolute;
     top: -25px;
@@ -1434,6 +1501,7 @@ export default class ProfilePage extends Vue {
     right: 0;
     margin: auto;
   }
+
   .work__buttons {
     width: 40px;
     height: 40px;
@@ -1458,14 +1526,15 @@ export default class ProfilePage extends Vue {
   .work__buttons--left {
     left: -35px;
   }
+
   .work__buttons--right {
     right: -35px;
   }
+
   .form-step-button {
     display: none;
   }
 }
-
 #modal-location {
   .district__item {
     border: 1px solid rgba(0, 0, 0, 0.521);
@@ -1475,7 +1544,6 @@ export default class ProfilePage extends Vue {
       border-right: 1px solid rgba(0, 0, 0, 0.521);
     }
   }
-
   .district__item--active {
     border: 1px solid #3a88ec;
     background-color: #3a88ec;
@@ -1485,7 +1553,6 @@ export default class ProfilePage extends Vue {
       border-right: 1px solid white;
     }
   }
-
   .district__item:hover {
     border: 1px solid rgb(169, 169, 169);
     background-color: rgb(169, 169, 169);
@@ -1496,7 +1563,6 @@ export default class ProfilePage extends Vue {
     }
   }
 }
-
 #modal-galery {
   .form-image__file {
     border: 1px solid rgba(66, 66, 66, 0.473);
@@ -1532,7 +1598,6 @@ export default class ProfilePage extends Vue {
     }
   }
 }
-
 .menu-active {
   background-color: #3a88ec !important;
   color: white;
@@ -1542,6 +1607,7 @@ export default class ProfilePage extends Vue {
   .custom-checkbox {
     z-index: 0;
   }
+
   .profile-specialist__container {
     .profile__menu {
       padding: 0;
@@ -1553,18 +1619,17 @@ export default class ProfilePage extends Vue {
       .menu__container {
         width: 100%;
         display: block;
+
         div:hover {
           background-color: white;
           color: initial;
         }
       }
     }
-
     .profile__content {
       margin-top: 100px;
     }
   }
-
   #modal-galery {
     .form-image__file {
       border: 1px solid rgba(66, 66, 66, 0.473);
@@ -1573,5 +1638,12 @@ export default class ProfilePage extends Vue {
       cursor: pointer;
     }
   }
+}
+
+.gallery-item {
+  width: 100%;
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 </style>

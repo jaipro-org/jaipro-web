@@ -9,7 +9,7 @@
           <b-form @submit.prevent="registerClient">
             <b-form-group label="Nombres" label-for="txtName_r">
               <b-form-input
-                v-model="name"
+                v-model="firstname"
                 id="txtName_r"
                 type="text"
                 placeholder="Ingrese sus nombres"
@@ -65,7 +65,7 @@
               >
               </b-form-input>
             </b-form-group>
-            <b-button class="mt-5" block variant="primary" type="submit">
+            <b-button class="mt-5 w-100" variant="primary" type="submit">
               Registrarse
             </b-button>
           </b-form>
@@ -76,20 +76,32 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { defineComponent, ref } from "vue";
 
-@Component
-export default class RegisterClient extends Vue {
-  name = "";
-  lastname = "";
-  email = "";
-  password = "";
-  confirmPassword = "";
+export default defineComponent({
+  name: "RegisterComponent",
+  setup(){
+    const firstname = ref("");
+    const lastname = ref("");
+    const password = ref("");
+    const confirmPassword = ref("");
+    const email = ref("");
 
-  registerClient() {
-    console.log("registerClient here!", this.name);
+    const registerClient = () => {
+      console.log("registerClient here!");
+    };
+
+    return{
+      firstname,
+      lastname,
+      email,
+      password,
+      confirmPassword,
+      registerClient
+    }
   }
-}
+});
+
 </script>
 
 <style scoped>
@@ -98,21 +110,21 @@ export default class RegisterClient extends Vue {
 }
 
 .register-user-title-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin-bottom: 30px;
-    text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 30px;
+  text-align: center;
 }
 
 .register-user-title {
-    font-family: Montserrat;
-    font-weight: 800;
-    font-size: 45px;
-    line-height: 1;
-    color: #303669;
-    margin-bottom: 0;
+  font-family: Montserrat;
+  font-weight: 800;
+  font-size: 45px;
+  line-height: 1;
+  color: #303669;
+  margin-bottom: 0;
 }
 
 .register-user-form-section {

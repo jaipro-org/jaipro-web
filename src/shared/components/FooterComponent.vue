@@ -6,12 +6,12 @@
     <!-- Footer Column 1 -->
     <div class="container footer-container">
       <div class="col-lg-3 col-md-6 footer-logo">
-        <img src="@/assets/img/logo_footer.png" />
-        <p class="footer-susection-text">
+        <img :src="logoFooterSvg" />
+        <!-- <p class="footer-susection-text">
           A beautiful landing page template by Codefest.
-        </p>
+        </p> -->
       </div>
-      <div class="col-lg-3 col-md-6 footer-subsection">
+      <!-- <div class="col-lg-3 col-md-6 footer-subsection">
         <div class="footer-subsection-2-1">
           <h3 class="footer-subsection-title">About</h3>
           <p class="footer-subsection-text">
@@ -19,27 +19,27 @@
             satisfaction.
           </p>
         </div>
-      </div>
+      </div> -->
       <!-- Footer Column 2 -->
       <div class="col-lg-3 col-md-6 footer-subsection">
-        <h3 class="footer-subsection-title">Contact Us</h3>
+        <h3 class="footer-subsection-title">Contáctanos</h3>
         <ul class="footer-subsection-list">
-          <li>123 Business Centre<br />London SW1A 1AA</li>
-          <li>0123456789</li>
+          <li>Lima, Perú</li>
+          <li>+51 961 515 095</li>
           <li>mail@domain.com</li>
         </ul>
       </div>
       <!-- Footer Column 3 -->
       <div class="col-lg-3 col-md-6 footer-subsection">
         <div class="footer-subsection-2-2">
-          <h3 class="footer-subsection-title">Socials</h3>
+          <h3 class="footer-subsection-title">Redes sociales</h3>
           <div class="footer-social-media-icons-section">
-            <a href="#top" class="footer-social-media-icon"
+            <!-- <a href="#top" class="footer-social-media-icon"
               ><i class="fa fa-twitter"></i
-            ></a>
-            <a href="#top" class="footer-social-media-icon"
+            ></a> -->
+            <!-- <a href="#top" class="footer-social-media-icon"
               ><i class="fa fa-instagram"></i
-            ></a>
+            ></a> -->
             <a href="#top" class="footer-social-media-icon"
               ><i class="fa fa-facebook"></i
             ></a>
@@ -55,9 +55,23 @@
       <p>
         &copy; {{ new Date().getFullYear() }}
         <!-- <a href="https://www.codefest.co.uk" target="_blank" title="Codefest">HogarEP</a> -->
-        HogarEP
-        &trade;. Todos los derechos reservados.
+        Jaipro &trade;. Todos los derechos reservados.
       </p>
     </div>
   </div>
 </template>
+<script lang="ts">
+import { defineComponent } from "vue";
+import logoFooterSvg from "@/assets/svg/logo-footer.svg";
+
+export default defineComponent({
+  name: "FooterComponent",
+  setup(){
+
+
+    return {
+      logoFooterSvg
+    }
+  }
+});
+</script>
