@@ -338,8 +338,8 @@
                   </b-form-group>
                 </b-col>
                 <!-- Balancea la posicion de columnas -->
-                <b-col cols="12" lg="5" class="mb-3"> </b-col>
-                <b-col cols="12" lg="5" class="mb-3">
+                <b-col cols="12" lg="5" class="mb-3 px-0"> </b-col>
+                <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group
                     label="Confirmar Contraseña"
                     label-for="input-acount-2"
