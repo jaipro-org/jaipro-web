@@ -1,7 +1,7 @@
 <template>
   <b-row class="mx-0 py-4">
     <b-col cols="12">
-      <h1 class="text-center">Registro de Especialista</h1>
+      <register-title title="Registro de Especialista"></register-title>
     </b-col>
     <b-col cols="12" md="8" class="mx-auto mt-4 px-0">
       <form-wizard
@@ -477,9 +477,10 @@
 </template>
 
 <script setup lang="ts">
-import { FormWizard, TabContent } from "vue3-form-wizard";
-import "vue3-form-wizard/dist/style.css";
-import { computed, ref, watch } from "vue";
+import { FormWizard, TabContent } from "vue3-form-wizard"
+import "vue3-form-wizard/dist/style.css"
+import { computed, ref, watch } from "vue"
+import RegisterTitle from "./components/RegisterTitle.vue"
 
 const form = ref({
   phone: "",
@@ -491,100 +492,100 @@ const form = ref({
   password: "",
   confirmPassword: "",
   conditions: false,
-});
-const workSelected = ref("");
-const valid = ref(false);
+})
+const workSelected = ref("")
+const valid = ref(false)
 const workExperience = ref([
   { years: 2022, months: 1, id: 1, name: "Carpintero" },
-]);
-const selected = ref([]);
-const optionSelected = ref([1]);
+])
+const selected = ref([])
+const optionSelected = ref([1])
 const options = ref([
   { text: "Pintor", value: 10 },
   { text: "Carpintero", value: 20 },
   { text: "Albañil", value: 30 },
   { text: "Gasfitero", value: 40 },
-]);
+])
 const selectOptions = ref([
   { value: 0, label: "Los Olivos" },
   { value: 1, label: "SMP" },
   { value: 3, label: "Puente Piedra" },
   { value: 4, label: "Chorrillos" },
-]);
+])
 
 function validateDataForm() {
   /*this.$refs["form-data-button"].click();
   return this.$refs["dataForm"].checkValidity();*/
-  return true;
+  return true
 }
 
 function validateWorkForm() {
-  return workExperience.value.length > 0;
+  return workExperience.value.length > 0
 }
 
 function validateAcountForm() {
   /* this.$refs["form-acount-button"].click();
   return this.$refs["acountForm"].checkValidity();*/
-  return true;
+  return true
 }
 
 function addYear(index: number) {
-  workExperience.value[index].years++;
+  workExperience.value[index].years++
 }
 
 function substractYear(index: number) {
   if (workExperience.value[index].years > 0) {
-    workExperience.value[index].years--;
+    workExperience.value[index].years--
   }
 }
 
 function addMonth(index: number) {
-  workExperience.value[index].months++;
+  workExperience.value[index].months++
 }
 
 function substractMonth(index: number) {
   if (workExperience.value[index].months > 0) {
-    workExperience.value[index].months--;
+    workExperience.value[index].months--
   }
 }
 
 function registerSpecialist() {
-  console.log("Se registrará un expediente");
+  console.log("Se registrará un expediente")
 }
 
 watch(selected, (value, lastValue) => {
   if (lastValue.length > value.length) {
     value.forEach((value: string) => {
-      const index = lastValue.indexOf(value);
-      lastValue.splice(index, 1);
-    });
+      const index = lastValue.indexOf(value)
+      lastValue.splice(index, 1)
+    })
 
     const lastIndex = workExperience.value.findIndex(
       (work) => work.id == lastValue[0]
-    );
-    workExperience.value.splice(lastIndex, 1);
+    )
+    workExperience.value.splice(lastIndex, 1)
   } else {
-    const lastAdd = value.length - 1;
+    const lastAdd = value.length - 1
     if (lastAdd >= 0) {
-      console.log(value[lastAdd]);
-      const res = options.value.find((option) => option.value == value[lastAdd]);
+      console.log(value[lastAdd])
+      const res = options.value.find((option) => option.value == value[lastAdd])
       const work = {
         id: value[lastAdd],
         name: res!.text,
         years: 0,
         months: 0,
-      };
-      console.log(work);
-      workExperience.value.push(work);
+      }
+      console.log(work)
+      workExperience.value.push(work)
     }
   }
-});
+})
 
-const availableCars = ['BMW', 'Mercedes', 'Toyota']
-const selectedCars = ref([]);
+const availableCars = ["BMW", "Mercedes", "Toyota"]
+const selectedCars = ref([])
 
 const concatSelectedCars = computed(() => {
-  return selectedCars.value.join(', ')
+  return selectedCars.value.join(", ")
 })
 </script>
 
