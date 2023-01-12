@@ -471,15 +471,30 @@
               </b-col>
               <b-col cols="12" lg="5" class="mb-3">
                 <b-form-group label="Contraseña" label-for="input-acount-22">
-                  <b-form-input
-                    id="input-acount-22"
-                    v-model="form.password"
-                    type="password"
-                    placeholder="Ingrese su contraseña"
-                    disabled
-                    required
-                    class="rounded-pill"
-                  ></b-form-input>
+                  <b-input-group>
+                    <b-form-input
+                      id="input-acount-22"
+                      v-model="form.password"
+                      :type="typePassword"
+                      placeholder="Ingrese su contraseña"
+                      disabled
+                      required
+                      class="rounded-pill input-password"
+                    ></b-form-input>
+                    <b-input-group-append>
+                      <b-button
+                        text="Button"
+                        variant="secondary"
+                        @click="changeTypePassword"
+                      >
+                        <i
+                          class="fa-regular fa-eye"
+                          v-if="typePassword == 'text'"
+                        ></i>
+                        <i class="fa-solid fa-eye-slash" v-else></i
+                      ></b-button>
+                    </b-input-group-append>
+                  </b-input-group>
                 </b-form-group>
               </b-col>
             </b-row>
@@ -490,13 +505,35 @@
               name="checkbox-1"
               class="cursor-pointer"
             >
-              Acepto los términos y condiciones
+              Acepto los
+              <span class="btn_conditions" @click="showConditions = true"
+                >términos y condiciones</span
+              >
             </b-form-checkbox>
           </div>
         </tab-content>
       </form-wizard>
     </b-col>
   </b-row>
+  <b-modal v-model="showConditions" title="Términos y condiciones">
+    <div>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure sint
+      assumenda quod obcaecati tempore voluptate recusandae magnam temporibus
+      enim. Recusandae earum ullam itaque saepe hic ut facilis asperiores
+      inventore, maiores quo atque perspiciatis, officia laudantium? Dolorum
+      ipsa nobis voluptatem eius recusandae natus reiciendis. Provident optio
+      laboriosam qui voluptatibus eos? Excepturi!
+    </div>
+    <template v-slot:footer>
+      <div>
+        <b-button
+          variant="primary"
+          @click=";(showConditions = false), (form.conditions = true)"
+          >Aceptar</b-button
+        >
+      </div>
+    </template>
+  </b-modal>
 </template>
 
 <script setup lang="ts">
@@ -504,8 +541,11 @@ import { FormWizard, TabContent } from "vue3-form-wizard"
 import "vue3-form-wizard/dist/style.css"
 import { computed, ref, watch, onMounted, onBeforeUnmount, nextTick } from "vue"
 import { closeAlert } from "../../../utils/SweetAlert"
+import { InputType } from "bootstrap-vue-3"
 
 let windowWidth = ref(window.innerWidth) // Obtener el tamaño de la ventana
+let typePassword: any = ref("password")
+const showConditions = ref(false)
 const form = ref({
   phone: "",
   name: "",
@@ -612,6 +652,10 @@ const concatSelectedCars = computed(() => {
   return selectedCars.value.join(", ")
 })
 
+const changeTypePassword = () => {
+  typePassword.value = typePassword.value == "password" ? "text" : "password"
+}
+
 // FUNCIONES PARA OBTENER EL TAMAÑO DE LA PANTALLA
 onMounted(() => {
   nextTick(() => {
@@ -696,5 +740,19 @@ const isWeb = computed(() => {
 }
 .form-step-button {
   display: none;
+}
+
+.input-password {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.btn_conditions {
+  color: #0d6efd;
+  text-decoration: underline;
+}
+
+.btn_conditions:hover {
+  color: #0f63e2;
 }
 </style>

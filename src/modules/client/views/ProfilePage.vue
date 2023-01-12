@@ -73,7 +73,7 @@
             <div class="image__user">
               <img src="@/assets/img-delete/profile.jpg" alt="" />
               <div
-                v-b-modal.modal-1
+                @click="showModal = true"
                 class="button__action button__action--userImage text-warning"
               >
                 <i class="fa-solid fa-pen-to-square"></i>
@@ -213,102 +213,109 @@
         </b-col>
       </b-row>
     </b-col>
-    <b-modal id="modal-1" title="Editar imagen de perfil" class="p-0" centered>
-      <template #modal-footer>
-        <div class="d-flex justify-content-between w-100">
-          <b-button variant="secondary">Cancelar</b-button>
-          <b-button variant="primary">Guardar</b-button>
-        </div>
-      </template>
-      <div>
-        <span class="span-info"
-          >Seleccione la imagen para elegir una nueva imagen de Portada</span
-        >
-        <span
-          class="span-info"
-          :class="coverImage ? 'span-info--success' : 'span-info--danger'"
-          >*Este campo es obligatorio</span
-        >
-        <div
-          class="form-image__file mt-2"
-          :class="!coverImage ? 'form-image__file--aux' : ''"
-          @click="uploadImage"
-        >
-          <img
-            :src="
-              !coverImage
-                ? require('@/assets/img-delete/fileimage-up.png')
-                : coverImage
-            "
-            alt="image"
-          />
-        </div>
-        <b-form-file
-          style="display: none"
-          ref="portadaFile"
-          hidden
-          @change="changeFileCover"
-        ></b-form-file>
-      </div>
-    </b-modal>
+
     <b-col id="footer__limit"></b-col>
   </b-row>
+  <b-modal
+    v-model="showModal"
+    title="Editar imagen de perfil"
+    class="p-0"
+    centered
+  >
+    <template v-slot:footer>
+      <div class="d-flex justify-content-between w-100">
+        <b-button variant="secondary">Cancelar</b-button>
+        <b-button variant="primary">Actualizar</b-button>
+      </div>
+    </template>
+    <div>
+      <span class="span-info"
+        >Seleccione la imagen para elegir una nueva imagen de Portada</span
+      >
+      <span
+        class="span-info"
+        :class="coverImage ? 'span-info--success' : 'span-info--danger'"
+        >*Este campo es obligatorio</span
+      >
+      <div
+        class="form-image__file mt-2"
+        :class="!coverImage ? 'form-image__file--aux' : ''"
+        @click="uploadImage"
+      >
+        <img
+          :src="
+            !coverImage
+              ? require('@/assets/img-delete/fileimage-up.png')
+              : coverImage
+          "
+          alt="image"
+        />
+      </div>
+      <b-form-input
+        style="display: none"
+        ref="portadaFile"
+        hidden
+        @change="changeFileCover"
+      ></b-form-input>
+    </div>
+  </b-modal>
 </template>
 
 <script setup lang="ts">
-import { alertSuccessButton } from "@/utils/SweetAlert";
-import { ref, onMounted, computed } from "vue";
+import { alertSuccessButton } from "@/utils/SweetAlert"
+import { ref, onMounted, computed } from "vue"
 
-const portadaFile!: any = ref();
-const isLoading = ref(true);
-const disctrictSelected = ref(0);
+const showModal = ref(false)
+const portadaFile: any = ref()
+const isLoading = ref(true)
+const disctrictSelected = ref(0)
 const districtOptions = ref([
   { value: 0, text: "Los Olivos" },
   { value: 1, text: "SMP" },
   { value: 2, text: "Selected Option" },
   { value: 3, text: "Puente Piedra" },
   { value: 4, text: "Chorrillos" },
-]);
-const fileImage: any = ref(null);
-const coverImage: any = ref(null);
+])
+const fileImage: any = ref(null)
+const coverImage: any = ref(null)
 onMounted(() => {
-  isLoading.value = false;
-});
+  isLoading.value = false
+})
 
 function setData() {
-  alertSuccessButton("Se realizo la operacion correctamente");
+  alertSuccessButton("Se realizo la operacion correctamente")
 }
 
 function uploadImage() {
-  const btnFile = portadaFile.$el.children[0];
-  btnFile.click();
+  const btnFile = portadaFile.$el.children[0]
+  btnFile.click()
 }
 
 function changeFileCover(event: any) {
-  const file: any = event.target.files[0];
+  const file: any = event.target.files[0]
   if (!file) {
-    fileImage.value = null;
-    coverImage.value = null;
-    return;
+    fileImage.value = null
+    coverImage.value = null
+    return
   }
 
-  fileImage.value = file;
-  const fr = new FileReader();
-  fr.onload = () => (coverImage.value = fr.result);
-  fr.readAsDataURL(file);
+  fileImage.value = file
+  const fr = new FileReader()
+  fr.onload = () => (coverImage.value = fr.result)
+  fr.readAsDataURL(file)
 }
 
 const menuChange = computed(() => {
   if (!isLoading.value) {
-    let footer: any = document.getElementById("footer__limit");
-    let footerScrollY = Number(footer.offsetTop) - 320;
-    const scrollY = window.scrollY;
+    let footer: any = document.getElementById("footer__limit")
+    let footerScrollY = Number(footer.offsetTop) - 320
+    const scrollY = window.scrollY
     if (scrollY > 70 && Number(scrollY) < footerScrollY) {
-      return true;
+      return true
     }
   }
-  return false;
-});
+  return false
+})
 </script>
 
 <style lang="scss" scoped>
