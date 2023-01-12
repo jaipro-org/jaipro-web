@@ -28,9 +28,11 @@
               ></b-form-input>
             </b-form-group>
             <div class="text-end mb-4">
-              <b-link @click="forgotPassword()">Olvide mi contraseña</b-link>
+              <b-link @click="forgotPassword">Olvide mi contraseña</b-link>
             </div>
-            <b-button class="w-100" variant="primary" type="submit">Ingresar</b-button>
+            <b-button class="w-100" variant="primary" type="submit"
+              >Ingresar</b-button
+            >
             <p class="text-end mt-4">
               ¿No tienes una cuenta?
               <b-link @click="$router.push({ name: 'register-type' })">
@@ -45,42 +47,43 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref } from "vue"
+import { useRouter } from "vue-router"
 
 export default defineComponent({
   name: "LoginComponent",
-  setup(){
-    const email = ref("");
-    const password = ref("");
+  setup() {
+    const email = ref("")
+    const password = ref("")
+    const router = useRouter()
 
     const login = () => {
-      console.log("login here!");
-    };
+      console.log("login here!")
+    }
 
     const forgotPassword = () => {
-      console.log("forgotPassword here!");
-    };
+      router.push({ name: "forgot-password" })
+    }
 
     const registerUser = () => {
-      console.log("registerUser here!");
-    };
+      console.log("registerUser here!")
+    }
 
-    return{
+    return {
       email,
       password,
       login,
       forgotPassword,
-      registerUser
+      registerUser,
     }
-  }
-});
-
+  },
+})
 </script>
 
 <style scoped>
 .access-container {
   padding: 40px 15px 25px 15px;
-  min-height: calc(100vh - 85px);
+  /* min-height: calc(100vh - 85px); */
 }
 
 .login-title-section {

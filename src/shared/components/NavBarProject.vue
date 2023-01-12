@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="navbar-project">
     <nav
       id="navbar"
       :class="showScrollClass ? 'header-scrolled' : ''"
-      class="navbar fixed-top navbar-expand-lg navbar-header navbar-mobile"
+      class="navbar navbar-expand-lg navbar-header navbar-mobile"
     >
       <div class="navbar-container container">
         <!-- LOGO -->
@@ -18,9 +18,9 @@
 </template>
 
 <script lang="ts">
-import { store } from "@/store/modules/general";
-import { defineComponent, ref } from "vue";
-import logo from "@/assets/svg/logo.svg";
+import { store } from "@/store/modules/general"
+import { defineComponent, ref } from "vue"
+import logo from "@/assets/svg/logo.svg"
 
 export default defineComponent({
   data() {
@@ -29,8 +29,8 @@ export default defineComponent({
       step_register: 0,
       showScrollClass: ref(false),
       currentScrollPosY: ref(window.scrollY),
-      logo
-    };
+      logo,
+    }
   },
   // computed: {
   //   setScrollClass() {
@@ -40,26 +40,32 @@ export default defineComponent({
   // },
   computed: {
     setScrollClass() {
-      console.log("OK", window.scrollY);
-      if (window.scrollY > 20) return true;
-      else return false;
+      console.log("OK", window.scrollY)
+      if (window.scrollY > 20) return true
+      else return false
     },
   },
   watch: {
     currentScrollPosY(val, oldVal) {
       if (val > 20) {
-        this.showScrollClass = true;
+        this.showScrollClass = true
       } else {
-        this.showScrollClass = false;
+        this.showScrollClass = false
       }
     },
   },
   created() {
     setInterval(() => {
-      this.currentScrollPosY = window.scrollY;
-    }, 100);
+      this.currentScrollPosY = window.scrollY
+    }, 100)
   },
-});
+})
 </script>
 
-<style></style>
+<style>
+.navbar-project {
+  position: sticky;
+  top: 0;
+  z-index: 900;
+}
+</style>

@@ -1,19 +1,19 @@
 <template>
   <div>
     <NavBarClient />
-    <div class="wrapper">
+    <div class="client-landing__content">
       <slot />
-      <Footer />
     </div>
+    <Footer />
   </div>
 </template>
 
 <script setup lang="ts">
-import NavBarClient from "@/shared/components/NavBarClient.vue";
-import Footer from "@/shared/components/FooterComponent.vue";
+import NavBarClient from "@/shared/components/NavBarClient.vue"
+import Footer from "@/shared/components/FooterComponent.vue"
 </script>
 <style lang="scss" scoped>
-.wrapper {
-  padding-top: 0 !important;
+.client-landing__content {
+  min-height: calc(100vh - 151px);
 }
 </style>
