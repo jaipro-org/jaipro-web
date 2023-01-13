@@ -98,11 +98,7 @@
                   </b-form-group>
                 </b-col>
               </b-row>
-              <button
-                ref="form-data-button"
-                class="form-step-button"
-                type="submit"
-              >
+              <button ref="dataButton" class="form-step-button" type="submit">
                 go
               </button>
             </b-form>
@@ -158,11 +154,7 @@
                   </b-form-group>
                 </b-col>
               </b-row>
-              <button
-                ref="form-acount-button"
-                class="form-step-button"
-                type="submit"
-              >
+              <button ref="acountButton" class="form-step-button" type="submit">
                 go
               </button>
             </b-form>
@@ -175,11 +167,11 @@
                 <h5>Profesiones</h5>
                 <b-form-group class="ps-3">
                   <b-form-checkbox-group
-                    v-model="selected"
+                    v-model="workList.workSelected"
                     name="flavour-1"
                     stacked
                     class="mt-2"
-                    :options="options"
+                    :options="workOptions"
                   >
                   </b-form-checkbox-group>
                 </b-form-group>
@@ -189,8 +181,8 @@
 
                 <v-select
                   multiple
-                  v-model="optionSelected"
-                  :options="selectOptions"
+                  v-model="locationSelected"
+                  :options="locationOptions"
                   :reduce="(option) => option.value"
                 />
               </b-col>
@@ -207,66 +199,20 @@
                     :key="index"
                     class="mx-0 justify-content-between align-items-center mb-4 pt-4"
                   >
-                    <b-col cols="12" lg="2" class="mb-4 mb-lg-0 work__name">{{
+                    <b-col cols="12" lg="3" class="mb-4 mb-lg-0 work__name">{{
                       work.name
                     }}</b-col>
-                    <b-col cols="12" md="6" lg="5" class="mb-5 mb-md-0">
-                      <b-col
-                        cols="9"
-                        md="6"
-                        class="justify-content-center mx-auto work__temp"
-                      >
-                        <div class="text-center work__date">Años</div>
-                        <div
-                          class="work__buttons work__buttons--left"
-                          @click="substractYear(index)"
-                        >
-                          -
-                        </div>
-                        <b-form-input
-                          v-model="workExperience[index].years"
-                          type="text"
-                          placeholder="0"
-                          required
-                          class="rounded-pill"
-                          oninput="this.value = value.replace(/[^0-9]/g, '')"
-                        ></b-form-input>
-                        <div
-                          class="work__buttons work__buttons--right"
-                          @click="addYear(index)"
-                        >
-                          +
-                        </div>
-                      </b-col>
-                    </b-col>
-                    <b-col cols="12" md="6" lg="5">
-                      <b-col
-                        cols="9"
-                        md="6"
-                        class="justify-content-center mx-auto work__temp"
-                      >
-                        <div class="text-center work__date">Meses</div>
-                        <div
-                          class="work__buttons work__buttons--left"
-                          @click="substractMonth(index)"
-                        >
-                          -
-                        </div>
-                        <b-form-input
-                          v-model="workExperience[index].months"
-                          type="text"
-                          placeholder="0"
-                          required
-                          class="rounded-pill"
-                          oninput="this.value = value.replace(/[^0-9]/g, '')"
-                        ></b-form-input>
-                        <div
-                          class="work__buttons work__buttons--right"
-                          @click="addMonth(index)"
-                        >
-                          +
-                        </div>
-                      </b-col>
+                    <b-col cols="12" lg="9" class="mb-5 mb-lg-0 work__temp">
+                      <TimeComponent
+                        title="Años"
+                        v-model="workExperience[index].years"
+                        class="mx-0 me-lg-5"
+                      ></TimeComponent>
+                      <TimeComponent
+                        class="mx-0 ms-lg-5"
+                        title="Meses"
+                        v-model="workExperience[index].months"
+                      ></TimeComponent>
                     </b-col>
                   </b-row>
                 </div>
@@ -276,8 +222,8 @@
 
                 <v-select
                   multiple
-                  v-model="optionSelected"
-                  :options="selectOptions"
+                  v-model="locationSelected"
+                  :options="locationOptions"
                   :reduce="(option) => option.value"
                 />
               </b-col>
@@ -285,232 +231,218 @@
           </b-card>
         </tab-content>
         <tab-content title="Resumen">
-          <b-card class="mb-4">
-            <h6 class="mb-3">Datos Personales</h6>
-            <b-row class="mx-0 justify-content-between">
-              <b-col cols="12" lg="5" class="mb-3">
-                <b-form-group label="Nombres" label-for="input-3">
-                  <b-form-input
-                    id="input-3"
-                    v-model="form.name"
-                    type="text"
-                    placeholder="Ingrese su nombre"
-                    required
-                    class="rounded-pill"
-                    disabled
-                  ></b-form-input>
-                </b-form-group>
-              </b-col>
-              <b-col cols="12" lg="5" class="mb-3">
-                <b-form-group label="Apellidos" label-for="input-4">
-                  <b-form-input
-                    id="input-4"
-                    v-model="form.lastName"
-                    type="text"
-                    placeholder="Ingrese su apellido"
-                    required
-                    class="rounded-pill"
-                    disabled
-                  ></b-form-input>
-                </b-form-group>
-              </b-col>
-              <b-col cols="12" lg="5" class="mb-3">
-                <b-form-group label="Telefono" label-for="input-22">
-                  <b-form-input
-                    id="input-22"
-                    v-model="form.phone"
-                    type="text"
-                    placeholder="Ingrese su teléfono"
-                    required
-                    class="rounded-pill"
-                    disabled
-                  ></b-form-input>
-                </b-form-group>
-              </b-col>
-              <b-col cols="12" lg="5" class="mb-3">
-                <b-form-group
-                  label="Documento o cédula de identidad"
-                  label-for="input-5"
-                >
-                  <b-form-input
-                    id="input-5"
-                    v-model="form.document"
-                    type="text"
-                    placeholder="Ingrese su n° de documento"
-                    required
-                    class="rounded-pill"
-                    disabled
-                  ></b-form-input>
-                </b-form-group>
-              </b-col>
-              <b-col cols="12" lg="5" class="mb-3">
-                <b-form-group label="Dirección" label-for="input-6">
-                  <b-form-input
-                    id="input-6"
-                    v-model="form.adress"
-                    type="text"
-                    placeholder="Ingrese su dirección"
-                    required
-                    class="rounded-pill"
-                    disabled
-                  ></b-form-input>
-                </b-form-group>
-              </b-col>
-            </b-row>
-          </b-card>
-          <b-card class="mb-4">
-            <h6 class="mb-3">Datos de trabajo</h6>
-            <b-row class="mx-0 justify-content-between">
-              <b-col cols="12" lg="5">
-                <h5>Profesiones</h5>
-                <b-form-group class="ps-3">
-                  <b-form-checkbox-group
-                    v-model="selected"
-                    name="flavour-1"
-                    stacked
-                    class="mt-2"
-                    :options="options"
-                    disabled
-                  >
-                  </b-form-checkbox-group>
-                </b-form-group>
-              </b-col>
-              <b-col cols="12" lg="5" class="d-none d-lg-block">
-                <h5>Locaciones de trabajo</h5>
-                <v-select
-                  multiple
-                  v-model="optionSelected"
-                  :options="selectOptions"
-                  :reduce="(option) => option.value"
-                  disabled
-                />
-              </b-col>
-              <b-col cols="12" class="mx-auto mt-4">
-                <h5>Experiencia en el rubro</h5>
-                <div v-if="workExperience.length <= 0">
-                  <span class="ps-3">No hay profesiones seleccionadas</span>
-                </div>
-                <div v-else>
-                  <b-row
-                    v-for="(work, index) in workExperience"
-                    :key="index"
-                    class="mx-0 justify-content-between align-items-center mb-4 pt-4"
-                  >
-                    <b-col cols="12" lg="2" class="mb-4 mb-lg-0 work__name">{{
-                      work.name
-                    }}</b-col>
-                    <b-col cols="12" md="6" lg="5" class="mb-5 mb-md-0">
-                      <b-col
-                        cols="9"
-                        md="6"
-                        class="justify-content-center mx-auto work__temp"
-                      >
-                        <div class="text-center work__date">Años</div>
-
-                        <b-form-input
-                          v-model="workExperience[index].years"
-                          type="text"
-                          placeholder="0"
-                          required
-                          class="rounded-pill"
-                          disabled
-                        ></b-form-input>
-                      </b-col>
-                    </b-col>
-                    <b-col cols="12" md="6" lg="5">
-                      <b-col
-                        cols="9"
-                        md="6"
-                        class="justify-content-center mx-auto work__temp"
-                      >
-                        <div class="text-center work__date">Meses</div>
-
-                        <b-form-input
-                          v-model="workExperience[index].months"
-                          type="text"
-                          placeholder="0"
-                          required
-                          class="rounded-pill"
-                          disabled
-                        ></b-form-input>
-                      </b-col>
-                    </b-col>
-                  </b-row>
-                </div>
-              </b-col>
-              <b-col cols="12" lg="5" class="d-block d-lg-none">
-                <h5>Locaciones de trabajo</h5>
-                <v-select
-                  multiple
-                  v-model="optionSelected"
-                  :options="selectOptions"
-                  :reduce="(option) => option.value"
-                  disabled
-                />
-              </b-col>
-            </b-row>
-          </b-card>
-          <b-card class="mb-4">
-            <h6 class="mb-3">Datos de cuenta</h6>
-            <b-row class="mx-0 justify-content-between">
-              <b-col cols="12" lg="5" class="mb-3">
-                <b-form-group
-                  label="Correo electrónico"
-                  label-for="input-acount-11"
-                >
-                  <b-form-input
-                    id="input-acount-11"
-                    v-model="form.email"
-                    type="email"
-                    placeholder="Ingrese su usuario"
-                    required
-                    class="rounded-pill"
-                    disabled
-                  ></b-form-input>
-                </b-form-group>
-              </b-col>
-              <b-col cols="12" lg="5" class="mb-3">
-                <b-form-group label="Contraseña" label-for="input-acount-22">
-                  <b-input-group>
+          <template v-if="isStepResumenValid">
+            <b-card class="mb-4">
+              <h6 class="mb-3">Datos Personales</h6>
+              <b-row class="mx-0 justify-content-between">
+                <b-col cols="12" lg="5" class="mb-3">
+                  <b-form-group label="Nombres" label-for="input-3">
                     <b-form-input
-                      id="input-acount-22"
-                      v-model="form.password"
-                      :type="typePassword"
-                      placeholder="Ingrese su contraseña"
-                      disabled
+                      id="input-3"
+                      v-model="form.name"
+                      type="text"
+                      placeholder="Ingrese su nombre"
                       required
-                      class="rounded-pill input-password"
+                      class="rounded-pill"
+                      disabled
                     ></b-form-input>
-                    <b-input-group-append>
-                      <b-button
-                        text="Button"
-                        variant="secondary"
-                        @click="changeTypePassword"
+                  </b-form-group>
+                </b-col>
+                <b-col cols="12" lg="5" class="mb-3">
+                  <b-form-group label="Apellidos" label-for="input-4">
+                    <b-form-input
+                      id="input-4"
+                      v-model="form.lastName"
+                      type="text"
+                      placeholder="Ingrese su apellido"
+                      required
+                      class="rounded-pill"
+                      disabled
+                    ></b-form-input>
+                  </b-form-group>
+                </b-col>
+                <b-col cols="12" lg="5" class="mb-3">
+                  <b-form-group label="Telefono" label-for="input-22">
+                    <b-form-input
+                      id="input-22"
+                      v-model="form.phone"
+                      type="text"
+                      placeholder="Ingrese su teléfono"
+                      required
+                      class="rounded-pill"
+                      disabled
+                    ></b-form-input>
+                  </b-form-group>
+                </b-col>
+                <b-col cols="12" lg="5" class="mb-3">
+                  <b-form-group
+                    label="Documento o cédula de identidad"
+                    label-for="input-5"
+                  >
+                    <b-form-input
+                      id="input-5"
+                      v-model="form.document"
+                      type="text"
+                      placeholder="Ingrese su n° de documento"
+                      required
+                      class="rounded-pill"
+                      disabled
+                    ></b-form-input>
+                  </b-form-group>
+                </b-col>
+                <b-col cols="12" lg="5" class="mb-3">
+                  <b-form-group label="Dirección" label-for="input-6">
+                    <b-form-input
+                      id="input-6"
+                      v-model="form.adress"
+                      type="text"
+                      placeholder="Ingrese su dirección"
+                      required
+                      class="rounded-pill"
+                      disabled
+                    ></b-form-input>
+                  </b-form-group>
+                </b-col>
+              </b-row>
+            </b-card>
+            <b-card class="mb-4">
+              <h6 class="mb-3">Datos de trabajo</h6>
+              <b-row class="mx-0 justify-content-between">
+                <b-col cols="12" lg="5">
+                  <h5>Profesiones</h5>
+                  <b-form-group class="ps-3">
+                    <b-form-checkbox-group
+                      v-model="workList.workSelected"
+                      name="flavour-1"
+                      stacked
+                      class="mt-2"
+                      :options="workOptions"
+                      disabled
+                    >
+                    </b-form-checkbox-group>
+                  </b-form-group>
+                </b-col>
+                <b-col cols="12" lg="5" class="d-none d-lg-block">
+                  <h5>Locaciones de trabajo</h5>
+                  <v-select
+                    multiple
+                    v-model="locationSelected"
+                    :options="locationOptions"
+                    :reduce="(option) => option.value"
+                    disabled
+                  />
+                </b-col>
+                <b-col cols="12" class="mx-auto mt-4">
+                  <h5>Experiencia en el rubro</h5>
+                  <div v-if="workExperience.length <= 0">
+                    <span class="ps-3">No hay profesiones seleccionadas</span>
+                  </div>
+                  <div v-else>
+                    <b-row
+                      v-for="(work, index) in workExperience"
+                      :key="index"
+                      class="mx-0 justify-content-between align-items-center mb-4 pt-4"
+                    >
+                      <b-col cols="12" lg="3" class="mb-4 mb-lg-0 work__name">{{
+                        work.name
+                      }}</b-col>
+                      <b-col
+                        cols="12"
+                        lg="9"
+                        class="mb-5 mb-lg-0 work__temp work__temp--resumen"
                       >
-                        <i
-                          class="fa-regular fa-eye"
-                          v-if="typePassword == 'text'"
-                        ></i>
-                        <i class="fa-solid fa-eye-slash" v-else></i
-                      ></b-button>
-                    </b-input-group-append>
-                  </b-input-group>
-                </b-form-group>
-              </b-col>
-            </b-row>
-          </b-card>
-          <div class="mb-4">
-            <b-form-checkbox
-              v-model="form.conditions"
-              name="checkbox-1"
-              class="cursor-pointer"
-            >
-              Acepto los
-              <span class="btn_conditions" @click="showConditions = true"
-                >términos y condiciones</span
+                        <TimeComponent
+                          title="Años"
+                          v-model="workExperience[index].years"
+                          class="me-3 me-lg-5"
+                          :haveActions="false"
+                          disabled
+                        ></TimeComponent>
+                        <TimeComponent
+                          class="ms-3 ms-lg-5"
+                          title="Meses"
+                          v-model="workExperience[index].months"
+                          :haveActions="false"
+                          disabled
+                        ></TimeComponent>
+                      </b-col>
+                    </b-row>
+                  </div>
+                </b-col>
+                <b-col cols="12" lg="5" class="d-block d-lg-none">
+                  <h5>Locaciones de trabajo</h5>
+                  <v-select
+                    multiple
+                    v-model="locationSelected"
+                    :options="locationOptions"
+                    :reduce="(option) => option.value"
+                    disabled
+                  />
+                </b-col>
+              </b-row>
+            </b-card>
+            <b-card class="mb-4">
+              <h6 class="mb-3">Datos de cuenta</h6>
+              <b-row class="mx-0 justify-content-between">
+                <b-col cols="12" lg="5" class="mb-3">
+                  <b-form-group
+                    label="Correo electrónico"
+                    label-for="input-acount-11"
+                  >
+                    <b-form-input
+                      id="input-acount-11"
+                      v-model="form.email"
+                      type="email"
+                      placeholder="Ingrese su usuario"
+                      required
+                      class="rounded-pill"
+                      disabled
+                    ></b-form-input>
+                  </b-form-group>
+                </b-col>
+                <b-col cols="12" lg="5" class="mb-3">
+                  <b-form-group label="Contraseña" label-for="input-acount-22">
+                    <b-input-group>
+                      <b-form-input
+                        id="input-acount-22"
+                        v-model="form.password"
+                        :type="typePassword"
+                        placeholder="Ingrese su contraseña"
+                        disabled
+                        required
+                        class="rounded-pill input-password"
+                      ></b-form-input>
+                      <b-input-group-append>
+                        <b-button
+                          text="Button"
+                          variant="secondary"
+                          @click="changeTypePassword"
+                        >
+                          <i
+                            class="fa-regular fa-eye"
+                            v-if="typePassword == 'text'"
+                          ></i>
+                          <i class="fa-solid fa-eye-slash" v-else></i
+                        ></b-button>
+                      </b-input-group-append>
+                    </b-input-group>
+                  </b-form-group>
+                </b-col>
+              </b-row>
+            </b-card>
+            <div class="mb-4">
+              <b-form-checkbox
+                v-model="form.conditions"
+                name="checkbox-1"
+                class="cursor-pointer"
               >
-            </b-form-checkbox>
-          </div>
+                Acepto los
+                <span class="btn_conditions" @click="showConditions = true"
+                  >términos y condiciones</span
+                >
+              </b-form-checkbox>
+            </div>
+          </template>
         </tab-content>
       </form-wizard>
     </b-col>
@@ -539,13 +471,20 @@
 <script setup lang="ts">
 import { FormWizard, TabContent } from "vue3-form-wizard"
 import "vue3-form-wizard/dist/style.css"
-import { computed, ref, watch, onMounted, onBeforeUnmount, nextTick } from "vue"
-import { closeAlert } from "../../../utils/SweetAlert"
-import { InputType } from "bootstrap-vue-3"
-
+import TimeComponent from "./components/TimeComponent.vue"
+import {
+  computed,
+  ref,
+  reactive,
+  watch,
+  onMounted,
+  onBeforeUnmount,
+  nextTick,
+} from "vue"
 let windowWidth = ref(window.innerWidth) // Obtener el tamaño de la ventana
-let typePassword: any = ref("password")
+let typePassword: any = ref("password") // Type password
 const showConditions = ref(false)
+
 const form = ref({
   phone: "",
   name: "",
@@ -557,100 +496,105 @@ const form = ref({
   confirmPassword: "",
   conditions: false,
 })
-const workSelected = ref("")
-const valid = ref(false)
-const workExperience = ref([
-  { years: 2022, months: 1, id: 1, name: "Carpintero" },
-])
-const selected = ref([])
-const optionSelected = ref([1])
-const options = ref([
+
+// STEP3 ***********************
+
+const workList = reactive({
+  workSelected: [20],
+})
+const workOptions: Array<{ text: string; value: number }> = reactive([
   { text: "Pintor", value: 10 },
   { text: "Carpintero", value: 20 },
   { text: "Albañil", value: 30 },
   { text: "Gasfitero", value: 40 },
 ])
-const selectOptions = ref([
+const workExperience: Array<{
+  years: number
+  months: number
+  id: number
+  name: string
+}> = reactive([{ years: 10, months: 3, id: 20, name: "Carpintero" }])
+
+const locationSelected = ref([1])
+const locationOptions: Array<{ value: number; label: string }> = reactive([
   { value: 0, label: "Los Olivos" },
   { value: 1, label: "SMP" },
   { value: 3, label: "Puente Piedra" },
   { value: 4, label: "Chorrillos" },
 ])
 
-function validateDataForm() {
-  /*this.$refs["form-data-button"].click();
-  return this.$refs["dataForm"].checkValidity();*/
-  return true
-}
+watch(
+  () => workList.workSelected,
+  (newValue, lastValue) => {
+    if (lastValue.length > newValue.length) {
+      newValue.forEach((value: any) => {
+        const index = lastValue.indexOf(value)
+        lastValue.splice(index, 1)
+      })
 
-function validateWorkForm() {
-  return workExperience.value.length > 0
+      const lastIndex = workExperience.findIndex(
+        (work) => work.id == lastValue[0]
+      )
+      workExperience.splice(lastIndex, 1)
+    } else {
+      const list = [...newValue]
+      lastValue.forEach((value: any) => {
+        const index = list.indexOf(value)
+        list.splice(index, 1)
+      })
+      const workFind = workOptions.find((work) => work.value == list[0])
+      if (workFind) {
+        const work = {
+          id: list[0],
+          name: workFind.text,
+          years: 0,
+          months: 0,
+        }
+        workExperience.push(work)
+      }
+    }
+  }
+)
+
+// STEP3 ***********************
+
+// STEP4 ***********************
+const isStepResumenValid = ref(false)
+// STEP4 ***********************
+
+// VALIDATION STEPS **************
+const dataButton = ref()
+const dataForm = ref()
+const acountButton = ref()
+const acountForm = ref()
+
+function validateDataForm() {
+  dataButton.value.click()
+  return dataForm.value.$el.checkValidity()
 }
 
 function validateAcountForm() {
-  /* this.$refs["form-acount-button"].click();
-  return this.$refs["acountForm"].checkValidity();*/
-  return true
+  acountButton.value.click()
+  return acountForm.value.$el.checkValidity()
 }
+function validateWorkForm() {
+  isStepResumenValid.value = false
+  const cantWork = workExperience.length
 
-function addYear(index: number) {
-  workExperience.value[index].years++
-}
-
-function substractYear(index: number) {
-  if (workExperience.value[index].years > 0) {
-    workExperience.value[index].years--
+  if (cantWork > 0) {
+    setTimeout(function () {
+      isStepResumenValid.value = true
+    }, 10)
+    return true
+  } else {
+    return false
   }
 }
-
-function addMonth(index: number) {
-  workExperience.value[index].months++
-}
-
-function substractMonth(index: number) {
-  if (workExperience.value[index].months > 0) {
-    workExperience.value[index].months--
-  }
-}
-
 function registerSpecialist() {
   console.log("Se registrará un expediente")
 }
 
-watch(selected, (value, lastValue) => {
-  if (lastValue.length > value.length) {
-    value.forEach((value: string) => {
-      const index = lastValue.indexOf(value)
-      lastValue.splice(index, 1)
-    })
-
-    const lastIndex = workExperience.value.findIndex(
-      (work) => work.id == lastValue[0]
-    )
-    workExperience.value.splice(lastIndex, 1)
-  } else {
-    const lastAdd = value.length - 1
-    if (lastAdd >= 0) {
-      console.log(value[lastAdd])
-      const res = options.value.find((option) => option.value == value[lastAdd])
-      const work = {
-        id: value[lastAdd],
-        name: res!.text,
-        years: 0,
-        months: 0,
-      }
-      console.log(work)
-      workExperience.value.push(work)
-    }
-  }
-})
-
-const availableCars = ["BMW", "Mercedes", "Toyota"]
-const selectedCars = ref([])
-
-const concatSelectedCars = computed(() => {
-  return selectedCars.value.join(", ")
-})
+// VALIDATION STEPS **************
 
 const changeTypePassword = () => {
   typePassword.value = typePassword.value == "password" ? "text" : "password"
@@ -670,7 +614,6 @@ onBeforeUnmount(() => {
 const onResize = () => {
   windowWidth.value = window.innerWidth
 }
-
 // FIN FUNCIONES PARA OBTENER EL TAMAÑO DE LA PANTALLA
 
 const isWeb = computed(() => {
@@ -705,7 +648,9 @@ const isWeb = computed(() => {
 }
 .work__temp {
   position: relative;
-  padding: 0 30px;
+  padding: 0 28px;
+  display: flex;
+  flex-wrap: nowrap;
 }
 .work__date {
   position: absolute;
@@ -754,5 +699,16 @@ const isWeb = computed(() => {
 
 .btn_conditions:hover {
   color: #0f63e2;
+}
+
+@media (max-width: 950px) {
+  .work__temp {
+    /* padding: 0 10px; */
+    flex-wrap: wrap;
+  }
+
+  .work__temp--resumen {
+    flex-wrap: nowrap;
+  }
 }
 </style>

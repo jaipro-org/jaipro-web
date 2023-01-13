@@ -3,12 +3,12 @@
     <b-col cols="12" lg="3" class="profile__menu">
       <div class="menu__container py-3 px-4 bg-white d-block d-lg-none">
         <div>
-          <div class="mb-2">
+          <div class="mb-2" @click="collapseMovil = !collapseMovil">
             <i class="fa-solid fa-house-circle-check me-2"></i
             ><span>Mis Proyectos</span
             ><i class="fa-solid fa-angle-down ms-2"></i>
           </div>
-          <b-collapse visible id="collapse-3" class="ps-4 py-2">
+          <b-collapse v-model="collapseMovil" id="collapse-3" class="ps-4 py-2">
             <span
               class="d-block mb-2"
               @click="
@@ -32,17 +32,19 @@
         <div><i class="fa-solid fa-heart me-2"></i><span>Favoritos</span></div>
       </div>
       <div
-        id="menu__container--web"
-        :class="menuChange ? 'menu__container--web' : ''"
-        class="menu__container py-3 px-4 bg-white d-none d-lg-block"
+        class="menu__container menu__container--web py-3 px-4 bg-white d-none d-lg-block"
       >
         <div>
-          <div class="mb-2">
+          <div class="mb-2" @click="collapseWeb = !collapseWeb">
             <i class="fa-solid fa-house-circle-check me-2"></i
             ><span>Mis Proyectos</span
             ><i class="fa-solid fa-angle-down ms-2"></i>
           </div>
-          <b-collapse visible id="collapse-3" class="ps-4 py-2">
+          <b-collapse
+            v-model="collapseWeb"
+            id="collapse-movil"
+            class="ps-4 py-2"
+          >
             <span
               class="d-block mb-2"
               @click="
@@ -251,19 +253,23 @@
           alt="image"
         />
       </div>
-      <b-form-input
+      <input
         style="display: none"
         ref="portadaFile"
         hidden
+        type="file"
         @change="changeFileCover"
-      ></b-form-input>
+      />
     </div>
   </b-modal>
 </template>
-
+<!--  -->
 <script setup lang="ts">
 import { alertSuccessButton } from "@/utils/SweetAlert"
 import { ref, onMounted, computed } from "vue"
+
+const collapseWeb = ref(true)
+const collapseMovil = ref(false)
 
 const showModal = ref(false)
 const portadaFile: any = ref()
@@ -287,7 +293,7 @@ function setData() {
 }
 
 function uploadImage() {
-  const btnFile = portadaFile.$el.children[0]
+  const btnFile = portadaFile.value
   btnFile.click()
 }
 
@@ -304,18 +310,6 @@ function changeFileCover(event: any) {
   fr.onload = () => (coverImage.value = fr.result)
   fr.readAsDataURL(file)
 }
-
-const menuChange = computed(() => {
-  if (!isLoading.value) {
-    let footer: any = document.getElementById("footer__limit")
-    let footerScrollY = Number(footer.offsetTop) - 320
-    const scrollY = window.scrollY
-    if (scrollY > 70 && Number(scrollY) < footerScrollY) {
-      return true
-    }
-  }
-  return false
-})
 </script>
 
 <style lang="scss" scoped>
@@ -324,17 +318,17 @@ const menuChange = computed(() => {
     .menu__container {
       box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.274) !important;
 
+      &--web {
+        position: fixed;
+        top: 120px;
+        padding-top: 0;
+        width: 100%;
+        max-width: 250px;
+      }
+
       div {
         cursor: pointer;
       }
-    }
-
-    .menu__container--web {
-      position: fixed;
-      top: 90px;
-      padding-top: 0;
-      width: 100%;
-      max-width: 250px;
     }
   }
 
@@ -442,7 +436,7 @@ const menuChange = computed(() => {
       padding: 0;
       z-index: 1;
       position: fixed;
-      top: 75px;
+      top: 84px;
       left: 0;
     }
 
