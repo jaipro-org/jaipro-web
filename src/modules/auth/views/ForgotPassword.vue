@@ -19,7 +19,7 @@
             </b-form-group>
 
             <b-button class="w-100" variant="primary" type="submit"
-              >Ingresar</b-button
+              >Recuperar</b-button
             >
 
             <b-button

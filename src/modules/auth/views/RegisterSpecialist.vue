@@ -1,7 +1,7 @@
 <template>
   <b-row class="mx-0 py-4">
     <b-col cols="12">
-      <h1 class="text-center">Registro de Especialista</h1>
+      <register-title title="Registro de Especialista"></register-title>
     </b-col>
     <b-col cols="12" md="8" class="mx-auto mt-4 px-0">
       <form-wizard
@@ -472,6 +472,7 @@
 import { FormWizard, TabContent } from "vue3-form-wizard"
 import "vue3-form-wizard/dist/style.css"
 import TimeComponent from "./components/TimeComponent.vue"
+import RegisterTitle from "./components/RegisterTitle.vue"
 import {
   computed,
   ref,
