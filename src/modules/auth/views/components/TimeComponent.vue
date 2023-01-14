@@ -2,13 +2,11 @@
   <div class="time">
     <div class="time__title">{{ title }}</div>
     <div class="time__content">
-      <div
+      <i
         v-if="haveActions"
-        class="time-button time-button--left"
         @click="substractTime"
-      >
-        -
-      </div>
+        class="time-button time-button--left fa-solid fa-circle-minus"
+      ></i>
       <b-form-input
         v-model="number"
         type="text"
@@ -19,13 +17,12 @@
         oninput="this.value = value.replace(/[^0-9]/g, '')"
         :disabled="disabled"
       ></b-form-input>
-      <div
+
+      <i
         v-if="haveActions"
-        class="time-button time-button--right"
         @click="addTime"
-      >
-        +
-      </div>
+        class="time-button time-button--right fa-solid fa-circle-plus"
+      ></i>
     </div>
   </div>
 </template>
@@ -94,13 +91,10 @@ export default defineComponent({
     align-items: center;
 
     .time-button {
-      background-color: rgb(145, 145, 145);
-      color: white;
-      width: 38px;
-      height: 38px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      font-size: 2.2rem;
+      background-color: white;
+      color: rgb(145, 145, 145);
+
       border-radius: 100%;
       cursor: default;
 

@@ -75,13 +75,9 @@
           </b-card>
         </div>
       </div>
-      <div
-        cols="12"
-        v-if="this.project.status != 2"
-        class="col-12 mb-3 mb-md-1"
-      >
+      <div cols="12" v-if="project.status != 2" class="col-12 mb-3 mb-md-1">
         <h1 class="project__title mb-3">Propuestas(5)</h1>
-        <div class="proposals-list mb-3" v-if="this.project.status != 2">
+        <div class="proposals-list mb-3" v-if="project.status != 2">
           <proposal-card
             v-for="(proposal, index) in proposals"
             :key="index"
@@ -225,31 +221,31 @@
 </template>
 
 <script setup lang="ts">
-import ModalImage from "@/shared/components/ModalImage.vue";
+import ModalImage from "@/shared/components/ModalImage.vue"
 import {
   alertLoading,
   alertSuccessfully,
   alertActionButton,
   closeAlert,
-} from "@/utils/SweetAlert";
-import ProposalCard from "@/modules/client/views/Components/ProposalCard.vue";
-import { defineProps, ref, toRefs } from "vue";
-import { useRouter } from "vue-router";
+} from "@/utils/SweetAlert"
+import ProposalCard from "@/modules/client/views/Components/ProposalCard.vue"
+import { defineProps, ref, toRefs } from "vue"
+import { useRouter } from "vue-router"
 
 const props = defineProps<{
-  projectId: number;
-}>();
+  projectId: number
+}>()
 
-const router = useRouter();
+const router = useRouter()
 
-const { projectId } = toRefs(props);
+const { projectId } = toRefs(props)
 
-const showModalPayCash = ref(false);
-const showModalQualification = ref(false);
-const buttonForm = ref<HTMLButtonElement>();
+const showModalPayCash = ref(false)
+const showModalQualification = ref(false)
+const buttonForm = ref<HTMLButtonElement>()
 
 //Maneja la gestion del modal de imagenes
-const isShowModal = ref(false);
+const isShowModal = ref(false)
 // A manera de ejemplo tenemos los estados para el projecto
 //   0 = 'abierto'
 //   1 = "con propuestas"
@@ -263,13 +259,13 @@ const project = ref({
   proposal: {}, //Propuesta aceptada
   detail:
     "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendus tempore accusamus suscipit repellat esse laboriosam dolore. Libero quae optio voluptatibus? Nostrum vel nihil dolor soluta voluptatum tenetur iste, assumenda sunt, minus nemo facilis earum quis delectus possimus, illum eos expedita.",
-});
+})
 // A manera de ejemplo tenemos los estados para las propuestas
 //   0 = 'propuesto'
 //   1 = "aceptado"
 //   2 = "rechazado"
 //   3 = "pagado"
-const isLoadingProposals = ref(false);
+const isLoadingProposals = ref(false)
 const proposals = ref([
   {
     id: 0,
@@ -311,15 +307,15 @@ const proposals = ref([
     detail:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta voluptatibus dolor odio dolorum vitae iste vel",
   },
-]);
+])
 
 const form = ref({
   payAmount: "",
-});
+})
 
 function loadProposals() {
-  console.log("Cardar mas propuestas");
-  isLoadingProposals.value = true;
+  console.log("Cardar mas propuestas")
+  isLoadingProposals.value = true
   const proposal = {
     id: 0,
     name: "Pedro Ramirez Estrada",
@@ -340,14 +336,14 @@ function loadProposals() {
     ],
     detail:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta voluptatibus dolor odio dolorum vitae iste vel",
-  };
+  }
 
   const timeOut = setTimeout(() => {
-    proposals.value.push(proposal);
-    proposals.value.push(proposal);
-    isLoadingProposals.value = false;
-    clearTimeout(timeOut);
-  }, 2000);
+    proposals.value.push(proposal)
+    proposals.value.push(proposal)
+    isLoadingProposals.value = false
+    clearTimeout(timeOut)
+  }, 2000)
 }
 
 async function handleAcceptProposal(id: number) {
@@ -356,22 +352,22 @@ async function handleAcceptProposal(id: number) {
     "¿Seguro que desea aceptar la oferta?",
     "Aceptar",
     "info"
-  );
+  )
   if (alertResult) {
     //Simulación de carga del Backend
-    alertLoading();
-    const proposal = proposals.value.find((proposal) => proposal.id == id);
-    proposal!.status = 1;
-    project.value.proposal = { ...proposal };
-    project.value.status = 2;
+    alertLoading()
+    const proposal = proposals.value.find((proposal) => proposal.id == id)
+    proposal!.status = 1
+    project.value.proposal = { ...proposal }
+    project.value.status = 2
     const timeOut = setTimeout(() => {
-      alertSuccessfully("Se acepto la propuesta del projecto exitosamente");
+      alertSuccessfully("Se acepto la propuesta del projecto exitosamente")
       const timeOut2 = setTimeout(() => {
-        closeAlert();
-        clearTimeout(timeOut2);
-      }, 2500);
-      clearTimeout(timeOut);
-    }, 1500);
+        closeAlert()
+        clearTimeout(timeOut2)
+      }, 2500)
+      clearTimeout(timeOut)
+    }, 1500)
   }
 }
 
@@ -381,85 +377,87 @@ async function handleRejectProposal(id: number) {
     "¿Seguro que desea rechazar la oferta?",
     "Rechazar",
     "error"
-  );
+  )
   if (alertResult) {
     //Simulación de carga del Backend
-    alertLoading();
+    alertLoading()
     const timeOut = setTimeout(() => {
-      proposals.value.splice(id, 1);
-      alertSuccessfully("Se rechazo la propuesta del projecto exitosamente");
+      proposals.value.splice(id, 1)
+      alertSuccessfully("Se rechazo la propuesta del projecto exitosamente")
       const timeOut2 = setTimeout(function () {
-        closeAlert();
-        clearTimeout(timeOut2);
-      }, 2500);
-      clearTimeout(timeOut);
-    }, 1500);
+        closeAlert()
+        clearTimeout(timeOut2)
+      }, 2500)
+      clearTimeout(timeOut)
+    }, 1500)
   }
 }
 
 function openModalPayCash() {
-  showModalPayCash.value = true;
+  showModalPayCash.value = true
 }
 
 function closeModalPayCash() {
-  showModalPayCash.value = false;
+  showModalPayCash.value = false
 }
 
 function payCash() {
-  buttonForm.value?.click();
+  buttonForm.value?.click()
 }
 
 function handlePayCash() {
-  console.log("Finalizar pago");
-  project.value.proposal!.status = 3;
-  closeModalPayCash();
+  console.log("Finalizar pago")
+  if (project.value.proposal.status) {
+  }
+  project.value.proposal!.status = 3
+  closeModalPayCash()
 }
 
 //Redirecciona a la vista de pago online
 function redirectPayOnline() {
-  router.push({ name: "pay-online" });
+  router.push({ name: "pay-online" })
 }
 
 //Abrir el Modal de Calificacion
 function openQualificationModal() {
-  console.log("openQualificationModal");
-  showModalQualification.value = true;
+  console.log("openQualificationModal")
+  showModalQualification.value = true
 }
 
 //Cerrar el Modal de calificación
 function closeQualificationModal() {
-  console.log("closeQualificationModal");
-  showModalQualification.value = false;
+  console.log("closeQualificationModal")
+  showModalQualification.value = false
 }
 
 //Enviar una calificacion
 function checkQualifaction(event: Event) {
-  clearIcons();
-  const icon: any = event.target;
-  icon.classList.add("active");
+  clearIcons()
+  const icon: any = event.target
+  icon.classList.add("active")
 }
 
 function sendQualification() {
-  alertLoading();
-  project.value.proposal.isQualified = true;
+  alertLoading()
+  project.value.proposal.isQualified = true
   const timeOut = setTimeout(() => {
-    alertSuccessfully("Se envio la calificación exitosamente");
-    this.clearIcons();
-    this.closeQualificationModal();
+    alertSuccessfully("Se envio la calificación exitosamente")
+    this.clearIcons()
+    this.closeQualificationModal()
     const timeOut2 = setTimeout(() => {
-      closeAlert();
-      clearTimeout(timeOut2);
-    }, 1500);
-    clearTimeout(timeOut);
-  }, 1500);
+      closeAlert()
+      clearTimeout(timeOut2)
+    }, 1500)
+    clearTimeout(timeOut)
+  }, 1500)
 }
 
 //Limpiar iconos del modal de calificacion
 function clearIcons() {
-  const iconList = document.querySelectorAll(".modal-qualification__icon");
+  const iconList = document.querySelectorAll(".modal-qualification__icon")
   iconList.forEach((icon) => {
-    icon.classList.remove("active");
-  });
+    icon.classList.remove("active")
+  })
 }
 </script>
 
