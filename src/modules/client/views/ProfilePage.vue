@@ -3,12 +3,12 @@
     <b-col cols="12" lg="3" class="profile__menu">
       <div class="menu__container py-3 px-4 bg-white d-block d-lg-none">
         <div>
-          <div class="mb-2">
+          <div class="mb-2" @click="collapseMovil = !collapseMovil">
             <i class="fa-solid fa-house-circle-check me-2"></i
             ><span>Mis Proyectos</span
             ><i class="fa-solid fa-angle-down ms-2"></i>
           </div>
-          <b-collapse visible id="collapse-3" class="ps-4 py-2">
+          <b-collapse v-model="collapseMovil" id="collapse-3" class="ps-4 py-2">
             <span
               class="d-block mb-2"
               @click="
@@ -32,17 +32,19 @@
         <div><i class="fa-solid fa-heart me-2"></i><span>Favoritos</span></div>
       </div>
       <div
-        id="menu__container--web"
-        :class="menuChange ? 'menu__container--web' : ''"
-        class="menu__container py-3 px-4 bg-white d-none d-lg-block"
+        class="menu__container menu__container--web py-3 px-4 bg-white d-none d-lg-block"
       >
         <div>
-          <div class="mb-2">
+          <div class="mb-2" @click="collapseWeb = !collapseWeb">
             <i class="fa-solid fa-house-circle-check me-2"></i
             ><span>Mis Proyectos</span
             ><i class="fa-solid fa-angle-down ms-2"></i>
           </div>
-          <b-collapse visible id="collapse-3" class="ps-4 py-2">
+          <b-collapse
+            v-model="collapseWeb"
+            id="collapse-movil"
+            class="ps-4 py-2"
+          >
             <span
               class="d-block mb-2"
               @click="
@@ -73,7 +75,7 @@
             <div class="image__user">
               <img src="@/assets/img-delete/profile.jpg" alt="" />
               <div
-                v-b-modal.modal-1
+                @click="showModal = true"
                 class="button__action button__action--userImage text-warning"
               >
                 <i class="fa-solid fa-pen-to-square"></i>
@@ -213,102 +215,101 @@
         </b-col>
       </b-row>
     </b-col>
-    <b-modal id="modal-1" title="Editar imagen de perfil" class="p-0" centered>
-      <template #modal-footer>
-        <div class="d-flex justify-content-between w-100">
-          <b-button variant="secondary">Cancelar</b-button>
-          <b-button variant="primary">Guardar</b-button>
-        </div>
-      </template>
-      <div>
-        <span class="span-info"
-          >Seleccione la imagen para elegir una nueva imagen de Portada</span
-        >
-        <span
-          class="span-info"
-          :class="coverImage ? 'span-info--success' : 'span-info--danger'"
-          >*Este campo es obligatorio</span
-        >
-        <div
-          class="form-image__file mt-2"
-          :class="!coverImage ? 'form-image__file--aux' : ''"
-          @click="uploadImage"
-        >
-          <img
-            :src="
-              !coverImage
-                ? require('@/assets/img-delete/fileimage-up.png')
-                : coverImage
-            "
-            alt="image"
-          />
-        </div>
-        <b-form-file
-          style="display: none"
-          ref="portadaFile"
-          hidden
-          @change="changeFileCover"
-        ></b-form-file>
-      </div>
-    </b-modal>
+
     <b-col id="footer__limit"></b-col>
   </b-row>
+  <b-modal
+    v-model="showModal"
+    title="Editar imagen de perfil"
+    class="p-0"
+    centered
+  >
+    <template v-slot:footer>
+      <div class="d-flex justify-content-between w-100">
+        <b-button variant="secondary">Cancelar</b-button>
+        <b-button variant="primary">Actualizar</b-button>
+      </div>
+    </template>
+    <div>
+      <span class="span-info"
+        >Seleccione la imagen para elegir una nueva imagen de Portada</span
+      >
+      <span
+        class="span-info"
+        :class="coverImage ? 'span-info--success' : 'span-info--danger'"
+        >*Este campo es obligatorio</span
+      >
+      <div
+        class="form-image__file mt-2"
+        :class="!coverImage ? 'form-image__file--aux' : ''"
+        @click="uploadImage"
+      >
+        <img
+          :src="
+            !coverImage
+              ? require('@/assets/img-delete/fileimage-up.png')
+              : coverImage
+          "
+          alt="image"
+        />
+      </div>
+      <input
+        style="display: none"
+        ref="portadaFile"
+        hidden
+        type="file"
+        @change="changeFileCover"
+      />
+    </div>
+  </b-modal>
 </template>
-
+<!--  -->
 <script setup lang="ts">
-import { alertSuccessButton } from "@/utils/SweetAlert";
-import { ref, onMounted, computed } from "vue";
+import { alertSuccessButton } from "@/utils/SweetAlert"
+import { ref, onMounted, computed } from "vue"
 
-const portadaFile!: any = ref();
-const isLoading = ref(true);
-const disctrictSelected = ref(0);
+const collapseWeb = ref(true)
+const collapseMovil = ref(false)
+
+const showModal = ref(false)
+const portadaFile: any = ref()
+const isLoading = ref(true)
+const disctrictSelected = ref(0)
 const districtOptions = ref([
   { value: 0, text: "Los Olivos" },
   { value: 1, text: "SMP" },
   { value: 2, text: "Selected Option" },
   { value: 3, text: "Puente Piedra" },
   { value: 4, text: "Chorrillos" },
-]);
-const fileImage: any = ref(null);
-const coverImage: any = ref(null);
+])
+const fileImage: any = ref(null)
+const coverImage: any = ref(null)
 onMounted(() => {
-  isLoading.value = false;
-});
+  isLoading.value = false
+})
 
 function setData() {
-  alertSuccessButton("Se realizo la operacion correctamente");
+  alertSuccessButton("Se realizo la operacion correctamente")
 }
 
 function uploadImage() {
-  const btnFile = portadaFile.$el.children[0];
-  btnFile.click();
+  const btnFile = portadaFile.value
+  btnFile.click()
 }
 
 function changeFileCover(event: any) {
-  const file: any = event.target.files[0];
+  const file: any = event.target.files[0]
   if (!file) {
-    fileImage.value = null;
-    coverImage.value = null;
-    return;
+    fileImage.value = null
+    coverImage.value = null
+    return
   }
 
-  fileImage.value = file;
-  const fr = new FileReader();
-  fr.onload = () => (coverImage.value = fr.result);
-  fr.readAsDataURL(file);
+  fileImage.value = file
+  const fr = new FileReader()
+  fr.onload = () => (coverImage.value = fr.result)
+  fr.readAsDataURL(file)
 }
-
-const menuChange = computed(() => {
-  if (!isLoading.value) {
-    let footer: any = document.getElementById("footer__limit");
-    let footerScrollY = Number(footer.offsetTop) - 320;
-    const scrollY = window.scrollY;
-    if (scrollY > 70 && Number(scrollY) < footerScrollY) {
-      return true;
-    }
-  }
-  return false;
-});
 </script>
 
 <style lang="scss" scoped>
@@ -317,17 +318,17 @@ const menuChange = computed(() => {
     .menu__container {
       box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.274) !important;
 
+      &--web {
+        position: fixed;
+        top: 120px;
+        padding-top: 0;
+        width: 100%;
+        max-width: 250px;
+      }
+
       div {
         cursor: pointer;
       }
-    }
-
-    .menu__container--web {
-      position: fixed;
-      top: 90px;
-      padding-top: 0;
-      width: 100%;
-      max-width: 250px;
     }
   }
 
@@ -435,12 +436,24 @@ const menuChange = computed(() => {
       padding: 0;
       z-index: 1;
       position: fixed;
-      top: 75px;
+      top: 84px;
       left: 0;
     }
 
     .profile__content {
-      padding-top: 180px;
+      padding-top: 190px;
+    }
+  }
+}
+
+@media (max-width: 575px) {
+  .profile-client__container {
+    .profile__menu {
+      top: 53px;
+    }
+
+    .profile__content {
+      padding-top: 195px;
     }
   }
 }

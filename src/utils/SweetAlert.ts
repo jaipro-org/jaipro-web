@@ -1,4 +1,4 @@
-import Swal from "sweetalert2";
+import Swal from "sweetalert2"
 
 export const alertLoading = () => {
   Swal.fire({
@@ -7,10 +7,10 @@ export const alertLoading = () => {
     allowEscapeKey: false,
     showConfirmButton: false,
     willOpen: () => {
-      Swal.showLoading();
+      Swal.showLoading(null)
     },
-  });
-};
+  })
+}
 
 export const alertSuccessfully = (text: string) => {
   Swal.fire({
@@ -21,8 +21,8 @@ export const alertSuccessfully = (text: string) => {
     allowEscapeKey: false,
     showConfirmButton: false,
     showCloseButton: true,
-  });
-};
+  })
+}
 
 export const alertSuccessButton = (text: string) => {
   return Swal.fire({
@@ -34,18 +34,17 @@ export const alertSuccessButton = (text: string) => {
     confirmButtonText: "OK",
   }).then((result) => {
     if (result.isConfirmed) {
-      return true;
+      return true
     }
-  });
-};
+  })
+}
 
 //Modal de alerta para confirmar una accion
 export const alertActionButton = (
-  title: string= 'Realizar accion',
-  text: string ,
-  btnText : string = 'Continuar',
-  icon: any = 'info',
-  
+  title: string = "Realizar accion",
+  text: string,
+  btnText: string = "Continuar",
+  icon: any = "info"
 ) => {
   return Swal.fire({
     icon: icon,
@@ -55,10 +54,10 @@ export const alertActionButton = (
     showCloseButton: true,
   }).then((result) => {
     if (result.isConfirmed) {
-      return true;
+      return true
     }
-  });
-};
+  })
+}
 
 export const alertError = (
   text = "Sucedio un error, porfavor intentelo de nuevo!!"
@@ -70,8 +69,8 @@ export const alertError = (
     allowOutsideClick: false,
     allowEscapeKey: false,
     showCloseButton: true,
-  });
-};
+  })
+}
 
 export const alertError2 = (
   text = "Sucedio un error, porfavor intentelo de nuevo!!"
@@ -83,9 +82,9 @@ export const alertError2 = (
     allowOutsideClick: false,
     allowEscapeKey: false,
     showConfirmButton: false,
-  });
-};
+  })
+}
 
 export const closeAlert = function () {
-  Swal.close();
-};
+  Swal.close()
+}

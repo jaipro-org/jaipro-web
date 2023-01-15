@@ -73,24 +73,24 @@
               <b-col cols="12" lg="5" class="mb-3 px-0">
                 <b-form-group label="Profesión" label-for="txtProfession_r">
                   <b-form-select
-                      id="txtProfession_r"
-                      v-model="form.profession"
-                      :options="professionOptions"
-                      required
-                      class="rounded-pill"
-                      disabled
+                    id="txtProfession_r"
+                    v-model="form.profession"
+                    :options="professionOptions"
+                    required
+                    class="rounded-pill"
+                    disabled
                   ></b-form-select>
                 </b-form-group>
               </b-col>
               <b-col cols="12" lg="5" class="mb-3 px-0">
                 <b-form-group label="Distrito" label-for="txtDistrict_r">
                   <b-form-select
-                      id="txtDistrict_r"
-                      v-model="form.district"
-                      :options="districtOptions"
-                      required
-                      class="rounded-pill"
-                      disabled
+                    id="txtDistrict_r"
+                    v-model="form.district"
+                    :options="districtOptions"
+                    required
+                    class="rounded-pill"
+                    disabled
                   ></b-form-select>
                 </b-form-group>
               </b-col>
@@ -101,17 +101,17 @@
             <b-row class="mx-0 justify-content-between">
               <b-col cols="12" class="px-0">
                 <b-form-group
-                    label="Describe el servicio"
-                    label-for="txtDescription_r"
-                    class="mb-0"
+                  label="Describe el servicio"
+                  label-for="txtDescription_r"
+                  class="mb-0"
                 >
                   <b-form-textarea
-                      id="txtDescription_r"
-                      v-model="form.description"
-                      placeholder="..."
-                      no-resize
-                      rows="5"
-                      disabled
+                    id="txtDescription_r"
+                    v-model="form.description"
+                    placeholder="..."
+                    no-resize
+                    rows="5"
+                    disabled
                   ></b-form-textarea>
                 </b-form-group>
               </b-col>
@@ -121,38 +121,38 @@
             <label for="">Fotos de referencia</label>
             <b-row class="mx-0 justify-content-around">
               <b-col
-                  cols="6"
-                  md="5"
-                  lg="4"
-                  v-for="(image, index) in form.imagesList"
-                  :key="index"
+                cols="6"
+                md="5"
+                lg="4"
+                v-for="(image, index) in form.imagesList"
+                :key="index"
               >
                 <div
-                    class="form-image__file mb-3"
-                    :class="!image.url ? 'form-image__file--aux' : ''"
+                  class="form-image__file mb-3"
+                  :class="!image.url ? 'form-image__file--aux' : ''"
                 >
                   <img
-                      @click="uploadImage(index)"
-                      :src="
+                    @click="uploadImage(index)"
+                    :src="
                       !image.url
                         ? require('@/assets/img-delete/fileimage-up.png')
                         : image.url
                     "
-                      alt="image"
+                    alt="image"
                   />
                   <div
-                      v-if="image.url"
-                      class="form-image__delete"
-                      @click="deleteImage(index)"
+                    v-if="image.url"
+                    class="form-image__delete"
+                    @click="deleteImage(index)"
                   >
                     <i class="fa-solid fa-circle-xmark"></i>
                   </div>
                 </div>
                 <b-form-file
-                    style="display: none"
-                    :ref="`portadaFile${index}`"
-                    hidden
-                    @change="changeFileCover"
+                  style="display: none"
+                  :ref="`portadaFile${index}`"
+                  hidden
+                  @change="changeFileCover"
                 ></b-form-file>
               </b-col>
             </b-row>
@@ -163,37 +163,37 @@
               <b-col cols="12" lg="5" class="mb-3">
                 <b-form-group label="Nombres" label-for="txtName_r">
                   <b-form-input
-                      id="txtName_r"
-                      v-model="form.name"
-                      placeholder="Ingrese su nombre"
-                      required
-                      class="rounded-pill"
-                      disabled
+                    id="txtName_r"
+                    v-model="form.name"
+                    placeholder="Ingrese su nombre"
+                    required
+                    class="rounded-pill"
+                    disabled
                   ></b-form-input>
                 </b-form-group>
               </b-col>
               <b-col cols="12" lg="5" class="mb-3">
                 <b-form-group label="Apellidos" label-for="txtLastname_r">
                   <b-form-input
-                      id="txtLastname_r"
-                      v-model="form.lastname"
-                      placeholder="Ingrese su apellidos"
-                      required
-                      class="rounded-pill"
-                      disabled
+                    id="txtLastname_r"
+                    v-model="form.lastname"
+                    placeholder="Ingrese su apellidos"
+                    required
+                    class="rounded-pill"
+                    disabled
                   ></b-form-input>
                 </b-form-group>
               </b-col>
               <b-col cols="12" lg="5" class="mb-3">
                 <b-form-group label="Correo electrónico" label-for="txtEmail_r">
                   <b-form-input
-                      id="txtEmail_r"
-                      v-model="form.email"
-                      type="email"
-                      placeholder="Ingrese su usuario"
-                      required
-                      class="rounded-pill"
-                      disabled
+                    id="txtEmail_r"
+                    v-model="form.email"
+                    type="email"
+                    placeholder="Ingrese su usuario"
+                    required
+                    class="rounded-pill"
+                    disabled
                   ></b-form-input>
                 </b-form-group>
               </b-col>
@@ -201,9 +201,9 @@
           </b-card>
           <div class="mb-4">
             <b-form-checkbox
-                v-model="form.conditions"
-                name="checkbox-1"
-                class="cursor-pointer"
+              v-model="form.conditions"
+              name="checkbox-1"
+              class="cursor-pointer"
             >
               Acepto los términos y condiciones
             </b-form-checkbox>
@@ -295,16 +295,16 @@
             <b-row class="mx-0 justify-content-between">
               <b-col cols="12" class="px-0">
                 <b-form-group
-                    label="Describe el servicio"
-                    label-for="txtDescription"
-                    class="mb-0"
+                  label="Describe el servicio"
+                  label-for="txtDescription"
+                  class="mb-0"
                 >
                   <b-form-textarea
-                      id="txtDescription"
-                      v-model="form.description"
-                      placeholder="..."
-                      no-resize
-                      rows="5"
+                    id="txtDescription"
+                    v-model="form.description"
+                    placeholder="..."
+                    no-resize
+                    rows="5"
                   ></b-form-textarea>
                 </b-form-group>
               </b-col>
@@ -314,38 +314,38 @@
             <label for="">Fotos de referencia</label>
             <b-row class="mx-0 justify-content-around">
               <b-col
-                  cols="6"
-                  md="5"
-                  lg="4"
-                  v-for="(image, index) in form.imagesList"
-                  :key="index"
+                cols="6"
+                md="5"
+                lg="4"
+                v-for="(image, index) in form.imagesList"
+                :key="index"
               >
                 <div
-                    class="form-image__file mb-3"
-                    :class="!image.url ? 'form-image__file--aux' : ''"
+                  class="form-image__file mb-3"
+                  :class="!image.url ? 'form-image__file--aux' : ''"
                 >
                   <img
-                      @click="uploadImage(index)"
-                      :src="
+                    @click="uploadImage(index)"
+                    :src="
                       !image.url
                         ? require('@/assets/img-delete/fileimage-up.png')
                         : image.url
                     "
-                      alt="image"
+                    alt="image"
                   />
                   <div
-                      v-if="image.url"
-                      class="form-image__delete"
-                      @click="deleteImage(index)"
+                    v-if="image.url"
+                    class="form-image__delete"
+                    @click="deleteImage(index)"
                   >
                     <i class="fa-solid fa-circle-xmark"></i>
                   </div>
                 </div>
                 <b-form-file
-                    style="display: none"
-                    :ref="`portadaFile${index}`"
-                    hidden
-                    @change="changeFileCover"
+                  style="display: none"
+                  :ref="`portadaFile${index}`"
+                  hidden
+                  @change="changeFileCover"
                 ></b-form-file>
               </b-col>
             </b-row>
@@ -357,12 +357,12 @@
 </template>
 
 <script setup lang="ts">
-import { FormWizard, TabContent } from "vue3-form-wizard";
-import "vue3-form-wizard/dist/style.css";
-import { ref } from "vue";
+import { FormWizard, TabContent } from "vue3-form-wizard"
+import "vue3-form-wizard/dist/style.css"
+import { ref } from "vue"
 
-const formDataButton = ref<HTMLButtonElement>();
-const dataForm = ref<HTMLFormElement>();
+const formDataButton = ref<HTMLButtonElement>()
+const dataForm = ref<HTMLFormElement>()
 
 const form = ref({
   profession: null,
@@ -392,78 +392,78 @@ const form = ref({
       file: null,
     },
   ],
-});
-const workSelected = ref("");
-const valid = ref("false");
-const workExperience = ref([]);
-const selected = ref([]);
+})
+const workSelected = ref("")
+const valid = ref("false")
+const workExperience = ref([])
+const selected = ref([])
 const professionOptions = ref([
   { text: "-- Seleccione --", value: null },
   { text: "Pintor", value: 0 },
   { text: "Carpintero", value: 1 },
   { text: "Albañil", value: 2 },
   { text: "Gasfitero", value: 3 },
-]);
+])
 const districtOptions = ref([
   { text: "-- Seleccione --", value: null },
   { text: "Los Olivos", value: 0 },
   { text: "SMP", value: 1 },
   { text: "Breña", value: 2 },
   { text: "Independecia", value: 3 },
-]);
+])
 
 function validateDataForm() {
-  formDataButton.value!.click();
-  return document.getElementById('formMain')!.checkValidity();
+  formDataButton.value!.click()
+  return document.getElementById("formMain")!.checkValidity()
 }
 function validateWorkForm() {
-  return this.workExperience.length > 0;
+  return this.workExperience.length > 0
 }
 function validateAcountForm() {
-  this.$refs["form-acount-button"].click();
-  return this.$refs["acountForm"].checkValidity();
+  this.$refs["form-acount-button"].click()
+  return this.$refs["acountForm"].checkValidity()
 }
 function addYear(index) {
-  this.workExperience[index].years++;
+  this.workExperience[index].years++
 }
 function substractYear(index) {
   if (this.workExperience[index].years > 0) {
-    this.workExperience[index].years--;
+    this.workExperience[index].years--
   }
 }
 function addMonth(index) {
-  this.workExperience[index].months++;
+  this.workExperience[index].months++
 }
 function substractMonth(index) {
   if (this.workExperience[index].months > 0) {
-    this.workExperience[index].months--;
+    this.workExperience[index].months--
   }
 }
 function registerSpecialist() {
-  console.log("Se registrará un expediente");
+  console.log("Se registrará un expediente")
 }
 function uploadImage(index) {
-  this.imageSelected = index;
-  const btnFile = this.$refs[`portadaFile${index}`][0].$el.children[0];
-  btnFile.click();
+  this.imageSelected = index
+  const btnFile = this.$refs[`portadaFile${index}`][0].$el.children[0]
+  btnFile.click()
 }
 function changeFileCover(event) {
-  const index = this.imageSelected;
-  const file = event.target.files[0];
+  const index = this.imageSelected
+  const file = event.target.files[0]
   if (!file) {
-    this.form.imagesList[index].url = null;
-    this.form.imagesList[index].file = null;
-    return;
+    this.form.imagesList[index].url = null
+    this.form.imagesList[index].file = null
+    return
   }
 
-  this.form.imagesList[index].file = file;
-  const fr = new FileReader();
-  fr.onload = () => (this.form.imagesList[index].url = fr.result);
-  fr.readAsDataURL(file);
+  this.form.imagesList[index].file = file
+  const fr = new FileReader()
+  fr.onload = () => (this.form.imagesList[index].url = fr.result)
+  fr.readAsDataURL(file)
 }
 function deleteImage(index) {
-  this.form.imagesList[index].url = null;
-  this.form.imagesList[index].file = null;
+  this.form.imagesList[index].url = null
+  this.form.imagesList[index].file = null
 }
 </script>
 

@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="navbar_clasic">
     <nav
       id="navbar"
       :class="showScrollClass ? 'header-scrolled' : ''"
-      class="navbar fixed-top navbar-expand-lg navbar-header navbar-mobile"
+      class="navbar navbar-expand-lg navbar-header navbar-mobile"
     >
       <div class="navbar-container container">
         <!-- LOGO -->
@@ -61,13 +61,11 @@
                   <div class="primary-menu__dropdown-item-wrapper">
                     <div class="primary-menu__dropdown-item">
                       <router-link
-                        :to="{name: 'affiliation-page'}"
+                        :to="{ name: 'affiliation-page' }"
                         class="primary-menu__dropdown-item-link"
                       >
                         <h4>Como te afiliamos</h4>
-                        <p>
-                          Conoce nuestro proceso de afiliación
-                        </p>
+                        <p>Conoce nuestro proceso de afiliación</p>
                       </router-link>
                     </div>
                     <div class="primary-menu__dropdown-item">
@@ -77,7 +75,8 @@
                       >
                         <h4>Buscar especialistas</h4>
                         <p>
-                          Encuentra miles de especialistas interesados en tu proyecto
+                          Encuentra miles de especialistas interesados en tu
+                          proyecto
                         </p>
                       </router-link>
                     </div>
@@ -148,8 +147,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
-import logo from "@/assets/svg/logo.svg";
+import { defineComponent, ref } from "vue"
+import logo from "@/assets/svg/logo.svg"
 
 export default defineComponent({
   data() {
@@ -158,31 +157,38 @@ export default defineComponent({
       step_register: 0,
       showScrollClass: ref(false),
       currentScrollPosY: ref(window.scrollY),
-      logo
-    };
+      logo,
+    }
   },
   computed: {
     setScrollClass() {
-      console.log("OK", window.scrollY);
-      if (window.scrollY > 20) return true;
-      else return false;
+      console.log("OK", window.scrollY)
+      if (window.scrollY > 20) return true
+      else return false
     },
   },
   watch: {
     currentScrollPosY(val, oldVal) {
       if (val > 20) {
-        this.showScrollClass = true;
+        this.showScrollClass = true
       } else {
-        this.showScrollClass = false;
+        this.showScrollClass = false
       }
     },
   },
   created() {
     setInterval(() => {
-      this.currentScrollPosY = window.scrollY;
-    }, 100);
+      this.currentScrollPosY = window.scrollY
+    }, 100)
   },
-});
+})
 </script>
 
-<style></style>
+<style>
+.navbar_clasic {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 900;
+}
+</style>

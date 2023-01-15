@@ -2,9 +2,7 @@
   <div>
     <div class="register-container">
       <div class="register-user-container">
-        <div class="register-user-title-section">
-          <h2 class="register-user-title">Registro de cliente</h2>
-        </div>
+        <register-title title="Registro de cliente"></register-title>
         <div class="register-user-form-section">
           <b-form @submit.prevent="registerClient">
             <b-form-group label="Nombres" label-for="txtName_r">
@@ -76,32 +74,36 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref } from "vue"
+
+import RegisterTitle from "./components/RegisterTitle.vue"
 
 export default defineComponent({
   name: "RegisterComponent",
-  setup(){
-    const firstname = ref("");
-    const lastname = ref("");
-    const password = ref("");
-    const confirmPassword = ref("");
-    const email = ref("");
+  components: {
+    RegisterTitle,
+  },
+  setup() {
+    const firstname = ref("")
+    const lastname = ref("")
+    const password = ref("")
+    const confirmPassword = ref("")
+    const email = ref("")
 
     const registerClient = () => {
-      console.log("registerClient here!");
-    };
+      console.log("registerClient here!")
+    }
 
-    return{
+    return {
       firstname,
       lastname,
       email,
       password,
       confirmPassword,
-      registerClient
+      registerClient,
     }
-  }
-});
-
+  },
+})
 </script>
 
 <style scoped>
