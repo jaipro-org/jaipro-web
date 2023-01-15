@@ -441,7 +441,19 @@ function changeFileCover(event: any) {
     }
 
     .profile__content {
-      padding-top: 180px;
+      padding-top: 190px;
+    }
+  }
+}
+
+@media (max-width: 575px) {
+  .profile-client__container {
+    .profile__menu {
+      top: 53px;
+    }
+
+    .profile__content {
+      padding-top: 195px;
     }
   }
 }

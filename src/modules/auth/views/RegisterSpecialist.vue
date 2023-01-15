@@ -711,5 +711,9 @@ const isWeb = computed(() => {
   .work__temp--resumen {
     flex-wrap: nowrap;
   }
+
+  .wizard-progress-with-circle {
+    top: calc(50px / 2 + 5px) !important;
+  }
 }
 </style>
