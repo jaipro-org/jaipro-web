@@ -1,6 +1,6 @@
 <template>
-  <div id="charge-project__container" class="mb-2 pt-4">
-    <h1 class="charge-project__title">Propuestas - Cobrar proyecto</h1>
+  <div id="pay-comision__container" class="mb-2 pt-4">
+    <h1 class="pay-comision__title">Pagos - Resumen</h1>
 
     <b-row class="mx-0 mt-4">
       <b-col cols="12" lg="7" class="mb-3">
@@ -13,18 +13,28 @@
                 Albert Perez
               </span>
               <span class="w-100 mb-3">
-                <b class="me-2">Se necesita: </b>
-                Pintor
+                <b class="me-2">Ubicación: </b>
+                Barranco
               </span>
             </div>
             <div class="d-flex flex-wrap flex-md-nowrap">
               <span class="w-100 mb-3">
-                <b class="me-2">Ubicación: </b>
-                Ventanilla
+                <b class="me-2">Se necesita: </b>
+                Pintor
               </span>
+              <span class="w-100 mb-3">
+                <b class="me-2">Especialidad: </b>
+                Pintura de interiores
+              </span>
+            </div>
+            <div class="d-flex flex-wrap flex-md-nowrap">
               <span class="w-100 mb-3">
                 <b class="me-2">Fecha de Solicitud: </b>
                 12/01/2023
+              </span>
+              <span class="w-100 mb-3">
+                <b class="me-2">Fecha de Cobro: </b>
+                22/01/2023
               </span>
             </div>
             <router-link
@@ -38,18 +48,17 @@
         <h5>Detalle del pago</h5>
         <div>
           <b-card class="project-card">
-            <div class="d-flex align-items-center">
-              <b>Monto a pagar:</b>
-              <div class="ms-2">
-                <b-form-input
-                  v-model="chargeAmount"
-                  placeholder="Monto a pagar"
-                ></b-form-input>
-              </div>
+            <div class="mb-3 me-2">
+              <b>Codigo de pago: </b>
+              ASDAD549QWE
             </div>
-            <div class="mt-3">
-              <b class="me-2">Total a pagar: </b>
-              S/. {{ chargeAmount }}
+            <div class="mb-3 me-2">
+              <b>Monto Cobrado: </b>
+              S/. 250
+            </div>
+            <div class="mb-3 me-2">
+              <b>Total a pagar: </b>
+              S/. 30
             </div>
           </b-card>
         </div>
@@ -58,6 +67,7 @@
         <payment-options
           v-if="statusFlow == 0"
           @on-pay-now="payNow"
+          :have-cash="false"
         ></payment-options>
         <payment-action
           v-else
@@ -79,8 +89,6 @@ export default defineComponent({
     PaymentAction,
   },
   setup() {
-    const chargeAmount = ref(0)
-
     // START - FLUJO DE PAGO
     const statusFlow = ref(0) // 0 - Opciones , 1 - Accion
     const typeCharge = ref(0)
@@ -97,7 +105,6 @@ export default defineComponent({
 
     return {
       // PARAMS
-      chargeAmount,
       statusFlow,
       typeCharge,
 
@@ -113,8 +120,8 @@ export default defineComponent({
 .project-card {
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.274) !important;
 }
-#charge-project__container {
-  .charge-project__title {
+#pay-comision__container {
+  .pay-comision__title {
     font-size: 1.6rem;
   }
 }

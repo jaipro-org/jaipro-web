@@ -41,7 +41,7 @@ import {
   PaymentStatusPending,
   PaymentStatusSuccess,
   PaymentStatusError,
-} from "../components"
+} from "../index"
 
 export default defineComponent({
   components: {
@@ -73,11 +73,10 @@ export default defineComponent({
   setup(props) {
     let statusPayment = ref(props.status)
     const paymentInit = () => {
-      console.log("LLEGOOOOOOOOOOOOOO")
       if (props.type == 1) {
         statusPayment.value = 2
         setTimeout(function () {
-          statusPayment.value = 4
+          statusPayment.value = 3
         }, 2500)
       } else {
         setTimeout(function () {

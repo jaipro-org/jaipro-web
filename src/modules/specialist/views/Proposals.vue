@@ -14,7 +14,7 @@
                   multiple
                   v-model="statusSelected"
                   :options="statusOptions"
-                  :reduce="(option) => option.value"
+                  :reduce="(option:any) => option.value"
                 />
               </b-form-group>
             </div>
@@ -203,11 +203,11 @@
 
               <b-row class="mx-0 mt-5">
                 <b-col cols="12" lg="6" class="mx-auto">
-                  <payment-flow
+                  <payment-status-flow
                     :type="1"
                     :status="1"
                     :amount="350"
-                  ></payment-flow>
+                  ></payment-status-flow>
                 </b-col>
               </b-row>
             </div>
@@ -365,12 +365,12 @@ import { alertSuccessButton } from "@/utils/SweetAlert"
 import { defineComponent, onMounted, ref, watch, watchEffect } from "vue"
 import Proposal from "@/interfaces/Proposal.interface"
 import DropDownItem from "@/interfaces/DropDownItem.interface"
-import PaymentFlow from "./components/PaymentFlow.vue"
+import PaymentStatusFlow from "./components/PaymentStatus/PaymentStatusFlow.vue"
 
 export default defineComponent({
   name: "JobsListComponent",
   components: {
-    PaymentFlow,
+    PaymentStatusFlow,
   },
   setup() {
     const isWorkDetailActive = ref<boolean>(false)

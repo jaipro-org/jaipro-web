@@ -28,7 +28,7 @@
 <script lang="ts">
 import { defineComponent } from "vue"
 
-import { PaymentStatusOn } from "../components"
+import { PaymentStatusOn } from "../index"
 
 export default defineComponent({
   components: {

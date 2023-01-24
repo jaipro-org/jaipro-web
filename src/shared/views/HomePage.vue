@@ -1,28 +1,36 @@
 <template>
   <div>
-    <div class="header">
-      <div class="container header-container">
-        <div class="col-lg-6 header-img-section">
-          <img src="@/assets/img/img001-min.jpg" />
-        </div>
-        <div class="col-lg-5 offset-lg-1 header-title-section">
-          <!-- <p class="header-subtitle">Multipurpose landing template</p> -->
-          <h1 class="header-title">Cotiza, Conecta, Disfruta!</h1>
-          <p class="header-title-text">
-            Cotiza tu proyecto de hogar facil y rapido. Encuentra cientos de
+    <div class="panel">
+      <div class="panel__container container-lg">
+        <div class="panel__content">
+          <h1 class="panel__title">Cotiza, Conecta, Disfruta!</h1>
+          <p class="panel__text">
+            Cotiza tu proyecto de hogar fácil y rápido. Encuentra cientos de
             especialistas calificados interesados en tu proyecto
+            <br />
+            <br />
+            Vive una experiencia diferente y realiza tus proyectos como nunca
+            antes
           </p>
+
           <div class="learn-more-btn-section">
-            <!-- <a class="nav-link learn-more-btn btn-invert" href="#services"
-              >Quiero cotizar</a
-            > -->
-            <router-link to="/cliente/nuevo-proyecto" custom v-slot="{ navigate, href }">
-              <a :href="href" @click="navigate" class="nav-link learn-more-btn btn-invert">Quiero cotizar</a>
+            <router-link
+              to="/cliente/nuevo-proyecto"
+              custom
+              v-slot="{ navigate, href }"
+            >
+              <a
+                :href="href"
+                @click="navigate"
+                class="nav-link learn-more-btn btn-invert"
+                >Quiero cotizar</a
+              >
             </router-link>
           </div>
         </div>
       </div>
     </div>
+
     <div id="how-it-works"></div>
     <!-- STRATEGY SECTION -->
     <div class="strategy-section">
@@ -303,26 +311,26 @@
 </template>
 
 <script lang="ts">
-import "vue3-carousel/dist/carousel.css";
-import { defineComponent, ref } from "vue";
-import publishProjectSvg from "@/assets/svg/publish-project.svg";
-import receiveProposalSvg from "@/assets/svg/receive-proposals.svg";
-import makePaymentSvg from "@/assets/svg/make-payment.svg";
-import applyAsSpecialistSvg from "@/assets/svg/apply-as-specialist.svg";
-import searchForOpportunitiesSvg from "@/assets/svg/search-for-opportunities.svg";
-import workHomeProjectSvg from "@/assets/svg/work-on-home-project.svg";
+import "vue3-carousel/dist/carousel.css"
+import { defineComponent, ref } from "vue"
+import publishProjectSvg from "@/assets/svg/publish-project.svg"
+import receiveProposalSvg from "@/assets/svg/receive-proposals.svg"
+import makePaymentSvg from "@/assets/svg/make-payment.svg"
+import applyAsSpecialistSvg from "@/assets/svg/apply-as-specialist.svg"
+import searchForOpportunitiesSvg from "@/assets/svg/search-for-opportunities.svg"
+import workHomeProjectSvg from "@/assets/svg/work-on-home-project.svg"
 
-import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
-import Specialties from "@/interfaces/Specialty.interface";
-import Testimony from "@/interfaces/Testimony.interface";
-import StarRatingComponent from "@/shared/components/public/StarRating.vue";
+import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel"
+import Specialties from "@/interfaces/Specialty.interface"
+import Testimony from "@/interfaces/Testimony.interface"
+import StarRatingComponent from "@/shared/components/public/StarRating.vue"
 
 export default defineComponent({
   name: "HomeComponent",
   components: { StarRatingComponent, Carousel, Slide, Pagination, Navigation },
   setup() {
-    const tabIndex = ref(0);
-    const settings = ref({ itemsToShow: 1, snapAlign: "center" });
+    const tabIndex = ref(0)
+    const settings = ref({ itemsToShow: 1, snapAlign: "center" })
     const breakpoints = ref({
       //700px and up
       700: {
@@ -334,22 +342,46 @@ export default defineComponent({
         itemsToShow: 3,
         snapAlign: "start",
       },
-    });
+    })
 
     const specialties = ref<Specialties[]>([
       { name: "Pintura", img: require("@/assets/img/services/img003-min.jpg") },
-      { name: "Carpinteria", img: require("@/assets/img/services/img004-min.jpg") },
-      { name: "Gasfitería", img: require("@/assets/img/services/img005-min.jpg") },
-      { name: "Construcción", img: require("@/assets/img/services/img006-min.jpg") },
-      { name: "Electricidad", img: require("@/assets/img/services/img007-min.jpg") }
-    ]);
+      {
+        name: "Carpinteria",
+        img: require("@/assets/img/services/img004-min.jpg"),
+      },
+      {
+        name: "Gasfitería",
+        img: require("@/assets/img/services/img005-min.jpg"),
+      },
+      {
+        name: "Construcción",
+        img: require("@/assets/img/services/img006-min.jpg"),
+      },
+      {
+        name: "Electricidad",
+        img: require("@/assets/img/services/img007-min.jpg"),
+      },
+    ])
 
     const testimonials = ref<Testimony[]>([
-      {name: "Pedro Pablo Agustin", text: "Excelente profesional. Tenía una asimetría de los párpados muy marcada, otros Medicos me habían dicho que no se podría quedar 100% igual"},
-      {name: "Pedro Pablo Agustin", text: "Excelente profesional. Tenía una asimetría de los párpados muy marcada, otros Medicos me habían dicho que no se podría quedar 100% igual"},
-      {name: "Pedro Pablo Agustin", text: "Excelente profesional. Tenía una asimetría de los párpados muy marcada, otros Medicos me habían dicho que no se podría quedar 100% igual"},
-      {name: "Pedro Pablo Agustin", text: "Excelente profesional. Tenía una asimetría de los párpados muy marcada, otros Medicos me habían dicho que no se podría quedar 100% igual"}
-    ]);
+      {
+        name: "Pedro Pablo Agustin",
+        text: "Excelente profesional. Tenía una asimetría de los párpados muy marcada, otros Medicos me habían dicho que no se podría quedar 100% igual",
+      },
+      {
+        name: "Pedro Pablo Agustin",
+        text: "Excelente profesional. Tenía una asimetría de los párpados muy marcada, otros Medicos me habían dicho que no se podría quedar 100% igual",
+      },
+      {
+        name: "Pedro Pablo Agustin",
+        text: "Excelente profesional. Tenía una asimetría de los párpados muy marcada, otros Medicos me habían dicho que no se podría quedar 100% igual",
+      },
+      {
+        name: "Pedro Pablo Agustin",
+        text: "Excelente profesional. Tenía una asimetría de los párpados muy marcada, otros Medicos me habían dicho que no se podría quedar 100% igual",
+      },
+    ])
 
     return {
       tabIndex,
@@ -362,10 +394,72 @@ export default defineComponent({
       searchForOpportunitiesSvg,
       workHomeProjectSvg,
       specialties,
-      testimonials
-    };
+      testimonials,
+    }
   },
-});
+})
 </script>
 
-<style></style>
+<style lang="scss">
+.panel {
+  background-image: url("@/assets/img/panel/fondo-panel1.jpg");
+  width: 100%;
+  background-size: cover;
+  height: 530px;
+
+  &__container {
+    position: relative;
+    height: 100%;
+  }
+
+  &__content {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    max-width: 520px;
+
+    .panel__title {
+      font-family: Montserrat;
+      font-weight: 800;
+      font-size: 60px;
+      line-height: 1;
+      padding-bottom: 25px;
+      color: white;
+    }
+
+    .panel__text {
+      color: white;
+      font-size: 1.2rem;
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  .panel {
+    background-image: url("@/assets/img/panel/fondo-panel-movil.jpg");
+    height: 570px;
+
+    &__content {
+      position: absolute;
+      min-width: 300px;
+      width: 90%;
+      top: 40px;
+      left: 0;
+      right: 0;
+      margin: auto;
+      max-width: 520px;
+
+      .panel__title {
+        font-size: 2.5rem;
+        text-align: center;
+      }
+
+      .panel__text {
+        color: white;
+        font-size: 1rem;
+        text-align: center;
+      }
+    }
+  }
+}
+</style>

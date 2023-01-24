@@ -42,7 +42,11 @@
       :per-page="perPage"
     >
       <template v-slot:action="{ row }">
-        <b-button variant="primary" v-if="row.isAction">
+        <b-button
+          variant="primary"
+          v-if="row.isAction"
+          @click="$router.push({ name: 'charge-project' })"
+        >
           <i class="fa-regular fa-money-bill-1"></i>
           Pagar
         </b-button>

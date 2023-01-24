@@ -50,6 +50,15 @@ export default {
         ),
     },
     {
+      path: "comision",
+      name: "pay-comision",
+      meta: { layout: "specialist-landing" },
+      component: () =>
+        import(
+          /* webpackChunkName: "pay-comision" */ "@/modules/specialist/views/PayComision.vue"
+        ),
+    },
+    {
       path: "notificaciones",
       name: "specialist-notifications",
       meta: { layout: "specialist-landing" },

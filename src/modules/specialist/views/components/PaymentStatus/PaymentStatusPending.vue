@@ -3,7 +3,7 @@
     <div class="text-center">
       <i class="fa-solid fa-hourglass-end status-icon"></i>
     </div>
-    <h4 class="text-center">Pediente de verificar</h4>
+    <h4 class="text-center">Pendiente de verificar</h4>
     <div class="mb-1">
       <b>Metodo de pago:</b>
       Yape(BCP)

@@ -127,6 +127,7 @@ export default defineComponent({
   .jp-table__container {
     overflow-x: auto;
     max-width: 100%;
+    scroll-behavior: auto;
   }
 }
 </style>
