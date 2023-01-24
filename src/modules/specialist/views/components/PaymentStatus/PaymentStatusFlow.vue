@@ -35,6 +35,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue"
+import { useRouter } from "vue-router"
 
 import {
   PaymentStatusOn,
@@ -72,17 +73,25 @@ export default defineComponent({
   },
   setup(props) {
     let statusPayment = ref(props.status)
+    const router = useRouter()
+
+    // STATUS TYPE
+    // 1 = INICIO DE ESTADO
+    // 2 =  PENDIENTE DE PAGO
+    // 3 = EXITOSO
+    // 4 = ERROR
     const paymentInit = () => {
-      if (props.type == 1) {
-        statusPayment.value = 2
-        setTimeout(function () {
-          statusPayment.value = 3
-        }, 2500)
-      } else {
-        setTimeout(function () {
-          statusPayment.value = 3
-        }, 2500)
-      }
+      // if (props.type == 1) {
+      //   statusPayment.value = 2
+      //   setTimeout(function () {
+      //     statusPayment.value = 3
+      //   }, 2500)
+      // } else {
+      //   setTimeout(function () {
+      //     statusPayment.value = 3
+      //   }, 2500)
+      // }
+      router.push({ name: "charge-project" })
     }
     return {
       // PARAMS

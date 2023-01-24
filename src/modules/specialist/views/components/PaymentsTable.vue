@@ -1,6 +1,6 @@
 <template>
-  <div class="jp-table__container">
-    <table class="jp-table">
+  <div class="jp-table">
+    <table class="jp-table__content">
       <tr class="jp-table-header">
         <th
           class="jp-table-header__item"
@@ -107,7 +107,12 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .jp-table {
-  width: 100%;
+  position: relative;
+  display: flex;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow: auto;
+
   &-header {
     background-color: #efefef;
     &__item {
@@ -124,10 +129,5 @@ export default defineComponent({
 }
 
 @media (max-width: 950px) {
-  .jp-table__container {
-    overflow-x: auto;
-    max-width: 100%;
-    scroll-behavior: auto;
-  }
 }
 </style>

@@ -4,6 +4,7 @@
 
     <b-row class="mx-0 justify-content-center mt-4">
       <b-col cols="12" lg="3">
+        <span>Categoría</span>
         <v-select
           class="payment-list__filter mb-3"
           multiple
@@ -13,12 +14,14 @@
         />
       </b-col>
       <b-col cols="12" lg="3">
+        <span>Fecha de publicación</span>
         <b-form-input
           type="date"
           class="payment-list__filter mb-3"
         ></b-form-input>
       </b-col>
       <b-col cols="12" lg="3">
+        <span>Ubicación</span>
         <v-select
           class="payment-list__filter mb-3"
           multiple
@@ -45,7 +48,7 @@
         <b-button
           variant="primary"
           v-if="row.isAction"
-          @click="$router.push({ name: 'charge-project' })"
+          @click="$router.push({ name: 'pay-comision' })"
         >
           <i class="fa-regular fa-money-bill-1"></i>
           Pagar

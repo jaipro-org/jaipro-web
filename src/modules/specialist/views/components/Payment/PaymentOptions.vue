@@ -15,7 +15,7 @@
             class="d-flex justify-content-between align-items-center w-100"
             @click="typeCharge = 1"
           >
-            <span>Yape</span>
+            <span>Yape(BCP)</span>
             <img
               src="@/assets/img/pagos/yape.png"
               alt=""
@@ -36,7 +36,9 @@
             class="d-flex justify-content-between align-items-center w-100"
             @click="typeCharge = 2"
           >
-            <span>Plin</span>
+            <span
+              >Plin(BBVA, Interbank, Scotiabank, Banbif, Caja Arequipa)</span
+            >
             <img
               src="@/assets/img/pagos/plin.png"
               alt=""
