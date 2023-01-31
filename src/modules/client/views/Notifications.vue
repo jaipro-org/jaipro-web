@@ -193,4 +193,11 @@ function loadNotifications() {
     }
   }
 }
+@media (max-width: 991px) {
+  .notifications__container {
+    .notifications__title {
+      font-size: 1.3rem;
+    }
+  }
+}
 </style>
