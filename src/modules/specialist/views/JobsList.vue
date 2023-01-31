@@ -107,12 +107,7 @@
               </div>
               <hr />
               <div
-                class="
-                  d-flex
-                  justify-content-between
-                  align-items-center
-                  flex-wrap
-                "
+                class="d-flex justify-content-between align-items-center flex-wrap"
               >
                 <div class="d-flex align-items-center">
                   <div class="job-detail__petitioner-image">
@@ -192,12 +187,7 @@
       </div>
     </div>
     <div
-      class="
-        jobs__content jobs__content-web
-        col-12 col-lg-4
-        pt-3
-        d-none d-lg-block
-      "
+      class="jobs__content jobs__content-web col-12 col-lg-4 pt-3 d-none d-lg-block"
     >
       <h4 class="mb-1 px-3">Trabajos</h4>
       <div class="jobs__list px-3 pt-1">
@@ -418,20 +408,30 @@ export default defineComponent({
     });
 
     const changePage = (page: number) => {
+      const mq = window.matchMedia("(max-width: 991px)");
+      if (!mq.matches) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      const container: any = document.querySelector(".jobs__list");
+      if (container && mq.matches) {
+        container.scrollTo({ left: 0, behavior: "smooth" });
+      }
+
       jobsListFilter.value = jobsList.value.slice(
         (page - 1) * perPage.value,
         page * perPage.value
       );
-    }
+    };
 
     const getAllJobs = () => {
       totalRows.value = jobsList.value.length;
       changePage(1);
-    }
+    };
 
     const sendProposal = () => {
       alertSuccessButton("Se envio una propuesta exitosamente");
-    }
+    };
 
     watch(currentPage, (newValue, oldValue) => {
       //changePage(newValue);
@@ -461,7 +461,7 @@ export default defineComponent({
       jobsList,
       jobsListFilter,
       form,
-      sendProposal
+      sendProposal,
     };
   },
 });

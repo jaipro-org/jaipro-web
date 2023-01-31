@@ -53,7 +53,10 @@
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link :to="{ name: 'specialist-notifications' }" class="router-link">
+              <router-link
+                :to="{ name: 'specialist-notifications' }"
+                class="router-link"
+              >
                 <div class="text-center">
                   <i class="fa-solid fa-bell me-2 me-lg-0"></i>
                 </div>
@@ -160,7 +163,7 @@ export default defineComponent({
     }
   }
 
-  .navItem {
+  .nav-item {
     cursor: pointer;
 
     span {
@@ -181,7 +184,7 @@ export default defineComponent({
     }
   }
 
-  .navItem-collapse {
+  .nav-item .collapse {
     .router-link {
       color: #181818;
       text-decoration: none;
