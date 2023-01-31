@@ -1,8 +1,9 @@
 <template>
   <div id="pay-comision__container" class="mb-2 pt-4">
-    <h1 class="pay-comision__title">Pagos - Resumen</h1>
-
-    <b-row class="mx-0 mt-4">
+    <b-row class="mx-0">
+      <b-col cols="12" class="mb-5">
+        <h1 class="pay-comision__title">Pagos - Resumen</h1>
+      </b-col>
       <b-col cols="12" lg="7" class="mb-3">
         <h5>Información del proyecto</h5>
         <div>
@@ -24,7 +25,7 @@
               </span>
               <span class="w-100 mb-3">
                 <b class="me-2">Especialidad: </b>
-                Pintura de interiores
+                <span class="badge__item d-inline-flex">Pintura</span>
               </span>
             </div>
             <div class="d-flex flex-wrap flex-md-nowrap">

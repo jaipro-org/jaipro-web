@@ -282,7 +282,11 @@
       </div>
     </b-card>
 
-    <b-modal v-model="showModalAccept" title="Confirmar Trabajo">
+    <b-modal
+      v-model="showModalAccept"
+      title="Confirmar Trabajo"
+      :centered="windowWidth <= 991"
+    >
       <p class="mb-0">
         ¿Estas seguro que deseas confirmar el trabajo?, esta acción solo se
         puede hace una sola vez
@@ -304,6 +308,7 @@
       v-model="showModalQualify"
       title="Calificar"
       id="modal-calification"
+      :centered="windowWidth <= 991"
     >
       <div class="d-flex flex-wrap justify-content-center flex-row-reverse">
         <i
@@ -387,7 +392,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, computed } from "vue"
+import {
+  defineComponent,
+  ref,
+  reactive,
+  computed,
+  onMounted,
+  nextTick,
+  onBeforeUnmount,
+} from "vue"
 import {
   alertLoading,
   alertSuccessfully,
@@ -495,9 +508,27 @@ export default defineComponent({
 
     // FIN Enviar una calificacion
 
+    // FUNCIONES PARA OBTENER EL TAMAÑO DE LA PANTALLA
+    let windowWidth = ref(window.innerWidth) // Obtener el tamaño de la ventana
+
+    onMounted(() => {
+      nextTick(() => {
+        window.addEventListener("resize", onResize)
+      })
+    })
+
+    onBeforeUnmount(() => {
+      window.removeEventListener("resize", onResize)
+    })
+
+    const onResize = () => {
+      windowWidth.value = window.innerWidth
+    }
+    // FIN FUNCIONES PARA OBTENER EL TAMAÑO DE LA PANTALLA
+
     return {
       // PARAMS
-
+      windowWidth,
       isShow,
       isActive,
       showModalAccept,

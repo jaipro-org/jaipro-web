@@ -3,7 +3,7 @@
     <h1 class="payment-list__title">Pagos</h1>
 
     <b-row class="mx-0 justify-content-center mt-4">
-      <b-col cols="12" lg="3">
+      <b-col cols="12" lg="3" xl="4">
         <span>Categoría</span>
         <v-select
           class="payment-list__filter mb-3"
@@ -20,7 +20,7 @@
           class="payment-list__filter mb-3"
         ></b-form-input>
       </b-col>
-      <b-col cols="12" lg="3">
+      <b-col cols="12" lg="3" xl="4">
         <span>Ubicación</span>
         <v-select
           class="payment-list__filter mb-3"
@@ -30,7 +30,7 @@
           :reduce="(option:any) => option.value"
         />
       </b-col>
-      <b-col cols="12" lg="3">
+      <b-col cols="12" lg="3" xl="1" class="d-flex align-items-center pt-2">
         <b-button variant="primary" class="payment-list__button"
           >Buscar</b-button
         >

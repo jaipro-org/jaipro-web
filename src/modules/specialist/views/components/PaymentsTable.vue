@@ -1,6 +1,6 @@
 <template>
   <div class="jp-table">
-    <table class="jp-table__content">
+    <table class="jp-table__content w-100">
       <tr class="jp-table-header">
         <th
           class="jp-table-header__item"

@@ -76,6 +76,13 @@ button:focus {
   }
 }
 
+.badge__item {
+  padding: 4px 18px;
+  background-color: #3a88ec;
+  color: white;
+  max-width: 250px;
+  border-radius: 25px;
+}
 
 
 @media screen and (max-width: 792px) {
