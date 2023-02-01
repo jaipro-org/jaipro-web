@@ -198,9 +198,6 @@ export default defineComponent({
   .navbar-collapse {
     padding-bottom: 0;
   }
-  .navbar-nav {
-    flex-direction: row;
-  }
   .nav-item {
     flex-direction: row;
   }

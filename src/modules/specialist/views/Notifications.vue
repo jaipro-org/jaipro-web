@@ -53,12 +53,15 @@ import {
   alertActionButton,
   closeAlert,
 } from "@/utils/SweetAlert";
-import NotificationCardComponent from "@/modules/client/views/Components/NotificationCard.vue";
+import NotificationCard from "@/modules/client/views/Components/NotificationCard.vue";
 import { defineComponent, ref } from "vue";
 import Notification from "@/interfaces/Notification.interface";
 
 export default defineComponent({
   name: "NotificationComponent",
+  components:{
+    NotificationCard
+  },
   setup() {
     const isLoadingNotifications = ref(false);
     const newNotifications = ref<Notification[]>([
