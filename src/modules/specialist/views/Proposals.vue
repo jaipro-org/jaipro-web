@@ -473,6 +473,17 @@ export default defineComponent({
     });
 
     const changePage = (page: number) => {
+
+      const mq = window.matchMedia("(max-width: 991px)");
+      if (!mq.matches) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      const container: any = document.querySelector(".jobs__list");
+      if (container && mq.matches) {
+        container.scrollTo({ left: 0, behavior: "smooth" });
+      }
+      
       proposalListFilter.value = jobsList.value.slice(
         (page - 1) * perPage.value,
         page * perPage.value
