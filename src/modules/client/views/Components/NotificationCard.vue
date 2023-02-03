@@ -44,7 +44,7 @@
             {{ notification.description }}
           </div>
         </div>
-        <div cols="12" md="2" class="text-end col-12 col-md-2">
+        <div cols="12" md="2" class="notification-card__time text-end col-12 col-md-2">
           Hace 4 horas
         </div>
       </div>
@@ -120,14 +120,17 @@ export default defineComponent({
 @media (max-width: 991px) {
   .notification-card {
     .notification-card__title {
-      font-size: 1rem;
+      font-size: 0.9rem;
     }
     .notification-card__image {
       width: 50px;
       height: 50px;
     }
     .notification-card__description {
-      font-size: 0.9rem;
+      font-size: 0.8rem;
+    }
+    .notification-card__time{
+      font-size: 0.8rem;
     }
   }
 }

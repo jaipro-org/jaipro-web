@@ -31,9 +31,9 @@
             <li class="nav-item">
               <router-link :to="{ name: 'payments' }" class="router-link">
                 <div class="text-center">
-                  <i class="fa-solid fa-credit-card"></i>
+                  <i class="fa-solid fa-credit-card me-2 me-lg-0"></i>
                 </div>
-                <span class="d-block">Pagos</span>
+                <span class="d-block"> Pagos</span>
               </router-link>
             </li>
             <li class="nav-item">
@@ -131,7 +131,7 @@ export default defineComponent({
   position: sticky;
   top: 0;
   left: 0;
-  z-index: 3;
+  z-index: 4;
 
   .header-specialist-scrolled {
     width: 100%;
@@ -209,7 +209,9 @@ export default defineComponent({
   }
 }
 
-.collapse.show {
-  box-shadow: 0px 3px 1px rgba(0, 0, 0, 0.11);
+@media (max-width: 991px) {
+  .collapse.show {
+    box-shadow: 0px 3px 1px rgba(0, 0, 0, 0.11);
+  }
 }
 </style>

@@ -213,4 +213,12 @@ export default defineComponent({
     }
   }
 }
+@media (max-width: 991px) {
+  .notifications__container {
+  .notifications__title {
+    font-size: 1.2rem;
+  }
+
+}
+}
 </style>
