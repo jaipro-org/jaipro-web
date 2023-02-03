@@ -14,7 +14,7 @@
                   multiple
                   v-model="statusSelected"
                   :options="statusOptions"
-                  :reduce="(option) => option.value"
+                  :reduce="(option:any) => option.value"
                 />
               </b-form-group>
             </div>
@@ -51,12 +51,9 @@
               >
               <!-- <span>Hace 2 días</span> -->
               <span>
-              <i 
-                class="fa-solid me-1"
-                :class="item.icon"
-              ></i>
-              {{ item.state }}
-            </span>
+                <i class="fa-solid me-1" :class="item.icon"></i>
+                {{ item.state }}
+              </span>
             </div>
           </b-card>
         </div>
@@ -99,62 +96,53 @@
               </div>
               <hr />
               <div
-                class="
-                  d-flex
-                  justify-content-between
-                  align-items-center
-                  flex-wrap
-                "
+                class="d-flex justify-content-between align-items-center flex-wrap"
               >
                 <div class="d-flex align-items-center">
-                  <div class="job-detail__petitioner-image">
-                    <img src="@/assets/img-delete/profile.jpg" alt="" />
-                  </div>
-                  <h1 class="job-detail__name ms-3">Ernesto Chavez</h1>
+                  <span class="d-block mb-1">
+                    <b>Cliente:</b>
+
+                    Ernesto Chavez
+                  </span>
                 </div>
-                <span class="job-detail__timer">
-                  <i class="fa-solid fa-paper-plane me-1"></i>
-                  Enviado
+                <span class="job-detail__status">
+                  <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                  <!-- <i class="fa-solid fa-dollar-sign dollar"></i> -->
+                  Por cobrar
                 </span>
               </div>
-              <div class="mx-0 mt-4 align-items-center">
-                <span class="d-block mb-1">
-                  <b>Se necesita:</b>
-                  <span class="job-detail__work text-center ms-5">Pintor</span>
-                </span>
+
+              <div class="mx-0 mt-3 align-items-center">
+                <b>Se necesita:</b>
+                <span class="job-detail__work text-center ms-5">Pintor</span>
               </div>
-              <div class="mt-3">
-                <span class="d-block mb-1"
-                  ><b>Descripcion del trabajo: </b></span
-                >
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Dolorum dolor ut fugiat nesciunt, eveniet corporis nostrum
-                  asperiores earum provident voluptatibus alias accusamus sequi
-                  dolore totam voluptatem maxime ea laborum molestias pariatur
-                  consequuntur quasi assumenda. Optio ea reiciendis ...
-                </p>
+
+              <div class="mt-3 mb-1">
+                <b>Ubicacion de trabajo:</b>
+                Ventanilla
               </div>
-              <div class="mt-3">
-                <span class="d-block mb-1">
-                  <b>Ubicacion de trabajo:</b>
-                  Ventanilla
-                </span>
+
+              <div class="mt-3 mb-3">
+                <b>Fecha de solicitud:</b>
+                19/12/2020
               </div>
-              <div class="mt-3">
-                <span class="mb-1">
-                  <b>Fecha de solicitud:</b>
-                  19/12/2020
-                </span>
-                <span class="mb-1 ms-5">
-                  <b>Fecha de propuesta:</b>
-                  05/01/2021
-                </span>
-              </div>
-              <div class="mt-3">
+
+              <router-link
+                :to="{ name: 'project-detail', params: { projectId: 1 } }"
+                >Ver mas detalles del proyecto</router-link
+              >
+
+              <p class="mt-4">
+                <b>
+                  Estima un rango de tus honorarios por el trabajo. Excluye el
+                  precio de los materiales u otros.
+                </b>
+              </p>
+
+              <!-- <div class="mt-3">
                 <span class="d-block mb-1"><b>Imagenes:</b></span>
-              </div>
-              <div class="row mx-0 justify-content-around mt-2">
+              </div> -->
+              <!-- <div class="row mx-0 justify-content-around mt-2">
                 <div class="col-6 col-lg-3 mb-3">
                   <div class="job-detail__image" v-b-modal.modal-imagen>
                     <img src="@/assets/img-delete/pintor.jpg" alt="" />
@@ -170,19 +158,22 @@
                     <img src="@/assets/img-delete/pintor.jpg" alt="" />
                   </div>
                 </div>
-              </div>
-              <div class="mt-3">
-                <span class="d-block mb-1">
-                  <b>Honorarios estimados:</b>
+              </div> -->
+
+              <div class="text-center mt-2">
+                <span>
+                  Mínimo: <span class="badge bg-secondary">$120</span>
                 </span>
-                <p>
-                  Mínimo: <span class="badge bg-secondary">$120</span> - Máximo:
+                -
+                <span>
+                  Máximo:
                   <span class="badge bg-secondary">$250</span>
-                </p>
+                </span>
               </div>
+
               <hr />
               <div class="d-flex justify-content-between mt-2">
-                <h1 class="job-detail__title">Mensajes</h1>
+                <h1 class="job-detail__title">Mensajes con el cliente</h1>
               </div>
               <hr />
               <div class="d-flex justify-content-center">
@@ -197,28 +188,35 @@
                     class="d-flex align-items-center"
                   >
                     <i
-                      class="
-                        fa-regular fa-comment-dots
-                        proposal-card__action proposal-card__action--primary
-                        me-2
-                      "
+                      class="fa-regular fa-comment-dots proposal-card__action proposal-card__action--primary me-2"
                     ></i>
                     Ver mensajes
                   </div>
                 </router-link>
               </div>
+
+              <hr />
+              <div class="d-flex justify-content-between mt-2">
+                <h1 class="job-detail__title">Cobros</h1>
+              </div>
+              <hr />
+
+              <b-row class="mx-0 mt-5">
+                <b-col cols="12" lg="6" class="mx-auto">
+                  <payment-status-flow
+                    :type="1"
+                    :status="1"
+                    :amount="350"
+                  ></payment-status-flow>
+                </b-col>
+              </b-row>
             </div>
           </b-card>
         </div>
       </div>
     </div>
     <div
-      class="
-        jobs__content jobs__content-web
-        col-12 col-lg-4
-        pt-3
-        d-none d-lg-block
-      "
+      class="jobs__content jobs__content-web col-12 col-lg-4 pt-3 d-none d-lg-block"
     >
       <h4 class="mb-1 px-3">Propuestas</h4>
       <div class="jobs__list px-3 pt-1">
@@ -247,10 +245,7 @@
             <!-- <span>Hace 2 días</span> -->
             <span>
               <!-- <i class="fa-solid fa-clock me-1"></i> -->
-              <i 
-                class="fa-solid me-1"
-                :class="job.icon"
-              ></i>
+              <i class="fa-solid me-1" :class="job.icon"></i>
               {{ job.state }}
             </span>
           </div>
@@ -340,7 +335,7 @@
       </div>
     </b-modal>
 
-    <BModal
+    <!-- <BModal
       size="md"
       id="modal-imagen"
       class="modal__imagen"
@@ -361,45 +356,49 @@
       <div id="imagen__content">
         <img src="@/assets/img-delete/pintor.jpg" alt="pintor" />
       </div>
-    </BModal>
+    </BModal> -->
   </div>
 </template>
-  
+
 <script lang="ts">
-import { alertSuccessButton } from "@/utils/SweetAlert";
-import { defineComponent, onMounted, ref, watch, watchEffect } from "vue";
-import Proposal from "@/interfaces/Proposal.interface";
-import DropDownItem from "@/interfaces/DropDownItem.interface";
+import { alertSuccessButton } from "@/utils/SweetAlert"
+import { defineComponent, onMounted, ref, watch, watchEffect } from "vue"
+import Proposal from "@/interfaces/Proposal.interface"
+import DropDownItem from "@/interfaces/DropDownItem.interface"
+import PaymentStatusFlow from "./components/PaymentStatus/PaymentStatusFlow.vue"
 
 export default defineComponent({
   name: "JobsListComponent",
+  components: {
+    PaymentStatusFlow,
+  },
   setup() {
-    const isWorkDetailActive = ref<boolean>(false);
-    const totalRows = ref<number>(0);
-    const currentPage = ref<number>(1);
-    const perPage = ref<number>(4);
-    const statusSelected = ref<number>(0);
+    const isWorkDetailActive = ref<boolean>(false)
+    const totalRows = ref<number>(0)
+    const currentPage = ref<number>(1)
+    const perPage = ref<number>(4)
+    const statusSelected = ref<number>(0)
     const statusOptions = ref<DropDownItem[]>([
       { value: 0, label: "Todas" },
       { value: 1, label: "Enviado" },
       { value: 2, label: "Aceptado" },
       { value: 3, label: "Rechazado" },
       { value: 4, label: "Finalizado" },
-    ]);
-    const dateSelected = ref<number>(0);
+    ])
+    const dateSelected = ref<number>(0)
     const selectDates = ref<DropDownItem[]>([
       { value: 0, label: "Todas" },
       { value: 1, label: "Hoy" },
       { value: 2, label: "Esta semana" },
       { value: 3, label: "Este mes" },
-    ]);
-    const locationSelected = ref<number>(0);
+    ])
+    const locationSelected = ref<number>(0)
     const selectLocations = ref<DropDownItem[]>([
       { value: 0, label: "Todas" },
       { value: 1, label: "Lima Norte" },
       { value: 2, label: "Lima Sur" },
       { value: 3, label: "Lima Este" },
-    ]);
+    ])
     const jobsList = ref<Proposal[]>([
       {
         id: 1,
@@ -408,7 +407,7 @@ export default defineComponent({
         description: "Descripcion de prueba para la card de trabajos",
         quotationDate: "05/01/2021",
         state: "Enviado",
-        icon: "fa-paper-plane"
+        icon: "fa-paper-plane",
       },
       {
         id: 2,
@@ -417,7 +416,7 @@ export default defineComponent({
         description: "Descripcion de prueba para la card de trabajos",
         quotationDate: "05/01/2021",
         state: "Aceptada",
-        icon: "fa-face-smile"
+        icon: "fa-face-smile",
       },
       {
         id: 3,
@@ -426,7 +425,7 @@ export default defineComponent({
         description: "Descripcion de prueba para la card de trabajos",
         quotationDate: "05/01/2021",
         state: "Por cobrar",
-        icon: "fa-money-bill"
+        icon: "fa-money-bill",
       },
       {
         id: 4,
@@ -435,7 +434,7 @@ export default defineComponent({
         description: "Descripcion de prueba para la card de trabajos",
         quotationDate: "05/01/2021",
         state: "Finalizada",
-        icon: "fa-circle-check"
+        icon: "fa-circle-check",
       },
       {
         id: 5,
@@ -444,7 +443,7 @@ export default defineComponent({
         description: "Descripcion de prueba para la card de trabajos",
         quotationDate: "05/01/2021",
         state: "Enviado",
-        icon: "fa-paper-plane"
+        icon: "fa-paper-plane",
       },
       {
         id: 6,
@@ -453,7 +452,7 @@ export default defineComponent({
         description: "Descripcion de prueba para la card de trabajos",
         quotationDate: "05/01/2021",
         state: "Enviado",
-        icon: "fa-paper-plane"
+        icon: "fa-paper-plane",
       },
       {
         id: 7,
@@ -462,45 +461,45 @@ export default defineComponent({
         description: "Descripcion de prueba para la card de trabajos",
         quotationDate: "05/01/2021",
         state: "Enviado",
-        icon: "fa-paper-plane"
+        icon: "fa-paper-plane",
       },
-    ]);
-    const proposalListFilter = ref<Proposal[]>([]);
+    ])
+    const proposalListFilter = ref<Proposal[]>([])
     const form = ref({
       min: "",
       max: "",
       coment: "",
-    });
+    })
 
     const changePage = (page: number) => {
       proposalListFilter.value = jobsList.value.slice(
         (page - 1) * perPage.value,
         page * perPage.value
-      );
-    };
+      )
+    }
 
     const getAllProposals = () => {
-      totalRows.value = jobsList.value.length;
-      changePage(1);
-    };
+      totalRows.value = jobsList.value.length
+      changePage(1)
+    }
 
     const sendProposal = () => {
-      alertSuccessButton("Se envio una propuesta exitosamente");
-    };
+      alertSuccessButton("Se envio una propuesta exitosamente")
+    }
 
     watch(currentPage, (newValue, oldValue) => {
       //changePage(newValue);
-      console.log(newValue, oldValue);
-    });
+      console.log(newValue, oldValue)
+    })
 
     watchEffect(() => {
       //console.log(currentPage.value);
-      changePage(currentPage.value);
-    });
+      changePage(currentPage.value)
+    })
 
     onMounted(() => {
-      getAllProposals();
-    });
+      getAllProposals()
+    })
 
     return {
       isWorkDetailActive,
@@ -517,11 +516,11 @@ export default defineComponent({
       proposalListFilter,
       form,
       sendProposal,
-    };
+    }
   },
-});
+})
 </script>
-  
+
 <style lang="scss" scoped>
 .jobs__container {
   .jobs__content {
@@ -625,14 +624,15 @@ export default defineComponent({
       }
     }
 
-    .job-detail__timer {
+    .job-detail__status {
       i {
         color: #3a88ec;
+        font-size: 1.3rem;
       }
     }
 
     .job-detail__work {
-      padding: 6px 25px;
+      padding: 4px 18px;
       background-color: #3a88ec;
       color: white;
       width: 80%;
@@ -691,4 +691,3 @@ export default defineComponent({
   }
 }
 </style>
-  

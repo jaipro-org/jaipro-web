@@ -107,15 +107,13 @@
         <div class="proposals-list mb-3">
           <proposal-card
             :proposal="project.proposal"
-            @pay-cash="openModalPayCash"
-            @pay-online="redirectPayOnline"
-            @qualification-modal="openQualificationModal"
+            @on-accept-work="handleAccetpWork"
           ></proposal-card>
         </div>
       </div>
     </b-row>
 
-    <b-modal
+    <!-- <b-modal
       id="modal-pay-cash"
       ref="modal-pay-cash"
       title="Pago efectivo"
@@ -214,7 +212,7 @@
           >
         </div>
       </template>
-    </b-modal>
+    </b-modal> -->
 
     <modal-image v-show="isShowModal" @close-modal="isShowModal = false" />
   </div>
@@ -458,6 +456,10 @@ function clearIcons() {
   iconList.forEach((icon) => {
     icon.classList.remove("active")
   })
+}
+
+function handleAccetpWork(status: number) {
+  project.value.proposal.status = status
 }
 </script>
 

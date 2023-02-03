@@ -32,6 +32,33 @@ export default {
         ),
     },
     {
+      path: "lista-pagos",
+      name: "payment-list",
+      meta: { layout: "specialist-landing" },
+      component: () =>
+        import(
+          /* webpackChunkName: "payment-list" */ "@/modules/specialist/views/PaymentList.vue"
+        ),
+    },
+    {
+      path: "cobros",
+      name: "charge-project",
+      meta: { layout: "specialist-landing" },
+      component: () =>
+        import(
+          /* webpackChunkName: "charge-project" */ "@/modules/specialist/views/ChargeProject.vue"
+        ),
+    },
+    {
+      path: "comision",
+      name: "pay-comision",
+      meta: { layout: "specialist-landing" },
+      component: () =>
+        import(
+          /* webpackChunkName: "pay-comision" */ "@/modules/specialist/views/PayComision.vue"
+        ),
+    },
+    {
       path: "notificaciones",
       name: "specialist-notifications",
       meta: { layout: "specialist-landing" },
@@ -54,4 +81,4 @@ export default {
       redirect: { name: "specialist-profile" },
     },
   ],
-};
+}

@@ -21,18 +21,18 @@
               <div class="ps-2 ps-md-3">
                 <h1 class="data-card__name">
                   Pedro Ramirez Estrada
-                  <span class="data-card__status ms-2">
+                  <span class="data-card__status ms-1 ms-lg-2">
                     <i class="fa-solid fa-circle-check"></i>
                   </span>
                 </h1>
                 <div>
-                  <b-badge variant="primary" class="me-2 mb-1 px-2 py-2"
+                  <b-badge class="barge-work me-2 mb-1 px-2 py-2"
                     >Carpintero
                   </b-badge>
-                  <b-badge variant="primary" class="me-2 mb-1 px-2 py-2"
+                  <b-badge class="barge-work me-2 mb-1 px-2 py-2"
                     >Gasfitero
                   </b-badge>
-                  <b-badge variant="primary" class="me-2 mb-1 px-2 py-2"
+                  <b-badge class="barge-work me-2 mb-1 px-2 py-2"
                     >Electricista
                   </b-badge>
                 </div>
@@ -57,9 +57,9 @@
                 <div
                   class="d-flex justify-content-end justify-content-md-start"
                 >
-                  <b-button variant="primary" class="mt-3">
+                  <b-button variant="primary" class="mt-3 button-cotizar">
                     <i class="fa-solid fa-handshake"></i>
-                    Directo a cotizar
+                    Cotizar ahora
                   </b-button>
                 </div>
               </div>
@@ -123,8 +123,6 @@
         <h1 class="section__title">Galería</h1>
         <b-card class="card--shadow">
           <Carousel :settings="settings" :breakpoints="breakpoints">
-            <!-- <template slot="prev"><span class="prev btn-carrousel btn-carrousel--left"><i
-                  class="fa-solid fa-angle-left"></i></span></template> -->
             <Slide :key="1">
               <img
                 src="https://placeimg.com/200/200/any?1"
@@ -160,15 +158,20 @@
                 role="button"
               />
             </Slide>
-            <!-- <template slot="next">
-              <span class="next btn-carrousel btn-carrousel--next">
-                <i class="fa-solid fa-angle-right"></i>
-              </span>
-            </template> -->
 
-            <template #addons>
-              <Navigation />
-              <Pagination />
+            <template #addons="{ slidesCount }">
+              <Navigation v-if="slidesCount > 1">
+                <template v-slot:prev
+                  ><span class="btn-carrousel btn-carrousel--prev"
+                    ><i class="fa-solid fa-circle-chevron-left"></i></span
+                ></template>
+                <template v-slot:next>
+                  <span class="btn-carrousel btn-carrousel--next">
+                    <i class="fa-solid fa-circle-chevron-right"></i>
+                  </span>
+                </template>
+              </Navigation>
+              <Pagination v-if="slidesCount > 1" />
             </template>
           </Carousel>
         </b-card>
@@ -189,13 +192,13 @@
 </template>
 
 <script lang="ts">
-import "vue3-carousel/dist/carousel.css";
+import "vue3-carousel/dist/carousel.css"
 
-import { defineComponent } from "vue";
-import ModalImage from "@/shared/components/ModalImage.vue";
-import ExperienceCard from "@/modules/client/views/Components/ExperienceCard.vue";
-import OpinionCard from "@/modules/client/views/Components/OpinionCard.vue";
-import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
+import { defineComponent } from "vue"
+import ModalImage from "@/shared/components/ModalImage.vue"
+import ExperienceCard from "@/modules/client/views/Components/ExperienceCard.vue"
+import OpinionCard from "@/modules/client/views/Components/OpinionCard.vue"
+import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel"
 
 export default defineComponent({
   name: "SpecialistProfile",
@@ -294,8 +297,8 @@ export default defineComponent({
       breakpoints: {
         // 700px and up
         700: {
-          itemsToShow: 3.5,
-          snapAlign: "center",
+          itemsToShow: 2,
+          snapAlign: "start",
         },
         // 1024 and up
         1024: {
@@ -304,28 +307,28 @@ export default defineComponent({
         },
       },
       tabIndex: 0,
-    };
+    }
   },
   methods: {
     setTab(value: string) {
-      this.tabSelected = value;
+      this.tabSelected = value
     },
     handleGoGalery() {
-      this.setTab("BIO");
+      this.setTab("BIO")
       const timeOut = setTimeout(() => {
-        const boxContainer: any = document.getElementById(`galery__box`);
-        const top: number = boxContainer.offsetTop - 70;
+        const boxContainer: any = document.getElementById(`galery__box`)
+        const top: number = boxContainer.offsetTop - 70
         window.scroll({
           top,
           left: 0,
           behavior: "smooth",
-        });
-        clearTimeout(timeOut);
-      }, 100);
+        })
+        clearTimeout(timeOut)
+      }, 100)
     },
   },
   mounted() {},
-});
+})
 </script>
 
 <style lang="scss" scoped>
@@ -339,6 +342,13 @@ export default defineComponent({
   }
 
   .data-card {
+    .barge-work {
+      background-color: #f77930 !important;
+    }
+    .button-cotizar {
+      padding-top: 12px;
+      padding-bottom: 12px;
+    }
     .data-card__tab {
       padding: 5px 8px;
 
@@ -411,24 +421,22 @@ export default defineComponent({
     bottom: 0;
     top: 0;
     margin: auto;
-    background-color: #3a88ec;
+    background-color: white;
     z-index: 3;
-    height: 35px;
-    width: 35px;
-    font-size: 1.3rem;
-    border-radius: 100%;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    cursor: pointer;
-    color: white;
 
+    border-radius: 100%;
+    cursor: pointer;
+
+    i {
+      color: #3a88ec;
+      font-size: 2.3rem;
+    }
     &.btn-carrousel--next {
-      right: 40px;
+      right: -15px;
     }
 
-    &.btn-carrousel--left {
-      left: 40px;
+    &.btn-carrousel--prev {
+      left: -15px;
     }
   }
 }
@@ -443,6 +451,52 @@ export default defineComponent({
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+}
+
+@media (min-width: 1214px) {
+  .cliente-especialist__container {
+    .btn-carrousel {
+      &.btn-carrousel--next {
+        right: 0px;
+      }
+
+      &.btn-carrousel--prev {
+        left: 0px;
+      }
+
+      i {
+        font-size: 2.4rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  .cliente-especialist__container {
+    .data-card {
+      .button-cotizar {
+        width: 100%;
+      }
+      .data-card__name {
+        text-align: center;
+        font-size: 1.35rem !important;
+      }
+    }
+
+    .btn-carrousel {
+      &.btn-carrousel--next {
+        right: 5px;
+      }
+
+      &.btn-carrousel--prev {
+        left: 5px;
+      }
+
+      i {
+        font-size: 2.2rem;
+      }
+    }
   }
 }
 

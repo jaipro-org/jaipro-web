@@ -144,7 +144,42 @@
               </div>
             </div>
           </div>
-          <div cols="12" v-if="proposal.status == 1" class="col-12">
+          <div cols="12" v-if="proposal.status == 1" class="col-12 px-0">
+            <div>
+              <h2 class="proposal-card__subtitle">Trabajo</h2>
+              <hr class="mt-0" />
+              <p class="text-center mt4">
+                Si el trabajo se hizo como esperabas y el especialista cumplió
+                su labor, podrá confirmar su trabajo dando click en el botón de
+                abajo.
+              </p>
+
+              <div class="d-flex justify-content-center mt-3">
+                <b-button variant="primary" @click="showModalAccept = true"
+                  >Confirmar trabajo</b-button
+                >
+              </div>
+            </div>
+          </div>
+          <div cols="12" v-if="proposal.status == 3" class="col-12 px-0">
+            <div>
+              <h2 class="proposal-card__subtitle">Trabajo</h2>
+              <hr class="mt-0" />
+
+              <h5 class="text-center my-4">
+                Trabajo confimado
+                <i class="fa-solid fa-circle-check color-success"></i>
+              </h5>
+
+              <div class="d-flex justify-content-center mt-3">
+                <b-button variant="primary" @click="showModalQualify = true"
+                  ><i class="fa-solid fa-star me-1"></i> Calificar
+                  servicio</b-button
+                >
+              </div>
+            </div>
+          </div>
+          <!-- <div cols="12" v-if="proposal.status == 1" class="col-12">
             <div>
               <h2 class="proposal-card__subtitle">Pagos</h2>
               <hr class="mt-0" />
@@ -242,47 +277,276 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </b-card>
+
+    <b-modal
+      v-model="showModalAccept"
+      title="Confirmar Trabajo"
+      :centered="windowWidth <= 991"
+    >
+      <p class="mb-0">
+        ¿Estas seguro que deseas confirmar el trabajo?, esta acción solo se
+        puede hace una sola vez
+      </p>
+      <template v-slot:footer>
+        <div class="d-flex justify-content-between w-100">
+          <b-button variant="secondary" @click="showModalAccept = false"
+            >Cancelar</b-button
+          >
+          <b-button
+            variant="primary"
+            @click=";(showModalAccept = false), $emit('on-accept-work', 3)"
+            >Aceptar</b-button
+          >
+        </div>
+      </template>
+    </b-modal>
+    <b-modal
+      v-model="showModalQualify"
+      title="Calificar"
+      id="modal-calification"
+      :centered="windowWidth <= 991"
+    >
+      <div class="d-flex flex-wrap justify-content-center flex-row-reverse">
+        <i
+          class="fa-solid fa-star me-3 modal-calification__icon"
+          role="button"
+          @click="checkQualifaction($event, 5)"
+        ></i>
+        <i
+          class="fa-solid fa-star me-3 modal-calification__icon"
+          role="button"
+          @click="checkQualifaction($event, 4)"
+        ></i>
+        <i
+          class="fa-solid fa-star me-3 modal-calification__icon"
+          role="button"
+          @click="checkQualifaction($event, 3)"
+        ></i>
+        <i
+          class="fa-solid fa-star me-3 modal-calification__icon"
+          role="button"
+          @click="checkQualifaction($event, 2)"
+        ></i>
+        <i
+          class="fa-solid fa-star me-3 modal-calification__icon"
+          role="button"
+          @click="checkQualifaction($event, 1)"
+        ></i>
+      </div>
+      <div v-if="qualificationSelected > 0 && qualificationSelected < 5">
+        <p class="mt-3 mb-0">
+          Seleccione las opciones que considere por mejorar en el servicio
+        </p>
+
+        <b-row class="mx-0 justify-content-around">
+          <b-col
+            cols="12"
+            lg="10"
+            class="mt-3"
+            v-for="(improvement, index) in improvementsList"
+            :key="index"
+            @click="improvement.active = !improvement.active"
+          >
+            <b-row
+              class="mx-0 improvement__item p-1 rounded-pill"
+              :class="{ 'improvement__item--active': improvement.active }"
+            >
+              <b-col
+                cols="3"
+                class="d-flex justify-content-center improvement__icon align-items-center"
+              >
+                <i
+                  :class="
+                    improvement.active
+                      ? 'fa-solid fa-check'
+                      : 'fa-solid fa-circle-notch'
+                  "
+                ></i>
+              </b-col>
+              <b-col cols="9" class="text-center">
+                {{ improvement.name }}
+              </b-col>
+            </b-row>
+          </b-col>
+        </b-row>
+      </div>
+      <template v-slot:footer>
+        <div class="d-flex justify-content-between w-100">
+          <b-button variant="secondary" @click="showModalQualify = false"
+            >Cerrar</b-button
+          >
+          <b-button
+            variant="primary"
+            :disabled="!isQualifityValid"
+            @click="sendQualification"
+            >Enviar</b-button
+          >
+        </div>
+      </template>
+    </b-modal>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import {
+  defineComponent,
+  ref,
+  reactive,
+  computed,
+  onMounted,
+  nextTick,
+  onBeforeUnmount,
+} from "vue"
+import {
+  alertLoading,
+  alertSuccessfully,
+  closeAlert,
+} from "../../../../utils/SweetAlert"
+
+type IProposal = {
+  id: number
+  name: string
+  status: number
+  isQualified: boolean
+  jobs: Array<any>
+  detail: string
+}
 
 export default defineComponent({
   name: "ProposalCard",
   props: {
-    proposal: Object,
+    proposal: {
+      type: Object,
+    },
   },
   setup(props) {
-    const isShow = ref(true); // Controla el muestreo desplegado de la card
-    const isActive = ref(true); //Controla la activacion de la clase para la animación de despliegue
+    const isShow = ref(true) // Controla el muestreo desplegado de la card
+    const isActive = ref(true) //Controla la activacion de la clase para la animación de despliegue
+    const showModalAccept = ref(false) //Muestra el modal para aceptar el trabajo realizado
+    const showModalQualify = ref(false) //Muestra el modal para calificar el trabajo realizado
+    const qualificationSelected = ref(0)
+    const improvementsList = reactive([
+      {
+        id: 0,
+        active: false,
+        name: "Demoro mas tiempo de lo pensado",
+      },
+      {
+        id: 1,
+        active: false,
+        name: "Honorarios muy elevados",
+      },
+      {
+        id: 2,
+        active: false,
+        name: "No cumplió con todo lo acordado",
+      },
+    ])
 
+    // START - ABRIR Y CERRAR COLLAPSE
     function openCollapse() {
-      isShow.value = true;
+      isShow.value = true
       setTimeout(() => {
-        isActive.value = true;
-      }, 100);
+        isActive.value = true
+      }, 100)
     }
 
     function closeCollapse() {
-      isActive.value = false;
+      isActive.value = false
       setTimeout(() => {
-        isShow.value = false;
-      }, 700);
+        isShow.value = false
+      }, 700)
+    }
+    // START - ABRIR Y CERRAR COLLAPSE
+
+    //Enviar una calificacion
+    function checkQualifaction(event: Event, qualification: number) {
+      clearIcons()
+      const icon: any = event.target
+      icon.classList.add("active")
+      qualificationSelected.value = qualification
     }
 
+    const isQualifityValid = computed(() => {
+      if (qualificationSelected.value == 5) {
+        return true
+      }
+
+      const improvement = improvementsList.find(
+        (improvement) => improvement.active == true
+      )
+      if (qualificationSelected.value > 0 && improvement) {
+        return true
+      }
+
+      return false
+    })
+
+    function sendQualification() {
+      alertLoading()
+
+      setTimeout(() => {
+        alertSuccessfully("Se envio la calificación exitosamente")
+        clearIcons()
+        showModalQualify.value = false
+        setTimeout(() => {
+          closeAlert()
+        }, 1500)
+      }, 1500)
+    }
+
+    function clearIcons() {
+      const iconList = document.querySelectorAll(".modal-calification__icon")
+      iconList.forEach((icon) => {
+        icon.classList.remove("active")
+      })
+    }
+
+    // FIN Enviar una calificacion
+
+    // FUNCIONES PARA OBTENER EL TAMAÑO DE LA PANTALLA
+    let windowWidth = ref(window.innerWidth) // Obtener el tamaño de la ventana
+
+    onMounted(() => {
+      nextTick(() => {
+        window.addEventListener("resize", onResize)
+      })
+    })
+
+    onBeforeUnmount(() => {
+      window.removeEventListener("resize", onResize)
+    })
+
+    const onResize = () => {
+      windowWidth.value = window.innerWidth
+    }
+    // FIN FUNCIONES PARA OBTENER EL TAMAÑO DE LA PANTALLA
+
     return {
-      openCollapse,
-      closeCollapse,
+      // PARAMS
+      windowWidth,
       isShow,
       isActive,
-    };
+      showModalAccept,
+      showModalQualify,
+      qualificationSelected,
+      improvementsList,
+
+      // METHODS
+      openCollapse,
+      closeCollapse,
+      checkQualifaction,
+      sendQualification,
+
+      // COMPUTED
+      isQualifityValid,
+    }
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>
@@ -430,5 +694,102 @@ export default defineComponent({
   .proposal-card__item--collapse.active {
     max-height: 2000px;
   }
+}
+
+#modal-calification {
+  .modal-calification__icon {
+    color: rgb(165, 165, 165);
+    font-size: 1.5rem;
+
+    &:hover {
+      color: rgb(255, 196, 0);
+    }
+
+    &:hover ~ .modal-calification__icon {
+      color: rgb(255, 196, 0);
+    }
+
+    &.active {
+      color: rgb(255, 196, 0);
+    }
+
+    &.active ~ .modal-calification__icon {
+      color: rgb(255, 196, 0);
+    }
+  }
+
+  .improvement__item {
+    border: 1px solid rgba(0, 0, 0, 0.521);
+    cursor: pointer;
+
+    .improvement__icon {
+      border-right: 1px solid rgba(0, 0, 0, 0.521);
+    }
+  }
+  .improvement__item--active {
+    border: 1px solid #3a88ec;
+    background-color: #3a88ec;
+    color: white;
+
+    .improvement__icon {
+      border-right: 1px solid white;
+    }
+  }
+  .improvement__item:hover {
+    border: 1px solid rgb(169, 169, 169);
+    background-color: rgb(169, 169, 169);
+    color: white;
+
+    .improvement__icon {
+      border-right: 1px solid white;
+    }
+  }
+}
+
+// #modal-experience {
+//   .work__date {
+//     position: absolute;
+//     top: -25px;
+//     left: 0;
+//     right: 0;
+//     margin: auto;
+//   }
+
+//   .work__buttons {
+//     width: 40px;
+//     height: 40px;
+//     font-size: 1.2rem;
+//     background-color: rgb(145, 145, 145);
+//     color: white;
+//     border-radius: 100%;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     cursor: pointer;
+//     position: absolute;
+//     top: 0;
+//     bottom: 0;
+//     margin: auto;
+//   }
+
+//   .work__buttons:hover {
+//     background-color: #347bd8;
+//   }
+
+//   .work__buttons--left {
+//     left: -35px;
+//   }
+
+//   .work__buttons--right {
+//     right: -35px;
+//   }
+
+//   .form-step-button {
+//     display: none;
+//   }
+// }
+
+.color-success {
+  color: rgb(64, 231, 114);
 }
 </style>
