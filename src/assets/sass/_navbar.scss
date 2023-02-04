@@ -191,18 +191,21 @@
     .nav-item {
       margin-top: 5px;
       margin-bottom: 5px;
-      width: 100%;
+      text-align: center;
       padding: 0.5rem 1rem;
       .learn-more-btn {
         width: 100%;
         text-align: center;
       }
       .nav-link {
-        text-align: left;
+        text-align: center;
         padding: 0;
       }
       &.only-m {
         display: block;
+      }
+      .router-link{
+        display: flex;
       }
     }
     .drop {
@@ -219,6 +222,9 @@
   // .header-scrolled {
   //   height: inherit;
   // }
+  .nav-item {
+    margin: 0;
+  }
 }
 @media screen and (max-width: 575.98px) {
   .navbar {

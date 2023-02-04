@@ -117,7 +117,7 @@
         </div>
       </div>
     </b-container>
-  </div>
+  </div>  
 </template>
 
 <script lang="ts">
@@ -199,5 +199,65 @@ export default defineComponent({
   padding-left: 50px;
   padding-bottom: 15px;
 }
+@media (max-width: 767px) {
+  .header-button{
+    text-align: center;
+    .mr-2{
+      margin: 0 0 20px 0;
+      font-size: 20px !important;
+    }
+  }
+}
 
+@media (max-width: 480px) {
+  .header-title{
+    font-size: 40px;
+    line-height: 1.2;
+    padding-bottom: 0;
+  }
+  .rq-title{
+    font-size: 30px;
+    margin-bottom: 0;
+  }
+  .flow-title{
+    font-size: 30px;
+  }
+  .rq-section {
+    padding: 30px 0;
+    .rq-list-section{
+      margin: 0 15px 0 0;
+    }
+  }
+  .flow-section{
+    padding: 30px 0;
+  }
+  .header-button{
+    text-align: center;
+    .mr-2{
+      margin: 0 0 20px 0;
+      font-size: 20px !important;
+    }
+  }
+  .flow-list-item {
+    padding-left: 20px;
+    margin-right: 15px;
+
+    h3{
+      font-size: 21px;
+    }
+    p{
+      font-size: 15px;
+      // text-align: justify;
+      line-height: 1.4;
+    }
+    img{
+      height: 150px;
+    }
+  }
+  .rq-list{
+    font-size: 15px;
+    line-height: 1.4;
+    margin-left: -2px;
+  }
+}
 </style> 

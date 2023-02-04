@@ -84,9 +84,9 @@
   </div>
 </template>
 <script lang="ts">
-import { store } from "@/store/modules/general"
-import logo from "@/assets/svg/logo.svg"
-import { defineComponent } from "vue"
+import { store } from "@/store/modules/general";
+import logo from "@/assets/svg/logo.svg";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   data() {
@@ -94,15 +94,15 @@ export default defineComponent({
       step_login: 0,
       step_register: 0,
       logo,
-    }
+    };
   },
   computed: {
     setScrollClass() {
-      if (store.state.scrollY > 20) return true
-      else return false
+      if (store.state.scrollY > 20) return true;
+      else return false;
     },
   },
-})
+});
 </script>
 
 <style scoped lang="scss">
@@ -182,18 +182,24 @@ export default defineComponent({
   }
 }
 
-.collapse.show {
-  box-shadow: 0px 3px 1px rgba(0, 0, 0, 0.11);
-}
-
-@media (max-width: 992px) {
+@media (max-width: 991px) {
   #nav-client__container {
     .nav-item {
       .router-link {
         display: flex;
         justify-content: center;
+        align-items: center;
       }
     }
+  }
+  .collapse.show {
+    box-shadow: 0px 3px 1px rgba(0, 0, 0, 0.11);
+  }
+  .navbar-collapse {
+    padding-bottom: 0;
+  }
+  .nav-item {
+    flex-direction: row;
   }
 }
 </style>

@@ -3,12 +3,12 @@
     <div cols="12" lg="3" class="profile__menu col-12 col-lg-3">
       <div class="menu__container py-3 px-4 bg-white d-block d-lg-none">
         <div>
-          <div class="mb-2">
+          <div class="mb-2" @click="isShow = !isShow">
             <i class="fa-solid fa-house-circle-check me-2"></i
             ><span>Mis Proyectos</span
             ><i class="fa-solid fa-angle-down ms-2"></i>
           </div>
-          <b-collapse visible id="collapse-3" class="ps-4 py-2">
+          <b-collapse visible id="collapse-3" v-show="isShow" class="ps-4 py-2">
             <span
               class="d-block mb-2 menu__subitem"
               :class="{ active: isCurrentTab }"
@@ -32,12 +32,12 @@
         class="menu__container py-3 px-4 bg-white d-none d-lg-block"
       >
         <div>
-          <div class="mb-2">
+          <div class="mb-2" @click="isShow = !isShow">
             <i class="fa-solid fa-house-circle-check me-2"></i
             ><span>Mis Proyectos</span
             ><i class="fa-solid fa-angle-down ms-2"></i>
           </div>
-          <b-collapse visible id="collapse-3" class="ps-4 py-2">
+          <b-collapse visible id="collapse-3" v-show="isShow" class="ps-4 py-2">
             <span
               class="d-block mb-2 menu__subitem"
               :class="{ active: isCurrentTab }"
@@ -165,6 +165,7 @@ const showModalCalification = ref(false);
 const isLoading = ref(true);
 const isLoadingProjects = ref(false);
 const isCurrentTab = ref(true);
+const isShow = ref(true);
 const projectSelected = ref(0);
 const qualificationSelected = ref(0);
 // Ejemplo de estados del projecto para la simulación
@@ -348,6 +349,9 @@ const menuChange = computed(() => {
 </script>
 
 <style lang="scss" scoped>
+.collapse {
+  box-shadow: none !important;
+}
 .projects__container {
   .profile__menu {
     .menu__container {
@@ -413,22 +417,17 @@ const menuChange = computed(() => {
   }
 }
 
-.collapse {
-  box-shadow: none !important;
-}
-
 @media (max-width: 991px) {
   .projects__container {
     .profile__menu {
-      padding: 0;
+      padding: 10px;
       z-index: 1;
-      position: fixed;
       top: 75px;
       left: 0;
     }
 
     .projects__content {
-      padding-top: 180px;
+      padding-top: 20px;
     }
   }
 }

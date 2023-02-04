@@ -44,7 +44,7 @@
             {{ notification.description }}
           </div>
         </div>
-        <div cols="12" md="2" class="text-end col-12 col-md-2">
+        <div cols="12" md="2" class="notification-card__time text-end col-12 col-md-2">
           Hace 4 horas
         </div>
       </div>
@@ -57,16 +57,16 @@ import { defineComponent, defineProps, ref, toRefs } from "vue";
 
 export default defineComponent({
   name: "NotificationCardComponent",
-  props:{
-    notification: Object
+  props: {
+    notification: Object,
   },
-  setup(props){
+  setup(props) {
     const { notification } = toRefs(props);
 
-    return{
-      notification
-    }
-  }
+    return {
+      notification,
+    };
+  },
 });
 </script>
 
@@ -117,23 +117,34 @@ export default defineComponent({
 .icon-success {
   color: rgb(64, 231, 114);
 }
+@media (max-width: 991px) {
+  .notification-card {
+    .notification-card__title {
+      font-size: 0.9rem;
+    }
+    .notification-card__image {
+      width: 50px;
+      height: 50px;
+    }
+    .notification-card__description {
+      font-size: 0.8rem;
+    }
+    .notification-card__time{
+      font-size: 0.8rem;
+    }
+  }
+}
 
 @media (max-width: 768px) {
   .notification-card {
     .notification-card__butotn {
       width: 100%;
-      margin-bottom: 10px;
-    }
-
-    .notification-card__image {
-      width: 65px;
-      height: 65px;
     }
 
     .notification-card__description {
       width: 100%;
       margin-top: 10px;
-      margin-bottom: 15px;
+      margin-bottom: 10px;
     }
   }
 }

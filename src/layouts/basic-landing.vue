@@ -4,18 +4,21 @@
     <div class="basic-landing__content">
       <slot></slot>
     </div>
-    <BasicFooter />
+    <!-- <BasicFooter /> -->
+    <Footer />
   </div>
 </template>
 
 <script lang="ts">
 import NavbarProject from "@/shared/components/NavBarProject.vue"
-import BasicFooter from "@/shared/components/BasicFooter.vue"
+// import BasicFooter from "@/shared/components/BasicFooter.vue"
+import Footer from "@/shared/components/FooterComponent.vue"
 
 export default {
   components: {
     NavbarProject,
-    BasicFooter,
+    // BasicFooter,
+    Footer
   },
 }
 </script>
