@@ -50,6 +50,18 @@
 import { defineComponent, ref } from "vue"
 import { useRouter } from "vue-router"
 
+// FUNCTIONS
+import {
+  alertError,
+  alertLoading,
+  alertSuccessfully,
+  closeAlert,
+} from "../../../utils/SweetAlert"
+
+// SERVICES
+import { AuthServices } from "@/services/api/authServices"
+const authServices = new AuthServices()
+
 export default defineComponent({
   name: "LoginComponent",
   setup() {
@@ -57,8 +69,23 @@ export default defineComponent({
     const password = ref("")
     const router = useRouter()
 
-    const login = () => {
-      console.log("login here!")
+    const login = async () => {
+      try {
+        alertLoading()
+        await authServices.login({
+          email: email.value,
+          password: password.value,
+        })
+
+        alertSuccessfully("Usuario inicio sesión exitosamente!!")
+        setTimeout(function () {
+          router.push({ name: "home" })
+          closeAlert()
+        }, 1500)
+      } catch (error) {
+        console.log(error)
+        alertError()
+      }
     }
 
     const forgotPassword = () => {
