@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from "axios"
-import { store } from "../store/modules/general"
+import store from "../store"
 // SERVICES
 
 export default class AxiosClient {
@@ -21,7 +21,8 @@ export default class AxiosClient {
     AxiosClient.axiosIns.interceptors.request.use(
       (config: AxiosRequestConfig) => {
         const security = store.getters["authModule/getSecurity"]
-        if (security.token != "") {
+
+        if (security && security.token != "") {
           config.headers = {
             Authorization: `${security.tokenType} ${security.token}`,
           }

@@ -3,6 +3,9 @@ import { ISecurity, IUser, IStateAuth } from "./type"
 /****************************************/
 /*             AUTH - MUTATIONS         */
 /****************************************/
+export const setStatus = (state: IStateAuth, status: string) => {
+  state.status = status
+}
 export const setUser = (state: IStateAuth, user: IUser) => {
   state.user = user
 }

@@ -14,19 +14,22 @@ export const loginUser = async (
   payload: { email: string; password: string }
 ) => {
   try {
-    const { data } = await authServices.login(payload)
+    const response = await authServices.login(payload)
 
     const security: ISecurity = {
-      token: data.token,
-      tokenType: data.tokenType,
-      refreshToken: data.refreshToken,
+      token: response.token,
+      tokenType: response.tokenType,
+      refreshToken: response.refreshToken,
     }
 
-    encryptAuthStorage.setMultipleItems([
-      ["token", security.token],
-      ["tokenType", security.tokenType],
-      ["refreshToken", security.refreshToken],
-    ])
+    encryptAuthStorage.setItem("security", security)
+
+    // setMultipleItems([
+    //   ["token", security.token],
+    //   ["tokenType", security.tokenType],
+    //   ["refreshToken", security.refreshToken],
+    // ])
+    commit("setStatus", "authenticated")
     commit("setSecurity", security)
     commit("setUser", { email: payload.email })
     return true
