@@ -90,6 +90,7 @@ import {
 
 // SERVICES
 import { AuthServices } from "@/services/api/authServices"
+import { useStore } from "vuex"
 
 const authServices = new AuthServices()
 
@@ -107,13 +108,15 @@ export default defineComponent({
     const confirmPassword = ref("")
     const email = ref("")
 
+    const store = useStore()
+
     const registerClient = async () => {
       try {
         if (password.value != confirmPassword.value) {
           alertError("Las contraseñas no coinciden")
           return
         }
-        alertLoading()
+        alertLoading("Registrando al usuario cliente.")
         await authServices.createClient({
           name: firstname.value,
           lastName: lastname.value,
@@ -121,9 +124,15 @@ export default defineComponent({
           email: email.value,
         })
 
+        alertLoading("Iniciando sesión del usuario.")
+        await store.dispatch("authModule/loginUser", {
+          email: email.value,
+          password: password.value,
+        })
+
         alertSuccessfully("Cliente registrado exitosamente!!")
         setTimeout(function () {
-          router.push({ name: "login" })
+          router.push({ name: "client-profile" })
           closeAlert()
         }, 2500)
       } catch (error) {

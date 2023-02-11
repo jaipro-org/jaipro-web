@@ -496,6 +496,7 @@ import {
 // SERVICES
 import { GeneralServices } from "../../../services/api/generalServices"
 import { AuthServices } from "@/services/api/authServices"
+import { useStore } from "vuex"
 
 const generalServices = new GeneralServices()
 const authServices = new AuthServices()
@@ -693,6 +694,7 @@ function validateWorkForm() {
 // VALIDATION STEPS **************
 
 // REGISTER SPECIALIST
+const store = useStore()
 const structureDataRegister = () => {
   const specialistSpecializations: Array<any> = []
   const experienceTimes: Array<any> = []
@@ -732,12 +734,12 @@ const structureDataRegister = () => {
 }
 const registerSpecialist = async () => {
   try {
-    alertLoading()
-
     if (!form.conditions) {
       alertError("Debe aceptar los términos y condiciones.")
       return
     }
+    alertLoading("Registrando al usuario especialista.")
+
     const { specialistSpecializations, experienceTimes, workLocations } =
       structureDataRegister()
 
@@ -755,9 +757,16 @@ const registerSpecialist = async () => {
         experienceTimes,
       },
     })
+
+    alertLoading("Iniciando sesión del usuario.")
+    await store.dispatch("authModule/loginUser", {
+      email: form.email,
+      password: form.password,
+    })
+
     alertSuccessfully("Especialista registrado exitosamente!!")
     setTimeout(function () {
-      router.push({ name: "login" })
+      router.push({ name: "specialist-profile" })
       closeAlert()
     }, 2500)
   } catch (error) {
