@@ -18,10 +18,15 @@ import "bootstrap/dist/css/bootstrap.css"
 import "vue-select/dist/vue-select.css"
 // If you don't need the styles, do not connect
 import "sweetalert2/dist/sweetalert2.min.css"
+import AxiosClient from "./services/axiosClient"
+import store from "./store"
 // import "@/assets/style.css";
 // create an instance using the function
 
+new AxiosClient(process.env.VUE_APP_BACK_URL).createClient()
+
 createApp(App)
+  .use(store)
   .use(router)
   .use(BootstrapVue3)
   .use(VueSweetalert2)

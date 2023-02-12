@@ -49,6 +49,18 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue"
 import { useRouter } from "vue-router"
+import { useStore } from "vuex"
+
+// FUNCTIONS
+import {
+  alertError,
+  alertLoading,
+  alertSuccessfully,
+  closeAlert,
+} from "../../../utils/SweetAlert"
+
+// SERVICES
+import { AuthServices } from "@/services/api/authServices"
 
 export default defineComponent({
   name: "LoginComponent",
@@ -56,17 +68,29 @@ export default defineComponent({
     const email = ref("")
     const password = ref("")
     const router = useRouter()
+    const store = useStore()
 
-    const login = () => {
-      console.log("login here!")
+    const login = async () => {
+      try {
+        alertLoading()
+
+        await store.dispatch("authModule/loginUser", {
+          email: email.value,
+          password: password.value,
+        })
+
+        alertSuccessfully("Usuario inicio sesión exitosamente!!")
+        setTimeout(function () {
+          router.push({ name: "home" })
+          closeAlert()
+        }, 1500)
+      } catch (error) {
+        alertError("Sucedió un error durante el inicio de sesión.")
+      }
     }
 
     const forgotPassword = () => {
       router.push({ name: "forgot-password" })
-    }
-
-    const registerUser = () => {
-      console.log("registerUser here!")
     }
 
     return {
@@ -74,7 +98,6 @@ export default defineComponent({
       password,
       login,
       forgotPassword,
-      registerUser,
     }
   },
 })

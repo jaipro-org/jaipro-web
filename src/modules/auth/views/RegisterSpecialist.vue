@@ -89,7 +89,7 @@
                   <b-form-group label="Dirección" label-for="input-66">
                     <b-form-input
                       id="input-66"
-                      v-model="form.adress"
+                      v-model="form.address"
                       type="text"
                       placeholder="Ingrese su dirección"
                       required
@@ -145,7 +145,7 @@
                   >
                     <b-form-input
                       id="input-acount-2"
-                      v-model="form.confirmPassowrd"
+                      v-model="form.confirmPassword"
                       type="password"
                       placeholder="Ingrese su contraseña nuevamente"
                       required
@@ -178,12 +178,11 @@
               </b-col>
               <b-col cols="12" lg="5" class="px-0 d-none d-lg-block">
                 <h5>Locaciones de trabajo</h5>
-
                 <v-select
                   multiple
                   v-model="locationSelected"
                   :options="locationOptions"
-                  :reduce="(option) => option.value"
+                  :reduce="(option:location) => option.value"
                 />
               </b-col>
               <b-col cols="12" class="mx-auto mt-4 mb-1">
@@ -224,7 +223,7 @@
                   multiple
                   v-model="locationSelected"
                   :options="locationOptions"
-                  :reduce="(option) => option.value"
+                  :reduce="(option:any) => option.value"
                 />
               </b-col>
             </b-row>
@@ -294,7 +293,7 @@
                   <b-form-group label="Dirección" label-for="input-6">
                     <b-form-input
                       id="input-6"
-                      v-model="form.adress"
+                      v-model="form.address"
                       type="text"
                       placeholder="Ingrese su dirección"
                       required
@@ -316,8 +315,7 @@
                       name="flavour-1"
                       stacked
                       class="mt-2"
-                      :options="workOptions"
-                      disabled
+                      :options="workOptionsResume"
                     >
                     </b-form-checkbox-group>
                   </b-form-group>
@@ -328,7 +326,7 @@
                     multiple
                     v-model="locationSelected"
                     :options="locationOptions"
-                    :reduce="(option) => option.value"
+                    :reduce="(option:any) => option.value"
                     disabled
                   />
                 </b-col>
@@ -375,7 +373,7 @@
                     multiple
                     v-model="locationSelected"
                     :options="locationOptions"
-                    :reduce="(option) => option.value"
+                    :reduce="(option:any) => option.value"
                     disabled
                   />
                 </b-col>
@@ -469,10 +467,6 @@
 </template>
 
 <script setup lang="ts">
-import { FormWizard, TabContent } from "vue3-form-wizard"
-import "vue3-form-wizard/dist/style.css"
-import TimeComponent from "./components/TimeComponent.vue"
-import RegisterTitle from "./components/RegisterTitle.vue"
 import {
   computed,
   ref,
@@ -480,18 +474,44 @@ import {
   watch,
   onMounted,
   onBeforeUnmount,
+  onBeforeMount,
   nextTick,
 } from "vue"
+import { useRouter } from "vue-router"
+
+// COMPONENTS
+import { FormWizard, TabContent } from "vue3-form-wizard"
+import "vue3-form-wizard/dist/style.css"
+import TimeComponent from "./components/TimeComponent.vue"
+import RegisterTitle from "./components/RegisterTitle.vue"
+
+// FUNCTIONS
+import {
+  alertError,
+  alertLoading,
+  alertSuccessfully,
+  closeAlert,
+} from "../../../utils/SweetAlert"
+
+// SERVICES
+import { GeneralServices } from "../../../services/api/generalServices"
+import { AuthServices } from "@/services/api/authServices"
+import { useStore } from "vuex"
+
+const generalServices = new GeneralServices()
+const authServices = new AuthServices()
+
+const router = useRouter()
 let windowWidth = ref(window.innerWidth) // Obtener el tamaño de la ventana
 let typePassword: any = ref("password") // Type password
 const showConditions = ref(false)
 
-const form = ref({
+const form = reactive({
   phone: "",
   name: "",
   lastName: "",
   document: "",
-  adress: "",
+  address: "",
   email: "",
   password: "",
   confirmPassword: "",
@@ -500,102 +520,11 @@ const form = ref({
 
 // STEP3 ***********************
 
-const workList = reactive({
-  workSelected: [20],
-})
-const workOptions: Array<{ text: string; value: number }> = reactive([
-  { text: "Pintor", value: 10 },
-  { text: "Carpintero", value: 20 },
-  { text: "Albañil", value: 30 },
-  { text: "Gasfitero", value: 40 },
-])
-const workExperience: Array<{
-  years: number
-  months: number
-  id: number
-  name: string
-}> = reactive([{ years: 10, months: 3, id: 20, name: "Carpintero" }])
-
-const locationSelected = ref([1])
-const locationOptions: Array<{ value: number; label: string }> = reactive([
-  { value: 0, label: "Los Olivos" },
-  { value: 1, label: "SMP" },
-  { value: 3, label: "Puente Piedra" },
-  { value: 4, label: "Chorrillos" },
-])
-
-watch(
-  () => workList.workSelected,
-  (newValue, lastValue) => {
-    if (lastValue.length > newValue.length) {
-      newValue.forEach((value: any) => {
-        const index = lastValue.indexOf(value)
-        lastValue.splice(index, 1)
-      })
-
-      const lastIndex = workExperience.findIndex(
-        (work) => work.id == lastValue[0]
-      )
-      workExperience.splice(lastIndex, 1)
-    } else {
-      const list = [...newValue]
-      lastValue.forEach((value: any) => {
-        const index = list.indexOf(value)
-        list.splice(index, 1)
-      })
-      const workFind = workOptions.find((work) => work.value == list[0])
-      if (workFind) {
-        const work = {
-          id: list[0],
-          name: workFind.text,
-          years: 0,
-          months: 0,
-        }
-        workExperience.push(work)
-      }
-    }
-  }
-)
-
 // STEP3 ***********************
 
 // STEP4 ***********************
 const isStepResumenValid = ref(false)
 // STEP4 ***********************
-
-// VALIDATION STEPS **************
-const dataButton = ref()
-const dataForm = ref()
-const acountButton = ref()
-const acountForm = ref()
-
-function validateDataForm() {
-  dataButton.value.click()
-  return dataForm.value.$el.checkValidity()
-}
-
-function validateAcountForm() {
-  acountButton.value.click()
-  return acountForm.value.$el.checkValidity()
-}
-function validateWorkForm() {
-  isStepResumenValid.value = false
-  const cantWork = workExperience.length
-
-  if (cantWork > 0) {
-    setTimeout(function () {
-      isStepResumenValid.value = true
-    }, 10)
-    return true
-  } else {
-    return false
-  }
-}
-function registerSpecialist() {
-  console.log("Se registrará un expediente")
-}
-
-// VALIDATION STEPS **************
 
 const changeTypePassword = () => {
   typePassword.value = typePassword.value == "password" ? "text" : "password"
@@ -620,6 +549,232 @@ const onResize = () => {
 const isWeb = computed(() => {
   return windowWidth.value > 950 ? true : false
 })
+
+//START - REGISTER SPECIALIST
+type work = { text: string; value: number; disabled?: boolean }
+type workExperience = {
+  years: number
+  months: number
+  id: number
+  name: string
+}
+type location = { label: string; value: number }
+const workList: {
+  workSelected: Array<number>
+} = reactive({
+  workSelected: [],
+})
+const workOptions: Array<work> = reactive([])
+const workOptionsResume: Array<work> = reactive([])
+const workExperience: Array<workExperience> = reactive([])
+
+const locationSelected = ref([] as Array<number>)
+const locationOptions: Array<location> = reactive([])
+
+watch(
+  () => workList.workSelected,
+  (newValue: Array<number>, lastValue: Array<number>) => {
+    // ELIMINAR UN TRABAJO
+    if (lastValue.length > newValue.length) {
+      newValue.forEach((value: number) => {
+        const index = lastValue.indexOf(value)
+        lastValue.splice(index, 1)
+      })
+
+      const lastIndex = workExperience.findIndex(
+        (work) => work.id == lastValue[0]
+      )
+      workExperience.splice(lastIndex, 1)
+    }
+    // AGREGAR UN TRABAJO
+    else {
+      const list = [...newValue]
+      lastValue.forEach((value: any) => {
+        const index = list.indexOf(value)
+        list.splice(index, 1)
+      })
+      const workFind = workOptions.find((work) => work.value == list[0])
+      if (workFind) {
+        const work = {
+          id: list[0],
+          name: workFind.text,
+          years: 0,
+          months: 0,
+        }
+        workExperience.push(work)
+      }
+    }
+  }
+)
+
+type profession = {
+  createdBy: string
+  creationDate: string
+  modifiedBy: null
+  modifiedDate: null
+  id: number
+  name: string
+}
+type district = {
+  createdBy: string
+  creationDate: string
+  modifiedBy: null
+  modifiedDate: null
+  id: number
+  name: string
+  zone: number
+  numericCode: string
+  countryId: string
+}
+let professionalList: Array<profession> = []
+let districtList: Array<district> = []
+
+onBeforeMount(async () => {
+  try {
+    districtList = await generalServices.getDistrictList()
+    professionalList = await generalServices.getProfessionList()
+
+    professionalList.forEach((profesional: profession) => {
+      workOptions.push({
+        text: profesional.name,
+        value: profesional.id,
+      })
+
+      workOptionsResume.push({
+        text: profesional.name,
+        value: profesional.id,
+        disabled: true,
+      })
+    })
+    districtList.forEach((district: district) => {
+      locationOptions.push({
+        value: district.id,
+        label: district.name,
+      })
+    })
+  } catch (error) {
+    alertError("Sucedió un problema durante el proceso.")
+  }
+})
+
+// VALIDATION STEPS **************
+const dataButton = ref()
+const dataForm = ref()
+const acountButton = ref()
+const acountForm = ref()
+
+function validateDataForm() {
+  dataButton.value.click()
+  return dataForm.value.$el.checkValidity()
+}
+
+function validateAcountForm() {
+  if (form.password != form.confirmPassword) {
+    alertError("Las contraseñas deben ser iguales.")
+    return false
+  }
+
+  acountButton.value.click()
+  return acountForm.value.$el.checkValidity()
+}
+function validateWorkForm() {
+  isStepResumenValid.value = false
+  const cantWork = workExperience.length
+
+  if (cantWork > 0 && locationSelected.value.length > 0) {
+    setTimeout(function () {
+      isStepResumenValid.value = true
+    }, 10)
+    return true
+  } else {
+    return false
+  }
+}
+
+// VALIDATION STEPS **************
+
+// REGISTER SPECIALIST
+const store = useStore()
+const structureDataRegister = () => {
+  const specialistSpecializations: Array<any> = []
+  const experienceTimes: Array<any> = []
+  const workLocations: Array<any> = []
+
+  professionalList.forEach((profession: profession) => {
+    if (workList.workSelected.includes(profession.id)) {
+      specialistSpecializations.push({
+        specializationId: profession.id,
+        professionId: profession.id,
+      })
+
+      const experience = workExperience.find(
+        (workExp) => workExp.id == profession.id
+      )
+
+      if (experience) {
+        experienceTimes.push({
+          professionId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          professionName: profession.name,
+          time: experience?.years * 12 + experience?.months,
+          date: "2023-09-25T01:31:43.162Z",
+        })
+      }
+    }
+  })
+  districtList.forEach((district: district) => {
+    if (locationSelected.value.includes(district.id)) {
+      workLocations.push({
+        districtId: district.id,
+        countryId: district.countryId,
+      })
+    }
+  })
+
+  return { specialistSpecializations, experienceTimes, workLocations }
+}
+const registerSpecialist = async () => {
+  try {
+    if (!form.conditions) {
+      alertError("Debe aceptar los términos y condiciones.")
+      return
+    }
+    alertLoading("Registrando al usuario especialista.")
+
+    const { specialistSpecializations, experienceTimes, workLocations } =
+      structureDataRegister()
+
+    await authServices.createSpecialist({
+      name: form.name,
+      lastName: form.lastName,
+      phone: form.phone,
+      address: form.address,
+      document: form.document,
+      email: form.email,
+      password: form.password,
+      specialistSpecializations,
+      workLocations,
+      specialistCv: {
+        experienceTimes,
+      },
+    })
+
+    alertLoading("Iniciando sesión del usuario.")
+    await store.dispatch("authModule/loginUser", {
+      email: form.email,
+      password: form.password,
+    })
+
+    alertSuccessfully("Especialista registrado exitosamente!!")
+    setTimeout(function () {
+      router.push({ name: "specialist-profile" })
+      closeAlert()
+    }, 2500)
+  } catch (error) {
+    alertError("Sucedió un error durante el proceso.")
+  }
+}
+
+//END - REGISTER SPECIALIST
 </script>
 
 <style>

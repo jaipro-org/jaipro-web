@@ -1,8 +1,9 @@
 import Swal from "sweetalert2"
 
-export const alertLoading = () => {
+export const alertLoading = (text = "", title?: string) => {
   Swal.fire({
-    title: "Procesando..",
+    title: title || "Procesando..",
+    text,
     allowOutsideClick: false,
     allowEscapeKey: false,
     showConfirmButton: false,
