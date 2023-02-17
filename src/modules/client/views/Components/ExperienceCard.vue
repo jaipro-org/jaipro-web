@@ -92,9 +92,9 @@ export default defineComponent({
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.274) !important;
 
   .exp-card__item {
-    i {
-      cursor: pointer;
-    }
+    // i {
+    //   cursor: pointer;
+    // }
 
     .exp-card__title {
       font-size: 1.3rem;
