@@ -3,10 +3,14 @@
     <b-col cols="12" lg="3" class="profile__menu">
       <div class="menu__container py-3 px-4 bg-white d-block d-lg-none">
         <div>
-          <div>
+          <div @click="isShowMenuResponsive = !isShowMenuResponsive">
             <span>Mi resumen</span><i class="fa-solid fa-angle-down ms-2"></i>
           </div>
-          <b-collapse id="collapse-3" class="ps-4 pt-2">
+          <b-collapse
+            id="collapse-3"
+            class="ps-4 pt-2"
+            v-model="isShowMenuResponsive"
+          >
             <div
               class="ps-2"
               @click="goBox('presentation__box')"
@@ -51,52 +55,49 @@
       </div>
       <div
         id="menu__container--web"
-        :class="menuChange ? 'menu__container--web' : ''"
         class="menu__container py-3 px-4 bg-white d-none d-lg-block"
       >
-        <div class="text-center">
+        <div class="text-center" @click="isShowMenuDesk = !isShowMenuDesk">
           <span>Mi resumen</span>
+          <i class="fa-solid fa-angle-down ms-2"></i>
         </div>
-        <hr />
-        <div
-          class="text-center"
-          @click="goBox('presentation__box')"
-          :class="isPresentationSection ? 'menu-active' : ''"
-        >
-          <span>Presentación</span>
-        </div>
-        <hr />
-        <div
-          class="text-center"
-          @click="goBox('galery__box')"
-          :class="isGalerySection ? 'menu-active' : ''"
-        >
-          <span>Galeria</span>
-        </div>
-        <hr />
-        <div
-          class="text-center"
-          @click="goBox('experience__box')"
-          :class="isExperienceSection ? 'menu-active' : ''"
-        >
-          <span>Experiencia</span>
-        </div>
-        <hr />
-        <div
-          class="text-center"
-          @click="goBox('location__box')"
-          :class="isLocationSection ? 'menu-active' : ''"
-        >
-          <span>Locaciones de trabajo</span>
-        </div>
-        <hr />
-        <div
-          class="text-center"
-          @click="goBox('acount__box')"
-          :class="isAcountSection ? 'menu-active' : ''"
-        >
-          <span>Cuentas</span>
-        </div>
+        <b-collapse v-model="isShowMenuDesk">
+          <div
+            class="text-center"
+            @click="goBox('presentation__box')"
+            :class="isPresentationSection ? 'menu-active' : ''"
+          >
+            <span>Presentación</span>
+          </div>
+          <div
+            class="text-center"
+            @click="goBox('galery__box')"
+            :class="isGalerySection ? 'menu-active' : ''"
+          >
+            <span>Galeria</span>
+          </div>
+          <div
+            class="text-center"
+            @click="goBox('experience__box')"
+            :class="isExperienceSection ? 'menu-active' : ''"
+          >
+            <span>Experiencia</span>
+          </div>
+          <div
+            class="text-center"
+            @click="goBox('location__box')"
+            :class="isLocationSection ? 'menu-active' : ''"
+          >
+            <span>Locaciones de trabajo</span>
+          </div>
+          <div
+            class="text-center"
+            @click="goBox('acount__box')"
+            :class="isAcountSection ? 'menu-active' : ''"
+          >
+            <span>Cuentas</span>
+          </div>
+        </b-collapse>
       </div>
     </b-col>
     <b-col cols="12" lg="9" class="profile__content">
@@ -108,7 +109,7 @@
             </div>
             <div
               class="button__action button__action--float text-warning"
-              v-b-modal.modal-presentation
+              @click="showEditPresentacion()"
             >
               <i class="fa-solid fa-pen-to-square"></i>
             </div>
@@ -144,7 +145,10 @@
                   ><i class="fa-solid fa-circle-info"></i
                 ></span>
               </h4>
-              <div class="button__action text-warning" v-b-modal.modal-galery>
+              <div
+                class="button__action text-warning"
+                @click="showModalGalery = true"
+              >
                 <i class="fa-solid fa-pen-to-square"></i>
               </div>
             </div>
@@ -153,7 +157,8 @@
               <Carousel
                 :settings="settings"
                 :breakpoints="breakpoints"
-                :autoplay="2000" :wrap-around="true"
+                :autoplay="2000"
+                :wrap-around="true"
                 id="carousel-1"
               >
                 <!-- Text slides with image -->
@@ -323,7 +328,7 @@
                   <div class="button__action text-danger">
                     <i
                       class="fa-solid fa-circle-xmark"
-                      @click="deleteLocation(location.id)"
+                      @click="deleteLocation(Number(location.id))"
                     ></i>
                   </div>
                 </b-col>
@@ -342,21 +347,21 @@
               </h4>
               <div
                 class="button__action button__action--success"
-                v-b-modal.modal-acount
+                @click="showModalAcount = !showModalAcount"
               >
                 <i class="fa-solid fa-plus"></i>
               </div>
             </div>
             <hr class="mt-0" />
-            <div class="px-4 py-2">
+            <div class="px-0 py-0">
               <b-row
                 class="acount__item mx-0 mb-3 py-3"
                 v-for="acount in acountsList"
                 :key="acount.id"
               >
                 <b-col cols="10" class="d-flex align-items-center">
-                  <b-form-checkbox size="lg"></b-form-checkbox>
-                  <div class="d-flex flex-wrap">
+                  <b-form-checkbox size="lg" class="check"></b-form-checkbox>
+                  <div class="d-flex flex-wrap center-resp">
                     <div class="acount__image ms-2 mb-2 mb-md-0">
                       <img src="@/assets/img-delete/visa-logo.jpg" alt="" />
                     </div>
@@ -381,31 +386,11 @@
     </b-col>
     <b-modal
       id="modal-presentation"
+      v-model="showModalEditPresentacion"
       title="Editar Presentación"
       size="lg"
       centered
     >
-      <template #modal-footer>
-        <b-row class="mx-0 w-100">
-          <b-col
-            cols="12"
-            lg="11"
-            class="d-flex justify-content-end w-100 mx-auto"
-          >
-            <b-button
-              variant="secondary"
-              @click="$bvModal.hide('modal-experience')"
-              class="me-3"
-              >Cancelar
-            </b-button>
-            <b-button
-              variant="primary"
-              @click="$refs.btnFormPresentation.click()"
-              >Guardar</b-button
-            >
-          </b-col>
-        </b-row>
-      </template>
       <b-form @submit.prevent="editPresentation" validated>
         <b-row class="justify-content-around px-0 px-lg-2 mx-0">
           <b-col cols="12" lg="8" class="mb-4 mx-auto">
@@ -520,21 +505,35 @@
           <button type="submit" ref="btnFormPresentation"></button>
         </div>
       </b-form>
-    </b-modal>
-    <b-modal id="modal-galery" title="Editar Galeria" size="lg" centered>
-      <template #modal-footer>
+      <template v-slot:footer>
         <b-row class="mx-0 w-100">
-          <b-col cols="12" class="d-flex justify-content-end w-100 mx-auto">
+          <b-col
+            cols="12"
+            lg="11"
+            class="d-flex justify-content-end w-100 mx-auto"
+          >
             <b-button
               variant="secondary"
+              @click="showModalEditPresentacion = false"
               class="me-3"
-              @click="$bvModal.hide('modal-galery')"
               >Cancelar
             </b-button>
-            <b-button variant="primary">Guardar</b-button>
+            <b-button
+              variant="primary"
+              @click="$refs.btnFormPresentation.click()"
+              >Guardar</b-button
+            >
           </b-col>
         </b-row>
       </template>
+    </b-modal>
+    <b-modal
+      id="modal-galery"
+      v-model="showModalGalery"
+      title="Editar Galeria"
+      size="lg"
+      centered
+    >
       <b-row class="justify-content-around mx-0">
         <b-col
           cols="6"
@@ -564,14 +563,29 @@
               <i class="fa-solid fa-circle-xmark"></i>
             </div>
           </div>
-          <b-form-file
+          <input
+            type="file"
+            ref="galeryFile"
             style="display: none"
             :id="`portadaFile${index}`"
             hidden
             @change="changeFileCover"
-          ></b-form-file>
+          />
         </b-col>
       </b-row>
+      <template v-slot:footer>
+        <b-row class="mx-0 w-100">
+          <b-col cols="12" class="d-flex justify-content-end w-100 mx-auto">
+            <b-button
+              variant="secondary"
+              class="me-3"
+              @click="showModalGalery = false"
+              >Cancelar
+            </b-button>
+            <b-button variant="primary">Guardar</b-button>
+          </b-col>
+        </b-row>
+      </template>
     </b-modal>
     <b-modal
       id="modal-experience"
@@ -583,25 +597,6 @@
       centered
       v-model="showModalExperience"
     >
-      <template #modal-footer>
-        <b-row class="mx-0 w-100">
-          <b-col
-            cols="12"
-            lg="11"
-            class="d-flex justify-content-end w-100 mx-auto"
-          >
-            <b-button
-              variant="secondary"
-              @click="$bvModal.hide('modal-experience')"
-              class="me-3"
-              >Cancelar
-            </b-button>
-            <b-button variant="primary" @click="$refs.btnFormExperience.click()"
-              >Guardar</b-button
-            >
-          </b-col>
-        </b-row>
-      </template>
       <b-form @submit.prevent="editExperience" validated>
         <div class="row mx-0 px-0 px-lg-2">
           <b-col cols="12" lg="11" class="mx-auto">
@@ -621,7 +616,7 @@
                     <b-col cols="7" md="8" class="mx-auto work__temp">
                       <div class="text-center work__date">Años</div>
                       <div
-                        class="work__buttons work__buttons--left"
+                        class="work__buttons work__buttons--left aRes"
                         @click="substractYear()"
                       >
                         -
@@ -635,7 +630,7 @@
                         oninput="this.value = value.replace(/[^0-9]/g, '')"
                       ></b-form-input>
                       <div
-                        class="work__buttons work__buttons--right"
+                        class="work__buttons work__buttons--right aAdd"
                         @click="addYear()"
                       >
                         +
@@ -644,9 +639,9 @@
                   </b-col>
                   <b-col cols="12" md="6">
                     <b-col cols="7" md="8" class="mx-auto work__temp">
-                      <div class="text-center work__date">Meses</div>
+                      <div class="text-center work__date mes">Meses</div>
                       <div
-                        class="work__buttons work__buttons--left"
+                        class="work__buttons work__buttons--left mRes"
                         @click="substractMonth()"
                       >
                         -
@@ -657,10 +652,10 @@
                         placeholder="0"
                         required
                         class="rounded-pill"
-                        oninput="this.value = value.replace(/[^0-9]/g, '')"
+                        oninput="this.value == value.replace(/[^0-9]/g, '')"
                       ></b-form-input>
                       <div
-                        class="work__buttons work__buttons--right"
+                        class="work__buttons work__buttons--right mAdd"
                         @click="addMonth()"
                       >
                         +
@@ -712,6 +707,25 @@
           <button type="submit" ref="btnFormExperience"></button>
         </div>
       </b-form>
+      <template v-slot:footer>
+        <b-row class="mx-0 w-100">
+          <b-col
+            cols="12"
+            lg="11"
+            class="d-flex justify-content-end w-100 mx-auto"
+          >
+            <b-button
+              variant="secondary"
+              @click="showModalExperience = false"
+              class="me-3"
+              >Cancelar
+            </b-button>
+            <b-button variant="primary" @click="$refs.btnFormExperience.click()"
+              >Guardar</b-button
+            >
+          </b-col>
+        </b-row>
+      </template>
     </b-modal>
     <b-modal
       ref="modal-location"
@@ -723,8 +737,9 @@
       "
       size="lg"
       centered
+      v-model="showModalLocationEdit"
     >
-      <template #modal-footer>
+      <template v-slot:footer>
         <b-row class="mx-0 w-100">
           <b-col
             cols="12"
@@ -733,7 +748,7 @@
           >
             <b-button
               variant="secondary"
-              @click="$bvModal.hide('modal-location')"
+              @click="showModalLocationEdit = false"
               class="me-3"
               >Cancelar
             </b-button>
@@ -799,14 +814,19 @@
         </div>
       </b-form>
     </b-modal>
-    <b-modal id="modal-acount" title="Nueva Cuenta" centered>
-      <template #modal-footer>
+    <b-modal
+      id="modal-acount"
+      title="Nueva Cuenta"
+      centered
+      v-model="showModalAcount"
+    >
+      <template v-slot:footer>
         <b-row class="mx-0 w-100">
           <b-col cols="12" class="d-flex justify-content-end w-100">
             <b-button
               variant="secondary"
               class="me-3"
-              @click="$bvModal.hide('modal-acount')"
+              @click="showModalAcount = false"
               >Cancelar
             </b-button>
             <b-button variant="primary" @click="$refs.btnFormAcount.click()"
@@ -857,7 +877,6 @@
         </div>
       </b-form>
     </b-modal>
-    <b-col id="footer__limit"></b-col>
   </b-row>
 </template>
 
@@ -897,7 +916,13 @@ const breakpoints = ref({
 const presentationFile = ref<HTMLInputElement>();
 
 const isLoading = ref(true);
+const isShowMenuDesk = ref(true);
+const isShowMenuResponsive = ref(false);
+const showModalEditPresentacion = ref(false);
+const showModalGalery = ref(false);
 const showModalExperience = ref(false);
+const showModalLocationEdit = ref(false);
+const showModalAcount = ref(false);
 const slide = ref(0);
 const sliding = ref(false);
 const experiences = ref([
@@ -1098,14 +1123,24 @@ const optionsAcount = ref([
   { value: 3, text: "Scotiabank" },
   { value: 4, text: "Banbif" },
 ]);
-const section1 = ref(null);
-const section2 = ref(null);
-const section3 = ref(null);
-const section4 = ref(null);
-const section5 = ref(null);
+
+const section1 = ref(0);
+const section2 = ref(0);
+const section3 = ref(0);
+const section4 = ref(0);
+const section5 = ref(0);
 
 onMounted(() => {
   isLoading.value = false;
+  const galeryBox: any = document.getElementById("galery__box");
+  const experienceBox: any = document.getElementById("experience__box");
+  const locationBox: any = document.getElementById("location__box");
+  const acountBox: any = document.getElementById("acount__box");
+
+  section2.value = galeryBox.offsetTop - 110;
+  section3.value = experienceBox.offsetTop - 110;
+  section4.value = locationBox.offsetTop - 10;
+  section5.value = acountBox.offsetTop + 40;
   /*this.$nextTick(() => {
     this.section2 = (<HTMLInputElement>document.getElementById("galery__box")).offsetTop - 10;
     this.section3 = (<HTMLInputElement>document.getElementById("experience__box")).offsetTop - 10;
@@ -1113,6 +1148,10 @@ onMounted(() => {
     this.section5 = (<HTMLInputElement>document.getElementById("acount__box")).offsetTop - 10;
   });*/
 });
+
+function showEditPresentacion() {
+  showModalEditPresentacion.value = true;
+}
 
 function modalProfessionEdit() {
   isModalProfessionEdit.value = true;
@@ -1125,7 +1164,7 @@ function modalProfessionCreate() {
 }
 
 function showModalLocation() {
-  // this.$bvModal.show("modal-location");
+  showModalLocationEdit.value = true;
 }
 
 function deleteLocation(id: number) {
@@ -1157,7 +1196,8 @@ function onSlideEnd() {
 
 function goBox(boxName: string) {
   const boxContainer: any = document.getElementById(`${boxName}`);
-  const top: number = boxContainer.offsetTop;
+  const top: number = boxContainer.offsetTop - 110;
+  section1.value = top;
   window.scroll({
     top,
     left: 0,
@@ -1176,7 +1216,9 @@ function substractYear() {
 }
 
 function addMonth() {
-  formProfession.value.workExperience.months++;
+  if (formProfession.value.workExperience.months < 12) {
+    formProfession.value.workExperience.months++;
+  }
 }
 
 function substractMonth() {
@@ -1187,7 +1229,6 @@ function substractMonth() {
 
 function uploadImage(index: any) {
   imageSelected.value = index;
-  // const btnFile:any = <any>this.$refs[`portadaFile${index}`][0].$el.children[0];
   const btnFile: any = document.getElementById(`portadaFile${index}`);
   btnFile.click();
 }
@@ -1254,50 +1295,68 @@ const menuChange = computed(() => {
     let footerScrollY: number = Number(footer.offsetTop) - 320;
 
     if (window.scrollY > 70 && Number(window.scrollY) < footerScrollY) {
+      console.log("true");
       return true;
     }
   }
+  console.log("false");
   return false;
 });
 
 const isPresentationSection = computed(() => {
-  return window.scrollY >= 0 && window.scrollY < section2.value ? true : false;
+  return section1.value < section2.value ? true : false;
 });
 
 const isGalerySection = computed(() => {
-  return window.scrollY >= section2.value && window.scrollY < section3.value
+  return section1.value >= section2.value && section1.value < section3.value
     ? true
     : false;
 });
 const isExperienceSection = computed(() => {
-  return window.scrollY >= section3.value && window.scrollY < section4.value
+  return section1.value >= section3.value && section1.value < section4.value
     ? true
     : false;
 });
 const isLocationSection = computed(() => {
-  return window.scrollY >= section4.value && window.scrollY < section5.value
+  return section1.value >= section4.value && section1.value < section5.value
     ? true
     : false;
 });
 const isAcountSection = computed(() => {
-  if (!isLoading.value) {
-    let footer: any = document.getElementById("footer__limit");
-    let footerScrollY: number = Number(footer.offsetTop) - 320;
-    return window.scrollY >= section5.value && window.scrollY < footerScrollY
-      ? true
-      : false;
-  } else {
-    return false;
-  }
+  return section1.value >= section5.value ? true : false;
+  // if (!isLoading.value) {
+  //   let footer: any = document.getElementById("footer__limit");
+  //   let footerScrollY: number = Number(footer.offsetTop) - 320;
+  //   console.log(footerScrollY);
+  //   return section1.value >= section5.value && section1.value < footerScrollY
+  //     ? true
+  //     : false;
+  // } else {
+  //   return false;
+  // }
 });
 </script>
 
 <style lang="scss" scoped>
+h4 {
+  font-size: calc(0.4vw + 18px);
+}
+h3 {
+  font-size: calc(0.4vw + 14px);
+}
+h1 {
+  font-size: calc(0.4vw + 15px) !important;
+}
+h2 {
+  font-size: calc(0.4vw + 11.5px) !important;
+}
 .profile-specialist__container {
   .profile__menu {
     .menu__container {
       z-index: 3;
       box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.274) !important;
+      position: fixed;
+      width: 226px;
 
       hr {
         margin: 0;
@@ -1308,7 +1367,7 @@ const isAcountSection = computed(() => {
         cursor: pointer;
       }
 
-      div:hover {
+      .text-center:hover {
         background-color: #3a88ec;
         color: white;
       }
@@ -1331,6 +1390,7 @@ const isAcountSection = computed(() => {
 
   .profile__content {
     padding-top: 70px;
+    font-size: calc(0.4vw + 10.4px);
 
     .button__action {
       font-size: 1.5rem;
@@ -1416,16 +1476,21 @@ const isAcountSection = computed(() => {
       align-items: center;
 
       .locattion__title {
-        font-size: 1rem;
+        font-size: calc(0.4vw + 12px) !important;
         margin-bottom: 0;
       }
     }
     .acount__item {
       border-bottom: 1px solid rgba(0, 0, 0, 0.342);
 
+      .d-flex {
+        display: flex !important;
+        align-items: center !important;
+      }
       .acount__image {
         width: 55px;
         height: 40px;
+        margin: auto 0 !important;
 
         img {
           height: 100%;
@@ -1495,28 +1560,27 @@ const isAcountSection = computed(() => {
     }
   }
   .work__date {
-    position: absolute;
-    top: -25px;
+    position: relative;
+    top: -10px;
     left: 0;
     right: 0;
     margin: auto;
   }
 
   .work__buttons {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     font-size: 1.2rem;
     background-color: rgb(145, 145, 145);
     color: white;
     border-radius: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
     cursor: pointer;
     position: absolute;
-    top: 0;
-    bottom: 0;
-    margin: auto;
+    top: 0px;
+    bottom: 0px;
+    align-items: center;
+    justify-content: center;
   }
 
   .work__buttons:hover {
@@ -1524,11 +1588,13 @@ const isAcountSection = computed(() => {
   }
 
   .work__buttons--left {
-    left: -35px;
+    top: 35.8%;
+    margin: 0px -37px;
   }
 
   .work__buttons--right {
-    right: -35px;
+    top: 35.8%;
+    margin: 0px 119px;
   }
 
   .form-step-button {
@@ -1573,34 +1639,42 @@ const isAcountSection = computed(() => {
 
   .form-image__file--aux {
     padding: 20px 5px;
+    text-align: center;
   }
 
   .form-image__file img {
     height: 100%;
     width: 100%;
     object-fit: cover;
-    margin: auto;
     border-radius: 10px;
+    overflow: hidden;
   }
 
   .form-image__delete {
-    position: absolute;
-    top: 5px;
-    right: 25px;
-    font-size: 1.2rem;
+    position: relative;
+    bottom: 195px;
+    left: 186px;
+    font-size: 24px;
     color: rgb(241, 46, 46);
+    border-radius: 100%;
     z-index: 10;
     cursor: pointer;
+    width: fit-content;
 
     i {
       background-color: white;
       border-radius: 100%;
+      border: solid white 2px;
     }
   }
 }
 .menu-active {
   background-color: #3a88ec !important;
   color: white;
+}
+.modal-footer {
+  padding: 1rem 0 0 0 !important;
+  margin: 0.5rem -1rem -0.7rem 0 !important;
 }
 
 @media (max-width: 991px) {
@@ -1619,10 +1693,11 @@ const isAcountSection = computed(() => {
       .menu__container {
         width: 100%;
         display: block;
+        padding-bottom: 0 !important;
 
-        div:hover {
-          background-color: white;
-          color: initial;
+        .ps-2:hover {
+          background-color: #3a88ec;
+          color: white;
         }
       }
     }
@@ -1637,6 +1712,75 @@ const isAcountSection = computed(() => {
       height: 150px;
       cursor: pointer;
     }
+    .form-image__delete {
+      font-size: 20px;
+      bottom: 146px;
+      left: 125px;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  #modal-galery {
+    .form-image__delete {
+      bottom: 145px;
+      left: 160px;
+    }
+  }
+  .mRes {
+    top: 323px !important;
+    left: 140px;
+  }
+  .mAdd {
+    top: 323px !important;
+    right: -16px;
+  }
+  .aRes {
+    left: 140px;
+    top: 194px !important;
+  }
+  .aAdd {
+    top: 194px !important;
+    right: -16px;
+  }
+}
+
+@media (max-width: 575px) {
+  #modal-galery {
+    .form-image__delete {
+      left: calc(100% - 31px);
+    }
+  }
+  .menu__container {
+    top: 54px;
+  }
+  .acount__image {
+    margin: -12px 0 12px 0px !important;
+    height: 40px !important;
+    width: auto !important;
+  }
+
+  .acount__item {
+    padding: 10px 0 !important;
+  }
+  .center-resp {
+    justify-content: center;
+  }
+  .form-control-lg {
+    padding: 0 0 0 30px !important;
+    margin-left: -13px;
+  }
+  .mRes {
+    left: 27vw;
+  }
+  .mAdd {
+    margin-right: 22.5vw !important;
+  }
+  .aRes {
+    left: 27vw;
+  }
+  .aAdd {
+    margin-right: 22.5vw !important;
   }
 }
 
