@@ -1,11 +1,11 @@
 <template>
   <div class="pt-4">
     <b-container>
-      <div class="panel filter">
-        <div class="panel-heading" v-b-toggle.collapse-1>
+      <div class="panel-f filter">
+        <div class="panel-heading">
           Opciones de Búsqueda<i class="fa fa-search" />
         </div>
-        <b-collapse id="collapse-1">
+        <div>
           <div class="panel-body">
             <b-form-row>
               <b-col>
@@ -51,25 +51,25 @@
               </b-col>
               <b-col style="align-self: flex-end">
                 <b-form-group>
-                  <b-button variant="outline-primary" size="sm"
-                    >Más filtros</b-button
+                  <b-button variant="outline-primary" size="sm" @click="search"
+                    >Buscar</b-button
                   >
                 </b-form-group>
               </b-col>
             </b-form-row>
             <div></div>
           </div>
-        </b-collapse>
+        </div>
       </div>
       <b-card class="card_profesional">
         <b-row>
-          <b-col md="3">
+          <b-col md="3" class="cardH">
             <div class="img_profile">
               <b-img :src="imgProfile"></b-img>
               <i class="fa fa-heart-o" />
             </div>
             <div
-              class="b-rating form-control align-items-center mb-2 text-center align-middle"
+              class="b-rating form-control align-items-center mb-2 px-2 text-center align-middle"
             >
               <star-rating></star-rating>
             </div>
@@ -81,7 +81,7 @@
             <div class="datos">
               <h2>
                 Pedro Ramirez Estrada
-                <b-icon class="verified" icon="check-circle-fill" />
+                <i class="fa-solid fa-circle-check checkAjust"></i>
               </h2>
               <div class="tags">
                 <b-link>Carpintero</b-link>
@@ -102,7 +102,9 @@
                   @click="$router.push({ name: 'specialist' })"
                   >Ver Perfil</b-button
                 >
-                <b-button variant="success">Cotizar</b-button>
+                <b-button variant="success" class="btn-invert"
+                  >Cotizar</b-button
+                >
               </div>
             </div>
           </b-col>
@@ -110,13 +112,13 @@
       </b-card>
       <b-card class="card_profesional">
         <b-row>
-          <b-col md="3">
+          <b-col md="3" class="cardH">
             <div class="img_profile">
               <b-img :src="imgProfile"></b-img>
               <i class="fa fa-heart" />
             </div>
             <div
-              class="b-rating form-control align-items-center mb-2 text-center align-middle"
+              class="b-rating form-control align-items-center mb-2 px-2 text-center align-middle"
             >
               <star-rating></star-rating>
             </div>
@@ -128,7 +130,7 @@
             <div class="datos">
               <h2>
                 Pedro Ramirez Estrada
-                <b-icon class="verified" icon="check-circle-fill" />
+                <i class="fa-solid fa-circle-check checkAjust"></i>
               </h2>
               <div class="tags">
                 <b-link>Carpintero</b-link>
@@ -149,7 +151,9 @@
                   @click="$router.push({ name: 'specialist' })"
                   >Ver Perfil</b-button
                 >
-                <b-button variant="success">Cotizar</b-button>
+                <b-button variant="success" class="btn-invert"
+                  >Cotizar</b-button
+                >
               </div>
             </div>
           </b-col>
@@ -166,6 +170,10 @@ import { ref } from "vue";
 
 const imgProfile = ref(profileImg);
 
+function search() {
+  console.log("buscando.....");
+}
+
 function myChangeEvent(val) {
   console.log(val);
 }
@@ -174,9 +182,40 @@ function mySelectEvent({ id, text }) {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+.btn-invert {
+  border-color: #f60;
+}
+.btn-invert:hover {
+  border-color: #3a88ec !important;
+}
+.checkAjust {
+  font-size: 1.2rem;
+  color: #0d6efd;
+  margin-left: 10px;
+}
+.panel-f {
+  border-radius: 0;
+  margin-bottom: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px rgb(0 0 0 / 5%);
+}
 .b-rating-container {
   position: relative;
   top: 20%;
+}
+@media (max-width: 1400px) {
+  .cardH {
+    height: 100%;
+  }
+}
+
+@media (max-width: 767px) {
+  .cardH {
+    height: auto;
+    margin-bottom: 20px;
+  }
 }
 </style>
