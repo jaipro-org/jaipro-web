@@ -4,7 +4,8 @@
       <div class="menu__container py-3 px-4 bg-white d-block d-lg-none">
         <div>
           <div @click="isShowMenuResponsive = !isShowMenuResponsive">
-            <span>Mi resumen</span><i class="fa-solid fa-angle-down ms-2"></i>
+            <span style="font-weight: 500">Mi resumen</span
+            ><i class="fa-solid fa-angle-down ms-2"></i>
           </div>
           <b-collapse
             id="collapse-3"
@@ -57,7 +58,10 @@
         id="menu__container--web"
         class="menu__container py-3 px-4 bg-white d-none d-lg-block"
       >
-        <div class="text-center" @click="isShowMenuDesk = !isShowMenuDesk">
+        <div
+          @click="isShowMenuDesk = !isShowMenuDesk"
+          style="text-align: center; font-weight: 500"
+        >
           <span>Mi resumen</span>
           <i class="fa-solid fa-angle-down ms-2"></i>
         </div>
@@ -600,10 +604,10 @@
       <b-form @submit.prevent="editExperience" validated>
         <div class="row mx-0 px-0 px-lg-2">
           <b-col cols="12" lg="11" class="mx-auto">
-            <h6>Profesiones:</h6>
+            <h6>Profesion:</h6>
             <hr />
             <div class="row mx-0 mt-2">
-              <b-col cols="12" lg="4" class="px-0 mb-4">
+              <b-col cols="12" lg="4" class="px-0 my-auto mb-3">
                 <b-form-select
                   v-model="formProfession.selectedProfession"
                   :options="optionsProfessions"
@@ -1247,6 +1251,7 @@ function changeFileCover(event: any) {
   fr.onload = () =>
     (formGalery.value.imagesList[index].url = String(fr.result));
   fr.readAsDataURL(file);
+  event.target.value = ""; // Restablecer valor del input
 }
 
 function deleteImage(index: any) {
@@ -1339,13 +1344,13 @@ const isAcountSection = computed(() => {
 
 <style lang="scss" scoped>
 h4 {
-  font-size: calc(0.4vw + 18px);
+  font-size: calc(0.4vw + 16px);
 }
 h3 {
-  font-size: calc(0.4vw + 14px);
+  font-size: calc(0.4vw + 13px);
 }
 h1 {
-  font-size: calc(0.4vw + 15px) !important;
+  font-size: calc(0.4vw + 14px) !important;
 }
 h2 {
   font-size: calc(0.4vw + 11.5px) !important;
@@ -1490,7 +1495,7 @@ h2 {
       .acount__image {
         width: 55px;
         height: 40px;
-        margin: auto 0 !important;
+        margin: auto 0;
 
         img {
           height: 100%;
@@ -1755,7 +1760,6 @@ h2 {
     top: 54px;
   }
   .acount__image {
-    margin: -12px 0 12px 0px !important;
     height: 40px !important;
     width: auto !important;
   }
@@ -1781,6 +1785,12 @@ h2 {
   }
   .aAdd {
     margin-right: 22.5vw !important;
+  }
+}
+
+@media (max-width: 462px) {
+  .acount__image {
+    margin-top: -15px !important;
   }
 }
 
