@@ -121,7 +121,7 @@
       </b-col>
       <b-col cols="12" id="galery__box" class="mb-5 mt-3">
         <h1 class="section__title">Galería</h1>
-        <b-card class="card--shadow">
+        <b-card class="card--shadow" style="margin-bottom: -20px">
           <Carousel :settings="settings" :breakpoints="breakpoints">
             <Slide :key="1">
               <img
@@ -187,7 +187,11 @@
       </b-col>
     </b-row>
 
-    <modal-image v-show="isShowModal" @close-modal="isShowModal = false" />
+    <modal-image
+      v-show="isShowModal"
+      @close-modal="isShowModal = false"
+      @click="isShowModal = false"
+    />
   </div>
 </template>
 
@@ -334,8 +338,15 @@ export default defineComponent({
         clearTimeout(timeOut);
       }, 100);
     },
+    procesarTecla(event: any) {
+      if (event.key === "Escape") {
+        this.isShowModal = false;
+      }
+    },
   },
-  mounted() {},
+  mounted() {
+    window.addEventListener("keydown", this.procesarTecla);
+  },
 });
 </script>
 
@@ -352,7 +363,7 @@ export default defineComponent({
 
   .data-card {
     .barge-work {
-      background-color: #f77930 !important;
+      background-color: #0d6efd !important;
     }
     .button-cotizar {
       padding-top: 12px;
