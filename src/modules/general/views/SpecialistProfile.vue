@@ -85,7 +85,7 @@
                 "
                 class="data-card__tab me-2 mb-2"
                 @click="setTab('OPINIONES')"
-                >OPINIONES</span
+                >RESEÑAS</span
               >
               <span class="data-card__tab me-2 mb-2" @click="handleGoGalery"
                 >GALERIA</span
@@ -121,7 +121,7 @@
       </b-col>
       <b-col cols="12" id="galery__box" class="mb-5 mt-3">
         <h1 class="section__title">Galería</h1>
-        <b-card class="card--shadow">
+        <b-card class="card--shadow" style="margin-bottom: -20px">
           <Carousel :settings="settings" :breakpoints="breakpoints">
             <Slide :key="1">
               <img
@@ -187,18 +187,22 @@
       </b-col>
     </b-row>
 
-    <modal-image v-show="isShowModal" @close-modal="isShowModal = false" />
+    <modal-image
+      v-show="isShowModal"
+      @close-modal="isShowModal = false"
+      @click="isShowModal = false"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import "vue3-carousel/dist/carousel.css"
+import "vue3-carousel/dist/carousel.css";
 
-import { defineComponent } from "vue"
-import ModalImage from "@/shared/components/ModalImage.vue"
-import ExperienceCard from "@/modules/client/views/Components/ExperienceCard.vue"
-import OpinionCard from "@/modules/client/views/Components/OpinionCard.vue"
-import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel"
+import { defineComponent } from "vue";
+import ModalImage from "@/shared/components/ModalImage.vue";
+import ExperienceCard from "@/modules/client/views/Components/ExperienceCard.vue";
+import OpinionCard from "@/modules/client/views/Components/OpinionCard.vue";
+import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
 
 export default defineComponent({
   name: "SpecialistProfile",
@@ -296,45 +300,61 @@ export default defineComponent({
       // any settings not specified will fallback to the carousel settings
       breakpoints: {
         // 700px and up
-        700: {
+        600: {
           itemsToShow: 2,
           snapAlign: "start",
         },
         // 1024 and up
-        1024: {
+        800: {
           itemsToShow: 3,
+          snapAlign: "start",
+        },
+        1200: {
+          itemsToShow: 4,
+          snapAlign: "start",
+        },
+        1400: {
+          itemsToShow: 5,
           snapAlign: "start",
         },
       },
       tabIndex: 0,
-    }
+    };
   },
   methods: {
     setTab(value: string) {
-      this.tabSelected = value
+      this.tabSelected = value;
     },
     handleGoGalery() {
-      this.setTab("BIO")
+      this.setTab("BIO");
       const timeOut = setTimeout(() => {
-        const boxContainer: any = document.getElementById(`galery__box`)
-        const top: number = boxContainer.offsetTop - 70
+        const boxContainer: any = document.getElementById(`galery__box`);
+        const top: number = boxContainer.offsetTop - 70;
         window.scroll({
           top,
           left: 0,
           behavior: "smooth",
-        })
-        clearTimeout(timeOut)
-      }, 100)
+        });
+        clearTimeout(timeOut);
+      }, 100);
+    },
+    procesarTecla(event: any) {
+      if (event.key === "Escape") {
+        this.isShowModal = false;
+      }
     },
   },
-  mounted() {},
-})
+  mounted() {
+    window.addEventListener("keydown", this.procesarTecla);
+  },
+});
 </script>
 
 <style lang="scss" scoped>
 .cliente-especialist__container {
   .section__title {
     font-size: 1.5rem;
+    margin-left: 15px;
   }
 
   .card--shadow {
@@ -343,7 +363,7 @@ export default defineComponent({
 
   .data-card {
     .barge-work {
-      background-color: #f77930 !important;
+      background-color: #0d6efd !important;
     }
     .button-cotizar {
       padding-top: 12px;
