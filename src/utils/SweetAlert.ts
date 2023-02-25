@@ -8,7 +8,7 @@ export const alertLoading = (text = "", title?: string) => {
     allowEscapeKey: false,
     showConfirmButton: false,
     willOpen: () => {
-      Swal.showLoading(null)
+      Swal.showLoading()
     },
   })
 }
