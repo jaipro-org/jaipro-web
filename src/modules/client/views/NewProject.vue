@@ -10,9 +10,9 @@
         ref="formWizard"
         title=""
         subtitle=""
-        class="px-4 px-lg-0"
+        class="px-lg-0"
         next-button-text="Siguiente"
-        back-button-text="Anterior"
+        back-button-text="Atras"
         finish-button-text="Registrar proyecto"
       >
         <tab-content
@@ -55,53 +55,30 @@
             </b-form>
           </b-card>
         </tab-content>
-        <tab-content title="Resumen" :beforeChange="validateResume">
-          <b-form validated id="formResumen">
-            <b-card class="mb-4">
-              <h6 class="mb-3">Describe el servicio</h6>
-              <b-row class="mx-0 justify-content-between">
-                <b-col cols="12" lg="5" class="mb-3 px-0">
-                  <b-form-group label="Profesión" label-for="txtProfession_r">
-                    <b-form-select
-                      id="txtProfession_r"
-                      v-model="form.profession"
-                      :options="professionOptions"
-                      required
-                      class="rounded-pill"
-                      disabled
-                    ></b-form-select>
-                  </b-form-group>
-                </b-col>
-                <b-col cols="12" lg="5" class="mb-3 px-0">
-                  <b-form-group label="Distrito" label-for="txtDistrict_r">
-                    <b-form-select
-                      id="txtDistrict_r"
-                      v-model="form.district"
-                      :options="districtOptions"
-                      required
-                      class="rounded-pill"
-                      disabled
-                    ></b-form-select>
-                  </b-form-group>
-                </b-col>
-              </b-row>
-            </b-card>
-            <b-card class="mb-4">
-              <h6 class="mb-3">Describe tu proyecto</h6>
+        <tab-content
+          title="Describe tu proyecto"
+          :beforeChange="validateDescribe"
+        >
+          <b-card class="mt-1 mb-2">
+            <b-form
+              @submit.prevent=""
+              ref="dataDescribe"
+              id="formDescribe"
+              validated
+            >
               <b-row class="mx-0 justify-content-between">
                 <b-col cols="12" class="px-0">
                   <b-form-group
                     label="Describe el servicio"
-                    label-for="txtDescription_r"
+                    label-for="txtDescription"
                     class="mb-0"
                   >
                     <b-form-textarea
-                      id="txtDescription_r"
+                      id="txtDescription"
                       v-model="form.description"
                       placeholder="..."
-                      required
-                      no-resize
                       rows="5"
+                      required
                     ></b-form-textarea>
                   </b-form-group>
                 </b-col>
@@ -118,7 +95,7 @@
                   :key="index"
                 >
                   <div
-                    class="form-image__file mb-3 mt-2"
+                    class="form-image__file mb-3 mt-3"
                     :class="!image.url ? 'form-image__file--aux' : ''"
                   >
                     <img
@@ -148,63 +125,8 @@
                   />
                 </b-col>
               </b-row>
-            </b-card>
-            <b-card class="mb-4">
-              <h6 class="mb-3">Cuéntanos de ti</h6>
-              <b-row class="mx-0 justify-content-between">
-                <b-col cols="12" lg="5" class="mb-3">
-                  <b-form-group label="Nombres" label-for="txtName_r">
-                    <b-form-input
-                      id="txtName_r"
-                      v-model="form.name"
-                      placeholder="Ingrese su nombre"
-                      required
-                      class="rounded-pill"
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-                <b-col cols="12" lg="5" class="mb-3">
-                  <b-form-group label="Apellidos" label-for="txtLastname_r">
-                    <b-form-input
-                      id="txtLastname_r"
-                      v-model="form.lastname"
-                      placeholder="Ingrese su apellidos"
-                      required
-                      class="rounded-pill"
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-                <b-col cols="12" lg="5" class="mb-3">
-                  <b-form-group
-                    label="Correo electrónico"
-                    label-for="txtEmail_r"
-                  >
-                    <b-form-input
-                      id="txtEmail_r"
-                      v-model="form.email"
-                      type="email"
-                      placeholder="Ingrese su usuario"
-                      required
-                      class="rounded-pill"
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-              </b-row>
-            </b-card>
-            <div class="mb-4">
-              <b-form-checkbox
-                v-model="form.conditions"
-                name="checkbox-1"
-                class="cursor-pointer"
-                required
-              >
-                Acepto los
-                <span class="btn_conditions" @click="showConditions = true"
-                  >términos y condiciones</span
-                >
-              </b-form-checkbox>
-            </div>
-          </b-form>
+            </b-form>
+          </b-card>
         </tab-content>
         <tab-content title="Cuéntanos de ti" :beforeChange="validateAcountForm">
           <b-card class="mt-1 mb-2">
@@ -289,65 +211,144 @@
             </b-form>
           </b-card>
         </tab-content>
-        <tab-content title="Describe tu proyecto">
-          <b-card class="mt-1 mb-2">
-            <b-row class="mx-0 justify-content-between">
-              <b-col cols="12" class="px-0">
-                <b-form-group
-                  label="Describe el servicio"
-                  label-for="txtDescription"
-                  class="mb-0"
-                >
-                  <b-form-textarea
-                    id="txtDescription"
-                    v-model="form.description"
-                    placeholder="..."
-                    rows="5"
-                  ></b-form-textarea>
-                </b-form-group>
-              </b-col>
-            </b-row>
-
-            <br />
-            <label for="">Fotos de referencia</label>
-            <b-row class="mx-0 justify-content-around">
-              <b-col
-                cols="6"
-                md="5"
-                lg="4"
-                v-for="(image, index) in form.imagesList"
-                :key="index"
-              >
-                <div
-                  class="form-image__file mb-3"
-                  :class="!image.url ? 'form-image__file--aux' : ''"
-                >
-                  <img
-                    @click="uploadImage(index)"
-                    :src="
-                      !image.url
-                        ? require('@/assets/img-delete/fileimage-up.png')
-                        : image.url
-                    "
-                    alt="image"
-                  />
-                  <div
-                    v-if="image.url"
-                    class="form-image__delete"
-                    @click="deleteImage(index)"
+        <tab-content title="Resumen" :beforeChange="validateResume">
+          <b-form validated id="formResumen">
+            <b-card class="mb-4">
+              <h6 class="mb-3">Describe el servicio</h6>
+              <b-row class="mx-0 justify-content-between">
+                <b-col cols="12" lg="5" class="mb-3 px-0">
+                  <b-form-group label="Profesión" label-for="txtProfession_r">
+                    <b-form-select
+                      id="txtProfession_r"
+                      v-model="form.profession"
+                      :options="professionOptions"
+                      required
+                      class="rounded-pill"
+                      disabled
+                    ></b-form-select>
+                  </b-form-group>
+                </b-col>
+                <b-col cols="12" lg="5" class="mb-3 px-0">
+                  <b-form-group label="Distrito" label-for="txtDistrict_r">
+                    <b-form-select
+                      id="txtDistrict_r"
+                      v-model="form.district"
+                      :options="districtOptions"
+                      required
+                      class="rounded-pill"
+                      disabled
+                    ></b-form-select>
+                  </b-form-group>
+                </b-col>
+              </b-row>
+            </b-card>
+            <b-card class="mb-4">
+              <h6 class="mb-3">Describe tu proyecto</h6>
+              <b-row class="mx-0 justify-content-between">
+                <b-col cols="12" class="px-0">
+                  <b-form-group
+                    label="Describe el servicio"
+                    label-for="txtDescription_r"
+                    class="mb-0"
                   >
-                    <i class="fa-solid fa-circle-xmark"></i>
+                    <b-form-textarea
+                      id="txtDescription_r"
+                      v-model="form.description"
+                      placeholder="..."
+                      required
+                      disabled
+                      no-resize
+                      rows="5"
+                    ></b-form-textarea>
+                  </b-form-group>
+                </b-col>
+              </b-row>
+
+              <br />
+              <label for="">Fotos de referencia</label>
+              <b-row class="mx-0 justify-content-around">
+                <b-col
+                  cols="6"
+                  md="5"
+                  lg="4"
+                  v-for="(image, index) in form.imagesList"
+                  :key="index"
+                >
+                  <div
+                    class="form-image__file mb-3 mt-3"
+                    :class="!image.url ? 'form-image__file--aux' : ''"
+                  >
+                    <img
+                      :src="
+                        !image.url
+                          ? require('@/assets/img-delete/fileimage-up.png')
+                          : image.url
+                      "
+                      alt="image"
+                    />
                   </div>
-                </div>
-                <b-form-file
-                  style="display: none"
-                  :ref="`portadaFile${index}`"
-                  hidden
-                  @change="changeFileCover"
-                ></b-form-file>
-              </b-col>
-            </b-row>
-          </b-card>
+                </b-col>
+              </b-row>
+            </b-card>
+            <b-card class="mb-4">
+              <h6 class="mb-3">Cuéntanos de ti</h6>
+              <b-row class="mx-0 justify-content-between">
+                <b-col cols="12" lg="5" class="mb-3">
+                  <b-form-group label="Nombres" label-for="txtName_r">
+                    <b-form-input
+                      id="txtName_r"
+                      v-model="form.name"
+                      placeholder="Ingrese su nombre"
+                      required
+                      disabled
+                      class="rounded-pill"
+                    ></b-form-input>
+                  </b-form-group>
+                </b-col>
+                <b-col cols="12" lg="5" class="mb-3">
+                  <b-form-group label="Apellidos" label-for="txtLastname_r">
+                    <b-form-input
+                      id="txtLastname_r"
+                      v-model="form.lastname"
+                      placeholder="Ingrese su apellidos"
+                      required
+                      disabled
+                      class="rounded-pill"
+                    ></b-form-input>
+                  </b-form-group>
+                </b-col>
+                <b-col cols="12" lg="5" class="mb-3">
+                  <b-form-group
+                    label="Correo electrónico"
+                    label-for="txtEmail_r"
+                  >
+                    <b-form-input
+                      id="txtEmail_r"
+                      v-model="form.email"
+                      type="email"
+                      placeholder="Ingrese su usuario"
+                      required
+                      disabled
+                      class="rounded-pill"
+                    ></b-form-input>
+                  </b-form-group>
+                </b-col>
+              </b-row>
+            </b-card>
+            <div class="mb-4">
+              <b-form-checkbox
+                v-model="form.conditions"
+                name="checkbox-1"
+                class="cursor-pointer"
+                required
+              >
+                Acepto los
+                <span class="btn_conditions" @click="showConditions = true"
+                  >términos y condiciones</span
+                >
+              </b-form-checkbox>
+            </div>
+          </b-form>
         </tab-content>
       </form-wizard>
     </b-col>
@@ -374,7 +375,7 @@
 </template>
 
 <script setup lang="ts">
-import { alertError } from "../../../utils/SweetAlert";
+import { alertError, alertSuccessButton } from "../../../utils/SweetAlert";
 import { FormWizard, TabContent } from "vue3-form-wizard";
 import "vue3-form-wizard/dist/style.css";
 import { ref } from "vue";
@@ -383,8 +384,8 @@ const formDataButton = ref<HTMLButtonElement>();
 const dataForm = ref<HTMLFormElement>();
 
 const form = ref({
-  profession: null,
-  district: null,
+  profession: "",
+  district: "",
   description: "",
   name: "",
   lastname: "",
@@ -427,23 +428,51 @@ const districtOptions = ref([
 ]);
 
 function validateDataForm() {
+  if (form.value.profession === "" || form.value.district === "") {
+    alertError("Algunos campos estan vacios.");
+    return;
+  }
   formDataButton.value!.click();
-  const form = document.getElementById("formMain") as HTMLFormElement;
-  return form.checkValidity();
+  const form2 = document.getElementById("formMain") as HTMLFormElement;
+  return form2.checkValidity();
 }
-function validateResume() {
+function validateDescribe() {
+  if (form.value.description === "") {
+    alertError("Escriba la descripcion del servicio.");
+    return;
+  }
   formDataButton.value!.click();
-  const form = document.getElementById("formResumen") as HTMLFormElement;
-  return form.checkValidity();
+  const form2 = document.getElementById("formDescribe") as HTMLFormElement;
+  return form2.checkValidity();
 }
 function validateAcountForm() {
-  if (form.value.password != form.value.confirmPassword) {
+  if (
+    form.value.password === "" ||
+    form.value.name === "" ||
+    form.value.lastname === "" ||
+    form.value.confirmPassword === "" ||
+    form.value.email === ""
+  ) {
+    alertError("Algunos campos estan vacios");
+    return;
+  }
+  if (form.value.password !== form.value.confirmPassword) {
     alertError("Las contraseñas deben ser iguales.");
-    return false;
+    return;
   }
   formDataButton.value!.click();
   const form2 = document.getElementById("acountForm") as HTMLFormElement;
   return form2.checkValidity();
+}
+function validateResume() {
+  if (!form.value.conditions) {
+    alertError("Debe de aceptar los terminos y condiciones.");
+  } else {
+    formDataButton.value!.click();
+    const form2 = document.getElementById("formResumen") as HTMLFormElement;
+    alertSuccessButton("Proyecto registrado.");
+    return form2.checkValidity();
+  }
 }
 function registerSpecialist() {
   console.log("Se registrará un expediente");
@@ -475,6 +504,9 @@ function deleteImage(index: any) {
 </script>
 
 <style>
+.wizard-tab-content {
+  padding: 30px 0px 10px !important;
+}
 .btn_conditions {
   text-decoration: underline;
   cursor: pointer;
