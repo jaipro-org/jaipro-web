@@ -340,16 +340,14 @@
               class="me-3"
               >Cancelar
             </b-button>
-            <b-button
-              variant="primary"
-              @click="$refs.btnFormPresentation.click()"
+            <b-button variant="primary" @click="sendProposal()"
               >Enviar</b-button
             >
           </b-col>
         </b-row>
       </template>
     </b-modal>
-    
+
     <modal-image
       v-show="showModalImage"
       @close-modal="showModalImage = false"
@@ -359,7 +357,7 @@
 </template>
 
 <script lang="ts">
-import { alertSuccessButton } from "@/utils/SweetAlert";
+import { alertSuccessButton, alertError } from "@/utils/SweetAlert";
 import ModalImage from "@/shared/components/ModalImage.vue";
 import { defineComponent, onMounted, ref, watch, watchEffect } from "vue";
 import Job from "@/interfaces/Job.interface";
@@ -510,7 +508,16 @@ export default defineComponent({
     };
 
     const sendProposal = () => {
-      alertSuccessButton("Se envio una propuesta exitosamente");
+      if (form.value.min !== "" && form.value.max !== "") {
+        if (form.value.min > form.value.max) {
+          alertError("El monto minimo no puede ser mayor al maximo");
+        } else {
+          alertSuccessButton("Se envio una propuesta exitosamente");
+          showModalProposal.value = false;
+        }
+      } else {
+        alertError("El monto minimo o maximo no puede ser nulo");
+      }
     };
 
     watch(currentPage, (newValue, oldValue) => {
