@@ -441,6 +441,10 @@ function validateDescribe() {
     alertError("Escriba la descripcion del servicio.");
     return;
   }
+  if (!form.value.imagesList.some((x) => x.url !== "")) {
+    alertError("Suba una foto de referencia como minimo.");
+    return;
+  }
   formDataButton.value!.click();
   const form2 = document.getElementById("formDescribe") as HTMLFormElement;
   return form2.checkValidity();
