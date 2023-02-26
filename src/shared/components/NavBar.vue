@@ -116,10 +116,7 @@
                 </router-link>
               </li>
             </v-collapse>
-            <li
-              class="nav-item minAjust"
-              :style="showForWith ? '' : 'display:none'"
-            >
+            <li class="nav-item" :style="showForWith ? '' : 'display:none'">
               <router-link
                 to="/cliente/nuevo-proyecto"
                 custom
@@ -133,7 +130,7 @@
                 >
               </router-link>
             </li>
-            <li class="nav-item minAjust">
+            <li class="nav-item">
               <router-link
                 to="/auth/registro-especialista"
                 custom
@@ -274,8 +271,8 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .navbar_clasic {
-  position: fixed;
-  width: 100%;
+  position: sticky;
+  top: 0;
   background-color: white;
   z-index: 900;
 }
@@ -323,15 +320,6 @@ img {
   display: none;
 }
 @media (max-width: 991px) {
-  .minAjust {
-    position: relative;
-    left: -30px;
-    margin: auto;
-  }
-  .list-sty {
-    align-items: flex-start;
-    margin-left: 30px;
-  }
   .iconShowMenuMobile {
     display: inline;
   }
