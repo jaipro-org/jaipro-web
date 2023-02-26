@@ -235,7 +235,7 @@
                   size="3rem"
                 ></b-avatar>
                 <div class="info">
-                  <star-rating>⭐⭐⭐⭐⭐</star-rating>
+                  <star-rating></star-rating>
                   <h6>Pedro Pablo Agustin</h6>
                 </div>
               </div>
@@ -254,7 +254,7 @@
                   size="3rem"
                 ></b-avatar>
                 <div class="info">
-                  <star-rating>⭐⭐⭐⭐⭐</star-rating>
+                  <star-rating></star-rating>
                   <h6>Pedro Pablo Agustin</h6>
                 </div>
               </div>
@@ -273,7 +273,7 @@
                   size="3rem"
                 ></b-avatar>
                 <div class="info">
-                  <star-rating>⭐⭐⭐⭐⭐</star-rating>
+                  <star-rating></star-rating>
                   <h6>Pedro Pablo Agustin</h6>
                 </div>
               </div>
@@ -292,7 +292,7 @@
                   size="3rem"
                 ></b-avatar>
                 <div class="info">
-                  <star-rating>⭐⭐⭐⭐⭐</star-rating>
+                  <star-rating></star-rating>
                   <h6>Pedro Pablo Agustin</h6>
                 </div>
               </div>
@@ -305,6 +305,7 @@
 </template>
 
 <script lang="ts">
+import StarRating from "@/shared/components/public/StarRating.vue";
 import "vue3-carousel/dist/carousel.css";
 import { defineComponent, ref } from "vue";
 import publishProjectSvg from "@/assets/svg/publish-project.svg";
@@ -321,7 +322,14 @@ import StarRatingComponent from "@/shared/components/public/StarRating.vue";
 
 export default defineComponent({
   name: "HomeComponent",
-  components: { StarRatingComponent, Carousel, Slide, Pagination, Navigation },
+  components: {
+    StarRatingComponent,
+    Carousel,
+    Slide,
+    Pagination,
+    Navigation,
+    StarRating,
+  },
   setup() {
     const tabIndex = ref(0);
     const settings = ref({ itemsToShow: 1, snapAlign: "center" });
@@ -395,6 +403,15 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
+.wrapper {
+  padding-top: 107px !important;
+}
+.carousel__prev {
+  left: 14px;
+}
+.carousel__next {
+  right: 14px;
+}
 .services-title {
   color: white;
 }
@@ -445,6 +462,9 @@ export default defineComponent({
 }
 
 @media (max-width: 991px) {
+  .wrapper {
+    padding-top: 86px !important;
+  }
   .services-title-section {
     ul {
       text-align: left;
@@ -478,6 +498,11 @@ export default defineComponent({
         text-align: center;
       }
     }
+  }
+}
+@media (max-width: 576px) {
+  .wrapper {
+    padding-top: 56px !important;
   }
 }
 </style>
