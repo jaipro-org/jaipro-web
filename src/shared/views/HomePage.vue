@@ -404,7 +404,7 @@ export default defineComponent({
 
 <style lang="scss">
 .wrapper {
-  padding-top: 107px !important;
+  padding-top: 80px !important;
 }
 .carousel__prev {
   left: 14px;
@@ -460,7 +460,11 @@ export default defineComponent({
     }
   }
 }
-
+@media (max-width: 1200px) {
+  .wrapper {
+    padding-top: 107px !important;
+  }
+}
 @media (max-width: 991px) {
   .wrapper {
     padding-top: 86px !important;
