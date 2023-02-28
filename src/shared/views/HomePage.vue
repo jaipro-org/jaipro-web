@@ -195,10 +195,7 @@
     <!-- SECTION LABEL -->
     <div id="afiliacion"></div>
     <!-- SERVICES -->
-    <div class="services-section">
-      <div class="services-section-bg-graphics">
-        <img src="@/assets/img/services-section-bg.png" />
-      </div>
+    <div class="panel services">
       <div class="container services-container">
         <div class="col-lg-5 services-title-section">
           <h2 class="services-title">Para especialistas</h2>
@@ -211,9 +208,6 @@
           <div class="services-accordion">
             <button>Aplicar ahora</button>
           </div>
-        </div>
-        <div class="col-lg-6 offset-lg-1 services-header-img-section">
-          <img src="@/assets/img/img008-min.jpg" />
         </div>
       </div>
     </div>
@@ -311,30 +305,38 @@
 </template>
 
 <script lang="ts">
-import "vue3-carousel/dist/carousel.css"
-import { defineComponent, ref } from "vue"
-import publishProjectSvg from "@/assets/svg/publish-project.svg"
-import receiveProposalSvg from "@/assets/svg/receive-proposals.svg"
-import makePaymentSvg from "@/assets/svg/make-payment.svg"
-import applyAsSpecialistSvg from "@/assets/svg/apply-as-specialist.svg"
-import searchForOpportunitiesSvg from "@/assets/svg/search-for-opportunities.svg"
-import workHomeProjectSvg from "@/assets/svg/work-on-home-project.svg"
+import StarRating from "@/shared/components/public/StarRating.vue";
+import "vue3-carousel/dist/carousel.css";
+import { defineComponent, ref } from "vue";
+import publishProjectSvg from "@/assets/svg/publish-project.svg";
+import receiveProposalSvg from "@/assets/svg/receive-proposals.svg";
+import makePaymentSvg from "@/assets/svg/make-payment.svg";
+import applyAsSpecialistSvg from "@/assets/svg/apply-as-specialist.svg";
+import searchForOpportunitiesSvg from "@/assets/svg/search-for-opportunities.svg";
+import workHomeProjectSvg from "@/assets/svg/work-on-home-project.svg";
 
-import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel"
-import Specialties from "@/interfaces/Specialty.interface"
-import Testimony from "@/interfaces/Testimony.interface"
-import StarRatingComponent from "@/shared/components/public/StarRating.vue"
+import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
+import Specialties from "@/interfaces/Specialty.interface";
+import Testimony from "@/interfaces/Testimony.interface";
+import StarRatingComponent from "@/shared/components/public/StarRating.vue";
 
 export default defineComponent({
   name: "HomeComponent",
-  components: { StarRatingComponent, Carousel, Slide, Pagination, Navigation },
+  components: {
+    StarRatingComponent,
+    Carousel,
+    Slide,
+    Pagination,
+    Navigation,
+    StarRating,
+  },
   setup() {
-    const tabIndex = ref(0)
-    const settings = ref({ itemsToShow: 1, snapAlign: "center" })
+    const tabIndex = ref(0);
+    const settings = ref({ itemsToShow: 1, snapAlign: "center" });
     const breakpoints = ref({
       //700px and up
       700: {
-        itemsToShow: 3.5,
+        itemsToShow: 2,
         snapAlign: "center",
       },
       // 1024 and up
@@ -342,7 +344,7 @@ export default defineComponent({
         itemsToShow: 3,
         snapAlign: "start",
       },
-    })
+    });
 
     const specialties = ref<Specialties[]>([
       { name: "Pintura", img: require("@/assets/img/services/img003-min.jpg") },
@@ -362,7 +364,7 @@ export default defineComponent({
         name: "Electricidad",
         img: require("@/assets/img/services/img007-min.jpg"),
       },
-    ])
+    ]);
 
     const testimonials = ref<Testimony[]>([
       {
@@ -381,7 +383,7 @@ export default defineComponent({
         name: "Pedro Pablo Agustin",
         text: "Excelente profesional. Tenía una asimetría de los párpados muy marcada, otros Medicos me habían dicho que no se podría quedar 100% igual",
       },
-    ])
+    ]);
 
     return {
       tabIndex,
@@ -395,12 +397,37 @@ export default defineComponent({
       workHomeProjectSvg,
       specialties,
       testimonials,
-    }
+    };
   },
-})
+});
 </script>
 
 <style lang="scss">
+.wrapper {
+  padding-top: 80px !important;
+}
+.carousel__prev {
+  left: 14px;
+}
+.carousel__next {
+  right: 14px;
+}
+.services-title {
+  color: white;
+}
+.services-text {
+  color: white;
+}
+.services-title-section {
+  ul {
+    li {
+      color: white;
+    }
+  }
+}
+.services {
+  background-image: url("https://media.altphotos.com/cache/images/2017/09/07/10/752/finishing-works-bathroom.jpg") !important;
+}
 .panel {
   background-image: url("@/assets/img/panel/fondo-panel1.jpg");
   width: 100%;
@@ -433,8 +460,23 @@ export default defineComponent({
     }
   }
 }
-
+@media (max-width: 1200px) {
+  .wrapper {
+    padding-top: 107px !important;
+  }
+}
 @media (max-width: 991px) {
+  .wrapper {
+    padding-top: 86px !important;
+  }
+  .services-title-section {
+    ul {
+      text-align: left;
+    }
+    .services-accordion {
+      margin: 0 auto;
+    }
+  }
   .panel {
     background-image: url("@/assets/img/panel/fondo-panel-movil.jpg");
     height: 570px;
@@ -460,6 +502,11 @@ export default defineComponent({
         text-align: center;
       }
     }
+  }
+}
+@media (max-width: 576px) {
+  .wrapper {
+    padding-top: 56px !important;
   }
 }
 </style>

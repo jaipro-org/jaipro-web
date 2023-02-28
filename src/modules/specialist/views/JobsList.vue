@@ -134,7 +134,7 @@
                 <div class="col-5 col-lg-3 col-md-4 ps-0">
                   <b>Se necesita:</b>
                 </div>
-                <div class="col-7 col-lg-9 col-md-8 d-flex">
+                <div class="justify-content-center d-flex">
                   <span class="job-detail__work text-center">Pintor</span>
                 </div>
               </div>
@@ -156,28 +156,74 @@
                   ><b>Ubicacion de trabajo:</b> Ventanilla</span
                 >
               </div>
-              <div class="mt-3">
+              <div class="mt-3 mb-4">
                 <span class="d-block mb-1"><b>Imagenes:</b> Ventanilla</span>
               </div>
               <div class="row mx-0 justify-content-around mt-2">
-                <div class="col-6 col-lg-3 mb-3">
-                  <div class="job-detail__image" v-b-modal.modal-imagen>
-                    <img src="@/assets/img-delete/pintor.jpg" alt="" />
-                  </div>
-                </div>
-                <div class="col-6 col-lg-3 mb-3">
-                  <div class="job-detail__image" v-b-modal.modal-imagen>
-                    <img src="@/assets/img-delete/pintor.jpg" alt="" />
-                  </div>
-                </div>
-                <div class="col-6 col-lg-3 mb-3">
-                  <div class="job-detail__image" v-b-modal.modal-imagen>
-                    <img src="@/assets/img-delete/pintor.jpg" alt="" />
-                  </div>
-                </div>
+                <Carousel :settings="settings" :breakpoints="breakpoints">
+                  <Slide :key="1">
+                    <div class="job-detail__image">
+                      <img
+                        src="@/assets/img-delete/pintor.jpg"
+                        @click="showModalImage = true"
+                        role="button"
+                      />
+                    </div>
+                  </Slide>
+                  <Slide :key="2">
+                    <div class="job-detail__image">
+                      <img
+                        src="@/assets/img-delete/pintor.jpg"
+                        @click="showModalImage = true"
+                        role="button"
+                      />
+                    </div>
+                  </Slide>
+                  <slide :key="3">
+                    <div class="job-detail__image">
+                      <img
+                        src="@/assets/img-delete/pintor.jpg"
+                        @click="showModalImage = true"
+                        role="button"
+                      />
+                    </div>
+                  </slide>
+                  <Slide :key="4">
+                    <div class="job-detail__image">
+                      <img
+                        src="@/assets/img-delete/pintor.jpg"
+                        @click="showModalImage = true"
+                        role="button"
+                      />
+                    </div>
+                  </Slide>
+                  <Slide :key="5">
+                    <div class="job-detail__image">
+                      <img
+                        src="@/assets/img-delete/pintor.jpg"
+                        @click="showModalImage = true"
+                        role="button"
+                      />
+                    </div>
+                  </Slide>
+                  <template #addons="{ slidesCount }">
+                    <Navigation v-if="slidesCount > 1">
+                      <template v-slot:prev
+                        ><span class="btn-carrousel btn-carrousel--prev"
+                          ><i class="fa-solid fa-circle-chevron-left"></i></span
+                      ></template>
+                      <template v-slot:next>
+                        <span class="btn-carrousel btn-carrousel--next">
+                          <i class="fa-solid fa-circle-chevron-right"></i>
+                        </span>
+                      </template>
+                    </Navigation>
+                    <Pagination v-if="slidesCount > 1" />
+                  </template>
+                </Carousel>
               </div>
               <div class="d-flex justify-content-center mt-4">
-                <b-button variant="primary" v-b-modal.modal-proposal
+                <b-button variant="primary" @click="showModalProposal = true"
                   >Enviar propuestas</b-button
                 >
               </div>
@@ -226,11 +272,11 @@
     </div>
 
     <b-modal
+      v-model="showModalProposal"
       id="modal-proposal"
       title="Mi propuesta"
       size="lg"
       centered
-      hide-footer
     >
       <b-form @submit.prevent="sendProposal" ref="formModal" validated>
         <p>
@@ -281,57 +327,89 @@
           <button type="submit" ref="btnModal"></button>
         </div>
       </b-form>
-      <div class="modal-footer row mt-5 pb-0">
-        <div class="mx-0 w-100">
-          <div class="col-12 d-flex justify-content-between w-100">
+      <template v-slot:footer>
+        <b-row class="mx-0 w-100">
+          <b-col
+            cols="12"
+            lg="11"
+            class="d-flex justify-content-end w-100 mx-auto"
+          >
             <b-button
               variant="secondary"
-              @click="$bvModal.hide('modal-proposal')"
-              >Cancelar</b-button
-            >
-            <b-button variant="primary" @click="$refs.btnModal.click()"
+              @click="showModalProposal = false"
+              class="me-3"
+              >Cancelar
+            </b-button>
+            <b-button variant="primary" @click="sendProposal()"
               >Enviar</b-button
             >
-          </div>
-        </div>
-      </div>
+          </b-col>
+        </b-row>
+      </template>
     </b-modal>
 
-    <BModal
-      size="md"
-      id="modal-imagen"
-      class="modal__imagen"
-      title="Imagen del trabajo"
-    >
-      <template #modal-footer>
-        <div class="mx-0 w-100">
-          <div class="col-12 cold-flex justify-content-between w-100">
-            <b-button variant="secondary" @click="$bvModal.hide('modal-imagen')"
-              >Cancelar</b-button
-            >
-            <b-button variant="primary" @click="$refs.btnModal.click()"
-              >Enviar</b-button
-            >
-          </div>
-        </div>
-      </template>
-      <div id="imagen__content">
-        <img src="@/assets/img-delete/pintor.jpg" alt="pintor" />
-      </div>
-    </BModal>
+    <modal-image
+      v-show="showModalImage"
+      @close-modal="showModalImage = false"
+      @click="showModalImage = false"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { alertSuccessButton } from "@/utils/SweetAlert";
+import { alertSuccessButton, alertError } from "@/utils/SweetAlert";
+import ModalImage from "@/shared/components/ModalImage.vue";
 import { defineComponent, onMounted, ref, watch, watchEffect } from "vue";
 import Job from "@/interfaces/Job.interface";
 import DropDownItem from "@/interfaces/DropDownItem.interface";
+import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
 
 export default defineComponent({
   name: "JobsListComponent",
+  components: {
+    ModalImage,
+    Carousel,
+    Slide,
+    Pagination,
+    Navigation,
+  },
+  data() {
+    return {
+      settings: {
+        itemsToShow: 1,
+        snapAlign: "center",
+      },
+      // breakpoints are mobile first
+      // any settings not specified will fallback to the carousel settings
+      breakpoints: {
+        // 700px and up
+        500: {
+          itemsToShow: 2,
+          snapAlign: "start",
+        },
+        750: {
+          itemsToShow: 3,
+          snapAlign: "start",
+        },
+        950: {
+          itemsToShow: 4,
+          snapAlign: "start",
+        },
+        992: {
+          itemsToShow: 2,
+          snapAlign: "start",
+        },
+        1400: {
+          itemsToShow: 3,
+          snapAlign: "start",
+        },
+      },
+    };
+  },
   setup() {
     const isWorkDetailActive = ref<boolean>(false);
+    const showModalProposal = ref<boolean>(false);
+    const showModalImage = ref<boolean>(false);
     const totalRows = ref<number>(0);
     const currentPage = ref<number>(1);
     const perPage = ref<number>(4);
@@ -430,7 +508,16 @@ export default defineComponent({
     };
 
     const sendProposal = () => {
-      alertSuccessButton("Se envio una propuesta exitosamente");
+      if (form.value.min !== "" && form.value.max !== "") {
+        if (form.value.min > form.value.max) {
+          alertError("El monto minimo no puede ser mayor al maximo");
+        } else {
+          alertSuccessButton("Se envio una propuesta exitosamente");
+          showModalProposal.value = false;
+        }
+      } else {
+        alertError("El monto minimo o maximo no puede ser nulo");
+      }
     };
 
     watch(currentPage, (newValue, oldValue) => {
@@ -443,12 +530,21 @@ export default defineComponent({
       changePage(currentPage.value);
     });
 
+    const procesarTecla = (event: any) => {
+      if (event.key === "Escape") {
+        showModalImage.value = false;
+      }
+    };
+
     onMounted(() => {
       getAllJobs();
+      window.addEventListener("keydown", procesarTecla);
     });
 
     return {
       isWorkDetailActive,
+      showModalProposal,
+      showModalImage,
       totalRows,
       currentPage,
       perPage,
@@ -587,7 +683,7 @@ export default defineComponent({
     }
 
     .job-detail__image {
-      height: 160px;
+      height: 140px;
       border: 1px solid rgba(61, 61, 61, 0.527);
       border-radius: 5px;
 
