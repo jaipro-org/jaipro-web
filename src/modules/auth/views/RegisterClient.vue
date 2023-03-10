@@ -7,7 +7,7 @@
           <b-form @submit.prevent="registerClient">
             <b-form-group label="Nombres" label-for="txtName_r">
               <b-form-input
-                v-model="firstname"
+                v-model="firstnameValue"
                 id="txtName_r"
                 type="text"
                 placeholder="Ingrese sus nombres"
@@ -15,10 +15,13 @@
                 class="rounded-pill"
               >
               </b-form-input>
+              <b-form-invalid-feedback :state="firstnameError">
+                {{ firstnameError }}
+              </b-form-invalid-feedback>
             </b-form-group>
             <b-form-group label="Apellidos" label-for="txtLastname_r">
               <b-form-input
-                v-model="lastname"
+                v-model="lastnameValue"
                 type="text"
                 placeholder="Ingrese sus apellidos"
                 id="txtLastname_r"
@@ -26,10 +29,13 @@
                 class="rounded-pill"
               >
               </b-form-input>
+              <b-form-invalid-feedback :state="lastnameError">
+                {{ lastnameError }}
+              </b-form-invalid-feedback>
             </b-form-group>
             <b-form-group label="Correo electrónico" label-for="txtEmail_r">
               <b-form-input
-                v-model="email"
+                v-model="emailValue"
                 type="email"
                 placeholder="Ingrese su correo"
                 id="txtEmail_r"
@@ -37,10 +43,14 @@
                 class="rounded-pill"
               >
               </b-form-input>
+              <b-form-invalid-feedback :state="emailError">
+                {{ emailError }}
+              </b-form-invalid-feedback>
             </b-form-group>
             <b-form-group label="Contraseña" label-for="txtPassword_r">
               <b-form-input
-                v-model="password"
+                v-model="passwordValue"
+                @input="confirmPasswordValidate()"
                 type="password"
                 placeholder="Ingrese su contraseña"
                 id="txtPassword_r"
@@ -48,13 +58,17 @@
                 class="rounded-pill"
               >
               </b-form-input>
+              <b-form-invalid-feedback :state="passwordError">
+                {{ passwordError }}
+              </b-form-invalid-feedback>
             </b-form-group>
             <b-form-group
               label="Confirmar contraseña"
               label-for="txtConfirmPassword_r"
             >
               <b-form-input
-                v-model="confirmPassword"
+                v-model="confirmPasswordValue"
+                @input="passwordValidate()"
                 type="password"
                 placeholder="Confirme su contraseña"
                 id="txtConfirmPassword_r"
@@ -62,8 +76,16 @@
                 class="rounded-pill"
               >
               </b-form-input>
+              <b-form-invalid-feedback :state="confirmPasswordError">
+                {{ confirmPasswordError }}
+              </b-form-invalid-feedback>
             </b-form-group>
-            <b-button class="mt-5 w-100" variant="primary" type="submit">
+            <b-button
+              class="mt-5 w-100"
+              variant="primary"
+              type="submit"
+              @click="prevalidar()"
+            >
               Registrarse
             </b-button>
           </b-form>
@@ -74,11 +96,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue"
-import { useRouter } from "vue-router"
+import { defineComponent, ref } from "vue";
+import { useRouter } from "vue-router";
+
+//veeValidate + yup
+import { useField } from "vee-validate";
+import * as yup from "yup";
 
 // COMPONENTS
-import RegisterTitle from "./components/RegisterTitle.vue"
+import RegisterTitle from "./components/RegisterTitle.vue";
 
 // FUNCTIONS
 import {
@@ -86,13 +112,13 @@ import {
   alertLoading,
   alertSuccessfully,
   closeAlert,
-} from "../../../utils/SweetAlert"
+} from "../../../utils/SweetAlert";
 
 // SERVICES
-import { AuthServices } from "@/services/api/authServices"
-import { useStore } from "vuex"
+import { AuthServices } from "@/services/api/authServices";
+import { useStore } from "vuex";
 
-const authServices = new AuthServices()
+const authServices = new AuthServices();
 
 export default defineComponent({
   name: "RegisterComponent",
@@ -100,57 +126,113 @@ export default defineComponent({
     RegisterTitle,
   },
   setup() {
-    const router = useRouter()
+    const router = useRouter();
+    const store = useStore();
 
-    const firstname = ref("")
-    const lastname = ref("")
-    const password = ref("")
-    const confirmPassword = ref("")
-    const email = ref("")
+    //esquema yup
+    const schema = {
+      firstname: yup.string().required("Escriba su nombre"),
+      lastname: yup.string().required("Escriba sus apellidos"),
+      email: yup
+        .string()
+        .email("Escriba un correo valido")
+        .required("Escriba un correo valido"),
+      password: yup
+        .string()
+        .required("Escriba su contraseña")
+        .test("a", "Las contraseñas no coinciden", (value) => {
+          if (value === confirmPasswordValue.value) return true;
+          else return false;
+        }),
+      confirmPassword: yup
+        .string()
+        .required("Confirme su contraseña")
+        .test("a", "Las contraseñas no coinciden", (value) => {
+          if (value === passwordValue.value) return true;
+          else return false;
+        }),
+    };
 
-    const store = useStore()
+    // validadores Vee-Validate
+    const {
+      value: firstnameValue,
+      errorMessage: firstnameError,
+      validate: firstnameValidate,
+    } = useField("firstname", schema.firstname);
+    const {
+      value: lastnameValue,
+      errorMessage: lastnameError,
+      validate: lastnameValidate,
+    } = useField("lastname", schema.lastname);
+    const {
+      value: emailValue,
+      errorMessage: emailError,
+      validate: emailValidate,
+    } = useField("email", schema.email);
+    const {
+      value: passwordValue,
+      errorMessage: passwordError,
+      validate: passwordValidate,
+    } = useField("password", schema.password);
+    const {
+      value: confirmPasswordValue,
+      errorMessage: confirmPasswordError,
+      validate: confirmPasswordValidate,
+    } = useField("confirmPassword", schema.confirmPassword);
+
+    function prevalidar() {
+      firstnameValidate();
+      lastnameValidate();
+      emailValidate();
+      passwordValidate();
+      confirmPasswordValidate();
+    }
 
     const registerClient = async () => {
       try {
-        if (password.value != confirmPassword.value) {
-          alertError("Las contraseñas no coinciden")
-          return
-        }
-        alertLoading("Registrando al usuario cliente.")
+        alertLoading("Registrando al usuario cliente.");
         await authServices.createClient({
-          name: firstname.value,
-          lastName: lastname.value,
-          password: password.value,
-          email: email.value,
-        })
+          name: firstnameValue.value,
+          lastName: lastnameValue.value,
+          password: passwordValue.value,
+          email: emailValue.value,
+        });
 
-        alertLoading("Iniciando sesión del usuario.")
+        alertLoading("Iniciando sesión del usuario.");
         await store.dispatch("authModule/loginUser", {
-          email: email.value,
-          password: password.value,
-        })
+          email: emailValue.value,
+          password: passwordValue.value,
+        });
 
-        alertSuccessfully("Cliente registrado exitosamente!!")
+        alertSuccessfully("Cliente registrado exitosamente!!");
         setTimeout(function () {
-          router.push({ name: "client-profile" })
-          closeAlert()
-        }, 2500)
+          router.push({ name: "client-profile" });
+          closeAlert();
+        }, 2500);
       } catch (error) {
-        console.log(error)
-        alertError()
+        console.log(error);
+        alertError();
       }
-    }
+    };
 
     return {
-      firstname,
-      lastname,
-      email,
-      password,
-      confirmPassword,
+      firstnameValue,
+      firstnameError,
+      lastnameValue,
+      lastnameError,
+      emailValue,
+      emailError,
+      passwordValue,
+      passwordError,
+      passwordValidate,
+      confirmPasswordValue,
+      confirmPasswordError,
+      confirmPasswordValidate,
       registerClient,
-    }
+      prevalidar,
+    };
   },
-})
+});
 </script>
 
 <style scoped>
