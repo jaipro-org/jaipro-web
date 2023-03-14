@@ -54,7 +54,6 @@
                   <b-form-group label="Describe el servicio">
                     <b-form-textarea
                       v-model="descriptionValue"
-                      placeholder="..."
                       rows="5"
                       required
                     ></b-form-textarea>
@@ -365,14 +364,14 @@ const showConditions = ref(false);
 
 // Datos para prueba
 const professionOptions = ref([
-  { text: "escoje", value: "" },
+  { text: "Seleccione", value: "" },
   { text: "Pintor", value: 0 },
   { text: "Carpintero", value: 1 },
   { text: "Albañil", value: 2 },
   { text: "Gasfitero", value: 3 },
 ]);
 const districtOptions = ref([
-  { text: "escoje", value: "" },
+  { text: "Seleccione", value: "" },
   { text: "Los Olivos", value: 0 },
   { text: "SMP", value: 1 },
   { text: "Breña", value: 2 },
@@ -412,17 +411,18 @@ const form = ref({
 
 // Esquema de datos con YUP
 const schema = {
-  profession: yup.string().required("Seleccione la Profesión"),
-  district: yup.string().required("Seleccione el Distrito"),
-  description: yup.string().required("Escriba la descripción de su proyecto"),
-  name: yup.string().required("Escriba su nombre"),
-  lastname: yup.string().required("Escriba sus apellidos"),
+  profession: yup.string().required("Campo requerido"),
+  district: yup.string().required("Campo requerido"),
+  description: yup.string().required("Campo requerido"),
+  name: yup.string().required("Campo requerido"),
+  lastname: yup.string().required("Campo requerido"),
   email: yup
     .string()
     .email("Escriba un correo valido")
-    .required("Escriba su correo"),
+    .required("Campo requerido"),
   password: yup
     .string()
+    .min(8, "Se requiere 8 caracteres como minimo")
     .required("Escriba su contraseña")
     .test("a", "Las contraseñas no coinciden", (value) => {
       if (value === confirmPasswordValue.value) return true;
@@ -430,6 +430,7 @@ const schema = {
     }),
   confirmPassword: yup
     .string()
+    .min(8, "Se requiere 8 caracteres como minimo")
     .required("Confirme su contraseña")
     .test("a", "Las contraseñas no coinciden", (value) => {
       if (value === passwordValue.value) return true;
@@ -490,29 +491,25 @@ const {
 
 // validadores para cada paso del formulario
 // beforeChange
-const prueba = async () => {
-  return true;
-};
 const Step1 = async () => {
   const fields = {
     profession: professionValue.value,
     district: districtValue.value,
   };
 
-  const schema = yup.object({
-    profession: yup.string().required(),
-    district: yup.string().required(),
+  const valideSchema = yup.object({
+    profession: schema.profession,
+    district: schema.district,
   });
 
-  const isValid = await schema.isValid(fields);
+  const isValid = await valideSchema.isValid(fields);
 
   if (!isValid) {
     professionValidate();
     districtValidate();
   }
 
-  form.value.profession = fields.profession;
-  form.value.district = fields.district;
+  form.value = { ...form.value, ...fields };
 
   return isValid;
 };
@@ -521,51 +518,39 @@ const Step2 = async () => {
     description: descriptionValue.value,
   };
 
-  const schema = yup.object({
-    description: yup.string().required(),
+  const valideSchema = yup.object({
+    description: schema.description,
   });
 
-  const isValid = await schema.isValid(fields);
+  const isValid = await valideSchema.isValid(fields);
   const isValidRequired = imagenRequired.value; // control personalizado imagen
 
   if (!isValid) {
     descriptionValidate();
   }
 
-  form.value.description = fields.description;
+  form.value = { ...form.value, ...fields };
 
   return isValid && isValidRequired;
 };
 const Step3 = async () => {
   const fields = {
-    name: descriptionValue.value,
+    name: nameValue.value,
     lastname: lastnameValue.value,
     email: emailValue.value,
     password: passwordValue.value,
     confirmPassword: confirmPasswordValue.value,
   };
 
-  const schema = yup.object({
-    name: yup.string().required(),
-    lastname: yup.string().required(),
-    email: yup.string().email().required(),
-    password: yup
-      .string()
-      .required()
-      .test("a", "Las contraseñas no coinciden", (value) => {
-        if (value === confirmPasswordValue.value) return true;
-        else return false;
-      }),
-    confirmPassword: yup
-      .string()
-      .required()
-      .test("a", "Las contraseñas no coinciden", (value) => {
-        if (value === passwordValue.value) return true;
-        else return false;
-      }),
+  const valideSchema = yup.object({
+    name: schema.name,
+    lastname: schema.lastname,
+    email: schema.email,
+    password: schema.password,
+    confirmPassword: schema.confirmPassword,
   });
 
-  const isValid = await schema.isValid(fields);
+  const isValid = await valideSchema.isValid(fields);
 
   if (!isValid) {
     nameValidate();
@@ -575,11 +560,7 @@ const Step3 = async () => {
     confirmPasswordValidate();
   }
 
-  form.value.name = fields.name;
-  form.value.lastname = fields.lastname;
-  form.value.email = fields.email;
-  form.value.password = fields.password;
-  form.value.confirmPassword = fields.confirmPassword;
+  form.value = { ...form.value, ...fields };
 
   return isValid;
 };
@@ -588,18 +569,18 @@ const Step4 = async () => {
     conditions: conditionsValue.value,
   };
 
-  const schema = yup.object({
-    conditions: yup.boolean().oneOf([true]).required(),
+  const valideSchema = yup.object({
+    conditions: schema.conditions,
   });
 
-  const isValid = await schema.isValid(fields);
+  const isValid = await valideSchema.isValid(fields);
 
   if (!isValid) {
     conditionsValidate();
   }
 
   if (isValid) {
-    form.value.conditions = fields.conditions;
+    form.value = { ...form.value, ...fields };
     const value = form.value;
     console.log(value);
   }
