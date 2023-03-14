@@ -131,14 +131,15 @@ export default defineComponent({
 
     //esquema yup
     const schema = {
-      firstname: yup.string().required("Escriba su nombre"),
-      lastname: yup.string().required("Escriba sus apellidos"),
+      firstname: yup.string().required("Campo requerido"),
+      lastname: yup.string().required("Campo requerido"),
       email: yup
         .string()
         .email("Escriba un correo valido")
-        .required("Escriba un correo valido"),
+        .required("Campo requerido"),
       password: yup
         .string()
+        .min(8, "Se requiere 8 caracteres como minimo")
         .required("Escriba su contraseña")
         .test("a", "Las contraseñas no coinciden", (value) => {
           if (value === confirmPasswordValue.value) return true;
@@ -146,6 +147,7 @@ export default defineComponent({
         }),
       confirmPassword: yup
         .string()
+        .min(8, "Se requiere 8 caracteres como minimo")
         .required("Confirme su contraseña")
         .test("a", "Las contraseñas no coinciden", (value) => {
           if (value === passwordValue.value) return true;
