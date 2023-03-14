@@ -45,9 +45,7 @@
             >
             <p class="text-end mt-4">
               ¿No tienes una cuenta?
-              <b-link @click="$router.push({ name: 'register-type' })">
-                Regístrate
-              </b-link>
+              <b-link @click="register()"> Regístrate </b-link>
             </p>
           </b-form>
         </div>
@@ -84,8 +82,8 @@ export default defineComponent({
       email: yup
         .string()
         .email("Escriba un correo valido")
-        .required("Escriba su correo"),
-      password: yup.string().required("Escriba su contraseña"),
+        .required("Campo requerido"),
+      password: yup.string().required("Campo requerido"),
     };
     const {
       value: emailValue,
@@ -121,18 +119,26 @@ export default defineComponent({
       }
     };
 
-    const forgotPassword = () => {
-      router.push({ name: "forgot-password" });
-    };
+    function forgotPassword() {
+      setTimeout(() => {
+        router.push({ name: "forgot-password" });
+      }, 10);
+    }
+    function register() {
+      setTimeout(() => {
+        router.push({ name: "register-type" });
+      }, 10);
+    }
 
     return {
       emailValue,
       emailError,
       passwordValue,
       passwordError,
-      login,
-      forgotPassword,
       verificar,
+      login,
+      register,
+      forgotPassword,
     };
   },
 });
