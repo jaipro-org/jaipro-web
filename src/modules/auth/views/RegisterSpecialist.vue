@@ -28,7 +28,7 @@
         <template v-slot:prev>
           <b-button variant="primary" class="step__button">Atras</b-button>
         </template>
-        <tab-content title="Datos personales" :beforeChange="validateDataForm">
+        <tab-content title="Datos personales" :beforeChange="Step1">
           <b-card class="mt-1 mb-2">
             <b-form @submit.prevent="" ref="dataForm" validated>
               <b-row class="mx-0 justify-content-between">
@@ -36,37 +36,46 @@
                   <b-form-group label="Nombres" label-for="input-33">
                     <b-form-input
                       id="input-33"
-                      v-model="form.name"
+                      v-model="nameValue"
                       type="text"
                       placeholder="Ingrese su nombre"
                       required
                       class="rounded-pill"
                     ></b-form-input>
+                    <b-form-invalid-feedback :state="nameError">
+                      {{ nameError }}
+                    </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group label="Apellidos" label-for="input-44">
                     <b-form-input
                       id="input-44"
-                      v-model="form.lastName"
+                      v-model="lastNameValue"
                       type="text"
                       placeholder="Ingrese su apellido"
                       required
                       class="rounded-pill"
                     ></b-form-input>
+                    <b-form-invalid-feedback :state="lastNameError">
+                      {{ lastNameError }}
+                    </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group label="Telefono" label-for="input-2">
                     <b-form-input
                       id="input-2"
-                      v-model="form.phone"
+                      v-model="phoneValue"
                       type="text"
                       placeholder="Ingrese su teléfono"
                       oninput="this.value = value.replace(/[^0-9]/g, '')"
                       required
                       class="rounded-pill"
                     ></b-form-input>
+                    <b-form-invalid-feedback :state="phoneError">
+                      {{ phoneError }}
+                    </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3 px-0">
@@ -76,25 +85,31 @@
                   >
                     <b-form-input
                       id="input-55"
-                      v-model="form.document"
+                      v-model="documentValue"
                       oninput="this.value = value.replace(/[^0-9]/g, '')"
                       type="text"
                       placeholder="Ingrese su n° de documento"
                       required
                       class="rounded-pill"
                     ></b-form-input>
+                    <b-form-invalid-feedback :state="documentError">
+                      {{ documentError }}
+                    </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group label="Dirección" label-for="input-66">
                     <b-form-input
                       id="input-66"
-                      v-model="form.address"
+                      v-model="addressValue"
                       type="text"
                       placeholder="Ingrese su dirección"
                       required
                       class="rounded-pill"
                     ></b-form-input>
+                    <b-form-invalid-feedback :state="addressError">
+                      {{ addressError }}
+                    </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
               </b-row>
@@ -104,8 +119,7 @@
             </b-form>
           </b-card>
         </tab-content>
-
-        <tab-content title="Datos de cuenta" :beforeChange="validateAcountForm">
+        <tab-content title="Datos de cuenta" :beforeChange="Step2">
           <b-card class="mt-1 mb-2">
             <b-form @submit.prevent="" ref="acountForm" validated>
               <b-row class="mx-0 justify-content-between mt-4">
@@ -116,24 +130,31 @@
                   >
                     <b-form-input
                       id="input-acount-1"
-                      v-model="form.email"
+                      v-model="emailValue"
                       type="email"
                       placeholder="Ingrese su usuario"
                       required
                       class="rounded-pill"
                     ></b-form-input>
+                    <b-form-invalid-feedback :state="emailError">
+                      {{ emailError }}
+                    </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group label="Contraseña" label-for="input-acount-222">
                     <b-form-input
                       id="input-acount-222"
-                      v-model="form.password"
+                      v-model="passwordValue"
+                      @input="confirmPasswordValidate()"
                       type="password"
                       placeholder="Ingrese su contraseña"
                       required
                       class="rounded-pill"
                     ></b-form-input>
+                    <b-form-invalid-feedback :state="passwordError">
+                      {{ passwordError }}
+                    </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
                 <!-- Balancea la posicion de columnas -->
@@ -145,12 +166,16 @@
                   >
                     <b-form-input
                       id="input-acount-2"
-                      v-model="form.confirmPassword"
+                      v-model="confirmPasswordValue"
+                      @input="passwordValidate()"
                       type="password"
                       placeholder="Ingrese su contraseña nuevamente"
                       required
                       class="rounded-pill"
                     ></b-form-input>
+                    <b-form-invalid-feedback :state="confirmPasswordError">
+                      {{ confirmPasswordError }}
+                    </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
               </b-row>
@@ -160,7 +185,7 @@
             </b-form>
           </b-card>
         </tab-content>
-        <tab-content title="Datos de trabajo" :beforeChange="validateWorkForm">
+        <tab-content title="Datos de trabajo" :beforeChange="Step3">
           <b-card class="mt-1 mb-2">
             <b-row class="mx-0 justify-content-between">
               <b-col cols="12" lg="5" class="px-0">
@@ -174,6 +199,9 @@
                     :options="workOptions"
                   >
                   </b-form-checkbox-group>
+                  <b-form-invalid-feedback :state="profesionRequired">
+                    Seleccione 1 profesión como minimo
+                  </b-form-invalid-feedback>
                 </b-form-group>
               </b-col>
               <b-col cols="12" lg="5" class="px-0 d-none d-lg-block">
@@ -184,6 +212,9 @@
                   :options="locationOptions"
                   :reduce="(option:location) => option.value"
                 />
+                <b-form-invalid-feedback :state="locationRequired">
+                  Seleccione 3 Locaciones como maximo
+                </b-form-invalid-feedback>
               </b-col>
               <b-col cols="12" class="mx-auto mt-4 mb-1">
                 <h5>Experiencia en el rubro</h5>
@@ -213,6 +244,9 @@
                         v-model="workExperience[index].months"
                       ></TimeComponent>
                     </b-col>
+                    <b-form-invalid-feedback :state="countExperience(index)">
+                      minimo 1 mes de experiencia
+                    </b-form-invalid-feedback>
                   </b-row>
                 </div>
               </b-col>
@@ -229,7 +263,7 @@
             </b-row>
           </b-card>
         </tab-content>
-        <tab-content title="Resumen">
+        <tab-content title="Resumen" :beforeChange="Step4">
           <template v-if="isStepResumenValid">
             <b-card class="mb-4">
               <h6 class="mb-3">Datos Personales</h6>
@@ -238,7 +272,7 @@
                   <b-form-group label="Nombres" label-for="input-3">
                     <b-form-input
                       id="input-3"
-                      v-model="form.name"
+                      v-model="nameValue"
                       type="text"
                       placeholder="Ingrese su nombre"
                       required
@@ -251,7 +285,7 @@
                   <b-form-group label="Apellidos" label-for="input-4">
                     <b-form-input
                       id="input-4"
-                      v-model="form.lastName"
+                      v-model="lastNameValue"
                       type="text"
                       placeholder="Ingrese su apellido"
                       required
@@ -264,7 +298,7 @@
                   <b-form-group label="Telefono" label-for="input-22">
                     <b-form-input
                       id="input-22"
-                      v-model="form.phone"
+                      v-model="phoneValue"
                       type="text"
                       placeholder="Ingrese su teléfono"
                       required
@@ -280,7 +314,7 @@
                   >
                     <b-form-input
                       id="input-5"
-                      v-model="form.document"
+                      v-model="documentValue"
                       type="text"
                       placeholder="Ingrese su n° de documento"
                       required
@@ -293,7 +327,7 @@
                   <b-form-group label="Dirección" label-for="input-6">
                     <b-form-input
                       id="input-6"
-                      v-model="form.address"
+                      v-model="addressValue"
                       type="text"
                       placeholder="Ingrese su dirección"
                       required
@@ -389,7 +423,7 @@
                   >
                     <b-form-input
                       id="input-acount-11"
-                      v-model="form.email"
+                      v-model="emailValue"
                       type="email"
                       placeholder="Ingrese su usuario"
                       required
@@ -403,7 +437,7 @@
                     <b-input-group>
                       <b-form-input
                         id="input-acount-22"
-                        v-model="form.password"
+                        v-model="passwordValue"
                         :type="typePassword"
                         placeholder="Ingrese su contraseña"
                         disabled
@@ -429,16 +463,29 @@
               </b-row>
             </b-card>
             <div class="mb-4">
-              <b-form-checkbox
-                v-model="form.conditions"
-                name="checkbox-1"
-                class="cursor-pointer"
-              >
-                Acepto los
-                <span class="btn_conditions" @click="showConditions = true"
-                  >términos y condiciones</span
+              <div class="d-flex">
+                <b-form-checkbox
+                  v-model="conditionsValue"
+                  name="checkbox-1"
+                  class="cursor-pointer"
+                  required
                 >
-              </b-form-checkbox>
+                </b-form-checkbox>
+                <p
+                  :style="conditionsValue ? 'color: #198754' : 'color: #dc3545'"
+                >
+                  Acepto los
+                  <span class="btn_conditions" @click="showConditions = true">
+                    términos y condiciones</span
+                  >
+                </p>
+              </div>
+              <b-form-invalid-feedback
+                :state="conditionsError"
+                style="margin-top: -15px"
+              >
+                {{ conditionsError }}
+              </b-form-invalid-feedback>
             </div>
           </template>
         </tab-content>
@@ -458,7 +505,7 @@
       <div>
         <b-button
           variant="primary"
-          @click=";(showConditions = false), (form.conditions = true)"
+          @click="(showConditions = false), (conditionsValue = true)"
           >Aceptar</b-button
         >
       </div>
@@ -476,14 +523,15 @@ import {
   onBeforeUnmount,
   onBeforeMount,
   nextTick,
-} from "vue"
-import { useRouter } from "vue-router"
+} from "vue";
+
+import { useRouter } from "vue-router";
 
 // COMPONENTS
-import { FormWizard, TabContent } from "vue3-form-wizard"
-import "vue3-form-wizard/dist/style.css"
-import TimeComponent from "./components/TimeComponent.vue"
-import RegisterTitle from "./components/RegisterTitle.vue"
+import { FormWizard, TabContent } from "vue3-form-wizard";
+import "vue3-form-wizard/dist/style.css";
+import TimeComponent from "./components/TimeComponent.vue";
+import RegisterTitle from "./components/RegisterTitle.vue";
 
 // FUNCTIONS
 import {
@@ -491,85 +539,172 @@ import {
   alertLoading,
   alertSuccessfully,
   closeAlert,
-} from "../../../utils/SweetAlert"
+} from "../../../utils/SweetAlert";
+
+//VEE-VALIDATE + YUP
+import { useField } from "vee-validate";
+import * as yup from "yup";
 
 // SERVICES
-import { GeneralServices } from "../../../services/api/generalServices"
-import { AuthServices } from "@/services/api/authServices"
-import { useStore } from "vuex"
+import { GeneralServices } from "../../../services/api/generalServices";
+import { AuthServices } from "@/services/api/authServices";
+import { useStore } from "vuex";
 
-const generalServices = new GeneralServices()
-const authServices = new AuthServices()
+const generalServices = new GeneralServices();
+const authServices = new AuthServices();
 
-const router = useRouter()
-let windowWidth = ref(window.innerWidth) // Obtener el tamaño de la ventana
-let typePassword: any = ref("password") // Type password
-const showConditions = ref(false)
+const router = useRouter();
+let windowWidth = ref(window.innerWidth); // Obtener el tamaño de la ventana
+let typePassword: any = ref("password"); // Type password
+const showConditions = ref(false);
+const isStepResumenValid = ref(false); // activa resumen
 
-const form = reactive({
-  phone: "",
+var form = reactive({
   name: "",
   lastName: "",
+  phone: "",
   document: "",
   address: "",
   email: "",
   password: "",
   confirmPassword: "",
   conditions: false,
-})
+});
 
-// STEP3 ***********************
+//#region ESQUEMA YUP
+const schema = {
+  name: yup.string().required("Campo requerido"),
+  lastName: yup.string().required("Campo requerido"),
+  phone: yup
+    .string()
+    .matches(/^[0-9]+$/, "Campo requerido")
+    .required("Campo requerido"),
+  document: yup
+    .string()
+    .matches(/^[0-9]+$/, "Campo requerido")
+    .required("Campo requerido"),
+  address: yup.string().required("Campo requerido"),
+  email: yup
+    .string()
+    .email("Escriba un correo valido")
+    .required("Campo requerido"),
+  password: yup
+    .string()
+    .min(8, "Se requiere 8 caracteres como minimo")
+    .required("Escriba su contraseña")
+    .test("a", "Las contraseñas no coinciden", (value) => {
+      if (value === confirmPasswordValue.value) return true;
+      else return false;
+    }),
+  confirmPassword: yup
+    .string()
+    .min(8, "Se requiere 8 caracteres como minimo")
+    .required("Confirme su contraseña")
+    .test("a", "Las contraseñas no coinciden", (value) => {
+      if (value === passwordValue.value) return true;
+      else return false;
+    }),
+  conditions: yup
+    .boolean()
+    .oneOf([true], "Acepte los terminos y condiciones")
+    .required("Acepte los terminos y condiciones"),
+};
+//#endregion
 
-// STEP3 ***********************
+//#region VEE-VALIDATE USEFIELD
+const {
+  value: nameValue,
+  errorMessage: nameError,
+  validate: nameValidate,
+} = useField("name", schema.name);
+const {
+  value: lastNameValue,
+  errorMessage: lastNameError,
+  validate: lastNameValidate,
+} = useField("lastName", schema.lastName);
+const {
+  value: phoneValue,
+  errorMessage: phoneError,
+  validate: phoneValidate,
+} = useField("phone", schema.phone);
+const {
+  value: documentValue,
+  errorMessage: documentError,
+  validate: documentValidate,
+} = useField("document", schema.document);
+const {
+  value: addressValue,
+  errorMessage: addressError,
+  validate: addressValidate,
+} = useField("address", schema.address);
+const {
+  value: emailValue,
+  errorMessage: emailError,
+  validate: emailValidate,
+} = useField("email", schema.email);
+const {
+  value: passwordValue,
+  errorMessage: passwordError,
+  validate: passwordValidate,
+} = useField("password", schema.password);
+const {
+  value: confirmPasswordValue,
+  errorMessage: confirmPasswordError,
+  validate: confirmPasswordValidate,
+} = useField("confirmPassword", schema.confirmPassword);
+const {
+  value: conditionsValue,
+  errorMessage: conditionsError,
+  validate: conditionsValidate,
+} = useField("conditions", schema.conditions);
+//#endregion
 
-// STEP4 ***********************
-const isStepResumenValid = ref(false)
-// STEP4 ***********************
-
-const changeTypePassword = () => {
-  typePassword.value = typePassword.value == "password" ? "text" : "password"
-}
-
-// FUNCIONES PARA OBTENER EL TAMAÑO DE LA PANTALLA
+//#region FUNCIONES PARA OBTENER EL TAMAÑO DE LA PANTALLA
 onMounted(() => {
   nextTick(() => {
-    window.addEventListener("resize", onResize)
-  })
-})
+    window.addEventListener("resize", onResize);
+  });
+});
 
 onBeforeUnmount(() => {
-  window.removeEventListener("resize", onResize)
-})
+  window.removeEventListener("resize", onResize);
+});
 
 const onResize = () => {
-  windowWidth.value = window.innerWidth
-}
-// FIN FUNCIONES PARA OBTENER EL TAMAÑO DE LA PANTALLA
+  windowWidth.value = window.innerWidth;
+};
+//#endregion
 
+//#region OTRAS FUNCIONES
 const isWeb = computed(() => {
-  return windowWidth.value > 950 ? true : false
-})
+  return windowWidth.value > 950 ? true : false;
+});
+
+const changeTypePassword = () => {
+  typePassword.value = typePassword.value == "password" ? "text" : "password";
+};
+//#endregion
 
 //START - REGISTER SPECIALIST
-type work = { text: string; value: number; disabled?: boolean }
+type work = { text: string; value: number; disabled?: boolean };
 type workExperience = {
-  years: number
-  months: number
-  id: number
-  name: string
-}
-type location = { label: string; value: number }
+  years: number;
+  months: number;
+  id: number;
+  name: string;
+};
+type location = { label: string; value: number };
 const workList: {
-  workSelected: Array<number>
+  workSelected: Array<number>;
 } = reactive({
   workSelected: [],
-})
-const workOptions: Array<work> = reactive([])
-const workOptionsResume: Array<work> = reactive([])
-const workExperience: Array<workExperience> = reactive([])
+});
+const workOptions: Array<work> = reactive([]);
+const workOptionsResume: Array<work> = reactive([]);
+const workExperience: Array<workExperience> = reactive([]);
 
-const locationSelected = ref([] as Array<number>)
-const locationOptions: Array<location> = reactive([])
+const locationSelected = ref([] as Array<number>);
+const locationOptions: Array<location> = reactive([]);
 
 watch(
   () => workList.workSelected,
@@ -577,139 +712,232 @@ watch(
     // ELIMINAR UN TRABAJO
     if (lastValue.length > newValue.length) {
       newValue.forEach((value: number) => {
-        const index = lastValue.indexOf(value)
-        lastValue.splice(index, 1)
-      })
+        const index = lastValue.indexOf(value);
+        lastValue.splice(index, 1);
+      });
 
       const lastIndex = workExperience.findIndex(
         (work) => work.id == lastValue[0]
-      )
-      workExperience.splice(lastIndex, 1)
+      );
+      workExperience.splice(lastIndex, 1);
     }
     // AGREGAR UN TRABAJO
     else {
-      const list = [...newValue]
+      const list = [...newValue];
       lastValue.forEach((value: any) => {
-        const index = list.indexOf(value)
-        list.splice(index, 1)
-      })
-      const workFind = workOptions.find((work) => work.value == list[0])
+        const index = list.indexOf(value);
+        list.splice(index, 1);
+      });
+      const workFind = workOptions.find((work) => work.value == list[0]);
       if (workFind) {
         const work = {
           id: list[0],
           name: workFind.text,
           years: 0,
           months: 0,
-        }
-        workExperience.push(work)
+        };
+        workExperience.push(work);
       }
     }
   }
-)
+);
 
 type profession = {
-  createdBy: string
-  creationDate: string
-  modifiedBy: null
-  modifiedDate: null
-  id: number
-  name: string
-}
+  createdBy: string;
+  creationDate: string;
+  modifiedBy: null;
+  modifiedDate: null;
+  id: number;
+  name: string;
+};
 type district = {
-  createdBy: string
-  creationDate: string
-  modifiedBy: null
-  modifiedDate: null
-  id: number
-  name: string
-  zone: number
-  numericCode: string
-  countryId: string
-}
-let professionalList: Array<profession> = []
-let districtList: Array<district> = []
+  createdBy: string;
+  creationDate: string;
+  modifiedBy: null;
+  modifiedDate: null;
+  id: number;
+  name: string;
+  zone: number;
+  numericCode: string;
+  countryId: string;
+};
+let professionalList: Array<profession> = [];
+let districtList: Array<district> = [];
 
 onBeforeMount(async () => {
   try {
-    districtList = await generalServices.getDistrictList()
-    professionalList = await generalServices.getProfessionList()
+    districtList = await generalServices.getDistrictList();
+    professionalList = await generalServices.getProfessionList();
 
     professionalList.forEach((profesional: profession) => {
       workOptions.push({
         text: profesional.name,
         value: profesional.id,
-      })
+      });
 
       workOptionsResume.push({
         text: profesional.name,
         value: profesional.id,
         disabled: true,
-      })
-    })
+      });
+    });
     districtList.forEach((district: district) => {
       locationOptions.push({
         value: district.id,
         label: district.name,
-      })
-    })
+      });
+    });
   } catch (error) {
-    alertError("Sucedió un problema durante el proceso.")
+    alertError("Sucedió un problema durante el proceso.");
   }
-})
+});
 
-// VALIDATION STEPS **************
-const dataButton = ref()
-const dataForm = ref()
-const acountButton = ref()
-const acountForm = ref()
+//#region VALIDATION STEPS
+const dataButton = ref();
+const dataForm = ref();
+const acountButton = ref();
+const acountForm = ref();
+//#endregion
 
-function validateDataForm() {
-  dataButton.value.click()
-  return dataForm.value.$el.checkValidity()
+//#region Pasos para el BeforeChange
+function prueba() {
+  return true;
 }
+const Step1 = async () => {
+  const fields = {
+    name: nameValue.value,
+    lastName: lastNameValue.value,
+    phone: phoneValue.value,
+    document: documentValue.value,
+    address: addressValue.value,
+  };
 
-function validateAcountForm() {
-  if (form.password != form.confirmPassword) {
-    alertError("Las contraseñas deben ser iguales.")
-    return false
+  const valideSchema = yup.object({
+    name: schema.name,
+    lastName: schema.lastName,
+    phone: schema.phone,
+    document: schema.document,
+    address: schema.address,
+  });
+
+  const isValid = await valideSchema.isValid(fields);
+
+  if (!isValid) {
+    nameValidate();
+    lastNameValidate();
+    phoneValidate();
+    documentValidate();
+    addressValidate();
   }
 
-  acountButton.value.click()
-  return acountForm.value.$el.checkValidity()
-}
-function validateWorkForm() {
-  isStepResumenValid.value = false
-  const cantWork = workExperience.length
+  form = { ...form, ...fields };
 
-  if (cantWork > 0 && locationSelected.value.length > 0) {
-    setTimeout(function () {
-      isStepResumenValid.value = true
-    }, 10)
-    return true
+  return isValid;
+};
+const Step2 = async () => {
+  const fields = {
+    email: emailValue.value,
+    password: passwordValue.value,
+    confirmPassword: confirmPasswordValue.value,
+  };
+
+  const valideSchema = yup.object({
+    email: schema.email,
+    password: schema.password,
+    confirmPassword: schema.confirmPassword,
+  });
+
+  const isValid = await valideSchema.isValid(fields);
+
+  if (!isValid) {
+    emailValidate();
+    passwordValidate();
+    confirmPasswordValidate();
+  }
+
+  form = { ...form, ...fields };
+
+  return isValid;
+};
+const Step3 = () => {
+  const validateProfesion = profesionRequired.value; //validar Profesion
+  const validateLocation = locationRequired.value; //validar Location
+  const cantWork = workExperience; // lista de experiencias
+  var validateExperience = false;
+
+  //Verifica minimo experiencia 1 mes
+  if (cantWork.length !== 0) {
+    validateExperience = cantWork?.every((x) => x.years > 0 || x.months > 0);
+  }
+
+  if (validateProfesion && validateLocation && validateExperience) {
+    isStepResumenValid.value = true;
+    return true;
   } else {
-    return false
+    return false;
   }
-}
+};
+const Step4 = async () => {
+  const fields = {
+    conditions: conditionsValue.value,
+  };
 
-// VALIDATION STEPS **************
+  const valideSchema = yup.object({
+    name: schema.conditions,
+  });
 
-// REGISTER SPECIALIST
-const store = useStore()
+  const isValid = await valideSchema.isValid(fields);
+
+  if (!isValid) {
+    conditionsValidate();
+  }
+
+  form = { ...form, ...fields };
+
+  return isValid;
+};
+
+//validadores profesion
+const profesionRequired = computed(() => {
+  const cantWork = workExperience.length;
+  if (cantWork > 0) return true;
+  else return false;
+});
+
+//validadores location
+const locationRequired = computed(() => {
+  if (locationSelected.value.length > 3) {
+    locationSelected.value.pop();
+  }
+  if (locationSelected.value.length > 0) return true;
+  else return false;
+});
+
+//validadores experiencia
+const countExperience = (index: any) => {
+  const expWork = workExperience;
+  if (expWork[index].months > 0 || expWork[index].years > 0) return true;
+  else return false;
+};
+//#endregion
+
+//#region REGISTER SPECIALIST
+const store = useStore();
 const structureDataRegister = () => {
-  const specialistSpecializations: Array<any> = []
-  const experienceTimes: Array<any> = []
-  const workLocations: Array<any> = []
+  const specialistSpecializations: Array<any> = [];
+  const experienceTimes: Array<any> = [];
+  const workLocations: Array<any> = [];
 
   professionalList.forEach((profession: profession) => {
     if (workList.workSelected.includes(profession.id)) {
       specialistSpecializations.push({
         specializationId: profession.id,
         professionId: profession.id,
-      })
+      });
 
       const experience = workExperience.find(
         (workExp) => workExp.id == profession.id
-      )
+      );
 
       if (experience) {
         experienceTimes.push({
@@ -717,31 +945,31 @@ const structureDataRegister = () => {
           professionName: profession.name,
           time: experience?.years * 12 + experience?.months,
           date: "2023-09-25T01:31:43.162Z",
-        })
+        });
       }
     }
-  })
+  });
   districtList.forEach((district: district) => {
     if (locationSelected.value.includes(district.id)) {
       workLocations.push({
         districtId: district.id,
         countryId: district.countryId,
-      })
+      });
     }
-  })
+  });
 
-  return { specialistSpecializations, experienceTimes, workLocations }
-}
+  return { specialistSpecializations, experienceTimes, workLocations };
+};
 const registerSpecialist = async () => {
   try {
-    if (!form.conditions) {
-      alertError("Debe aceptar los términos y condiciones.")
-      return
+    if (!conditionsValue.value) {
+      alertError("Debe aceptar los términos y condiciones.");
+      return;
     }
-    alertLoading("Registrando al usuario especialista.")
+    alertLoading("Registrando al usuario especialista.");
 
     const { specialistSpecializations, experienceTimes, workLocations } =
-      structureDataRegister()
+      structureDataRegister();
 
     await authServices.createSpecialist({
       name: form.name,
@@ -756,25 +984,24 @@ const registerSpecialist = async () => {
       specialistCv: {
         experienceTimes,
       },
-    })
+    });
 
-    alertLoading("Iniciando sesión del usuario.")
+    alertLoading("Iniciando sesión del usuario.");
     await store.dispatch("authModule/loginUser", {
       email: form.email,
       password: form.password,
-    })
+    });
 
-    alertSuccessfully("Especialista registrado exitosamente!!")
+    alertSuccessfully("Especialista registrado exitosamente!!");
     setTimeout(function () {
-      router.push({ name: "specialist-profile" })
-      closeAlert()
-    }, 2500)
+      router.push({ name: "specialist-profile" });
+      closeAlert();
+    }, 2500);
   } catch (error) {
-    alertError("Sucedió un error durante el proceso.")
+    alertError("Sucedió un error durante el proceso.");
   }
-}
-
-//END - REGISTER SPECIALIST
+};
+//#endregion
 </script>
 
 <style>
@@ -849,12 +1076,8 @@ const registerSpecialist = async () => {
 }
 
 .btn_conditions {
-  color: #0d6efd;
   text-decoration: underline;
-}
-
-.btn_conditions:hover {
-  color: #0f63e2;
+  cursor: pointer;
 }
 
 @media (max-width: 950px) {

@@ -5,85 +5,64 @@
     </b-col>
     <b-col cols="12" md="8" class="mx-auto mt-4 px-0">
       <form-wizard
-        shape
         color="#3a88ec"
         ref="formWizard"
-        title=""
-        subtitle=""
         class="px-lg-0"
         next-button-text="Siguiente"
         back-button-text="Atras"
         finish-button-text="Registrar proyecto"
       >
-        <tab-content
-          title="Describe el servicio"
-          :beforeChange="validateDataForm"
-        >
+        <tab-content title="Describe el servicio" :beforeChange="Step1">
           <b-card class="mt-1 mb-2">
-            <b-form @submit.prevent="" ref="dataForm" id="formMain" validated>
+            <b-form validated>
               <b-row class="mx-0 justify-content-between">
                 <b-col cols="12" lg="5" class="mb-3 px-0">
-                  <b-form-group label="Profesión" label-for="txtProfession">
+                  <b-form-group label="Profesión">
                     <b-form-select
-                      id="txtProfession"
-                      v-model="form.profession"
+                      v-model="professionValue"
                       :options="professionOptions"
-                      required
                       class="rounded-pill"
+                      required
                     ></b-form-select>
+                    <b-form-invalid-feedback>
+                      {{ professionError }}
+                    </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3 px-0">
-                  <b-form-group label="Distrito" label-for="txtDistrict">
+                  <b-form-group label="Distrito">
                     <b-form-select
-                      id="txtDistrict"
-                      v-model="form.district"
+                      v-model="districtValue"
                       :options="districtOptions"
-                      required
                       class="rounded-pill"
+                      required
                     ></b-form-select>
+                    <b-form-invalid-feedback>
+                      {{ districtError }}
+                    </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
               </b-row>
-              <button
-                ref="formDataButton"
-                class="form-step-button"
-                type="submit"
-              >
-                go
-              </button>
             </b-form>
           </b-card>
         </tab-content>
-        <tab-content
-          title="Describe tu proyecto"
-          :beforeChange="validateDescribe"
-        >
+        <tab-content title="Describe tu proyecto" :beforeChange="Step2">
           <b-card class="mt-1 mb-2">
-            <b-form
-              @submit.prevent=""
-              ref="dataDescribe"
-              id="formDescribe"
-              validated
-            >
+            <b-form validated>
               <b-row class="mx-0 justify-content-between">
                 <b-col cols="12" class="px-0">
-                  <b-form-group
-                    label="Describe el servicio"
-                    label-for="txtDescription"
-                    class="mb-0"
-                  >
+                  <b-form-group label="Describe el servicio">
                     <b-form-textarea
-                      id="txtDescription"
-                      v-model="form.description"
-                      placeholder="..."
+                      v-model="descriptionValue"
                       rows="5"
                       required
                     ></b-form-textarea>
+                    <b-form-invalid-feedback>
+                      {{ descriptionError }}
+                    </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
               </b-row>
-
               <br />
               <label for="">Fotos de referencia</label>
               <b-row class="mx-0 justify-content-around">
@@ -97,6 +76,11 @@
                   <div
                     class="form-image__file mb-3 mt-3"
                     :class="!image.url ? 'form-image__file--aux' : ''"
+                    :style="
+                      !image.url
+                        ? 'border: #dc3545 1px solid'
+                        : 'border: #198754 1px solid'
+                    "
                   >
                     <img
                       @click="uploadImage(index)"
@@ -120,38 +104,46 @@
                     style="display: none"
                     :ref="`portadaFile${index}`"
                     :id="`portadaFile${index}`"
+                    accept="image/png, image/jpeg"
                     hidden
                     @change="changeFileCover"
                   />
                 </b-col>
               </b-row>
+              <b-form-invalid-feedback :state="imagenRequired">
+                Suba una imagen como minimo para la referencia
+              </b-form-invalid-feedback>
             </b-form>
           </b-card>
         </tab-content>
-        <tab-content title="Cuéntanos de ti" :beforeChange="validateAcountForm">
+        <tab-content title="Cuéntanos de ti" :beforeChange="Step3">
           <b-card class="mt-1 mb-2">
-            <b-form @submit.prevent="" id="acountForm" validated>
+            <b-form validated>
               <b-row class="mx-0 justify-content-between">
                 <b-col cols="12" lg="5" class="mb-3 px-0">
-                  <b-form-group label="Nombres" label-for="txtName">
+                  <b-form-group label="Nombres">
                     <b-form-input
-                      id="txtName"
-                      v-model="form.name"
+                      v-model="nameValue"
                       placeholder="Ingrese su nombre"
-                      required
                       class="rounded-pill"
+                      required
                     ></b-form-input>
+                    <b-form-invalid-feedback>
+                      {{ nameError }}
+                    </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3 px-0">
-                  <b-form-group label="Apellidos" label-for="txtLastname">
+                  <b-form-group label="Apellidos">
                     <b-form-input
-                      id="txtLastname"
-                      v-model="form.lastname"
+                      v-model="lastnameValue"
                       placeholder="Ingrese su apellidos"
-                      required
                       class="rounded-pill"
+                      required
                     ></b-form-input>
+                    <b-form-invalid-feedback>
+                      {{ lastnameError }}
+                    </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
               </b-row>
@@ -160,81 +152,75 @@
               <hr />
               <b-row class="mx-0 justify-content-between mt-4">
                 <b-col cols="12" lg="5" class="mb-3 px-0">
-                  <b-form-group label="Correo electrónico" label-for="txtEmail">
+                  <b-form-group label="Correo electrónico">
                     <b-form-input
-                      id="txtEmail"
-                      v-model="form.email"
-                      type="email"
+                      v-model="emailValue"
                       placeholder="Ingrese su correo"
-                      required
                       class="rounded-pill"
+                      type="email"
+                      required
                     ></b-form-input>
+                    <b-form-invalid-feedback>
+                      {{ emailError }}
+                    </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
               </b-row>
               <b-row class="mx-0 justify-content-between">
                 <b-col cols="12" lg="5" class="mb-3 px-0">
-                  <b-form-group label="Contraseña" label-for="txtPassword">
+                  <b-form-group label="Contraseña">
                     <b-form-input
-                      id="txtPassword"
-                      v-model="form.password"
-                      type="password"
+                      v-model="passwordValue"
+                      v-on:input="confirmPasswordValidate()"
                       placeholder="Ingrese su contraseña"
-                      required
+                      type="password"
                       class="rounded-pill"
+                      required
                     ></b-form-input>
+                    <b-form-invalid-feedback :state="passwordError">
+                      {{ passwordError }}
+                    </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3 px-0">
-                  <b-form-group
-                    label="Confirmar contraseña"
-                    label-for="txtConfirmPassword"
-                  >
+                  <b-form-group label="Confirmar contraseña">
                     <b-form-input
-                      id="txtConfirmPassword"
-                      v-model="form.confirmPassword"
-                      type="password"
+                      v-model="confirmPasswordValue"
+                      v-on:input="passwordValidate()"
                       placeholder="Confirme su contraseña"
-                      required
                       class="rounded-pill"
+                      type="password"
+                      required
                     ></b-form-input>
+                    <b-form-invalid-feedback :state="confirmPasswordError">
+                      {{ confirmPasswordError }}
+                    </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
               </b-row>
-              <button
-                ref="form-acount-button"
-                class="form-step-button"
-                type="submit"
-              >
-                go
-              </button>
             </b-form>
           </b-card>
         </tab-content>
-        <tab-content title="Resumen" :beforeChange="validateResume">
-          <b-form validated id="formResumen">
+        <tab-content title="Resumen" :beforeChange="Step4">
+          <b-form validated>
             <b-card class="mb-4">
               <h6 class="mb-3">Describe el servicio</h6>
               <b-row class="mx-0 justify-content-between">
                 <b-col cols="12" lg="5" class="mb-3 px-0">
-                  <b-form-group label="Profesión" label-for="txtProfession_r">
+                  <b-form-group label="Profesión">
                     <b-form-select
-                      id="txtProfession_r"
-                      v-model="form.profession"
+                      v-model="professionValue"
                       :options="professionOptions"
-                      required
                       class="rounded-pill"
                       disabled
                     ></b-form-select>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3 px-0">
-                  <b-form-group label="Distrito" label-for="txtDistrict_r">
+                  <b-form-group label="Distrito">
                     <b-form-select
-                      id="txtDistrict_r"
-                      v-model="form.district"
+                      v-model="districtValue"
                       :options="districtOptions"
-                      required
                       class="rounded-pill"
                       disabled
                     ></b-form-select>
@@ -246,16 +232,9 @@
               <h6 class="mb-3">Describe tu proyecto</h6>
               <b-row class="mx-0 justify-content-between">
                 <b-col cols="12" class="px-0">
-                  <b-form-group
-                    label="Describe el servicio"
-                    label-for="txtDescription_r"
-                    class="mb-0"
-                  >
+                  <b-form-group label="Describe el servicio">
                     <b-form-textarea
-                      id="txtDescription_r"
-                      v-model="form.description"
-                      placeholder="..."
-                      required
+                      v-model="descriptionValue"
                       disabled
                       no-resize
                       rows="5"
@@ -263,7 +242,6 @@
                   </b-form-group>
                 </b-col>
               </b-row>
-
               <br />
               <label for="">Fotos de referencia</label>
               <b-row class="mx-0 justify-content-around">
@@ -294,59 +272,58 @@
               <h6 class="mb-3">Cuéntanos de ti</h6>
               <b-row class="mx-0 justify-content-between">
                 <b-col cols="12" lg="5" class="mb-3">
-                  <b-form-group label="Nombres" label-for="txtName_r">
+                  <b-form-group label="Nombres">
                     <b-form-input
-                      id="txtName_r"
-                      v-model="form.name"
-                      placeholder="Ingrese su nombre"
-                      required
-                      disabled
+                      v-model="nameValue"
                       class="rounded-pill"
+                      disabled
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3">
-                  <b-form-group label="Apellidos" label-for="txtLastname_r">
+                  <b-form-group label="Apellidos">
                     <b-form-input
-                      id="txtLastname_r"
-                      v-model="form.lastname"
-                      placeholder="Ingrese su apellidos"
-                      required
-                      disabled
+                      v-model="lastnameValue"
                       class="rounded-pill"
+                      disabled
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3">
-                  <b-form-group
-                    label="Correo electrónico"
-                    label-for="txtEmail_r"
-                  >
+                  <b-form-group label="Correo electrónico">
                     <b-form-input
-                      id="txtEmail_r"
-                      v-model="form.email"
-                      type="email"
-                      placeholder="Ingrese su usuario"
-                      required
-                      disabled
+                      v-model="emailValue"
                       class="rounded-pill"
+                      disabled
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
               </b-row>
             </b-card>
             <div class="mb-4">
-              <b-form-checkbox
-                v-model="form.conditions"
-                name="checkbox-1"
-                class="cursor-pointer"
-                required
-              >
-                Acepto los
-                <span class="btn_conditions" @click="showConditions = true"
-                  >términos y condiciones</span
+              <div class="d-flex">
+                <b-form-checkbox
+                  v-model="conditionsValue"
+                  name="checkbox-1"
+                  class="cursor-pointer"
+                  required
                 >
-              </b-form-checkbox>
+                </b-form-checkbox>
+                <p
+                  :style="conditionsValue ? 'color: #198754' : 'color: #dc3545'"
+                >
+                  Acepto los
+                  <span class="btn_conditions" @click="showConditions = true">
+                    términos y condiciones</span
+                  >
+                </p>
+              </div>
+              <b-form-invalid-feedback
+                :state="conditionsError"
+                style="margin-top: -15px"
+              >
+                {{ conditionsError }}
+              </b-form-invalid-feedback>
             </div>
           </b-form>
         </tab-content>
@@ -366,7 +343,7 @@
       <div>
         <b-button
           variant="primary"
-          @click="(showConditions = false), (form.conditions = true)"
+          @click="(showConditions = false), (conditionsValue = true)"
           >Aceptar</b-button
         >
       </div>
@@ -375,14 +352,33 @@
 </template>
 
 <script setup lang="ts">
-import { alertError, alertSuccessButton } from "../../../utils/SweetAlert";
+import { useField } from "vee-validate";
+import * as yup from "yup";
 import { FormWizard, TabContent } from "vue3-form-wizard";
 import "vue3-form-wizard/dist/style.css";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
-const formDataButton = ref<HTMLButtonElement>();
-const dataForm = ref<HTMLFormElement>();
+//Variables Reactivas
+const imageSelected = ref(0);
+const showConditions = ref(false);
 
+// Datos para prueba
+const professionOptions = ref([
+  { text: "Seleccione", value: "" },
+  { text: "Pintor", value: 0 },
+  { text: "Carpintero", value: 1 },
+  { text: "Albañil", value: 2 },
+  { text: "Gasfitero", value: 3 },
+]);
+const districtOptions = ref([
+  { text: "Seleccione", value: "" },
+  { text: "Los Olivos", value: 0 },
+  { text: "SMP", value: 1 },
+  { text: "Breña", value: 2 },
+  { text: "Independecia", value: 3 },
+]);
+
+// Datos para enviar
 const form = ref({
   profession: "",
   district: "",
@@ -412,81 +408,193 @@ const form = ref({
     },
   ],
 });
-const imageSelected = ref(0);
-const showConditions = ref(false);
-const professionOptions = ref([
-  { text: "Pintor", value: 0 },
-  { text: "Carpintero", value: 1 },
-  { text: "Albañil", value: 2 },
-  { text: "Gasfitero", value: 3 },
-]);
-const districtOptions = ref([
-  { text: "Los Olivos", value: 0 },
-  { text: "SMP", value: 1 },
-  { text: "Breña", value: 2 },
-  { text: "Independecia", value: 3 },
-]);
 
-function validateDataForm() {
-  if (form.value.profession === "" || form.value.district === "") {
-    alertError("Algunos campos estan vacios.");
-    return;
+// Esquema de datos con YUP
+const schema = {
+  profession: yup.string().required("Campo requerido"),
+  district: yup.string().required("Campo requerido"),
+  description: yup.string().required("Campo requerido"),
+  name: yup.string().required("Campo requerido"),
+  lastname: yup.string().required("Campo requerido"),
+  email: yup
+    .string()
+    .email("Escriba un correo valido")
+    .required("Campo requerido"),
+  password: yup
+    .string()
+    .min(8, "Se requiere 8 caracteres como minimo")
+    .required("Escriba su contraseña")
+    .test("a", "Las contraseñas no coinciden", (value) => {
+      if (value === confirmPasswordValue.value) return true;
+      else return false;
+    }),
+  confirmPassword: yup
+    .string()
+    .min(8, "Se requiere 8 caracteres como minimo")
+    .required("Confirme su contraseña")
+    .test("a", "Las contraseñas no coinciden", (value) => {
+      if (value === passwordValue.value) return true;
+      else return false;
+    }),
+  conditions: yup
+    .boolean()
+    .oneOf([true], "Acepte los terminos y condiciones")
+    .required("Acepte los terminos y condiciones"),
+};
+
+// Validaciones INPUT with UseField
+const {
+  value: professionValue,
+  errorMessage: professionError,
+  validate: professionValidate,
+} = useField("profession", schema.profession);
+const {
+  value: districtValue,
+  errorMessage: districtError,
+  validate: districtValidate,
+} = useField("district", schema.district);
+const {
+  value: descriptionValue,
+  errorMessage: descriptionError,
+  validate: descriptionValidate,
+} = useField("description", schema.description);
+const {
+  value: nameValue,
+  errorMessage: nameError,
+  validate: nameValidate,
+} = useField("name", schema.name);
+const {
+  value: lastnameValue,
+  errorMessage: lastnameError,
+  validate: lastnameValidate,
+} = useField("lastname", schema.lastname);
+const {
+  value: emailValue,
+  errorMessage: emailError,
+  validate: emailValidate,
+} = useField("email", schema.email);
+const {
+  value: passwordValue,
+  errorMessage: passwordError,
+  validate: passwordValidate,
+} = useField("password", schema.password);
+const {
+  value: confirmPasswordValue,
+  errorMessage: confirmPasswordError,
+  validate: confirmPasswordValidate,
+} = useField("confirmPassword", schema.confirmPassword);
+const {
+  value: conditionsValue,
+  errorMessage: conditionsError,
+  validate: conditionsValidate,
+} = useField("conditions", schema.conditions);
+
+// validadores para cada paso del formulario
+// beforeChange
+const Step1 = async () => {
+  const fields = {
+    profession: professionValue.value,
+    district: districtValue.value,
+  };
+
+  const valideSchema = yup.object({
+    profession: schema.profession,
+    district: schema.district,
+  });
+
+  const isValid = await valideSchema.isValid(fields);
+
+  if (!isValid) {
+    professionValidate();
+    districtValidate();
   }
-  formDataButton.value!.click();
-  const form2 = document.getElementById("formMain") as HTMLFormElement;
-  return form2.checkValidity();
-}
-function validateDescribe() {
-  if (form.value.description === "") {
-    alertError("Escriba la descripcion del servicio.");
-    return;
+
+  form.value = { ...form.value, ...fields };
+
+  return isValid;
+};
+const Step2 = async () => {
+  const fields = {
+    description: descriptionValue.value,
+  };
+
+  const valideSchema = yup.object({
+    description: schema.description,
+  });
+
+  const isValid = await valideSchema.isValid(fields);
+  const isValidRequired = imagenRequired.value; // control personalizado imagen
+
+  if (!isValid) {
+    descriptionValidate();
   }
-  if (!form.value.imagesList.some((x) => x.url !== "")) {
-    alertError("Suba una foto de referencia como minimo.");
-    return;
+
+  form.value = { ...form.value, ...fields };
+
+  return isValid && isValidRequired;
+};
+const Step3 = async () => {
+  const fields = {
+    name: nameValue.value,
+    lastname: lastnameValue.value,
+    email: emailValue.value,
+    password: passwordValue.value,
+    confirmPassword: confirmPasswordValue.value,
+  };
+
+  const valideSchema = yup.object({
+    name: schema.name,
+    lastname: schema.lastname,
+    email: schema.email,
+    password: schema.password,
+    confirmPassword: schema.confirmPassword,
+  });
+
+  const isValid = await valideSchema.isValid(fields);
+
+  if (!isValid) {
+    nameValidate();
+    lastnameValidate();
+    emailValidate();
+    passwordValidate();
+    confirmPasswordValidate();
   }
-  formDataButton.value!.click();
-  const form2 = document.getElementById("formDescribe") as HTMLFormElement;
-  return form2.checkValidity();
-}
-function validateAcountForm() {
-  if (
-    form.value.password === "" ||
-    form.value.name === "" ||
-    form.value.lastname === "" ||
-    form.value.confirmPassword === "" ||
-    form.value.email === ""
-  ) {
-    alertError("Algunos campos estan vacios");
-    return;
+
+  form.value = { ...form.value, ...fields };
+
+  return isValid;
+};
+const Step4 = async () => {
+  const fields = {
+    conditions: conditionsValue.value,
+  };
+
+  const valideSchema = yup.object({
+    conditions: schema.conditions,
+  });
+
+  const isValid = await valideSchema.isValid(fields);
+
+  if (!isValid) {
+    conditionsValidate();
   }
-  if (form.value.password !== form.value.confirmPassword) {
-    alertError("Las contraseñas deben ser iguales.");
-    return;
+
+  if (isValid) {
+    form.value = { ...form.value, ...fields };
+    const value = form.value;
+    console.log(value);
   }
-  formDataButton.value!.click();
-  const form2 = document.getElementById("acountForm") as HTMLFormElement;
-  return form2.checkValidity();
-}
-function validateResume() {
-  if (!form.value.conditions) {
-    alertError("Debe de aceptar los terminos y condiciones.");
-  } else {
-    formDataButton.value!.click();
-    const form2 = document.getElementById("formResumen") as HTMLFormElement;
-    alertSuccessButton("Proyecto registrado.");
-    return form2.checkValidity();
-  }
-}
-function registerSpecialist() {
-  console.log("Se registrará un expediente");
-}
+  return isValid;
+};
+
+// subiendo imagen especifico al index
 function uploadImage(index: any) {
   imageSelected.value = index;
-  // const btnFile = this.$refs[`portadaFile${index}`][0].$el.children[0];
   const btnFile: any = document.getElementById(`portadaFile${index}`);
   btnFile.click();
 }
+
+// cambia el cover por la imagen subida
 function changeFileCover(event: any) {
   const index = imageSelected.value;
   const file = event.target.files[0];
@@ -495,16 +603,40 @@ function changeFileCover(event: any) {
     form.value.imagesList[index].file = null;
     return;
   }
+  // if (file.size > 2 * 1024 * 1024) {
+  //   alert("El archivo debe ser menor a 2 MB");
+  //   return;
+  // }
+  // const fileType = file.type;
+  // if (fileType !== "image/png" && fileType !== "image/jpeg") {
+  //   alert("El archivo debe ser de tipo .jpg o .png");
+  //   return;
+  // }
   form.value.imagesList[index].file = file;
   const fr = new FileReader();
   fr.onload = () => (form.value.imagesList[index].url = String(fr.result));
   fr.readAsDataURL(file);
   event.target.value = ""; // Restablecer valor del input
 }
+
+// borrando una imagen
 function deleteImage(index: any) {
   form.value.imagesList[index].url = "";
   form.value.imagesList[index].file = null;
 }
+
+// activa el mensaje indicando que se requiere minimo una imagen
+const imagenRequired = computed(() => {
+  if (!form.value.imagesList.some((x) => x.url !== "")) {
+    return false;
+  } else {
+    return true;
+  }
+});
+
+// otros revisar para quitar
+const formDataButton = ref<HTMLButtonElement>();
+const dataForm = ref<HTMLFormElement>();
 </script>
 
 <style>

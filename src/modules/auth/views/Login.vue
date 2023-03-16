@@ -9,35 +9,43 @@
           <b-form @submit.prevent="login">
             <b-form-group label="Correo electrónico" label-for="txtEmail_l">
               <b-form-input
-                v-model="email"
+                v-model="emailValue"
                 placeholder="Ingrese su correo"
                 type="email"
                 id="txtEmail_l"
                 class="rounded-pill"
                 required
               ></b-form-input>
+              <b-form-invalid-feedback :state="emailError">
+                {{ emailError }}
+              </b-form-invalid-feedback>
             </b-form-group>
             <b-form-group label="Contraseña" label-for="txtPassword_l">
               <b-form-input
-                v-model="password"
+                v-model="passwordValue"
                 placeholder="Ingrese su contraseña"
                 type="password"
                 id="txtPassword_l"
                 class="rounded-pill"
                 required
               ></b-form-input>
+              <b-form-invalid-feedback :state="passwordError">
+                {{ passwordError }}
+              </b-form-invalid-feedback>
             </b-form-group>
             <div class="text-end mb-4">
               <b-link @click="forgotPassword">Olvide mi contraseña</b-link>
             </div>
-            <b-button class="w-100" variant="primary" type="submit"
+            <b-button
+              class="w-100"
+              variant="primary"
+              type="submit"
+              @click="verificar()"
               >Ingresar</b-button
             >
             <p class="text-end mt-4">
               ¿No tienes una cuenta?
-              <b-link @click="$router.push({ name: 'register-type' })">
-                Regístrate
-              </b-link>
+              <b-link @click="register()"> Regístrate </b-link>
             </p>
           </b-form>
         </div>
@@ -47,9 +55,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue"
-import { useRouter } from "vue-router"
-import { useStore } from "vuex"
+import { defineComponent, ref } from "vue";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+import { useField } from "vee-validate";
+import * as yup from "yup";
 
 // FUNCTIONS
 import {
@@ -57,50 +67,81 @@ import {
   alertLoading,
   alertSuccessfully,
   closeAlert,
-} from "../../../utils/SweetAlert"
+} from "../../../utils/SweetAlert";
 
 // SERVICES
-import { AuthServices } from "@/services/api/authServices"
+import { AuthServices } from "@/services/api/authServices";
 
 export default defineComponent({
   name: "LoginComponent",
   setup() {
-    const email = ref("")
-    const password = ref("")
-    const router = useRouter()
-    const store = useStore()
+    const router = useRouter();
+    const store = useStore();
+
+    const schema = {
+      email: yup
+        .string()
+        .email("Escriba un correo valido")
+        .required("Campo requerido"),
+      password: yup.string().required("Campo requerido"),
+    };
+    const {
+      value: emailValue,
+      errorMessage: emailError,
+      validate: emailValidate,
+    } = useField("email", schema.email);
+    const {
+      value: passwordValue,
+      errorMessage: passwordError,
+      validate: passwordValidate,
+    } = useField("password", schema.password);
+
+    function verificar() {
+      emailValidate();
+      passwordValidate();
+    }
 
     const login = async () => {
       try {
-        alertLoading()
-
+        alertLoading();
         await store.dispatch("authModule/loginUser", {
-          email: email.value,
-          password: password.value,
-        })
+          email: emailValue.value,
+          password: passwordValue.value,
+        });
 
-        alertSuccessfully("Usuario inicio sesión exitosamente!!")
+        alertSuccessfully("Usuario inicio sesión exitosamente!!");
         setTimeout(function () {
-          router.push({ name: "home" })
-          closeAlert()
-        }, 1500)
+          router.push({ name: "home" });
+          closeAlert();
+        }, 1500);
       } catch (error) {
-        alertError("Sucedió un error durante el inicio de sesión.")
+        alertError("Sucedió un error durante el inicio de sesión.");
       }
-    }
+    };
 
-    const forgotPassword = () => {
-      router.push({ name: "forgot-password" })
+    function forgotPassword() {
+      setTimeout(() => {
+        router.push({ name: "forgot-password" });
+      }, 10);
+    }
+    function register() {
+      setTimeout(() => {
+        router.push({ name: "register-type" });
+      }, 10);
     }
 
     return {
-      email,
-      password,
+      emailValue,
+      emailError,
+      passwordValue,
+      passwordError,
+      verificar,
       login,
+      register,
       forgotPassword,
-    }
+    };
   },
-})
+});
 </script>
 
 <style scoped>
