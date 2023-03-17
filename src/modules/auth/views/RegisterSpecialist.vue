@@ -941,10 +941,9 @@ const structureDataRegister = () => {
 
       if (experience) {
         experienceTimes.push({
-          professionId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          professionId: profession.id,
           professionName: profession.name,
-          time: experience?.years * 12 + experience?.months,
-          date: "2023-09-25T01:31:43.162Z",
+          time: experience?.years * 12 + experience?.months
         });
       }
     }
