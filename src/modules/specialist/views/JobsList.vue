@@ -7,33 +7,33 @@
             <div class="col-12 col-lg-4 mb-3">
               <b-form-group label="Categoria" label-for="select-category">
                 <v-select
-                  id="select-category"
-                  multiple
-                  v-model="categorySelected"
-                  :options="selectCategories"
-                  :reduce="(option) => option.value"
+                    id="select-category"
+                    multiple
+                    v-model="categorySelected"
+                    :options="selectCategories"
+                    :reduce="(option: any) => option.value"
                 />
               </b-form-group>
             </div>
             <div class="col-12 col-lg-4 mb-3">
               <b-form-group label="Fecha" label-for="select-date">
                 <v-select
-                  id="select-date"
-                  multiple
-                  v-model="dateSelected"
-                  :options="selectDates"
-                  :reduce="(option) => option.value"
+                    id="select-date"
+                    multiple
+                    v-model="dateSelected"
+                    :options="selectDates"
+                    :reduce="(option: any) => option.value"
                 />
               </b-form-group>
             </div>
             <div class="col-12 col-lg-4 mb-3">
               <b-form-group label="Ubicación" label-for="select-location">
                 <v-select
-                  id="select-location"
-                  multiple
-                  v-model="locationSelected"
-                  :options="selectLocations"
-                  :reduce="(option) => option.value"
+                    id="select-location"
+                    multiple
+                    v-model="locationSelected"
+                    :options="selectLocations"
+                    :reduce="(option: any) => option.value"
                 />
               </b-form-group>
             </div>
@@ -47,24 +47,24 @@
         <h4 class="text-center">Trabajos</h4>
         <div class="jobs__list px-3">
           <b-card
-            class="job__item mb-4"
-            v-for="(job, index) in jobsListFilter"
-            :key="index"
+              class="job__item mb-4"
+              v-for="(job, index) in jobsListFilter"
+              :key="index"
           >
             <span class="job__data d-block"
-              ><b>Solicitante:</b> {{ job.petitioner }}</span
+            ><b>Solicitante:</b> {{ job.petitioner }}</span
             >
             <span class="job__data d-block"><b>Categoría de servicio:</b></span>
             <span class="job__data d-block text-center">{{
-              job.category
-            }}</span>
+                job.category
+              }}</span>
             <span class="job__data d-block mt-2"><b>Descripción:</b></span>
             <p class="job__data">
               {{ job.description }}
             </p>
             <div class="d-flex justify-content-between align-items-center mt-3">
               <b-button variant="primary" @click="isWorkDetailActive = true"
-                >Ver detaille</b-button
+              >Ver detaille</b-button
               >
               <span>Hace 2 días</span>
             </div>
@@ -72,19 +72,19 @@
         </div>
         <div class="mt-3">
           <b-pagination
-            v-model="currentPage"
-            :total-rows="totalRows"
-            :per-page="perPage"
-            first-number
-            last-number
-            align="center"
+              v-model="currentPage"
+              :total-rows="totalRows"
+              :per-page="perPage"
+              first-number
+              last-number
+              align="center"
           ></b-pagination>
         </div>
       </div>
 
       <div
-        class="mx-0"
-        :class="!isWorkDetailActive ? 'job-detail__container' : ''"
+          class="mx-0"
+          :class="!isWorkDetailActive ? 'job-detail__container' : ''"
       >
         <div class="col-12 px-0">
           <div v-if="!isWorkDetailActive" class="job-detail__no-data">
@@ -100,14 +100,14 @@
               <div class="d-flex justify-content-between">
                 <h1 class="job-detail__title">Trabajo</h1>
                 <span
-                  class="job-detail__close"
-                  @click="isWorkDetailActive = false"
-                  ><i class="fa-solid fa-xmark"></i
+                    class="job-detail__close"
+                    @click="isWorkDetailActive = false"
+                ><i class="fa-solid fa-xmark"></i
                 ></span>
               </div>
               <hr />
               <div
-                class="d-flex justify-content-between align-items-center flex-wrap"
+                  class="d-flex justify-content-between align-items-center flex-wrap"
               >
                 <div class="d-flex align-items-center">
                   <div class="job-detail__petitioner-image">
@@ -119,14 +119,14 @@
               </div>
 
               <div
-                class="d-flex justify-content-between align-items-center mt-3"
+                  class="d-flex justify-content-between align-items-center mt-3"
               >
                 <span class="job-detail__state--open"
-                  >Estado:
+                >Estado:
                   <i class="fa-solid fa-circle ms-2 me-1"></i> Abierto</span
                 >
                 <span class="job-detail__timer"
-                  ><i class="fa-solid fa-clock me-1"></i>Urge contratar</span
+                ><i class="fa-solid fa-clock me-1"></i>Urge contratar</span
                 >
               </div>
 
@@ -153,7 +153,7 @@
               </div>
               <div class="mt-3">
                 <span class="d-block mb-1"
-                  ><b>Ubicacion de trabajo:</b> Ventanilla</span
+                ><b>Ubicacion de trabajo:</b> Ventanilla</span
                 >
               </div>
               <div class="mt-3 mb-4">
@@ -164,53 +164,53 @@
                   <Slide :key="1">
                     <div class="job-detail__image">
                       <img
-                        src="@/assets/img-delete/pintor.jpg"
-                        @click="showModalImage = true"
-                        role="button"
+                          src="@/assets/img-delete/pintor.jpg"
+                          @click="showModalImage = true"
+                          role="button"
                       />
                     </div>
                   </Slide>
                   <Slide :key="2">
                     <div class="job-detail__image">
                       <img
-                        src="@/assets/img-delete/pintor.jpg"
-                        @click="showModalImage = true"
-                        role="button"
+                          src="@/assets/img-delete/pintor.jpg"
+                          @click="showModalImage = true"
+                          role="button"
                       />
                     </div>
                   </Slide>
                   <slide :key="3">
                     <div class="job-detail__image">
                       <img
-                        src="@/assets/img-delete/pintor.jpg"
-                        @click="showModalImage = true"
-                        role="button"
+                          src="@/assets/img-delete/pintor.jpg"
+                          @click="showModalImage = true"
+                          role="button"
                       />
                     </div>
                   </slide>
                   <Slide :key="4">
                     <div class="job-detail__image">
                       <img
-                        src="@/assets/img-delete/pintor.jpg"
-                        @click="showModalImage = true"
-                        role="button"
+                          src="@/assets/img-delete/pintor.jpg"
+                          @click="showModalImage = true"
+                          role="button"
                       />
                     </div>
                   </Slide>
                   <Slide :key="5">
                     <div class="job-detail__image">
                       <img
-                        src="@/assets/img-delete/pintor.jpg"
-                        @click="showModalImage = true"
-                        role="button"
+                          src="@/assets/img-delete/pintor.jpg"
+                          @click="showModalImage = true"
+                          role="button"
                       />
                     </div>
                   </Slide>
                   <template #addons="{ slidesCount }">
                     <Navigation v-if="slidesCount > 1">
                       <template v-slot:prev
-                        ><span class="btn-carrousel btn-carrousel--prev"
-                          ><i class="fa-solid fa-circle-chevron-left"></i></span
+                      ><span class="btn-carrousel btn-carrousel--prev"
+                      ><i class="fa-solid fa-circle-chevron-left"></i></span
                       ></template>
                       <template v-slot:next>
                         <span class="btn-carrousel btn-carrousel--next">
@@ -224,7 +224,7 @@
               </div>
               <div class="d-flex justify-content-center mt-4">
                 <b-button variant="primary" @click="showModalProposal = true"
-                  >Enviar propuestas</b-button
+                >Enviar propuestas</b-button
                 >
               </div>
             </div>
@@ -233,17 +233,17 @@
       </div>
     </div>
     <div
-      class="jobs__content jobs__content-web col-12 col-lg-4 pt-3 d-none d-lg-block"
+        class="jobs__content jobs__content-web col-12 col-lg-4 pt-3 d-none d-lg-block"
     >
       <h4 class="mb-1 px-3">Trabajos</h4>
       <div class="jobs__list px-3 pt-1">
         <b-card
-          class="job__item mb-4"
-          v-for="(job, index) in jobsListFilter"
-          :key="index"
+            class="job__item mb-4"
+            v-for="(job, index) in jobsListFilter"
+            :key="index"
         >
           <span class="job__data d-block"
-            ><b>Solicitante:</b> {{ job.petitioner }}</span
+          ><b>Solicitante:</b> {{ job.petitioner }}</span
           >
           <span class="job__data d-block"><b>Categoría de servicio:</b></span>
           <span class="job__data d-block text-center">{{ job.category }}</span>
@@ -253,7 +253,7 @@
           </p>
           <div class="d-flex justify-content-between align-items-center mt-3">
             <b-button variant="primary" @click="isWorkDetailActive = true"
-              >Ver detaille</b-button
+            >Ver detaille</b-button
             >
             <span>Hace 2 días</span>
           </div>
@@ -261,24 +261,24 @@
       </div>
       <div class="mt-3">
         <b-pagination
-          v-model="currentPage"
-          :total-rows="totalRows"
-          :per-page="perPage"
-          first-number
-          last-number
-          align="center"
+            v-model="currentPage"
+            :total-rows="totalRows"
+            :per-page="perPage"
+            first-number
+            last-number
+            align="center"
         ></b-pagination>
       </div>
     </div>
 
     <b-modal
-      v-model="showModalProposal"
-      id="modal-proposal"
-      title="Mi propuesta"
-      size="lg"
-      centered
+        v-model="showModalProposal"
+        id="modal-proposal"
+        title="Mi propuesta"
+        size="lg"
+        centered
     >
-      <b-form @submit.prevent="sendProposal" ref="formModal" validated>
+      <b-form @submit.prevent="sendProposal" ref="formModal">
         <p>
           Estima un rango de tus honorarios por el trabajo. Excluye el precio de
           los materiales u otros
@@ -287,41 +287,54 @@
           <div class="col-12 col-lg-5 col-sm-12">
             <b-input-group prepend="S/" id="input-proposal-1">
               <b-form-input
-                placeholder="Minimo"
-                v-model="form.min"
-                oninput="this.value = value.replace(/[^0-9]/g, '')"
-                required
-                class="rounded-right"
+                  placeholder="Minimo"
+                  v-model="honorarioMinValue"
+                  :state="validateState(honorarioMinValue, honorarioMinError)"
+                  oninput="this.value = value.replace(/[^0-9]/g, '')"
+                  @input="honorarioMaxValidate()"
+                  class="rounded-right"
               ></b-form-input>
+              <b-form-invalid-feedback :state="honorarioMinError">
+                {{ honorarioMinError }}
+              </b-form-invalid-feedback>
             </b-input-group>
           </div>
           <div class="col-12 col-lg-2 col-sm-12 text-center">-</div>
           <div class="col-12 col-lg-5 col-sm-12">
             <b-input-group prepend="S/" id="input-proposal-2">
               <b-form-input
-                placeholder="Maximo"
-                oninput="this.value = value.replace(/[^0-9]/g, '')"
-                v-model="form.max"
-                required
-                class="rounded-right"
+                  placeholder="Maximo"
+                  oninput="this.value = value.replace(/[^0-9]/g, '')"
+                  v-model="honorarioMaxValue"
+                  :state="validateState(honorarioMaxValue, honorarioMaxError)"
+                  @input="honorarioMinValidate()"
+                  required
+                  class="rounded-right"
               ></b-form-input>
+              <b-form-invalid-feedback :state="honorarioMaxError">
+                {{ honorarioMaxError }}
+              </b-form-invalid-feedback>
             </b-input-group>
           </div>
         </div>
         <b-form-group
-          id="input-group-3"
-          label="Comentarios adicionales:"
-          label-for="textarea"
-          class="mt-5"
+            id="input-group-3"
+            label="Comentarios adicionales:"
+            label-for="textarea"
+            class="mt-5"
         >
           <b-form-textarea
-            id="textarea"
-            v-model="form.coment"
-            placeholder="Ingrese un comentario adicional"
-            class="rounded-left"
-            rows="3"
-            max-rows="6"
+              id="textarea"
+              v-model="comentarioValue"
+              :state="validateState(comentarioValue, comentarioError)"
+              placeholder="Ingrese un comentario adicional"
+              class="rounded-left"
+              rows="3"
+              max-rows="6"
           ></b-form-textarea>
+          <b-form-invalid-feedback :state="comentarioError">
+            {{ comentarioError }}
+          </b-form-invalid-feedback>
         </b-form-group>
         <div style="display: none">
           <button type="submit" ref="btnModal"></button>
@@ -330,18 +343,18 @@
       <template v-slot:footer>
         <b-row class="mx-0 w-100">
           <b-col
-            cols="12"
-            lg="11"
-            class="d-flex justify-content-end w-100 mx-auto"
+              cols="12"
+              lg="11"
+              class="d-flex justify-content-end w-100 mx-auto"
           >
             <b-button
-              variant="secondary"
-              @click="showModalProposal = false"
-              class="me-3"
-              >Cancelar
+                variant="secondary"
+                @click="showModalProposal = false"
+                class="me-3"
+            >Cancelar
             </b-button>
             <b-button variant="primary" @click="sendProposal()"
-              >Enviar</b-button
+            >Enviar</b-button
             >
           </b-col>
         </b-row>
@@ -349,9 +362,9 @@
     </b-modal>
 
     <modal-image
-      v-show="showModalImage"
-      @close-modal="showModalImage = false"
-      @click="showModalImage = false"
+        v-show="showModalImage"
+        @close-modal="showModalImage = false"
+        @click="showModalImage = false"
     />
   </div>
 </template>
@@ -363,6 +376,8 @@ import { defineComponent, onMounted, ref, watch, watchEffect } from "vue";
 import Job from "@/interfaces/Job.interface";
 import DropDownItem from "@/interfaces/DropDownItem.interface";
 import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
+import { useField } from "vee-validate";
+import * as yup from "yup";
 
 export default defineComponent({
   name: "JobsListComponent",
@@ -485,6 +500,55 @@ export default defineComponent({
       coment: "",
     });
 
+    const validateState = (value: any, error: any) => {
+      if (value === undefined && error === undefined) return null;
+      else if (error) return false;
+      return true;
+    };
+
+    //#region SCHEMA YUP
+    const schema = {
+      honorarioMin: yup
+          .number()
+          .required("Campo requerido")
+          .typeError("Campo requerido")
+          .test("aaa", "El monto de ser menor al maximo", (value) => {
+            if (value < honorarioMaxValue.value) return true;
+            else return false;
+          }),
+      honorarioMax: yup
+          .number()
+          .required("Campo requerido")
+          .typeError("Campo requerido")
+          .test("aa", "El monto de ser mayor al minimo", (value) => {
+            if (value > honorarioMinValue.value) return true;
+            else return false;
+          }),
+      comentario: yup.string().required("Campo requerido"),
+    };
+    //#endregion
+
+    //#region USE-FIELD
+    const {
+      value: honorarioMinValue,
+      errorMessage: honorarioMinError,
+      validate: honorarioMinValidate,
+      resetField: honorarioMinReset,
+    } = useField("honorarioMin", schema.honorarioMin);
+    const {
+      value: honorarioMaxValue,
+      errorMessage: honorarioMaxError,
+      validate: honorarioMaxValidate,
+      resetField: honorarioMaxReset,
+    } = useField("honorarioMax", schema.honorarioMax);
+    const {
+      value: comentarioValue,
+      errorMessage: comentarioError,
+      validate: comentarioValidate,
+      resetField: comentarioReset,
+    } = useField("comentario", schema.comentario);
+    //#endregion
+
     const changePage = (page: number) => {
       const mq = window.matchMedia("(max-width: 991px)");
       if (!mq.matches) {
@@ -497,8 +561,8 @@ export default defineComponent({
       }
 
       jobsListFilter.value = jobsList.value.slice(
-        (page - 1) * perPage.value,
-        page * perPage.value
+          (page - 1) * perPage.value,
+          page * perPage.value
       );
     };
 
@@ -507,22 +571,43 @@ export default defineComponent({
       changePage(1);
     };
 
-    const sendProposal = () => {
-      if (form.value.min !== "" && form.value.max !== "") {
-        if (form.value.min > form.value.max) {
-          alertError("El monto minimo no puede ser mayor al maximo");
-        } else {
-          alertSuccessButton("Se envio una propuesta exitosamente");
-          showModalProposal.value = false;
-        }
-      } else {
-        alertError("El monto minimo o maximo no puede ser nulo");
+    const sendProposal = async () => {
+      const fields = {
+        min: honorarioMinValue.value,
+        max: honorarioMaxValue.value,
+        coment: comentarioValue.value,
+      };
+
+      const valideSchema = yup.object({
+        min: schema.honorarioMin,
+        max: schema.honorarioMax,
+        coment: schema.comentario,
+      });
+
+      const isValid = await valideSchema.isValid(fields);
+
+      if (!isValid) {
+        honorarioMinValidate();
+        honorarioMaxValidate();
+        comentarioValidate();
+      }
+
+      if (isValid) {
+        form.value = { ...form.value, ...fields };
+        const value = form.value;
+        console.log(value);
       }
     };
 
     watch(currentPage, (newValue, oldValue) => {
       //changePage(newValue);
       console.log(newValue, oldValue);
+    });
+
+    watch(showModalProposal, () => {
+      honorarioMinReset();
+      honorarioMaxReset();
+      comentarioReset();
     });
 
     watchEffect(() => {
@@ -557,7 +642,16 @@ export default defineComponent({
       jobsList,
       jobsListFilter,
       form,
+      honorarioMinValue,
+      honorarioMinError,
+      honorarioMinValidate,
+      honorarioMaxValue,
+      honorarioMaxError,
+      honorarioMaxValidate,
+      comentarioValue,
+      comentarioError,
       sendProposal,
+      validateState,
     };
   },
 });
@@ -565,136 +659,136 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .jobs__container {
-  .jobs__content {
-    border-left: 1px solid rgba(0, 0, 0, 0.274);
+.jobs__content {
+  border-left: 1px solid rgba(0, 0, 0, 0.274);
 
-    .jobs__list {
-      .job__item {
-        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.274) !important;
+.jobs__list {
+.job__item {
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.274) !important;
 
-        .job__data {
-          font-size: 0.9rem;
-        }
-      }
-    }
-  }
+.job__data {
+  font-size: 0.9rem;
+}
+}
+}
+}
 
-  .jobs__content--movil {
-    border: none;
+.jobs__content--movil {
+  border: none;
 
-    .jobs__list {
-      width: 100%;
-      overflow-x: auto;
-      white-space: nowrap;
+.jobs__list {
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
 
-      .job__item {
-        display: inline-block;
-        margin-right: 15px;
-        width: 80%;
-        max-width: 350px;
+.job__item {
+  display: inline-block;
+  margin-right: 15px;
+  width: 80%;
+  max-width: 350px;
 
-        .job__data {
-          white-space: normal;
-        }
-      }
-    }
-  }
+.job__data {
+  white-space: normal;
+}
+}
+}
+}
 
-  .jobs__content-web {
-    min-height: calc(100vh - 110px);
+.jobs__content-web {
+  min-height: calc(100vh - 110px);
 
-    .jobs__list {
-      overflow: auto;
+.jobs__list {
+  overflow: auto;
 
-      .job__item {
-        height: auto;
-      }
-    }
-  }
+.job__item {
+  height: auto;
+}
+}
+}
 
-  .job__filters {
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.274) !important;
-  }
+.job__filters {
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.274) !important;
+}
 
-  .job-detail__container {
-    height: calc(100% - 250px);
+.job-detail__container {
+  height: calc(100% - 250px);
 
-    .job-detail__no-data {
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-  }
+.job-detail__no-data {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+}
 
-  .job-detail {
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.274) !important;
+.job-detail {
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.274) !important;
 
-    .job-detail__title {
-      font-size: 1.8rem;
-    }
+.job-detail__title {
+  font-size: 1.8rem;
+}
 
-    .job-detail__close {
-      cursor: pointer;
-      font-size: 1.3rem;
+.job-detail__close {
+  cursor: pointer;
+  font-size: 1.3rem;
 
-      &:hover {
-        color: rgb(51, 51, 51);
-      }
-    }
+&:hover {
+   color: rgb(51, 51, 51);
+ }
+}
 
-    .job-detail__petitioner-image {
-      height: 65px;
-      width: 65px;
-      border-radius: 100%;
+.job-detail__petitioner-image {
+  height: 65px;
+  width: 65px;
+  border-radius: 100%;
 
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 100%;
-      }
-    }
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 100%;
+}
+}
 
-    .job-detail__name {
-      font-size: 1.4rem;
-    }
+.job-detail__name {
+  font-size: 1.4rem;
+}
 
-    .job-detail__state--open {
-      i {
-        color: rgb(64, 231, 114);
-      }
-    }
+.job-detail__state--open {
+i {
+  color: rgb(64, 231, 114);
+}
+}
 
-    .job-detail__timer {
-      i {
-        color: #3a88ec;
-      }
-    }
+.job-detail__timer {
+i {
+  color: #3a88ec;
+}
+}
 
-    .job-detail__work {
-      padding: 6px 25px;
-      background-color: #3a88ec;
-      color: white;
-      width: 80%;
-      max-width: 250px;
-      min-width: 120px;
-      border-radius: 25px;
-    }
+.job-detail__work {
+  padding: 6px 25px;
+  background-color: #3a88ec;
+  color: white;
+  width: 80%;
+  max-width: 250px;
+  min-width: 120px;
+  border-radius: 25px;
+}
 
-    .job-detail__image {
-      height: 140px;
-      border: 1px solid rgba(61, 61, 61, 0.527);
-      border-radius: 5px;
+.job-detail__image {
+  height: 140px;
+  border: 1px solid rgba(61, 61, 61, 0.527);
+  border-radius: 5px;
 
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 5px;
-      }
-    }
-  }
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+}
+}
+}
 }
 
 #imagen__content {
@@ -703,11 +797,11 @@ export default defineComponent({
   margin: auto;
   max-width: 100%;
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 }
 
 #input-proposal-1 .input-group-prepend .input-group-text,
@@ -724,11 +818,11 @@ export default defineComponent({
 
 @media (max-width: 991px) {
   .jobs__container {
-    .job-detail__container {
-      height: auto;
-      padding: 15px 0;
-      margin-bottom: 20px;
-    }
+  .job-detail__container {
+    height: auto;
+    padding: 15px 0;
+    margin-bottom: 20px;
   }
+}
 }
 </style>

@@ -9,12 +9,11 @@
           <b-form @submit.prevent="login">
             <b-form-group label="Correo electrónico" label-for="txtEmail_l">
               <b-form-input
-                v-model="emailValue"
-                placeholder="Ingrese su correo"
-                type="email"
-                id="txtEmail_l"
-                class="rounded-pill"
-                required
+                  v-model="emailValue"
+                  placeholder="Ingrese su correo"
+                  id="txtEmail_l"
+                  class="rounded-pill"
+                  :state="validateState(emailValue, emailError)"
               ></b-form-input>
               <b-form-invalid-feedback :state="emailError">
                 {{ emailError }}
@@ -22,12 +21,12 @@
             </b-form-group>
             <b-form-group label="Contraseña" label-for="txtPassword_l">
               <b-form-input
-                v-model="passwordValue"
-                placeholder="Ingrese su contraseña"
-                type="password"
-                id="txtPassword_l"
-                class="rounded-pill"
-                required
+                  v-model="passwordValue"
+                  placeholder="Ingrese su contraseña"
+                  type="password"
+                  id="txtPassword_l"
+                  class="rounded-pill"
+                  :state="validateState(passwordValue, passwordError)"
               ></b-form-input>
               <b-form-invalid-feedback :state="passwordError">
                 {{ passwordError }}
@@ -36,12 +35,8 @@
             <div class="text-end mb-4">
               <b-link @click="forgotPassword">Olvide mi contraseña</b-link>
             </div>
-            <b-button
-              class="w-100"
-              variant="primary"
-              type="submit"
-              @click="verificar()"
-              >Ingresar</b-button
+            <b-button class="w-100" variant="primary" type="submit"
+            >Ingresar</b-button
             >
             <p class="text-end mt-4">
               ¿No tienes una cuenta?
@@ -78,12 +73,21 @@ export default defineComponent({
     const router = useRouter();
     const store = useStore();
 
+    const validateState = (value: any, error: any) => {
+      if (value === undefined && error === undefined) return null;
+      else if (error) return false;
+      return true;
+    };
+
     const schema = {
       email: yup
-        .string()
-        .email("Escriba un correo valido")
-        .required("Campo requerido"),
-      password: yup.string().required("Campo requerido"),
+          .string()
+          .email("Escriba un correo valido")
+          .required("Campo requerido"),
+      password: yup
+          .string()
+          .min(8, "Se requiere 8 caracteres como minimo")
+          .required("Campo requerido"),
     };
     const {
       value: emailValue,
@@ -102,20 +106,39 @@ export default defineComponent({
     }
 
     const login = async () => {
-      try {
-        alertLoading();
-        await store.dispatch("authModule/loginUser", {
-          email: emailValue.value,
-          password: passwordValue.value,
-        });
+      const fields = {
+        email: emailValue.value,
+        password: passwordValue.value,
+      };
 
-        alertSuccessfully("Usuario inicio sesión exitosamente!!");
-        setTimeout(function () {
-          router.push({ name: "home" });
-          closeAlert();
-        }, 1500);
-      } catch (error) {
-        alertError("Sucedió un error durante el inicio de sesión.");
+      const valideSchema = yup.object({
+        email: schema.email,
+        password: schema.password,
+      });
+
+      const isValid = await valideSchema.isValid(fields);
+
+      if (!isValid) {
+        emailValidate();
+        passwordValidate();
+      }
+
+      if (isValid) {
+        try {
+          alertLoading();
+          await store.dispatch("authModule/loginUser", {
+            email: emailValue.value,
+            password: passwordValue.value,
+          });
+
+          alertSuccessfully("Usuario inicio sesión exitosamente!!");
+          setTimeout(function () {
+            router.push({ name: "home" });
+            closeAlert();
+          }, 1500);
+        } catch (error) {
+          alertError("Sucedió un error durante el inicio de sesión.");
+        }
       }
     };
 
@@ -139,6 +162,7 @@ export default defineComponent({
       login,
       register,
       forgotPassword,
+      validateState,
     };
   },
 });

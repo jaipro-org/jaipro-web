@@ -8,46 +8,46 @@
             ><i class="fa-solid fa-angle-down ms-2"></i>
           </div>
           <b-collapse
-            id="collapse-3"
-            class="ps-4 pt-2"
-            v-model="isShowMenuResponsive"
+              id="collapse-3"
+              class="ps-4 pt-2"
+              v-model="isShowMenuResponsive"
           >
             <div
-              class="ps-2"
-              @click="goBox('presentation__box')"
-              :class="isPresentationSection ? 'menu-active' : ''"
+                class="ps-2"
+                @click="goBox('presentation__box')"
+                :class="isPresentationSection ? 'menu-active' : ''"
             >
               <span>Presentación</span>
             </div>
             <hr />
             <div
-              class="ps-2"
-              @click="goBox('galery__box')"
-              :class="isGalerySection ? 'menu-active' : ''"
+                class="ps-2"
+                @click="goBox('galery__box')"
+                :class="isGalerySection ? 'menu-active' : ''"
             >
               <span>Galeria</span>
             </div>
             <hr />
             <div
-              class="ps-2"
-              @click="goBox('experience__box')"
-              :class="isExperienceSection ? 'menu-active' : ''"
+                class="ps-2"
+                @click="goBox('experience__box')"
+                :class="isExperienceSection ? 'menu-active' : ''"
             >
               <span>Experiencia</span>
             </div>
             <hr />
             <div
-              class="ps-2"
-              @click="goBox('location__box')"
-              :class="isLocationSection ? 'menu-active' : ''"
+                class="ps-2"
+                @click="goBox('location__box')"
+                :class="isLocationSection ? 'menu-active' : ''"
             >
               <span>Locaciones de trabajo</span>
             </div>
             <hr />
             <div
-              class="ps-2"
-              @click="goBox('acount__box')"
-              :class="isAcountSection ? 'menu-active' : ''"
+                class="ps-2"
+                @click="goBox('acount__box')"
+                :class="isAcountSection ? 'menu-active' : ''"
             >
               <span>Cuentas</span>
             </div>
@@ -55,49 +55,49 @@
         </div>
       </div>
       <div
-        id="menu__container--web"
-        class="menu__container py-3 px-4 bg-white d-none d-lg-block"
+          id="menu__container--web"
+          class="menu__container py-3 px-4 bg-white d-none d-lg-block"
       >
         <div
-          @click="isShowMenuDesk = !isShowMenuDesk"
-          style="text-align: center; font-weight: 500"
+            @click="isShowMenuDesk = !isShowMenuDesk"
+            style="text-align: center; font-weight: 500"
         >
           <span>Mi resumen</span>
           <i class="fa-solid fa-angle-down ms-2"></i>
         </div>
         <b-collapse v-model="isShowMenuDesk">
           <div
-            class="text-center"
-            @click="goBox('presentation__box')"
-            :class="isPresentationSection ? 'menu-active' : ''"
+              class="text-center"
+              @click="goBox('presentation__box')"
+              :class="isPresentationSection ? 'menu-active' : ''"
           >
             <span>Presentación</span>
           </div>
           <div
-            class="text-center"
-            @click="goBox('galery__box')"
-            :class="isGalerySection ? 'menu-active' : ''"
+              class="text-center"
+              @click="goBox('galery__box')"
+              :class="isGalerySection ? 'menu-active' : ''"
           >
             <span>Galeria</span>
           </div>
           <div
-            class="text-center"
-            @click="goBox('experience__box')"
-            :class="isExperienceSection ? 'menu-active' : ''"
+              class="text-center"
+              @click="goBox('experience__box')"
+              :class="isExperienceSection ? 'menu-active' : ''"
           >
             <span>Experiencia</span>
           </div>
           <div
-            class="text-center"
-            @click="goBox('location__box')"
-            :class="isLocationSection ? 'menu-active' : ''"
+              class="text-center"
+              @click="goBox('location__box')"
+              :class="isLocationSection ? 'menu-active' : ''"
           >
             <span>Locaciones de trabajo</span>
           </div>
           <div
-            class="text-center"
-            @click="goBox('acount__box')"
-            :class="isAcountSection ? 'menu-active' : ''"
+              class="text-center"
+              @click="goBox('acount__box')"
+              :class="isAcountSection ? 'menu-active' : ''"
           >
             <span>Cuentas</span>
           </div>
@@ -112,15 +112,15 @@
               <img src="@/assets/img-delete/profile.jpg" alt="" />
             </div>
             <div
-              class="button__action button__action--float text-warning"
-              @click="showEditPresentacion()"
+                class="button__action button__action--float text-warning"
+                @click="showEditPresentacion()"
             >
               <i class="fa-solid fa-pen-to-square"></i>
             </div>
             <h4>
               Armando paredes
               <span class="profile__status ms-2"
-                ><i class="fa-solid fa-circle-check"></i> Perfil
+              ><i class="fa-solid fa-circle-check"></i> Perfil
                 verificado</span
               >
             </h4>
@@ -146,12 +146,12 @@
               <h4 class="mb-0">
                 Galeria
                 <span class="profile__info text-warning ms-2"
-                  ><i class="fa-solid fa-circle-info"></i
+                ><i class="fa-solid fa-circle-info"></i
                 ></span>
               </h4>
               <div
-                class="button__action text-warning"
-                @click="showModalGalery = true"
+                  class="button__action text-warning"
+                  @click="showModalGalery = true"
               >
                 <i class="fa-solid fa-pen-to-square"></i>
               </div>
@@ -159,19 +159,19 @@
             <hr class="mt-0" />
             <div class="py-2">
               <Carousel
-                :settings="settings"
-                :breakpoints="breakpoints"
-                :autoplay="2000"
-                :wrap-around="true"
-                id="carousel-1"
+                  :settings="settings"
+                  :breakpoints="breakpoints"
+                  :autoplay="2000"
+                  :wrap-around="true"
+                  id="carousel-1"
               >
                 <!-- Text slides with image -->
                 <Slide v-for="photo in galleryPhotos" :key="photo">
                   <div class="carousel__item">
                     <img
-                      class="gallery-item"
-                      :src="photo.img"
-                      :alt="photo.alt"
+                        class="gallery-item"
+                        :src="photo.img"
+                        :alt="photo.alt"
                     />
                   </div>
                 </Slide>
@@ -190,12 +190,12 @@
               <h4 class="mb-0">
                 Experiencia
                 <span class="profile__info text-warning ms-2"
-                  ><i class="fa-solid fa-circle-info"></i
+                ><i class="fa-solid fa-circle-info"></i
                 ></span>
               </h4>
               <div
-                class="button__action button__action--success"
-                @click="modalProfessionCreate"
+                  class="button__action button__action--success"
+                  @click="modalProfessionCreate"
               >
                 <i class="fa-solid fa-plus"></i>
               </div>
@@ -203,24 +203,24 @@
             <hr class="mt-0" />
             <div class="p-2">
               <div
-                class="experience__item p-3 mb-3"
-                v-for="(experience, id) in experiences"
-                :key="id"
+                  class="experience__item p-3 mb-3"
+                  v-for="(experience, id) in experiences"
+                  :key="id"
               >
                 <b-row class="mx-0">
                   <b-col
-                    cols="12"
-                    class="px-0 d-flex justify-content-end mb-2 d-block d-md-none"
+                      cols="12"
+                      class="px-0 d-flex justify-content-end mb-2 d-block d-md-none"
                   >
                     <div
-                      class="button__action text-warning me-2"
-                      @click="modalProfessionEdit"
+                        class="button__action text-warning me-2"
+                        @click="modalProfessionEdit"
                     >
                       <i class="fa-solid fa-pen-to-square"></i>
                     </div>
                     <div
-                      class="button__action text-danger"
-                      @click="deleteExperience(experience.id)"
+                        class="button__action text-danger"
+                        @click="deleteExperience(experience.id)"
                     >
                       <i class="fa-solid fa-circle-xmark"></i>
                     </div>
@@ -239,18 +239,18 @@
                     </div>
                   </b-col>
                   <b-col
-                    cols="2"
-                    class="px-0 d-none d-md-flex justify-content-end"
+                      cols="2"
+                      class="px-0 d-none d-md-flex justify-content-end"
                   >
                     <div
-                      class="button__action text-warning me-3"
-                      @click="modalProfessionEdit"
+                        class="button__action text-warning me-3"
+                        @click="modalProfessionEdit"
                     >
                       <i class="fa-solid fa-pen-to-square"></i>
                     </div>
                     <div
-                      class="button__action text-danger"
-                      @click="deleteExperience(experience.id)"
+                        class="button__action text-danger"
+                        @click="deleteExperience(experience.id)"
                     >
                       <i class="fa-solid fa-circle-xmark"></i>
                     </div>
@@ -260,11 +260,11 @@
                 <h1 class="experience__subtitle mt-3">ESPECIALIDADES</h1>
                 <b-row class="mx-0">
                   <b-col
-                    cols="12"
-                    md="6"
-                    class="d-flex"
-                    v-for="(especiality, id) in experience.specialities"
-                    :key="id"
+                      cols="12"
+                      md="6"
+                      class="d-flex"
+                      v-for="(especiality, id) in experience.specialities"
+                      :key="id"
                   >
                     <div>
                       <i class="fa-solid fa-circle-notch me-2 text-primary"></i>
@@ -300,12 +300,12 @@
               <h4 class="mb-0">
                 Locaciones de trabajo
                 <span class="profile__info text-warning ms-2"
-                  ><i class="fa-solid fa-circle-info"></i
+                ><i class="fa-solid fa-circle-info"></i
                 ></span>
               </h4>
               <div
-                class="button__action button__action--success"
-                @click="(isModalLocationEdit = false), showModalLocation()"
+                  class="button__action button__action--success"
+                  @click="(isModalLocationEdit = false), showModalLocation()"
               >
                 <i class="fa-solid fa-plus"></i>
               </div>
@@ -313,9 +313,9 @@
             <hr class="mt-0" />
             <div class="px-4 py-2">
               <b-row
-                class="mx-0 locattion__item mb-3"
-                v-for="(location, index) in locationsList"
-                :key="index"
+                  class="mx-0 locattion__item mb-3"
+                  v-for="(location, index) in locationsList"
+                  :key="index"
               >
                 <b-col cols="10">
                   <h1 class="locattion__title text-center">
@@ -324,15 +324,15 @@
                 </b-col>
                 <b-col cols="2" class="d-flex justify-content-around flex-wrap">
                   <div
-                    class="button__action text-warning"
-                    @click="(isModalLocationEdit = true), showModalLocation()"
+                      class="button__action text-warning"
+                      @click="(isModalLocationEdit = true), showModalLocation()"
                   >
                     <i class="fa-solid fa-pen-to-square"></i>
                   </div>
                   <div class="button__action text-danger">
                     <i
-                      class="fa-solid fa-circle-xmark"
-                      @click="deleteLocation(Number(location.id))"
+                        class="fa-solid fa-circle-xmark"
+                        @click="deleteLocation(Number(location.id))"
                     ></i>
                   </div>
                 </b-col>
@@ -346,12 +346,12 @@
               <h4 class="mb-0">
                 Cuentas
                 <span class="profile__info text-warning ms-2"
-                  ><i class="fa-solid fa-circle-info"></i
+                ><i class="fa-solid fa-circle-info"></i
                 ></span>
               </h4>
               <div
-                class="button__action button__action--success"
-                @click="showModalAcount = !showModalAcount"
+                  class="button__action button__action--success"
+                  @click="showModalAcount = !showModalAcount"
               >
                 <i class="fa-solid fa-plus"></i>
               </div>
@@ -359,9 +359,9 @@
             <hr class="mt-0" />
             <div class="px-0 py-0">
               <b-row
-                class="acount__item mx-0 mb-3 py-3"
-                v-for="acount in acountsList"
-                :key="acount.id"
+                  class="acount__item mx-0 mb-3 py-3"
+                  v-for="acount in acountsList"
+                  :key="acount.id"
               >
                 <b-col cols="10" class="d-flex align-items-center">
                   <b-form-checkbox size="lg" class="check"></b-form-checkbox>
@@ -377,8 +377,8 @@
                 <b-col cols="2" class="d-flex justify-content-center">
                   <div class="button__action text-danger">
                     <i
-                      class="fa-solid fa-circle-xmark"
-                      @click="deleteAcount(acount.id)"
+                        class="fa-solid fa-circle-xmark"
+                        @click="deleteAcount(acount.id)"
                     ></i>
                   </div>
                 </b-col>
@@ -389,217 +389,231 @@
       </b-row>
     </b-col>
     <b-modal
-      id="modal-presentation"
-      v-model="showModalEditPresentacion"
-      title="Editar Presentación"
-      size="lg"
-      centered
+        id="modal-presentation"
+        v-model="showModalEditPresentacion"
+        title="Editar Presentación"
+        size="lg"
+        centered
     >
-      <b-form @submit.prevent="editPresentation" validated>
+      <b-form>
         <b-row class="justify-content-around px-0 px-lg-2 mx-0">
           <b-col cols="12" lg="8" class="mb-4 mx-auto">
             <div
-              class="form-image__file mt-2 mx-auto mb-1"
-              :class="
-                !formPresentation.image.url ? 'form-image__file--aux' : ''
-              "
-              @click="uploadPresentationImage"
+                class="form-image__file mt-2 mx-auto mb-1"
+                :class="!imageValue?.url ? 'form-image__file--aux' : ''"
+                @click="uploadPresentationImage"
             >
               <img
-                :src="
-                  !formPresentation.image.url
+                  :src="
+                  !imageValue?.url
                     ? require('@/assets/img-delete/fileimage-up.png')
-                    : formPresentation.image.url
+                    : imageValue?.url
                 "
-                alt="image"
+                  alt="image"
               />
             </div>
 
             <input
-              type="file"
-              style="display: none"
-              ref="presentationFile"
-              hidden
-              @change="changeFilePresentation"
+                type="file"
+                style="display: none"
+                ref="presentationFile"
+                hidden
+                @change="changeFilePresentation"
             />
             <span class="d-block text-center"
-              >Seleccionar la imagen para actualizarla</span
+            >Seleccionar la imagen para actualizarla</span
             >
           </b-col>
+          <b-form-invalid-feedback :state="imageError">
+            {{ imageError }}
+          </b-form-invalid-feedback>
           <b-col cols="12">
             <hr />
           </b-col>
           <b-col cols="12" lg="5" class="mb-3">
             <b-form-group label="Nombres" label-for="input-pres-1">
               <b-form-input
-                v-model="formPresentation.name"
-                id="input-pres-1"
-                type="text"
-                placeholder="Ingrese su nombre"
-                class="rounded-pill"
-                required
+                  v-model="nameValue"
+                  :state="validateState(nameValue, nameError)"
+                  id="input-pres-1"
+                  placeholder="Ingrese su nombre"
+                  class="rounded-pill"
               ></b-form-input>
+              <b-form-invalid-feedback :state="nameError">
+                {{ nameError }}
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
           <b-col cols="12" lg="5" class="mb-3">
             <b-form-group label="Apellidos" label-for="input-pres-2">
               <b-form-input
-                id="input-pres-2"
-                type="text"
-                v-model="formPresentation.lastName"
-                placeholder="Ingrese su apellido"
-                class="rounded-pill"
-                required
+                  id="input-pres-2"
+                  v-model="lastNameValue"
+                  :state="validateState(lastNameValue, lastNameError)"
+                  placeholder="Ingrese su apellido"
+                  class="rounded-pill"
               ></b-form-input>
+              <b-form-invalid-feedback :state="lastNameError">
+                {{ lastNameError }}
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
           <b-col cols="12" lg="11" class="mb-3">
             <b-form-group label="Acerca de mi" label-for="input-pres-3">
               <b-form-textarea
-                id="input-pres-3"
-                v-model="formPresentation.experience"
-                placeholder="Redacta acerca de tu experiencia"
-                rows="4"
-                max-rows="6"
-                required
-                class="rounded-right rounded-left"
+                  id="input-pres-3"
+                  v-model="experienceValue"
+                  :state="validateState(experienceValue, experienceError)"
+                  placeholder="Redacta acerca de tu experiencia"
+                  rows="4"
+                  max-rows="6"
+                  class="rounded-right rounded-left"
               ></b-form-textarea>
+              <b-form-invalid-feedback :state="experienceError">
+                {{ experienceError }}
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
           <b-col cols="12" lg="11" class="mb-3">
             <b-form-group label="Dirección" label-for="input-pres-4">
               <b-form-input
-                id="input-pres-4"
-                type="text"
-                v-model="formPresentation.direction"
-                placeholder="Ingrese su dirección"
-                class="rounded-pill"
-                required
+                  id="input-pres-4"
+                  v-model="directionValue"
+                  :state="validateState(directionValue, directionError)"
+                  placeholder="Ingrese su dirección"
+                  class="rounded-pill"
               ></b-form-input>
+              <b-form-invalid-feedback :state="directionError">
+                {{ directionError }}
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
           <b-col cols="12" lg="5" class="mb-3">
             <b-form-group label="Teléfono Principal" label-for="input-pres-5">
               <b-form-input
-                id="input-pres-5"
-                type="text"
-                v-model="formPresentation.phone"
-                placeholder="Ingrese su teléfono"
-                class="rounded-pill"
-                oninput="this.value = value.replace(/[^0-9]/g, '')"
-                required
+                  id="input-pres-5"
+                  v-model="phoneValue"
+                  :state="validateState(phoneValue, phoneError)"
+                  placeholder="Ingrese su teléfono"
+                  class="rounded-pill"
+                  oninput="this.value = value.replace(/[^0-9]/g, '')"
               ></b-form-input>
+              <b-form-invalid-feedback :state="phoneError">
+                {{ phoneError }}
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
           <b-col cols="12" lg="5" class="mb-3">
             <b-form-group label="Teléfono Secundario" label-for="input-pres-6">
               <b-form-input
-                id="input-pres-6"
-                type="text"
-                v-model="formPresentation.secondPhone"
-                placeholder="Ingrese su teléfono secundario"
-                class="rounded-pill"
-                oninput="this.value = value.replace(/[^0-9]/g, '')"
-                required
+                  id="input-pres-6"
+                  v-model="secondPhoneValue"
+                  :state="validateState(secondPhoneValue, secondPhoneError)"
+                  placeholder="Ingrese su teléfono secundario"
+                  class="rounded-pill"
+                  oninput="this.value = value.replace(/[^0-9]/g, '')"
               ></b-form-input>
+              <b-form-invalid-feedback :state="secondPhoneError">
+                {{ secondPhoneError }}
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
         </b-row>
-        <div style="display: none">
-          <button type="submit" ref="btnFormPresentation"></button>
-        </div>
       </b-form>
       <template v-slot:footer>
         <b-row class="mx-0 w-100">
           <b-col
-            cols="12"
-            lg="11"
-            class="d-flex justify-content-end w-100 mx-auto"
+              cols="12"
+              lg="11"
+              class="d-flex justify-content-end w-100 mx-auto"
           >
             <b-button
-              variant="secondary"
-              @click="showModalEditPresentacion = false"
-              class="me-3"
-              >Cancelar
+                variant="secondary"
+                @click="showModalEditPresentacion = false"
+                class="me-3"
+            >Cancelar
             </b-button>
-            <b-button
-              variant="primary"
-              @click="$refs.btnFormPresentation.click()"
-              >Guardar</b-button
+            <b-button variant="primary" @click="editPresentation()"
+            >Guardar</b-button
             >
           </b-col>
         </b-row>
       </template>
     </b-modal>
     <b-modal
-      id="modal-galery"
-      v-model="showModalGalery"
-      title="Editar Galeria"
-      size="lg"
-      centered
+        id="modal-galery"
+        v-model="showModalGalery"
+        title="Editar Galeria"
+        size="lg"
+        centered
     >
       <b-row class="justify-content-around mx-0">
         <b-col
-          cols="6"
-          md="5"
-          lg="4"
-          v-for="(image, index) in formGalery.imagesList"
-          :key="index"
+            cols="6"
+            md="5"
+            lg="4"
+            v-for="(image, index) in formGalery.imagesList"
+            :key="index"
         >
           <div
-            class="form-image__file mb-3"
-            :class="!image.url ? 'form-image__file--aux' : ''"
+              class="form-image__file mb-3"
+              :class="!image.url ? 'form-image__file--aux' : ''"
           >
             <img
-              @click="uploadImage(index)"
-              :src="
+                @click="uploadImage(index)"
+                :src="
                 !image.url
                   ? require('@/assets/img-delete/fileimage-up.png')
                   : image.url
               "
-              alt="image"
+                alt="image"
             />
             <div
-              v-if="image.url"
-              class="form-image__delete"
-              @click="deleteImage(index)"
+                v-if="image.url"
+                class="form-image__delete"
+                @click="deleteImage(index)"
             >
               <i class="fa-solid fa-circle-xmark"></i>
             </div>
           </div>
           <input
-            type="file"
-            ref="galeryFile"
-            style="display: none"
-            :id="`portadaFile${index}`"
-            hidden
-            @change="changeFileCover"
+              type="file"
+              ref="galeryFile"
+              style="display: none"
+              :id="`portadaFile${index}`"
+              hidden
+              @change="changeFileCover"
           />
         </b-col>
+        <b-form-invalid-feedback :state="imagesListError">
+          {{ imagesListError }}
+        </b-form-invalid-feedback>
       </b-row>
       <template v-slot:footer>
         <b-row class="mx-0 w-100">
           <b-col cols="12" class="d-flex justify-content-end w-100 mx-auto">
             <b-button
-              variant="secondary"
-              class="me-3"
-              @click="showModalGalery = false"
-              >Cancelar
+                variant="secondary"
+                class="me-3"
+                @click="showModalGalery = false"
+            >Cancelar
             </b-button>
-            <b-button variant="primary">Guardar</b-button>
+            <b-button variant="primary" @click="editGallery()"
+            >Guardar</b-button
+            >
           </b-col>
         </b-row>
       </template>
     </b-modal>
     <b-modal
-      id="modal-experience"
-      ref="modal-experience"
-      :title="
+        id="modal-experience"
+        ref="modal-experience"
+        :title="
         isModalProfessionEdit ? 'Editar Experiencia' : 'Nueva Experiencia'
       "
-      size="lg"
-      centered
-      v-model="showModalExperience"
+        size="lg"
+        centered
+        v-model="showModalExperience"
     >
       <b-form @submit.prevent="editExperience" validated>
         <div class="row mx-0 px-0 px-lg-2">
@@ -609,9 +623,9 @@
             <div class="row mx-0 mt-2">
               <b-col cols="12" lg="4" class="px-0 my-auto mb-3">
                 <b-form-select
-                  v-model="formProfession.selectedProfession"
-                  :options="optionsProfessions"
-                  id="input-experience-1"
+                    v-model="formProfession.selectedProfession"
+                    :options="optionsProfessions"
+                    id="input-experience-1"
                 ></b-form-select>
               </b-col>
               <b-col cols="12" lg="8" class="mt-3 mx-auto">
@@ -620,22 +634,22 @@
                     <b-col cols="7" md="8" class="mx-auto work__temp">
                       <div class="text-center work__date">Años</div>
                       <div
-                        class="work__buttons work__buttons--left aRes"
-                        @click="substractYear()"
+                          class="work__buttons work__buttons--left aRes"
+                          @click="substractYear()"
                       >
                         -
                       </div>
                       <b-form-input
-                        v-model="formProfession.workExperience.years"
-                        type="text"
-                        placeholder="0"
-                        required
-                        class="rounded-pill"
-                        oninput="this.value = value.replace(/[^0-9]/g, '')"
+                          v-model="formProfession.workExperience.years"
+                          type="text"
+                          placeholder="0"
+                          required
+                          class="rounded-pill"
+                          oninput="this.value = value.replace(/[^0-9]/g, '')"
                       ></b-form-input>
                       <div
-                        class="work__buttons work__buttons--right aAdd"
-                        @click="addYear()"
+                          class="work__buttons work__buttons--right aAdd"
+                          @click="addYear()"
                       >
                         +
                       </div>
@@ -645,22 +659,22 @@
                     <b-col cols="7" md="8" class="mx-auto work__temp">
                       <div class="text-center work__date mes">Meses</div>
                       <div
-                        class="work__buttons work__buttons--left mRes"
-                        @click="substractMonth()"
+                          class="work__buttons work__buttons--left mRes"
+                          @click="substractMonth()"
                       >
                         -
                       </div>
                       <b-form-input
-                        v-model="formProfession.workExperience.months"
-                        type="text"
-                        placeholder="0"
-                        required
-                        class="rounded-pill"
-                        oninput="this.value == value.replace(/[^0-9]/g, '')"
+                          v-model="formProfession.workExperience.months"
+                          type="text"
+                          placeholder="0"
+                          required
+                          class="rounded-pill"
+                          oninput="this.value == value.replace(/[^0-9]/g, '')"
                       ></b-form-input>
                       <div
-                        class="work__buttons work__buttons--right mAdd"
-                        @click="addMonth()"
+                          class="work__buttons work__buttons--right mAdd"
+                          @click="addMonth()"
                       >
                         +
                       </div>
@@ -676,23 +690,23 @@
             <hr />
             <b-row class="mx-0 justify-content-around">
               <b-col
-                cols="12"
-                lg="6"
-                class="mb-3 mb-lg-2"
-                v-for="(specialty, index) in formProfession.specialtiesList"
-                :key="index"
-                @click="specialty.active = !specialty.active"
+                  cols="12"
+                  lg="6"
+                  class="mb-3 mb-lg-2"
+                  v-for="(specialty, index) in formProfession.specialtiesList"
+                  :key="index"
+                  @click="specialty.active = !specialty.active"
               >
                 <b-row
-                  class="mx-0 experience__item p-1 rounded-pill"
-                  :class="{ 'experience__item--active': specialty.active }"
+                    class="mx-0 experience__item p-1 rounded-pill"
+                    :class="{ 'experience__item--active': specialty.active }"
                 >
                   <b-col
-                    cols="3"
-                    class="d-flex justify-content-center experience__icon align-items-center"
+                      cols="3"
+                      class="d-flex justify-content-center experience__icon align-items-center"
                   >
                     <i
-                      :class="
+                        :class="
                         specialty.active
                           ? 'fa-solid fa-check'
                           : 'fa-solid fa-circle-notch'
@@ -714,50 +728,50 @@
       <template v-slot:footer>
         <b-row class="mx-0 w-100">
           <b-col
-            cols="12"
-            lg="11"
-            class="d-flex justify-content-end w-100 mx-auto"
+              cols="12"
+              lg="11"
+              class="d-flex justify-content-end w-100 mx-auto"
           >
             <b-button
-              variant="secondary"
-              @click="showModalExperience = false"
-              class="me-3"
-              >Cancelar
+                variant="secondary"
+                @click="showModalExperience = false"
+                class="me-3"
+            >Cancelar
             </b-button>
             <b-button variant="primary" @click="$refs.btnFormExperience.click()"
-              >Guardar</b-button
+            >Guardar</b-button
             >
           </b-col>
         </b-row>
       </template>
     </b-modal>
     <b-modal
-      ref="modal-location"
-      id="modal-location"
-      :title="
+        ref="modal-location"
+        id="modal-location"
+        :title="
         isModalLocationEdit
           ? 'Editar Locación de trabajo'
           : 'Nueva Locación de trabajo'
       "
-      size="lg"
-      centered
-      v-model="showModalLocationEdit"
+        size="lg"
+        centered
+        v-model="showModalLocationEdit"
     >
       <template v-slot:footer>
         <b-row class="mx-0 w-100">
           <b-col
-            cols="12"
-            lg="11"
-            class="d-flex justify-content-end w-100 mx-auto"
+              cols="12"
+              lg="11"
+              class="d-flex justify-content-end w-100 mx-auto"
           >
             <b-button
-              variant="secondary"
-              @click="showModalLocationEdit = false"
-              class="me-3"
-              >Cancelar
+                variant="secondary"
+                @click="showModalLocationEdit = false"
+                class="me-3"
+            >Cancelar
             </b-button>
             <b-button variant="primary" @click="$refs.btnFormLocation.click()"
-              >Guardar</b-button
+            >Guardar</b-button
             >
           </b-col>
         </b-row>
@@ -770,9 +784,9 @@
             <b-row class="mx-0 mt-2">
               <b-col cols="12" lg="5" class="px-0">
                 <b-form-select
-                  v-model="formLocation.selectedLocation"
-                  :options="optionsLocation"
-                  id="input-location-1"
+                    v-model="formLocation.selectedLocation"
+                    :options="optionsLocation"
+                    id="input-location-1"
                 ></b-form-select>
               </b-col>
             </b-row>
@@ -782,23 +796,23 @@
             <hr />
             <b-row class="mx-0 justify-content-around">
               <b-col
-                cols="12"
-                lg="6"
-                class="mb-3 mb-lg-2"
-                v-for="(district, index) in formLocation.districtList"
-                :key="index"
-                @click="district.active = !district.active"
+                  cols="12"
+                  lg="6"
+                  class="mb-3 mb-lg-2"
+                  v-for="(district, index) in formLocation.districtList"
+                  :key="index"
+                  @click="district.active = !district.active"
               >
                 <b-row
-                  class="mx-0 district__item p-1 rounded-pill"
-                  :class="{ 'district__item--active': district.active }"
+                    class="mx-0 district__item p-1 rounded-pill"
+                    :class="{ 'district__item--active': district.active }"
                 >
                   <b-col
-                    cols="3"
-                    class="d-flex justify-content-center district__icon align-items-center"
+                      cols="3"
+                      class="d-flex justify-content-center district__icon align-items-center"
                   >
                     <i
-                      :class="
+                        :class="
                         district.active
                           ? 'fa-solid fa-check'
                           : 'fa-solid fa-circle-notch'
@@ -819,66 +833,69 @@
       </b-form>
     </b-modal>
     <b-modal
-      id="modal-acount"
-      title="Nueva Cuenta"
-      centered
-      v-model="showModalAcount"
+        id="modal-acount"
+        title="Nueva Cuenta"
+        centered
+        v-model="showModalAcount"
     >
       <template v-slot:footer>
         <b-row class="mx-0 w-100">
           <b-col cols="12" class="d-flex justify-content-end w-100">
             <b-button
-              variant="secondary"
-              class="me-3"
-              @click="showModalAcount = false"
-              >Cancelar
+                variant="secondary"
+                class="me-3"
+                @click="showModalAcount = false"
+            >Cancelar
             </b-button>
-            <b-button variant="primary" @click="$refs.btnFormAcount.click()"
-              >Guardar</b-button
-            >
+            <b-button variant="primary" @click="editAcount()">Guardar</b-button>
           </b-col>
         </b-row>
       </template>
-      <b-form @submit.prevent="editAcount" ref="formAcount" validated>
+      <b-form>
         <b-row class="mx-0 justify-content-around">
           <b-col cols="12" class="mb-3">
             <b-form-group label="Banco:" label-for="input-acount-1">
               <b-form-select
-                v-model="formAcount.selectedAcount"
-                :options="optionsAcount"
-                id="input-acount-1"
-                class="rounded-pill"
+                  v-model="selectedAcountValue"
+                  :state="validateState(selectedAcountValue, selectedAcountError)"
+                  :options="optionsAcount"
+                  id="input-acount-1"
+                  class="rounded-pill"
               ></b-form-select>
+              <b-form-invalid-feedback :state="selectedAcountError">
+                {{ selectedAcountError }}
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
           <b-col cols="12" class="mb-3">
             <b-form-group label="Número de cuenta:" label-for="input-acount-2">
               <b-form-input
-                v-model="formAcount.numAcount"
-                id="input-pres-2"
-                type="text"
-                placeholder="Ingrese su número de cuenta"
-                class="rounded-pill"
-                required
+                  v-model="numAcountValue"
+                  :state="validateState(numAcountValue, numAcountError)"
+                  id="input-pres-2"
+                  placeholder="Ingrese su número de cuenta"
+                  class="rounded-pill"
               ></b-form-input>
+              <b-form-invalid-feedback :state="numAcountError">
+                {{ numAcountError }}
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
           <b-col cols="12">
             <b-form-group label="CCI:" label-for="input-pres-2">
               <b-form-input
-                v-model="formAcount.cci"
-                id="input-pres-2"
-                type="text"
-                placeholder="Ingrese su CCI"
-                class="rounded-pill"
-                required
+                  v-model="cciValue"
+                  :state="validateState(cciValue, cciError)"
+                  id="input-pres-2"
+                  placeholder="Ingrese su CCI"
+                  class="rounded-pill"
               ></b-form-input>
+              <b-form-invalid-feedback :state="cciError">
+                {{ cciError }}
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
         </b-row>
-        <div style="display: none">
-          <button type="submit" ref="btnFormAcount"></button>
-        </div>
       </b-form>
     </b-modal>
   </b-row>
@@ -889,6 +906,8 @@ import "vue3-carousel/dist/carousel.css";
 import { alertSuccessButton } from "@/utils/SweetAlert";
 import { computed, onMounted, ref } from "vue";
 import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
+import { useField } from "vee-validate";
+import * as yup from "yup";
 
 const galleryPhotos = [
   {
@@ -918,7 +937,7 @@ const breakpoints = ref({
   },
 });
 const presentationFile = ref<HTMLInputElement>();
-
+const idEspecialist = ref("8fd91e6e-d346-44bd-adc3-b29e30a8e459");
 const isLoading = ref(true);
 const isShowMenuDesk = ref(true);
 const isShowMenuResponsive = ref(false);
@@ -1004,8 +1023,8 @@ const acountsList = ref([
 const imageSelected = ref(0);
 const formPresentation = ref({
   image: {
-    url: null,
-    file: null,
+    url: "",
+    file: "",
   },
   name: "",
   lastName: "",
@@ -1019,32 +1038,32 @@ const formGalery = ref({
     {
       id: 0,
       url: "",
-      file: null,
+      file: "",
     },
     {
       id: 1,
       url: "",
-      file: null,
+      file: "",
     },
     {
       id: 2,
       url: "",
-      file: null,
+      file: "",
     },
     {
       id: 3,
       url: "",
-      file: null,
+      file: "",
     },
     {
       id: 4,
       url: "",
-      file: null,
+      file: "",
     },
     {
       id: 5,
       url: "",
-      file: null,
+      file: "",
     },
   ],
 });
@@ -1074,7 +1093,7 @@ const formProfession = ref({
     },
   ],
   workExperience: {
-    years: 2022,
+    years: 2020,
     months: 12,
   },
 });
@@ -1086,7 +1105,7 @@ const optionsProfessions = ref([
 ]);
 const isModalLocationEdit = ref(true);
 const formLocation = ref({
-  selectedLocation: 0,
+  selectedLocation: 1,
   districtList: [
     {
       id: 0,
@@ -1122,6 +1141,7 @@ const formAcount = ref({
   cci: "",
 });
 const optionsAcount = ref([
+  { value: "", text: "Seleccione" },
   { value: 0, text: "Interbank" },
   { value: 1, text: "BCP" },
   { value: 3, text: "Scotiabank" },
@@ -1134,6 +1154,133 @@ const section3 = ref(0);
 const section4 = ref(0);
 const section5 = ref(0);
 
+const validateState = (value: any, error: any) => {
+  if (value === undefined && error === undefined) return null;
+  else if (error) return false;
+  return true;
+};
+
+//#region YUP
+const schemaPerfil = {
+  image: yup
+      .object()
+      .shape({
+        url: yup.mixed().required("Imagen requerida"),
+        file: yup.mixed().required("Imagen requerida"),
+      })
+      .strict(true)
+      .required("Imagen requerida"),
+  name: yup.string().required("Campo requerido"),
+  lastName: yup.string().required("Campo requerido"),
+  experience: yup.string().required("Campo requerido"),
+  direction: yup.string().required("Campo requerido"),
+  phone: yup
+      .string()
+      .matches(/^[0-9]+$/, "Campo requerido")
+      .required("Campo requerido"),
+  secondPhone: yup
+      .string()
+      .matches(/^[0-9]+$/, "Campo requerido")
+      .required("Campo requerido"),
+};
+
+const schemaGalleryPhotos = {
+  imagesList: yup
+      .array()
+      .of(
+          yup.object({
+            id: yup.number(),
+            url: yup.string(),
+            file: yup.mixed(),
+          })
+      )
+      .test("", "Suba una imagen como minimo", (values: any) => {
+        return values.some((value: any) => value.url !== "");
+      })
+      .required("Suba una imagen como minimo"),
+};
+
+const schemaExperience = {
+  profession: yup.string().required("Campo requerido"),
+  expYear: yup.string().required("Campo requerido"),
+  expMonths: yup.string().required("Campo requerido"),
+};
+
+const schemadirectionWork = {
+  location: yup.string().required("Campo requerido"),
+  district: yup.string().required("Campo requerido"),
+};
+
+const schemaAcount = {
+  selectedAcount: yup.string().required("Campo requerido"),
+  numAcount: yup.string().required("Campo requerido"),
+  cci: yup.string().required("Campo requerido"),
+};
+//#endregion
+
+//#region VEE-VALIDATE USE-FIELD
+//schemaPerfil
+const {
+  value: imageValue,
+  errorMessage: imageError,
+  validate: imageValidate,
+} = useField("image", schemaPerfil.image);
+const {
+  value: nameValue,
+  errorMessage: nameError,
+  validate: nameValidate,
+} = useField("name", schemaPerfil.name);
+const {
+  value: lastNameValue,
+  errorMessage: lastNameError,
+  validate: lastNameValidate,
+} = useField("lastName", schemaPerfil.lastName);
+const {
+  value: experienceValue,
+  errorMessage: experienceError,
+  validate: experienceValidate,
+} = useField("experience", schemaPerfil.experience);
+const {
+  value: directionValue,
+  errorMessage: directionError,
+  validate: directionValidate,
+} = useField("direction", schemaPerfil.direction);
+const {
+  value: phoneValue,
+  errorMessage: phoneError,
+  validate: phoneValidate,
+} = useField("phone", schemaPerfil.phone);
+const {
+  value: secondPhoneValue,
+  errorMessage: secondPhoneError,
+  validate: secondPhoneValidate,
+} = useField("secondPhone", schemaPerfil.secondPhone);
+
+//galleryPhotos
+const {
+  value: imagesListValue,
+  errorMessage: imagesListError,
+  validate: imagesListValidate,
+} = useField("imagesList", schemaGalleryPhotos.imagesList);
+
+//schemaAcount
+const {
+  value: selectedAcountValue,
+  errorMessage: selectedAcountError,
+  validate: selectedAcountValidate,
+} = useField("selectedAcount", schemaAcount.selectedAcount);
+const {
+  value: numAcountValue,
+  errorMessage: numAcountError,
+  validate: numAcountValidate,
+} = useField("numAcount", schemaAcount.numAcount);
+const {
+  value: cciValue,
+  errorMessage: cciError,
+  validate: cciValidate,
+} = useField("cci", schemaAcount.cci);
+//#endregion
+
 onMounted(() => {
   isLoading.value = false;
   const galeryBox: any = document.getElementById("galery__box");
@@ -1145,6 +1292,8 @@ onMounted(() => {
   section3.value = experienceBox.offsetTop - 110;
   section4.value = locationBox.offsetTop - 10;
   section5.value = acountBox.offsetTop + 40;
+
+  fetchLocation();
   /*this.$nextTick(() => {
     this.section2 = (<HTMLInputElement>document.getElementById("galery__box")).offsetTop - 10;
     this.section3 = (<HTMLInputElement>document.getElementById("experience__box")).offsetTop - 10;
@@ -1152,6 +1301,15 @@ onMounted(() => {
     this.section5 = (<HTMLInputElement>document.getElementById("acount__box")).offsetTop - 10;
   });*/
 });
+
+async function fetchLocation() {
+  const response = await fetch(
+      `http://34.134.88.41:8080/eureka/gateway/v1/work-location/${idEspecialist.value}`
+  );
+  const responseData = await response.json();
+  console.log(responseData);
+  // data.value = responseData;
+}
 
 function showEditPresentacion() {
   showModalEditPresentacion.value = true;
@@ -1173,7 +1331,7 @@ function showModalLocation() {
 
 function deleteLocation(id: number) {
   const index = locationsList.value.findIndex(
-    (location) => Number(location.id) == id
+      (location) => Number(location.id) == id
   );
   locationsList.value.splice(index, 1);
 }
@@ -1185,7 +1343,7 @@ function deleteAcount(id: string) {
 
 function deleteExperience(id: number) {
   const index = experiences.value.findIndex(
-    (experience) => experience.id == id
+      (experience) => experience.id == id
   );
   experiences.value.splice(index, 1);
 }
@@ -1238,25 +1396,29 @@ function uploadImage(index: any) {
 }
 
 function changeFileCover(event: any) {
+  if (imagesListValue.value === undefined) {
+    imagesListValue.value = formGalery.value.imagesList;
+  }
   const index = imageSelected.value;
   const file: any = event.target.files[0];
   if (!file) {
-    formGalery.value.imagesList[index].url = "";
-    formGalery.value.imagesList[index].file = null;
+    // formGalery.value.imagesList[index].url = "";
+    // formGalery.value.imagesList[index].file = null;
+    imagesListValue.value[index].url = "";
+    imagesListValue.value[index].file = "";
     return;
   }
   console.log("changeFileCover");
-  formGalery.value.imagesList[index].file = file;
+  imagesListValue.value[index].file = file;
   const fr = new FileReader();
-  fr.onload = () =>
-    (formGalery.value.imagesList[index].url = String(fr.result));
+  fr.onload = () => (imagesListValue.value[index].url = String(fr.result));
   fr.readAsDataURL(file);
   event.target.value = ""; // Restablecer valor del input
 }
 
 function deleteImage(index: any) {
   formGalery.value.imagesList[index].url = "";
-  formGalery.value.imagesList[index].file = null;
+  formGalery.value.imagesList[index].file = "";
 }
 
 function uploadPresentationImage() {
@@ -1265,34 +1427,124 @@ function uploadPresentationImage() {
 }
 
 function changeFilePresentation(event: any) {
+  if (imageValue.value === undefined) {
+    imageValue.value = formPresentation.value.image;
+  }
   const file = event.target.files[0];
   if (!file) {
-    formPresentation.value.image.file = null;
-    formPresentation.value.image.url = null;
+    imageValue.value.file = null;
+    imageValue.value.url = null;
     return;
   }
-
-  formPresentation.value.image.file = file;
+  imageValue.value.file = file;
   const fr = new FileReader();
-  fr.onload = () => (formPresentation.value.image.url = fr.result);
+  fr.onload = () => (imageValue.value.url = String(fr.result));
   fr.readAsDataURL(file);
 }
 
-function editPresentation() {
+//#region POST-DATA
+async function editPresentation() {
+  const fields = {
+    image: imageValue.value,
+    name: nameValue.value,
+    lastName: lastNameValue.value,
+    experience: experienceValue.value,
+    direction: directionValue.value,
+    phone: phoneValue.value,
+    secondPhone: secondPhoneValue.value,
+  };
+
+  const valideSchema = yup.object({
+    image: schemaPerfil.image,
+    name: schemaPerfil.name,
+    lastName: schemaPerfil.lastName,
+    experience: schemaPerfil.experience,
+    direction: schemaPerfil.direction,
+    phone: schemaPerfil.phone,
+    secondPhone: schemaPerfil.secondPhone,
+  });
+
+  const isValid = await valideSchema.isValid(fields);
+
+  if (!isValid) {
+    imageValidate();
+    nameValidate();
+    lastNameValidate();
+    experienceValidate();
+    directionValidate();
+    phoneValidate();
+    secondPhoneValidate();
+  }
+
+  if (isValid) {
+    formPresentation.value = { ...formPresentation.value, ...fields };
+    const value = formPresentation.value;
+    console.log(value);
+    alertSuccessButton("Se realizo la operación exitosamente");
+  }
+}
+
+async function editGallery() {
+  const fields = {
+    imagesList: imagesListValue.value,
+  };
+
+  const valideSchema = yup.object({
+    imagesList: schemaGalleryPhotos.imagesList,
+  });
+
+  const isValid = await valideSchema.isValid(fields);
+
+  if (!isValid) {
+    imagesListValidate();
+  }
+
+  if (isValid) {
+    formGalery.value = { ...formGalery.value, ...fields };
+    const value = formGalery.value;
+
+    console.log(value);
+    alertSuccessButton("Se realizo la operación exitosamente");
+  }
+}
+
+async function editExperience() {
   alertSuccessButton("Se realizo la operación exitosamente");
 }
 
-function editExperience() {
+async function editLocation() {
   alertSuccessButton("Se realizo la operación exitosamente");
 }
 
-function editLocation() {
-  alertSuccessButton("Se realizo la operación exitosamente");
-}
+async function editAcount() {
+  const fields = {
+    selectedAcount: selectedAcountValue.value,
+    numAcount: numAcountValue.value,
+    cci: cciValue.value,
+  };
 
-function editAcount() {
-  alertSuccessButton("Se realizo la operación exitosamente");
+  const valideSchema = yup.object({
+    selectedAcount: schemaAcount.selectedAcount,
+    numAcount: schemaAcount.numAcount,
+    cci: schemaAcount.cci,
+  });
+
+  const isValid = await valideSchema.isValid(fields);
+
+  if (!isValid) {
+    selectedAcountValidate();
+    numAcountValidate();
+    cciValidate();
+  }
+
+  if (isValid) {
+    formAcount.value = { ...formAcount.value, ...fields };
+    const value = formAcount.value;
+    console.log(value);
+    alertSuccessButton("Se realizo la operación exitosamente");
+  }
 }
+//#endregion
 
 const menuChange = computed(() => {
   if (!isLoading.value) {
@@ -1314,18 +1566,18 @@ const isPresentationSection = computed(() => {
 
 const isGalerySection = computed(() => {
   return section1.value >= section2.value && section1.value < section3.value
-    ? true
-    : false;
+      ? true
+      : false;
 });
 const isExperienceSection = computed(() => {
   return section1.value >= section3.value && section1.value < section4.value
-    ? true
-    : false;
+      ? true
+      : false;
 });
 const isLocationSection = computed(() => {
   return section1.value >= section4.value && section1.value < section5.value
-    ? true
-    : false;
+      ? true
+      : false;
 });
 const isAcountSection = computed(() => {
   return section1.value >= section5.value ? true : false;
@@ -1356,322 +1608,322 @@ h2 {
   font-size: calc(0.4vw + 11.5px) !important;
 }
 .profile-specialist__container {
-  .profile__menu {
-    .menu__container {
-      z-index: 3;
-      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.274) !important;
-      position: fixed;
-      width: 226px;
+.profile__menu {
+.menu__container {
+  z-index: 3;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.274) !important;
+  position: fixed;
+  width: 226px;
 
-      hr {
-        margin: 0;
-      }
+hr {
+  margin: 0;
+}
 
-      div {
-        padding: 10px 0;
-        cursor: pointer;
-      }
+div {
+  padding: 10px 0;
+  cursor: pointer;
+}
 
-      .text-center:hover {
-        background-color: #3a88ec;
-        color: white;
-      }
-    }
-    .menu__container--web {
-      position: fixed;
-      top: 90px;
-      padding-top: 0;
-      width: 100%;
-      max-width: 240px;
-    }
-  }
-  .card {
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.274) !important;
-  }
+.text-center:hover {
+  background-color: #3a88ec;
+  color: white;
+}
+}
+.menu__container--web {
+  position: fixed;
+  top: 90px;
+  padding-top: 0;
+  width: 100%;
+  max-width: 240px;
+}
+}
+.card {
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.274) !important;
+}
 
-  .profile__menu {
-    padding-top: 70px;
-  }
+.profile__menu {
+  padding-top: 70px;
+}
 
-  .profile__content {
-    padding-top: 70px;
-    font-size: calc(0.4vw + 10.4px);
+.profile__content {
+  padding-top: 70px;
+  font-size: calc(0.4vw + 10.4px);
 
-    .button__action {
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
+.button__action {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
 
-    .button__action--success {
-      color: rgb(64, 231, 114);
-      font-size: 2rem;
-    }
+.button__action--success {
+  color: rgb(64, 231, 114);
+  font-size: 2rem;
+}
 
-    .button__action--float {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-    }
+.button__action--float {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
 
-    .button__action--float2 {
-      position: absolute;
-      right: 0px;
-      top: 0;
-    }
+.button__action--float2 {
+  position: absolute;
+  right: 0px;
+  top: 0;
+}
 
-    .image__user {
-      width: 120px;
-      height: 120px;
-      box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.308);
-      position: absolute;
-      top: -60px;
-      left: 0;
-      right: 0;
-      margin: auto;
-      border-radius: 100%;
+.image__user {
+  width: 120px;
+  height: 120px;
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.308);
+  position: absolute;
+  top: -60px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  border-radius: 100%;
 
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 100%;
-      }
-    }
-    .profile__info {
-      font-size: 1.1rem;
-    }
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 100%;
+}
+}
+.profile__info {
+  font-size: 1.1rem;
+}
 
-    .profile__status {
-      font-size: 1.1rem;
+.profile__status {
+  font-size: 1.1rem;
 
-      i {
-        color: rgb(64, 231, 114);
-      }
-    }
-    .experience__item {
-      border: 2px solid rgba(80, 80, 80, 0.226);
-      border-radius: 2px;
+i {
+  color: rgb(64, 231, 114);
+}
+}
+.experience__item {
+  border: 2px solid rgba(80, 80, 80, 0.226);
+  border-radius: 2px;
 
-      .experience__image {
-        width: 55px;
-        height: 55px;
+.experience__image {
+  width: 55px;
+  height: 55px;
 
-        img {
-          height: 100%;
-          width: 100%;
-          object-fit: cover;
-        }
-      }
-      .experience__title {
-        font-size: 1.1rem;
-      }
+img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+}
+.experience__title {
+  font-size: 1.1rem;
+}
 
-      .experience__range {
-        font-size: 0.9rem;
-      }
+.experience__range {
+  font-size: 0.9rem;
+}
 
-      .experience__subtitle {
-        font-size: 1.1rem;
-      }
-    }
-    .locattion__item {
-      border: 1px solid rgba(0, 0, 0, 0.342);
-      border-radius: 4px;
-      padding: 5px 10px;
-      align-items: center;
+.experience__subtitle {
+  font-size: 1.1rem;
+}
+}
+.locattion__item {
+  border: 1px solid rgba(0, 0, 0, 0.342);
+  border-radius: 4px;
+  padding: 5px 10px;
+  align-items: center;
 
-      .locattion__title {
-        font-size: calc(0.4vw + 12px) !important;
-        margin-bottom: 0;
-      }
-    }
-    .acount__item {
-      border-bottom: 1px solid rgba(0, 0, 0, 0.342);
+.locattion__title {
+  font-size: calc(0.4vw + 12px) !important;
+  margin-bottom: 0;
+}
+}
+.acount__item {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.342);
 
-      .d-flex {
-        display: flex !important;
-        align-items: center !important;
-      }
-      .acount__image {
-        width: 55px;
-        height: 40px;
-        margin: auto 0;
+.d-flex {
+  display: flex !important;
+  align-items: center !important;
+}
+.acount__image {
+  width: 55px;
+  height: 40px;
+  margin: auto 0;
 
-        img {
-          height: 100%;
-          width: 100%;
-          object-fit: cover;
-        }
-      }
-    }
-  }
+img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+}
+}
+}
 }
 #modal-presentation {
-  .form-image__file {
-    width: 210px;
-    height: 210px;
-    border: 1px solid #b6bdcc;
-    border-radius: 4px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
-    cursor: pointer;
-    border-radius: 100%;
-  }
+.form-image__file {
+  width: 210px;
+  height: 210px;
+  border: 1px solid #b6bdcc;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  cursor: pointer;
+  border-radius: 100%;
+}
 
-  .form-image__file--aux {
-    padding: 25px;
-  }
+.form-image__file--aux {
+  padding: 25px;
+}
 
-  .form-image__file img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    margin: auto;
-    border-radius: 100%;
-  }
+.form-image__file img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  margin: auto;
+  border-radius: 100%;
+}
 
-  .form-image__file--aux img {
-    height: auto;
-    border-radius: 0;
-  }
+.form-image__file--aux img {
+  height: auto;
+  border-radius: 0;
+}
 }
 #modal-experience {
-  .experience__item {
-    border: 1px solid rgba(0, 0, 0, 0.521);
-    cursor: pointer;
+.experience__item {
+  border: 1px solid rgba(0, 0, 0, 0.521);
+  cursor: pointer;
 
-    .experience__icon {
-      border-right: 1px solid rgba(0, 0, 0, 0.521);
-    }
-  }
-  .experience__item--active {
-    border: 1px solid #3a88ec;
-    background-color: #3a88ec;
-    color: white;
+.experience__icon {
+  border-right: 1px solid rgba(0, 0, 0, 0.521);
+}
+}
+.experience__item--active {
+  border: 1px solid #3a88ec;
+  background-color: #3a88ec;
+  color: white;
 
-    .experience__icon {
-      border-right: 1px solid white;
-    }
-  }
-  .experience__item:hover {
-    border: 1px solid rgb(169, 169, 169);
-    background-color: rgb(169, 169, 169);
-    color: white;
+.experience__icon {
+  border-right: 1px solid white;
+}
+}
+.experience__item:hover {
+  border: 1px solid rgb(169, 169, 169);
+  background-color: rgb(169, 169, 169);
+  color: white;
 
-    .experience__icon {
-      border-right: 1px solid white;
-    }
-  }
-  .work__date {
-    position: relative;
-    top: -10px;
-    left: 0;
-    right: 0;
-    margin: auto;
-  }
+.experience__icon {
+  border-right: 1px solid white;
+}
+}
+.work__date {
+  position: relative;
+  top: -10px;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
 
-  .work__buttons {
-    width: 35px;
-    height: 35px;
-    font-size: 1.2rem;
-    background-color: rgb(145, 145, 145);
-    color: white;
-    border-radius: 100%;
-    display: flex;
-    cursor: pointer;
-    position: absolute;
-    top: 0px;
-    bottom: 0px;
-    align-items: center;
-    justify-content: center;
-  }
+.work__buttons {
+  width: 35px;
+  height: 35px;
+  font-size: 1.2rem;
+  background-color: rgb(145, 145, 145);
+  color: white;
+  border-radius: 100%;
+  display: flex;
+  cursor: pointer;
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  align-items: center;
+  justify-content: center;
+}
 
-  .work__buttons:hover {
-    background-color: #347bd8;
-  }
+.work__buttons:hover {
+  background-color: #347bd8;
+}
 
-  .work__buttons--left {
-    top: 35.8%;
-    margin: 0px -37px;
-  }
+.work__buttons--left {
+  top: 35.8%;
+  margin: 0px -37px;
+}
 
-  .work__buttons--right {
-    top: 35.8%;
-    margin: 0px 119px;
-  }
+.work__buttons--right {
+  top: 35.8%;
+  margin: 0px 119px;
+}
 
-  .form-step-button {
-    display: none;
-  }
+.form-step-button {
+  display: none;
+}
 }
 #modal-location {
-  .district__item {
-    border: 1px solid rgba(0, 0, 0, 0.521);
-    cursor: pointer;
+.district__item {
+  border: 1px solid rgba(0, 0, 0, 0.521);
+  cursor: pointer;
 
-    .district__icon {
-      border-right: 1px solid rgba(0, 0, 0, 0.521);
-    }
-  }
-  .district__item--active {
-    border: 1px solid #3a88ec;
-    background-color: #3a88ec;
-    color: white;
+.district__icon {
+  border-right: 1px solid rgba(0, 0, 0, 0.521);
+}
+}
+.district__item--active {
+  border: 1px solid #3a88ec;
+  background-color: #3a88ec;
+  color: white;
 
-    .district__icon {
-      border-right: 1px solid white;
-    }
-  }
-  .district__item:hover {
-    border: 1px solid rgb(169, 169, 169);
-    background-color: rgb(169, 169, 169);
-    color: white;
+.district__icon {
+  border-right: 1px solid white;
+}
+}
+.district__item:hover {
+  border: 1px solid rgb(169, 169, 169);
+  background-color: rgb(169, 169, 169);
+  color: white;
 
-    .district__icon {
-      border-right: 1px solid white;
-    }
-  }
+.district__icon {
+  border-right: 1px solid white;
+}
+}
 }
 #modal-galery {
-  .form-image__file {
-    border: 1px solid rgba(66, 66, 66, 0.473);
-    border-radius: 10px;
-    height: 200px;
-    cursor: pointer;
-  }
+.form-image__file {
+  border: 1px solid rgba(66, 66, 66, 0.473);
+  border-radius: 10px;
+  height: 200px;
+  cursor: pointer;
+}
 
-  .form-image__file--aux {
-    padding: 20px 5px;
-    text-align: center;
-  }
+.form-image__file--aux {
+  padding: 20px 5px;
+  text-align: center;
+}
 
-  .form-image__file img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    border-radius: 10px;
-    overflow: hidden;
-  }
+.form-image__file img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  overflow: hidden;
+}
 
-  .form-image__delete {
-    position: relative;
-    bottom: 195px;
-    left: 186px;
-    font-size: 24px;
-    color: rgb(241, 46, 46);
-    border-radius: 100%;
-    z-index: 10;
-    cursor: pointer;
-    width: fit-content;
+.form-image__delete {
+  position: relative;
+  bottom: 195px;
+  left: 186px;
+  font-size: 24px;
+  color: rgb(241, 46, 46);
+  border-radius: 100%;
+  z-index: 10;
+  cursor: pointer;
+  width: fit-content;
 
-    i {
-      background-color: white;
-      border-radius: 100%;
-      border: solid white 2px;
-    }
-  }
+i {
+  background-color: white;
+  border-radius: 100%;
+  border: solid white 2px;
+}
+}
 }
 .menu-active {
   background-color: #3a88ec !important;
@@ -1688,104 +1940,104 @@ h2 {
   }
 
   .profile-specialist__container {
-    .profile__menu {
-      padding: 0;
-      z-index: 1;
-      position: fixed;
-      top: 74px;
-      left: 0;
+  .profile__menu {
+    padding: 0;
+    z-index: 1;
+    position: fixed;
+    top: 74px;
+    left: 0;
 
-      .menu__container {
-        width: 100%;
-        display: block;
-        padding-bottom: 0 !important;
+  .menu__container {
+    width: 100%;
+    display: block;
+    padding-bottom: 0 !important;
 
-        .ps-2:hover {
-          background-color: #3a88ec;
-          color: white;
-        }
-      }
-    }
-    .profile__content {
-      margin-top: 100px;
-    }
+  .ps-2:hover {
+    background-color: #3a88ec;
+    color: white;
   }
-  #modal-galery {
-    .form-image__file {
-      border: 1px solid rgba(66, 66, 66, 0.473);
-      border-radius: 10px;
-      height: 150px;
-      cursor: pointer;
-    }
-    .form-image__delete {
-      font-size: 20px;
-      bottom: 146px;
-      left: 125px;
-    }
-  }
+}
+}
+.profile__content {
+  margin-top: 100px;
+}
+}
+#modal-galery {
+.form-image__file {
+  border: 1px solid rgba(66, 66, 66, 0.473);
+  border-radius: 10px;
+  height: 150px;
+  cursor: pointer;
+}
+.form-image__delete {
+  font-size: 20px;
+  bottom: 146px;
+  left: 125px;
+}
+}
 }
 
 @media (max-width: 767px) {
   #modal-galery {
-    .form-image__delete {
-      bottom: 145px;
-      left: 160px;
-    }
+  .form-image__delete {
+    bottom: 145px;
+    left: 160px;
   }
-  .mRes {
-    top: 323px !important;
-    left: 140px;
-  }
-  .mAdd {
-    top: 323px !important;
-    right: -16px;
-  }
-  .aRes {
-    left: 140px;
-    top: 194px !important;
-  }
-  .aAdd {
-    top: 194px !important;
-    right: -16px;
-  }
+}
+.mRes {
+  top: 323px !important;
+  left: 140px;
+}
+.mAdd {
+  top: 323px !important;
+  right: -16px;
+}
+.aRes {
+  left: 140px;
+  top: 194px !important;
+}
+.aAdd {
+  top: 194px !important;
+  right: -16px;
+}
 }
 
 @media (max-width: 575px) {
   #modal-galery {
-    .form-image__delete {
-      left: calc(100% - 31px);
-    }
+  .form-image__delete {
+    left: calc(100% - 31px);
   }
-  .menu__container {
-    top: 54px;
-  }
-  .acount__image {
-    height: 40px !important;
-    width: auto !important;
-  }
+}
+.menu__container {
+  top: 54px;
+}
+.acount__image {
+  height: 40px !important;
+  width: auto !important;
+}
 
-  .acount__item {
-    padding: 10px 0 !important;
-  }
-  .center-resp {
-    justify-content: center;
-  }
-  .form-control-lg {
-    padding: 0 0 0 30px !important;
-    margin-left: -13px;
-  }
-  .mRes {
-    left: 27vw;
-  }
-  .mAdd {
-    margin-right: 22.5vw !important;
-  }
-  .aRes {
-    left: 27vw;
-  }
-  .aAdd {
-    margin-right: 22.5vw !important;
-  }
+.acount__item {
+  padding: 10px 0 !important;
+}
+.center-resp {
+  justify-content: center;
+}
+.form-control-lg {
+  padding: 0 0 0 30px !important;
+  margin-left: -13px;
+}
+.mRes {
+  left: 27vw;
+}
+.mAdd {
+  margin-right: 22.5vw !important;
+}
+.aRes {
+  left: 27vw;
+}
+.aAdd {
+  margin-right: 22.5vw !important;
+}
 }
 
 @media (max-width: 462px) {

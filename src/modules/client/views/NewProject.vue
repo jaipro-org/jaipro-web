@@ -5,24 +5,24 @@
     </b-col>
     <b-col cols="12" md="8" class="mx-auto mt-4 px-0">
       <form-wizard
-        color="#3a88ec"
-        ref="formWizard"
-        class="px-lg-0"
-        next-button-text="Siguiente"
-        back-button-text="Atras"
-        finish-button-text="Registrar proyecto"
+          color="#3a88ec"
+          ref="formWizard"
+          class="px-lg-0"
+          next-button-text="Siguiente"
+          back-button-text="Atras"
+          finish-button-text="Registrar proyecto"
       >
         <tab-content title="Describe el servicio" :beforeChange="Step1">
           <b-card class="mt-1 mb-2">
-            <b-form validated>
+            <b-form>
               <b-row class="mx-0 justify-content-between">
                 <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group label="Profesión">
                     <b-form-select
-                      v-model="professionValue"
-                      :options="professionOptions"
-                      class="rounded-pill"
-                      required
+                        v-model="professionValue"
+                        :state="validateState(professionValue, professionError)"
+                        :options="professionOptions"
+                        class="rounded-pill"
                     ></b-form-select>
                     <b-form-invalid-feedback>
                       {{ professionError }}
@@ -32,10 +32,10 @@
                 <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group label="Distrito">
                     <b-form-select
-                      v-model="districtValue"
-                      :options="districtOptions"
-                      class="rounded-pill"
-                      required
+                        v-model="districtValue"
+                        :state="validateState(districtValue, districtError)"
+                        :options="districtOptions"
+                        class="rounded-pill"
                     ></b-form-select>
                     <b-form-invalid-feedback>
                       {{ districtError }}
@@ -48,14 +48,14 @@
         </tab-content>
         <tab-content title="Describe tu proyecto" :beforeChange="Step2">
           <b-card class="mt-1 mb-2">
-            <b-form validated>
+            <b-form>
               <b-row class="mx-0 justify-content-between">
                 <b-col cols="12" class="px-0">
                   <b-form-group label="Describe el servicio">
                     <b-form-textarea
-                      v-model="descriptionValue"
-                      rows="5"
-                      required
+                        v-model="descriptionValue"
+                        :state="validateState(descriptionValue, descriptionError)"
+                        rows="5"
                     ></b-form-textarea>
                     <b-form-invalid-feedback>
                       {{ descriptionError }}
@@ -67,66 +67,61 @@
               <label for="">Fotos de referencia</label>
               <b-row class="mx-0 justify-content-around">
                 <b-col
-                  cols="6"
-                  md="5"
-                  lg="4"
-                  v-for="(image, index) in form.imagesList"
-                  :key="index"
+                    cols="6"
+                    md="5"
+                    lg="4"
+                    v-for="(image, index) in form.imagesList"
+                    :key="index"
                 >
                   <div
-                    class="form-image__file mb-3 mt-3"
-                    :class="!image.url ? 'form-image__file--aux' : ''"
-                    :style="
-                      !image.url
-                        ? 'border: #dc3545 1px solid'
-                        : 'border: #198754 1px solid'
-                    "
+                      class="form-image__file mb-3 mt-3"
+                      :class="!image.url ? 'form-image__file--aux' : ''"
                   >
                     <img
-                      @click="uploadImage(index)"
-                      :src="
+                        @click="uploadImage(index)"
+                        :src="
                         !image.url
                           ? require('@/assets/img-delete/fileimage-up.png')
                           : image.url
                       "
-                      alt="image"
+                        alt="image"
                     />
                     <div
-                      v-if="image.url"
-                      class="form-image__delete"
-                      @click="deleteImage(index)"
+                        v-if="image.url"
+                        class="form-image__delete"
+                        @click="deleteImage(index)"
                     >
                       <i class="fa-solid fa-circle-xmark"></i>
                     </div>
                   </div>
                   <input
-                    type="file"
-                    style="display: none"
-                    :ref="`portadaFile${index}`"
-                    :id="`portadaFile${index}`"
-                    accept="image/png, image/jpeg"
-                    hidden
-                    @change="changeFileCover"
+                      type="file"
+                      style="display: none"
+                      :ref="`portadaFile${index}`"
+                      :id="`portadaFile${index}`"
+                      accept="image/png, image/jpeg"
+                      hidden
+                      @change="changeFileCover"
                   />
                 </b-col>
               </b-row>
               <b-form-invalid-feedback :state="imagenRequired">
-                Suba una imagen como minimo para la referencia
+                Suba una imagen como minimo
               </b-form-invalid-feedback>
             </b-form>
           </b-card>
         </tab-content>
         <tab-content title="Cuéntanos de ti" :beforeChange="Step3">
           <b-card class="mt-1 mb-2">
-            <b-form validated>
+            <b-form>
               <b-row class="mx-0 justify-content-between">
                 <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group label="Nombres">
                     <b-form-input
-                      v-model="nameValue"
-                      placeholder="Ingrese su nombre"
-                      class="rounded-pill"
-                      required
+                        v-model="nameValue"
+                        :state="validateState(nameValue, nameError)"
+                        placeholder="Ingrese su nombre"
+                        class="rounded-pill"
                     ></b-form-input>
                     <b-form-invalid-feedback>
                       {{ nameError }}
@@ -136,10 +131,10 @@
                 <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group label="Apellidos">
                     <b-form-input
-                      v-model="lastnameValue"
-                      placeholder="Ingrese su apellidos"
-                      class="rounded-pill"
-                      required
+                        v-model="lastnameValue"
+                        :state="validateState(lastnameValue, lastnameError)"
+                        placeholder="Ingrese su apellidos"
+                        class="rounded-pill"
                     ></b-form-input>
                     <b-form-invalid-feedback>
                       {{ lastnameError }}
@@ -154,11 +149,10 @@
                 <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group label="Correo electrónico">
                     <b-form-input
-                      v-model="emailValue"
-                      placeholder="Ingrese su correo"
-                      class="rounded-pill"
-                      type="email"
-                      required
+                        v-model="emailValue"
+                        :state="validateState(emailValue, emailError)"
+                        placeholder="Ingrese su correo"
+                        class="rounded-pill"
                     ></b-form-input>
                     <b-form-invalid-feedback>
                       {{ emailError }}
@@ -170,12 +164,12 @@
                 <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group label="Contraseña">
                     <b-form-input
-                      v-model="passwordValue"
-                      v-on:input="confirmPasswordValidate()"
-                      placeholder="Ingrese su contraseña"
-                      type="password"
-                      class="rounded-pill"
-                      required
+                        v-model="passwordValue"
+                        :state="validateState(passwordValue, passwordError)"
+                        v-on:input="confirmPasswordValidate()"
+                        placeholder="Ingrese su contraseña"
+                        type="password"
+                        class="rounded-pill"
                     ></b-form-input>
                     <b-form-invalid-feedback :state="passwordError">
                       {{ passwordError }}
@@ -185,12 +179,17 @@
                 <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group label="Confirmar contraseña">
                     <b-form-input
-                      v-model="confirmPasswordValue"
-                      v-on:input="passwordValidate()"
-                      placeholder="Confirme su contraseña"
-                      class="rounded-pill"
-                      type="password"
-                      required
+                        v-model="confirmPasswordValue"
+                        :state="
+                        validateState(
+                          confirmPasswordValue,
+                          confirmPasswordError
+                        )
+                      "
+                        v-on:input="passwordValidate()"
+                        placeholder="Confirme su contraseña"
+                        class="rounded-pill"
+                        type="password"
                     ></b-form-input>
                     <b-form-invalid-feedback :state="confirmPasswordError">
                       {{ confirmPasswordError }}
@@ -209,20 +208,22 @@
                 <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group label="Profesión">
                     <b-form-select
-                      v-model="professionValue"
-                      :options="professionOptions"
-                      class="rounded-pill"
-                      disabled
+                        v-model="professionValue"
+                        :state="true"
+                        :options="professionOptions"
+                        class="rounded-pill"
+                        disabled
                     ></b-form-select>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group label="Distrito">
                     <b-form-select
-                      v-model="districtValue"
-                      :options="districtOptions"
-                      class="rounded-pill"
-                      disabled
+                        v-model="districtValue"
+                        :state="true"
+                        :options="districtOptions"
+                        class="rounded-pill"
+                        disabled
                     ></b-form-select>
                   </b-form-group>
                 </b-col>
@@ -234,10 +235,11 @@
                 <b-col cols="12" class="px-0">
                   <b-form-group label="Describe el servicio">
                     <b-form-textarea
-                      v-model="descriptionValue"
-                      disabled
-                      no-resize
-                      rows="5"
+                        v-model="descriptionValue"
+                        :state="true"
+                        disabled
+                        no-resize
+                        rows="5"
                     ></b-form-textarea>
                   </b-form-group>
                 </b-col>
@@ -246,23 +248,23 @@
               <label for="">Fotos de referencia</label>
               <b-row class="mx-0 justify-content-around">
                 <b-col
-                  cols="6"
-                  md="5"
-                  lg="4"
-                  v-for="(image, index) in form.imagesList"
-                  :key="index"
+                    cols="6"
+                    md="5"
+                    lg="4"
+                    v-for="(image, index) in form.imagesList"
+                    :key="index"
                 >
                   <div
-                    class="form-image__file mb-3 mt-3"
-                    :class="!image.url ? 'form-image__file--aux' : ''"
+                      class="form-image__file mb-3 mt-3"
+                      :class="!image.url ? 'form-image__file--aux' : ''"
                   >
                     <img
-                      :src="
+                        :src="
                         !image.url
                           ? require('@/assets/img-delete/fileimage-up.png')
                           : image.url
                       "
-                      alt="image"
+                        alt="image"
                     />
                   </div>
                 </b-col>
@@ -274,27 +276,30 @@
                 <b-col cols="12" lg="5" class="mb-3">
                   <b-form-group label="Nombres">
                     <b-form-input
-                      v-model="nameValue"
-                      class="rounded-pill"
-                      disabled
+                        v-model="nameValue"
+                        :state="true"
+                        class="rounded-pill"
+                        disabled
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3">
                   <b-form-group label="Apellidos">
                     <b-form-input
-                      v-model="lastnameValue"
-                      class="rounded-pill"
-                      disabled
+                        v-model="lastnameValue"
+                        :state="true"
+                        class="rounded-pill"
+                        disabled
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3">
                   <b-form-group label="Correo electrónico">
                     <b-form-input
-                      v-model="emailValue"
-                      class="rounded-pill"
-                      disabled
+                        v-model="emailValue"
+                        :state="true"
+                        class="rounded-pill"
+                        disabled
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
@@ -303,14 +308,14 @@
             <div class="mb-4">
               <div class="d-flex">
                 <b-form-checkbox
-                  v-model="conditionsValue"
-                  name="checkbox-1"
-                  class="cursor-pointer"
-                  required
+                    v-model="conditionsValue"
+                    name="checkbox-1"
+                    class="cursor-pointer"
+                    :style="validateStateColor(conditionsValue, conditionsError)"
                 >
                 </b-form-checkbox>
                 <p
-                  :style="conditionsValue ? 'color: #198754' : 'color: #dc3545'"
+                    :style="validateStateColor(conditionsValue, conditionsError)"
                 >
                   Acepto los
                   <span class="btn_conditions" @click="showConditions = true">
@@ -319,8 +324,8 @@
                 </p>
               </div>
               <b-form-invalid-feedback
-                :state="conditionsError"
-                style="margin-top: -15px"
+                  :state="conditionsError"
+                  style="margin-top: -15px"
               >
                 {{ conditionsError }}
               </b-form-invalid-feedback>
@@ -342,9 +347,9 @@
     <template v-slot:footer>
       <div>
         <b-button
-          variant="primary"
-          @click="(showConditions = false), (conditionsValue = true)"
-          >Aceptar</b-button
+            variant="primary"
+            @click="(showConditions = false), (conditionsValue = true)"
+        >Aceptar</b-button
         >
       </div>
     </template>
@@ -417,29 +422,29 @@ const schema = {
   name: yup.string().required("Campo requerido"),
   lastname: yup.string().required("Campo requerido"),
   email: yup
-    .string()
-    .email("Escriba un correo valido")
-    .required("Campo requerido"),
+      .string()
+      .email("Escriba un correo valido")
+      .required("Campo requerido"),
   password: yup
-    .string()
-    .min(8, "Se requiere 8 caracteres como minimo")
-    .required("Escriba su contraseña")
-    .test("a", "Las contraseñas no coinciden", (value) => {
-      if (value === confirmPasswordValue.value) return true;
-      else return false;
-    }),
+      .string()
+      .min(8, "Se requiere 8 caracteres como minimo")
+      .required("Escriba su contraseña")
+      .test("a", "Las contraseñas no coinciden", (value) => {
+        if (value === confirmPasswordValue.value) return true;
+        else return false;
+      }),
   confirmPassword: yup
-    .string()
-    .min(8, "Se requiere 8 caracteres como minimo")
-    .required("Confirme su contraseña")
-    .test("a", "Las contraseñas no coinciden", (value) => {
-      if (value === passwordValue.value) return true;
-      else return false;
-    }),
+      .string()
+      .min(8, "Se requiere 8 caracteres como minimo")
+      .required("Confirme su contraseña")
+      .test("a", "Las contraseñas no coinciden", (value) => {
+        if (value === passwordValue.value) return true;
+        else return false;
+      }),
   conditions: yup
-    .boolean()
-    .oneOf([true], "Acepte los terminos y condiciones")
-    .required("Acepte los terminos y condiciones"),
+      .boolean()
+      .oneOf([true], "Acepte los terminos y condiciones")
+      .required("Acepte los terminos y condiciones"),
 };
 
 // Validaciones INPUT with UseField
@@ -488,6 +493,18 @@ const {
   errorMessage: conditionsError,
   validate: conditionsValidate,
 } = useField("conditions", schema.conditions);
+
+const validateState = (value: any, error: any) => {
+  if (value === undefined && error === undefined) return null;
+  else if (error) return false;
+  return true;
+};
+const validateStateColor = (value: any, error: any) => {
+  if (value === undefined && error === undefined)
+    return "border-color: #7e7e7e";
+  else if (error) return "color: #dc3545; border-color: #dc3545;";
+  return "color: #198754; border-color: #198754;";
+};
 
 // validadores para cada paso del formulario
 // beforeChange
