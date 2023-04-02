@@ -9,34 +9,41 @@
           <b-form @submit.prevent="login">
             <b-form-group label="Correo electrónico" label-for="txtEmail_l">
               <b-form-input
-                  v-model="emailValue"
-                  placeholder="Ingrese su correo"
-                  id="txtEmail_l"
-                  class="rounded-pill"
-                  :state="validateState(emailValue, emailError)"
+                v-model="email.value.value"
+                placeholder="Ingrese su correo"
+                id="txtEmail_l"
+                class="rounded-pill"
+                :state="
+                  validateState(email.value.value, email.errorMessage.value)
+                "
               ></b-form-input>
-              <b-form-invalid-feedback :state="emailError">
-                {{ emailError }}
+              <b-form-invalid-feedback :state="email.errorMessage.value">
+                {{ email.errorMessage.value }}
               </b-form-invalid-feedback>
             </b-form-group>
             <b-form-group label="Contraseña" label-for="txtPassword_l">
               <b-form-input
-                  v-model="passwordValue"
-                  placeholder="Ingrese su contraseña"
-                  type="password"
-                  id="txtPassword_l"
-                  class="rounded-pill"
-                  :state="validateState(passwordValue, passwordError)"
+                v-model="password.value.value"
+                placeholder="Ingrese su contraseña"
+                type="password"
+                id="txtPassword_l"
+                class="rounded-pill"
+                :state="
+                  validateState(
+                    password.value.value,
+                    password.errorMessage.value
+                  )
+                "
               ></b-form-input>
-              <b-form-invalid-feedback :state="passwordError">
-                {{ passwordError }}
+              <b-form-invalid-feedback :state="password.errorMessage.value">
+                {{ password.errorMessage.value }}
               </b-form-invalid-feedback>
             </b-form-group>
             <div class="text-end mb-4">
               <b-link @click="forgotPassword">Olvide mi contraseña</b-link>
             </div>
             <b-button class="w-100" variant="primary" type="submit"
-            >Ingresar</b-button
+              >Ingresar</b-button
             >
             <p class="text-end mt-4">
               ¿No tienes una cuenta?
@@ -53,8 +60,8 @@
 import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import { useField } from "vee-validate";
-import * as yup from "yup";
+import { validateState } from "@/validate/globalValidate";
+import useLoginFormValidate from "@/validate/loginValidate";
 
 // FUNCTIONS
 import {
@@ -70,66 +77,27 @@ import { AuthServices } from "@/services/api/authServices";
 export default defineComponent({
   name: "LoginComponent",
   setup() {
+    const { email, password, validate } = useLoginFormValidate();
     const router = useRouter();
     const store = useStore();
 
-    const validateState = (value: any, error: any) => {
-      if (value === undefined && error === undefined) return null;
-      else if (error) return false;
-      return true;
-    };
-
-    const schema = {
-      email: yup
-          .string()
-          .email("Escriba un correo valido")
-          .required("Campo requerido"),
-      password: yup
-          .string()
-          .min(8, "Se requiere 8 caracteres como minimo")
-          .required("Campo requerido"),
-    };
-    const {
-      value: emailValue,
-      errorMessage: emailError,
-      validate: emailValidate,
-    } = useField("email", schema.email);
-    const {
-      value: passwordValue,
-      errorMessage: passwordError,
-      validate: passwordValidate,
-    } = useField("password", schema.password);
-
-    function verificar() {
-      emailValidate();
-      passwordValidate();
-    }
-
     const login = async () => {
-      const fields = {
-        email: emailValue.value,
-        password: passwordValue.value,
+      const data = {
+        email: email.value.value,
+        password: password.value.value,
       };
 
-      const valideSchema = yup.object({
-        email: schema.email,
-        password: schema.password,
-      });
-
-      const isValid = await valideSchema.isValid(fields);
+      const isValid = await validate(data);
 
       if (!isValid) {
-        emailValidate();
-        passwordValidate();
+        email.validate();
+        password.validate();
       }
 
       if (isValid) {
         try {
           alertLoading();
-          await store.dispatch("authModule/loginUser", {
-            email: emailValue.value,
-            password: passwordValue.value,
-          });
+          await store.dispatch("authModule/loginUser", data);
 
           alertSuccessfully("Usuario inicio sesión exitosamente!!");
           setTimeout(function () {
@@ -154,11 +122,8 @@ export default defineComponent({
     }
 
     return {
-      emailValue,
-      emailError,
-      passwordValue,
-      passwordError,
-      verificar,
+      email,
+      password,
       login,
       register,
       forgotPassword,
