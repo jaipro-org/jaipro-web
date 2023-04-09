@@ -5,21 +5,21 @@
     </b-col>
     <b-col cols="12" md="8" class="mx-auto mt-4 px-0">
       <form-wizard
-          shape="circle"
-          color="#3a88ec"
-          ref="formWizard"
-          title=""
-          subtitle=""
-          class="px-4 px-lg-0"
-          :class="{ 'wizard-small-title': !isWeb }"
-          :stepSize="isWeb ? 'md' : 'sm'"
+        shape="circle"
+        color="#3a88ec"
+        ref="formWizard"
+        title=""
+        subtitle=""
+        class="px-4 px-lg-0"
+        :class="{ 'wizard-small-title': !isWeb }"
+        :stepSize="isWeb ? 'md' : 'sm'"
       >
         <template v-slot:finish>
           <b-button
-              variant="primary"
-              class="step__button"
-              @click="registerSpecialist"
-          >Finalizar</b-button
+            variant="primary"
+            class="step__button"
+            @click="registerSpecialist"
+            >Finalizar</b-button
           >
         </template>
         <template v-slot:next>
@@ -35,76 +35,104 @@
                 <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group label="Nombres" label-for="input-33">
                     <b-form-input
-                        id="input-33"
-                        v-model="nameValue"
-                        :state="validateState(nameValue, nameError)"
-                        placeholder="Ingrese su nombre"
-                        class="rounded-pill"
+                      id="input-33"
+                      v-model="name.value.value"
+                      :state="
+                        validateState(name.value.value, name.errorMessage.value)
+                      "
+                      placeholder="Ingrese su nombre"
+                      class="rounded-pill"
                     ></b-form-input>
-                    <b-form-invalid-feedback :state="nameError">
-                      {{ nameError }}
+                    <b-form-invalid-feedback :state="name.errorMessage.value">
+                      {{ name.errorMessage.value }}
                     </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group label="Apellidos" label-for="input-44">
                     <b-form-input
-                        id="input-44"
-                        v-model="lastNameValue"
-                        :state="validateState(lastNameValue, lastNameError)"
-                        placeholder="Ingrese su apellido"
-                        class="rounded-pill"
+                      id="input-44"
+                      v-model="lastName.value.value"
+                      :state="
+                        validateState(
+                          lastName.value.value,
+                          lastName.errorMessage.value
+                        )
+                      "
+                      placeholder="Ingrese su apellido"
+                      class="rounded-pill"
                     ></b-form-input>
-                    <b-form-invalid-feedback :state="lastNameError">
-                      {{ lastNameError }}
+                    <b-form-invalid-feedback
+                      :state="lastName.errorMessage.value"
+                    >
+                      {{ lastName.errorMessage.value }}
                     </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3 px-0">
-                  <b-form-group label="Telefono" label-for="input-2">
+                  <b-form-group label="Celular" label-for="input-2">
                     <b-form-input
-                        id="input-2"
-                        v-model="phoneValue"
-                        :state="validateState(phoneValue, phoneError)"
-                        placeholder="Ingrese su teléfono"
-                        oninput="this.value = value.replace(/[^0-9]/g, '')"
-                        class="rounded-pill"
+                      id="input-2"
+                      v-model="phone.value.value"
+                      :state="
+                        validateState(
+                          phone.value.value,
+                          phone.errorMessage.value
+                        )
+                      "
+                      placeholder="Ingrese su teléfono"
+                      oninput="this.value = value.replace(/[^0-9]/g, '')"
+                      class="rounded-pill"
                     ></b-form-input>
-                    <b-form-invalid-feedback :state="phoneError">
-                      {{ phoneError }}
+                    <b-form-invalid-feedback :state="phone.errorMessage.value">
+                      {{ phone.errorMessage.value }}
                     </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group
-                      label="Documento o cédula de identidad"
-                      label-for="input-55"
+                    label="Documento o cédula de identidad"
+                    label-for="input-55"
                   >
                     <b-form-input
-                        id="input-55"
-                        v-model="documentValue"
-                        :state="validateState(documentValue, documentError)"
-                        oninput="this.value = value.replace(/[^0-9]/g, '')"
-                        type="text"
-                        placeholder="Ingrese su n° de documento"
-                        class="rounded-pill"
+                      id="input-55"
+                      v-model="document.value.value"
+                      :state="
+                        validateState(
+                          document.value.value,
+                          document.errorMessage.value
+                        )
+                      "
+                      oninput="this.value = value.replace(/[^0-9]/g, '')"
+                      type="text"
+                      placeholder="Ingrese su n° de documento"
+                      class="rounded-pill"
                     ></b-form-input>
-                    <b-form-invalid-feedback :state="documentError">
-                      {{ documentError }}
+                    <b-form-invalid-feedback
+                      :state="document.errorMessage.value"
+                    >
+                      {{ document.errorMessage.value }}
                     </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group label="Dirección" label-for="input-66">
                     <b-form-input
-                        id="input-66"
-                        v-model="addressValue"
-                        :state="validateState(addressValue, addressError)"
-                        placeholder="Ingrese su dirección"
-                        class="rounded-pill"
+                      id="input-66"
+                      v-model="address.value.value"
+                      :state="
+                        validateState(
+                          address.value.value,
+                          address.errorMessage.value
+                        )
+                      "
+                      placeholder="Ingrese su dirección"
+                      class="rounded-pill"
                     ></b-form-input>
-                    <b-form-invalid-feedback :state="addressError">
-                      {{ addressError }}
+                    <b-form-invalid-feedback
+                      :state="address.errorMessage.value"
+                    >
+                      {{ address.errorMessage.value }}
                     </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
@@ -121,34 +149,46 @@
               <b-row class="mx-0 justify-content-between mt-4">
                 <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group
-                      label="Correo electrónico"
-                      label-for="input-acount-1"
+                    label="Correo electrónico"
+                    label-for="input-acount-1"
                   >
                     <b-form-input
-                        id="input-acount-1"
-                        v-model="emailValue"
-                        :state="validateState(emailValue, emailError)"
-                        placeholder="Ingrese su usuario"
-                        class="rounded-pill"
+                      id="input-acount-1"
+                      v-model="email.value.value"
+                      :state="
+                        validateState(
+                          email.value.value,
+                          email.errorMessage.value
+                        )
+                      "
+                      placeholder="Ingrese su Correo"
+                      class="rounded-pill"
                     ></b-form-input>
-                    <b-form-invalid-feedback :state="emailError">
-                      {{ emailError }}
+                    <b-form-invalid-feedback :state="email.errorMessage.value">
+                      {{ email.errorMessage.value }}
                     </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group label="Contraseña" label-for="input-acount-222">
                     <b-form-input
-                        id="input-acount-222"
-                        v-model="passwordValue"
-                        :state="validateState(passwordValue, passwordError)"
-                        @input="confirmPasswordValidate()"
-                        type="password"
-                        placeholder="Ingrese su contraseña"
-                        class="rounded-pill"
+                      id="input-acount-222"
+                      v-model="password.value.value"
+                      :state="
+                        validateState(
+                          password.value.value,
+                          password.errorMessage.value
+                        )
+                      "
+                      @input="confirmPassword.validate()"
+                      type="password"
+                      placeholder="Ingrese su contraseña"
+                      class="rounded-pill"
                     ></b-form-input>
-                    <b-form-invalid-feedback :state="passwordError">
-                      {{ passwordError }}
+                    <b-form-invalid-feedback
+                      :state="password.errorMessage.value"
+                    >
+                      {{ password.errorMessage.value }}
                     </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
@@ -156,25 +196,27 @@
                 <b-col cols="12" lg="5" class="mb-3 px-0"> </b-col>
                 <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group
-                      label="Confirmar Contraseña"
-                      label-for="input-acount-2"
+                    label="Confirmar Contraseña"
+                    label-for="input-acount-2"
                   >
                     <b-form-input
-                        id="input-acount-2"
-                        v-model="confirmPasswordValue"
-                        :state="
+                      id="input-acount-2"
+                      v-model="confirmPassword.value.value"
+                      :state="
                         validateState(
-                          confirmPasswordValue,
-                          confirmPasswordError
+                          confirmPassword.value.value,
+                          confirmPassword.errorMessage.value
                         )
                       "
-                        @input="passwordValidate()"
-                        type="password"
-                        placeholder="Ingrese su contraseña nuevamente"
-                        class="rounded-pill"
+                      @input="password.validate()"
+                      type="password"
+                      placeholder="Ingrese su contraseña nuevamente"
+                      class="rounded-pill"
                     ></b-form-input>
-                    <b-form-invalid-feedback :state="confirmPasswordError">
-                      {{ confirmPasswordError }}
+                    <b-form-invalid-feedback
+                      :state="confirmPassword.errorMessage.value"
+                    >
+                      {{ confirmPassword.errorMessage.value }}
                     </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
@@ -192,58 +234,60 @@
                 <h5>Profesiones</h5>
                 <b-form-group class="ps-3">
                   <b-form-checkbox-group
-                      v-model="listProfessionValue"
-                      name="flavour-1"
-                      stacked
-                      class="mt-2"
-                      :options="workOptions"
+                    v-model="listProfession.value.value"
+                    name="flavour-1"
+                    stacked
+                    class="mt-2"
+                    :options="workOptions"
                   >
                   </b-form-checkbox-group>
-                  <b-form-invalid-feedback :state="listProfessionError">
-                    {{ listProfessionError }}
+                  <b-form-invalid-feedback
+                    :state="listProfession.errorMessage.value"
+                  >
+                    {{ listProfession.errorMessage.value }}
                   </b-form-invalid-feedback>
                 </b-form-group>
               </b-col>
               <b-col cols="12" lg="5" class="px-0 d-none d-lg-block">
                 <h5>Locaciones de trabajo</h5>
                 <v-select
-                    multiple
-                    v-model="locationValue"
-                    :options="locationOptions"
-                    :reduce="(option:location) => option.value"
-                    placeholder="Seleccione"
+                  multiple
+                  v-model="location.value.value"
+                  :options="locationOptions"
+                  :reduce="(option:locationType) => option.value"
+                  placeholder="Seleccione"
                 />
-                <b-form-invalid-feedback :state="locationError">
-                  {{ locationError }}
+                <b-form-invalid-feedback :state="location.errorMessage.value">
+                  {{ location.errorMessage.value }}
                 </b-form-invalid-feedback>
               </b-col>
               <b-col cols="12" class="mx-auto mt-4 mb-1">
                 <div v-if="workExperience.length <= 0">
                   <!-- <h5>Experiencia en el rubro</h5>
-                  <span class="ps-3 info-error"
+                  <span class="ps-3 info-.errorMessage.value"
                     >No hay profesiones seleccionadas</span
                   > -->
                 </div>
                 <div v-else>
                   <h5>Experiencia en el rubro</h5>
                   <b-row
-                      v-for="(work, index) in workExperience"
-                      :key="index"
-                      class="mx-0 justify-content-between align-items-center mb-4 pt-4"
+                    v-for="(work, index) in workExperience"
+                    :key="index"
+                    class="mx-0 justify-content-between align-items-center mb-4 pt-4"
                   >
                     <b-col cols="12" lg="3" class="mb-4 mb-lg-0 work__name">{{
-                        work.name
-                      }}</b-col>
+                      work.name
+                    }}</b-col>
                     <b-col cols="12" lg="9" class="mb-5 mb-lg-0 work__temp">
                       <TimeComponent
-                          title="Años"
-                          v-model="workExperience[index].years"
-                          class="mx-0 me-lg-5"
+                        title="Años"
+                        v-model="workExperience[index].years"
+                        class="mx-0 me-lg-5"
                       ></TimeComponent>
                       <TimeComponent
-                          class="mx-0 ms-lg-5"
-                          title="Meses"
-                          v-model="workExperience[index].months"
+                        class="mx-0 ms-lg-5"
+                        title="Meses"
+                        v-model="workExperience[index].months"
                       ></TimeComponent>
                     </b-col>
                     <b-form-invalid-feedback :state="countExperience(index)">
@@ -256,10 +300,10 @@
                 <h5>Locaciones de trabajo</h5>
 
                 <v-select
-                    multiple
-                    v-model="locationSelected"
-                    :options="locationOptions"
-                    :reduce="(option:any) => option.value"
+                  multiple
+                  v-model="locationSelected"
+                  :options="locationOptions"
+                  :reduce="(option:any) => option.value"
                 />
               </b-col>
             </b-row>
@@ -273,63 +317,63 @@
                 <b-col cols="12" lg="5" class="mb-3">
                   <b-form-group label="Nombres" label-for="input-3">
                     <b-form-input
-                        id="input-3"
-                        v-model="nameValue"
-                        :state="true"
-                        placeholder="Ingrese su nombre"
-                        class="rounded-pill"
-                        disabled
+                      id="input-3"
+                      v-model="name.value.value"
+                      :state="true"
+                      placeholder="Ingrese su nombre"
+                      class="rounded-pill"
+                      disabled
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3">
                   <b-form-group label="Apellidos" label-for="input-4">
                     <b-form-input
-                        id="input-4"
-                        v-model="lastNameValue"
-                        :state="true"
-                        placeholder="Ingrese su apellido"
-                        class="rounded-pill"
-                        disabled
+                      id="input-4"
+                      v-model="lastName.value.value"
+                      :state="true"
+                      placeholder="Ingrese su apellido"
+                      class="rounded-pill"
+                      disabled
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3">
                   <b-form-group label="Telefono" label-for="input-22">
                     <b-form-input
-                        id="input-22"
-                        v-model="phoneValue"
-                        :state="true"
-                        placeholder="Ingrese su teléfono"
-                        class="rounded-pill"
-                        disabled
+                      id="input-22"
+                      v-model="phone.value.value"
+                      :state="true"
+                      placeholder="Ingrese su teléfono"
+                      class="rounded-pill"
+                      disabled
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3">
                   <b-form-group
-                      label="Documento o cédula de identidad"
-                      label-for="input-5"
+                    label="Documento o cédula de identidad"
+                    label-for="input-5"
                   >
                     <b-form-input
-                        id="input-5"
-                        v-model="documentValue"
-                        :state="true"
-                        placeholder="Ingrese su n° de documento"
-                        class="rounded-pill"
-                        disabled
+                      id="input-5"
+                      v-model="document.value.value"
+                      :state="true"
+                      placeholder="Ingrese su n° de documento"
+                      class="rounded-pill"
+                      disabled
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3">
                   <b-form-group label="Dirección" label-for="input-6">
                     <b-form-input
-                        id="input-6"
-                        v-model="addressValue"
-                        :state="true"
-                        placeholder="Ingrese su dirección"
-                        class="rounded-pill"
-                        disabled
+                      id="input-6"
+                      v-model="address.value.value"
+                      :state="true"
+                      placeholder="Ingrese su dirección"
+                      class="rounded-pill"
+                      disabled
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
@@ -342,11 +386,11 @@
                   <h5>Profesiones</h5>
                   <b-form-group class="ps-3">
                     <b-form-checkbox-group
-                        v-model="workList.workSelected"
-                        name="flavour-1"
-                        stacked
-                        class="mt-2"
-                        :options="workOptionsResume"
+                      v-model="workList.workSelected"
+                      name="flavour-1"
+                      stacked
+                      class="mt-2"
+                      :options="workOptionsResume"
                     >
                     </b-form-checkbox-group>
                   </b-form-group>
@@ -354,11 +398,11 @@
                 <b-col cols="12" lg="5" class="d-none d-lg-block">
                   <h5>Locaciones de trabajo</h5>
                   <v-select
-                      multiple
-                      v-model="locationSelected"
-                      :options="locationOptions"
-                      :reduce="(option:any) => option.value"
-                      disabled
+                    multiple
+                    v-model="locationSelected"
+                    :options="locationOptions"
+                    :reduce="(option:any) => option.value"
+                    disabled
                   />
                 </b-col>
                 <b-col cols="12" class="mx-auto mt-4">
@@ -368,31 +412,31 @@
                   </div>
                   <div v-else>
                     <b-row
-                        v-for="(work, index) in workExperience"
-                        :key="index"
-                        class="mx-0 justify-content-between align-items-center mb-4 pt-4"
+                      v-for="(work, index) in workExperience"
+                      :key="index"
+                      class="mx-0 justify-content-between align-items-center mb-4 pt-4"
                     >
                       <b-col cols="12" lg="3" class="mb-4 mb-lg-0 work__name">{{
-                          work.name
-                        }}</b-col>
+                        work.name
+                      }}</b-col>
                       <b-col
-                          cols="12"
-                          lg="9"
-                          class="mb-5 mb-lg-0 work__temp work__temp--resumen"
+                        cols="12"
+                        lg="9"
+                        class="mb-5 mb-lg-0 work__temp work__temp--resumen"
                       >
                         <TimeComponent
-                            title="Años"
-                            v-model="workExperience[index].years"
-                            class="me-3 me-lg-5"
-                            :haveActions="false"
-                            disabled
+                          title="Años"
+                          v-model="workExperience[index].years"
+                          class="me-3 me-lg-5"
+                          :haveActions="false"
+                          disabled
                         ></TimeComponent>
                         <TimeComponent
-                            class="ms-3 ms-lg-5"
-                            title="Meses"
-                            v-model="workExperience[index].months"
-                            :haveActions="false"
-                            disabled
+                          class="ms-3 ms-lg-5"
+                          title="Meses"
+                          v-model="workExperience[index].months"
+                          :haveActions="false"
+                          disabled
                         ></TimeComponent>
                       </b-col>
                     </b-row>
@@ -401,11 +445,11 @@
                 <b-col cols="12" lg="5" class="d-block d-lg-none">
                   <h5>Locaciones de trabajo</h5>
                   <v-select
-                      multiple
-                      v-model="locationSelected"
-                      :options="locationOptions"
-                      :reduce="(option:any) => option.value"
-                      disabled
+                    multiple
+                    v-model="locationSelected"
+                    :options="locationOptions"
+                    :reduce="(option:any) => option.value"
+                    disabled
                   />
                 </b-col>
               </b-row>
@@ -415,16 +459,16 @@
               <b-row class="mx-0 justify-content-between">
                 <b-col cols="12" lg="5" class="mb-3">
                   <b-form-group
-                      label="Correo electrónico"
-                      label-for="input-acount-11"
+                    label="Correo electrónico"
+                    label-for="input-acount-11"
                   >
                     <b-form-input
-                        id="input-acount-11"
-                        v-model="emailValue"
-                        :state="true"
-                        placeholder="Ingrese su usuario"
-                        class="rounded-pill"
-                        disabled
+                      id="input-acount-11"
+                      v-model="email.value.value"
+                      :state="true"
+                      placeholder="Ingrese su usuario"
+                      class="rounded-pill"
+                      disabled
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
@@ -432,26 +476,26 @@
                   <b-form-group label="Contraseña" label-for="input-acount-22">
                     <b-input-group>
                       <b-form-input
-                          id="input-acount-22"
-                          v-model="passwordValue"
-                          :type="typePassword"
-                          :state="true"
-                          placeholder="Ingrese su contraseña"
-                          disabled
-                          class="rounded-pill input-password"
+                        id="input-acount-22"
+                        v-model="password.value.value"
+                        :type="typePassword"
+                        :state="true"
+                        placeholder="Ingrese su contraseña"
+                        disabled
+                        class="rounded-pill input-password"
                       ></b-form-input>
                       <b-input-group-append>
                         <b-button
-                            text="Button"
-                            variant="secondary"
-                            @click="changeTypePassword"
+                          text="Button"
+                          variant="secondary"
+                          @click="changeTypePassword"
                         >
                           <i
-                              class="fa-regular fa-eye"
-                              v-if="typePassword == 'text'"
+                            class="fa-regular fa-eye"
+                            v-if="typePassword == 'text'"
                           ></i>
                           <i class="fa-solid fa-eye-slash" v-else></i
-                          ></b-button>
+                        ></b-button>
                       </b-input-group-append>
                     </b-input-group>
                   </b-form-group>
@@ -461,14 +505,24 @@
             <div class="mb-4">
               <div class="d-flex">
                 <b-form-checkbox
-                    v-model="conditionsValue"
-                    name="checkbox-1"
-                    class="cursor-pointer"
-                    :style="validateStateColor(conditionsValue, conditionsError)"
+                  v-model="conditions.value.value"
+                  name="checkbox-1"
+                  class="cursor-pointer"
+                  :style="
+                    validateStateColor(
+                      conditions.value.value,
+                      conditions.errorMessage.value
+                    )
+                  "
                 >
                 </b-form-checkbox>
                 <p
-                    :style="validateStateColor(conditionsValue, conditionsError)"
+                  :style="
+                    validateStateColor(
+                      conditions.value.value,
+                      conditions.errorMessage.value
+                    )
+                  "
                 >
                   Acepto los
                   <span class="btn_conditions" @click="showConditions = true">
@@ -477,10 +531,10 @@
                 </p>
               </div>
               <b-form-invalid-feedback
-                  :state="conditionsError"
-                  style="margin-top: -15px"
+                :state="conditions.errorMessage.value"
+                style="margin-top: -15px"
               >
-                {{ conditionsError }}
+                {{ conditions.errorMessage.value }}
               </b-form-invalid-feedback>
             </div>
           </template>
@@ -500,9 +554,9 @@
     <template v-slot:footer>
       <div>
         <b-button
-            variant="primary"
-            @click="(showConditions = false), (conditionsValue = true)"
-        >Aceptar</b-button
+          variant="primary"
+          @click="(showConditions = false), (conditions.value.value = true)"
+          >Aceptar</b-button
         >
       </div>
     </template>
@@ -538,8 +592,8 @@ import {
 } from "../../../utils/SweetAlert";
 
 //VEE-VALIDATE + YUP
-import { useField } from "vee-validate";
-import * as yup from "yup";
+import { validateState, validateStateColor } from "@/validate/globalValidate";
+import useRegisterSpecialistValidate from "@/validate/registerSpecialistValidate";
 
 // SERVICES
 import { GeneralServices } from "../../../services/api/generalServices";
@@ -548,24 +602,29 @@ import { useStore } from "vuex";
 
 const generalServices = new GeneralServices();
 const authServices = new AuthServices();
+const {
+  name,
+  lastName,
+  phone,
+  document,
+  address,
+  email,
+  password,
+  confirmPassword,
+  location,
+  listProfession,
+  conditions,
+  validateStep1,
+  validateStep2,
+  validateStep3,
+  validateStep4,
+} = useRegisterSpecialistValidate();
 
 const router = useRouter();
 let windowWidth = ref(window.innerWidth); // Obtener el tamaño de la ventana
 let typePassword: any = ref("password"); // Type password
 const showConditions = ref(false); //
 const isStepResumenValid = ref(false); // activa resumen
-
-const validateState = (value: any, error: any) => {
-  if (value === undefined && error === undefined) return null;
-  else if (error) return false;
-  return true;
-};
-const validateStateColor = (value: any, error: any) => {
-  if (value === undefined && error === undefined)
-    return "border-color: #7e7e7e";
-  else if (error) return "color: #dc3545; border-color: #dc3545;";
-  return "color: #198754; border-color: #198754;";
-};
 
 var form = reactive({
   name: "",
@@ -578,113 +637,6 @@ var form = reactive({
   confirmPassword: "",
   conditions: false,
 });
-
-//#region ESQUEMA YUP
-const schema = {
-  name: yup.string().required("Campo requerido"),
-  lastName: yup.string().required("Campo requerido"),
-  phone: yup
-      .string()
-      .matches(/^[0-9]+$/, "Campo requerido")
-      .required("Campo requerido"),
-  document: yup
-      .string()
-      .matches(/^[0-9]+$/, "Campo requerido")
-      .required("Campo requerido"),
-  address: yup.string().required("Campo requerido"),
-  email: yup
-      .string()
-      .email("Escriba un correo valido")
-      .required("Campo requerido"),
-  password: yup
-      .string()
-      .min(8, "Se requiere 8 caracteres como minimo")
-      .required("Escriba su contraseña")
-      .test("a", "Las contraseñas no coinciden", (value) => {
-        if (value === confirmPasswordValue.value) return true;
-        else return false;
-      }),
-  confirmPassword: yup
-      .string()
-      .min(8, "Se requiere 8 caracteres como minimo")
-      .required("Confirme su contraseña")
-      .test("a", "Las contraseñas no coinciden", (value) => {
-        if (value === passwordValue.value) return true;
-        else return false;
-      }),
-  location: yup
-      .array()
-      .min(1, "Marque 1 como minimo")
-      .max(3, "Marque 3 como maximo")
-      .required("Campo requerido"),
-  listProfession: yup
-      .array()
-      .min(1, "Marque 1 como minimo")
-      .required("Campo requerido"),
-  conditions: yup
-      .boolean()
-      .oneOf([true], "Acepte los terminos y condiciones")
-      .required("Acepte los terminos y condiciones"),
-};
-//#endregion
-
-//#region VEE-VALIDATE USEFIELD
-const {
-  value: nameValue,
-  errorMessage: nameError,
-  validate: nameValidate,
-} = useField("name", schema.name);
-const {
-  value: lastNameValue,
-  errorMessage: lastNameError,
-  validate: lastNameValidate,
-} = useField("lastName", schema.lastName);
-const {
-  value: phoneValue,
-  errorMessage: phoneError,
-  validate: phoneValidate,
-} = useField("phone", schema.phone);
-const {
-  value: documentValue,
-  errorMessage: documentError,
-  validate: documentValidate,
-} = useField("document", schema.document);
-const {
-  value: addressValue,
-  errorMessage: addressError,
-  validate: addressValidate,
-} = useField("address", schema.address);
-const {
-  value: emailValue,
-  errorMessage: emailError,
-  validate: emailValidate,
-} = useField("email", schema.email);
-const {
-  value: passwordValue,
-  errorMessage: passwordError,
-  validate: passwordValidate,
-} = useField("password", schema.password);
-const {
-  value: confirmPasswordValue,
-  errorMessage: confirmPasswordError,
-  validate: confirmPasswordValidate,
-} = useField("confirmPassword", schema.confirmPassword);
-const {
-  value: locationValue,
-  errorMessage: locationError,
-  validate: locationValidate,
-} = useField("location", schema.location);
-const {
-  value: listProfessionValue,
-  errorMessage: listProfessionError,
-  validate: listProfessionValidate,
-} = useField("listProfession", schema.listProfession);
-const {
-  value: conditionsValue,
-  errorMessage: conditionsError,
-  validate: conditionsValidate,
-} = useField("conditions", schema.conditions);
-//#endregion
 
 //#region FUNCIONES PARA OBTENER EL TAMAÑO DE LA PANTALLA
 onMounted(() => {
@@ -720,7 +672,7 @@ type workExperience = {
   id: number;
   name: string;
 };
-type location = { label: string; value: number };
+type locationType = { label: string; value: number };
 const workList: {
   workSelected: Array<number>;
 } = reactive({
@@ -731,48 +683,48 @@ const workOptionsResume: Array<work> = reactive([]);
 const workExperience: Array<workExperience> = reactive([]);
 
 const locationSelected = ref([] as Array<number>);
-const locationOptions: Array<location> = reactive([]);
+const locationOptions: Array<locationType> = reactive([]);
 
 watch(
-    () => workList.workSelected,
-    (newValue: Array<number>, lastValue: Array<number>) => {
-      // ELIMINAR UN TRABAJO
-      if (lastValue.length > newValue.length) {
-        newValue.forEach((value: number) => {
-          const index = lastValue.indexOf(value);
-          lastValue.splice(index, 1);
-        });
+  () => workList.workSelected,
+  (newValue: Array<number>, lastValue: Array<number>) => {
+    // ELIMINAR UN TRABAJO
+    if (lastValue.length > newValue.length) {
+      newValue.forEach((value: number) => {
+        const index = lastValue.indexOf(value);
+        lastValue.splice(index, 1);
+      });
 
-        const lastIndex = workExperience.findIndex(
-            (work) => work.id == lastValue[0]
-        );
-        workExperience.splice(lastIndex, 1);
-      }
-      // AGREGAR UN TRABAJO
-      else {
-        const list = [...newValue];
-        lastValue.forEach((value: any) => {
-          const index = list.indexOf(value);
-          list.splice(index, 1);
-        });
-        const workFind = workOptions.find((work) => work.value == list[0]);
-        if (workFind) {
-          const work = {
-            id: list[0],
-            name: workFind.text,
-            years: 0,
-            months: 0,
-          };
-          workExperience.push(work);
-        }
+      const lastIndex = workExperience.findIndex(
+        (work) => work.id == lastValue[0]
+      );
+      workExperience.splice(lastIndex, 1);
+    }
+    // AGREGAR UN TRABAJO
+    else {
+      const list = [...newValue];
+      lastValue.forEach((value: any) => {
+        const index = list.indexOf(value);
+        list.splice(index, 1);
+      });
+      const workFind = workOptions.find((work) => work.value == list[0]);
+      if (workFind) {
+        const work = {
+          id: list[0],
+          name: workFind.text,
+          years: 0,
+          months: 0,
+        };
+        workExperience.push(work);
       }
     }
+  }
 );
-watch(listProfessionValue, () => {
-  workList.workSelected = listProfessionValue.value;
+watch(listProfession.value, () => {
+  workList.workSelected = listProfession.value.value;
 });
-watch(locationValue, () => {
-  locationSelected.value = locationValue.value;
+watch(location.value, () => {
+  locationSelected.value = location.value.value;
 });
 
 type profession = {
@@ -835,79 +787,62 @@ const acountForm = ref();
 //#region Pasos para el BeforeChange
 const Step1 = async () => {
   const fields = {
-    name: nameValue.value,
-    lastName: lastNameValue.value,
-    phone: phoneValue.value,
-    document: documentValue.value,
-    address: addressValue.value,
+    name: name.value.value,
+    lastName: lastName.value.value,
+    phone: phone.value.value,
+    document: document.value.value,
+    address: address.value.value,
   };
 
-  const valideSchema = yup.object({
-    name: schema.name,
-    lastName: schema.lastName,
-    phone: schema.phone,
-    document: schema.document,
-    address: schema.address,
-  });
-
-  const isValid = await valideSchema.isValid(fields);
+  const isValid = await validateStep1(fields);
 
   if (!isValid) {
-    nameValidate();
-    lastNameValidate();
-    phoneValidate();
-    documentValidate();
-    addressValidate();
+    name.validate();
+    lastName.validate();
+    phone.validate();
+    document.validate();
+    address.validate();
   }
 
   form = { ...form, ...fields };
 
   return isValid;
 };
+
 const Step2 = async () => {
   const fields = {
-    email: emailValue.value,
-    password: passwordValue.value,
-    confirmPassword: confirmPasswordValue.value,
+    email: email.value.value,
+    password: password.value.value,
+    confirmPassword: confirmPassword.value.value,
   };
 
-  const valideSchema = yup.object({
-    email: schema.email,
-    password: schema.password,
-    confirmPassword: schema.confirmPassword,
-  });
-
-  const isValid = await valideSchema.isValid(fields);
+  const isValid = await validateStep2(fields);
 
   if (!isValid) {
-    emailValidate();
-    passwordValidate();
-    confirmPasswordValidate();
+    email.validate();
+    password.validate();
+    confirmPassword.validate();
   }
 
   form = { ...form, ...fields };
 
   return isValid;
 };
+
 const Step3 = async () => {
   const cantWork = workExperience; // lista de experiencias
   var validateExperience = false;
 
   const fields = {
-    location: locationValue.value,
-    listProfession: listProfessionValue.value,
+    location: location.value.value,
+    listProfession: listProfession.value.value,
   };
 
-  const valideSchema = yup.object({
-    location: schema.location,
-    listProfession: schema.listProfession,
-  });
-
-  const isValid = await valideSchema.isValid(fields);
+  const isValid = await validateStep3(fields);
 
   if (!isValid) {
-    locationValidate();
-    listProfessionValidate();
+    location.validate();
+    listProfession.validate();
   }
 
   //Verifica minimo experiencia 1 mes
@@ -922,19 +857,16 @@ const Step3 = async () => {
     return false;
   }
 };
+
 const Step4 = async () => {
   const fields = {
-    conditions: conditionsValue.value,
+    conditions: conditions.value.value,
   };
 
-  const valideSchema = yup.object({
-    name: schema.conditions,
-  });
-
-  const isValid = await valideSchema.isValid(fields);
+  const isValid = await validateStep4(fields);
 
   if (!isValid) {
-    conditionsValidate();
+    conditions.validate();
   }
 
   form = { ...form, ...fields };
@@ -965,14 +897,14 @@ const structureDataRegister = () => {
       });
 
       const experience = workExperience.find(
-          (workExp) => workExp.id == profession.id
+        (workExp) => workExp.id == profession.id
       );
 
       if (experience) {
         experienceTimes.push({
           professionId: profession.id,
           professionName: profession.name,
-          time: experience?.years * 12 + experience?.months
+          time: experience?.years * 12 + experience?.months,
         });
       }
     }
@@ -990,14 +922,14 @@ const structureDataRegister = () => {
 };
 const registerSpecialist = async () => {
   try {
-    if (!conditionsValue.value) {
+    if (!conditions.value.value) {
       alertError("Debe aceptar los términos y condiciones.");
       return;
     }
     alertLoading("Registrando al usuario especialista.");
 
     const { specialistSpecializations, experienceTimes, workLocations } =
-        structureDataRegister();
+      structureDataRegister();
 
     await authServices.createSpecialist({
       name: form.name,
