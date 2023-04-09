@@ -305,38 +305,50 @@
               </h4>
               <div
                 class="button__action button__action--success"
-                @click="(isModalLocationEdit = false), showModalLocation()"
+                @click="(isModalLocationEdit = false), showModalLocation(null)"
               >
                 <i class="fa-solid fa-plus"></i>
               </div>
             </div>
             <hr class="mt-0" />
-            <div class="px-4 py-2">
-              <b-row
-                class="mx-0 locattion__item mb-3"
-                v-for="(location, index) in locationsList"
-                :key="index"
-              >
-                <b-col cols="10">
-                  <h1 class="locattion__title text-center">
-                    {{ location.value }}
-                  </h1>
-                </b-col>
-                <b-col cols="2" class="d-flex justify-content-around flex-wrap">
-                  <div
-                    class="button__action text-warning"
-                    @click="(isModalLocationEdit = true), showModalLocation()"
+            <div>
+              <div v-if="loadingModal.workLocation">Cargando datos...</div>
+              <div v-else-if="locationsList.length === 0">
+                <p>No hay datos para mostrar.</p>
+              </div>
+              <div class="px-4 py-2" v-else>
+                <b-row
+                  class="mx-0 locattion__item mb-3"
+                  v-for="(location, index) in locationsList"
+                  :key="index"
+                >
+                  <b-col cols="10">
+                    <h1 class="locattion__title">
+                      <b>{{ location.zona }}:</b> {{ location.value }}
+                    </h1>
+                  </b-col>
+                  <b-col
+                    cols="2"
+                    class="d-flex justify-content-around flex-wrap"
                   >
-                    <i class="fa-solid fa-pen-to-square"></i>
-                  </div>
-                  <div class="button__action text-danger">
-                    <i
-                      class="fa-solid fa-circle-xmark"
-                      @click="deleteLocation(Number(location.id))"
-                    ></i>
-                  </div>
-                </b-col>
-              </b-row>
+                    <div
+                      class="button__action text-warning"
+                      @click="
+                        (isModalLocationEdit = true),
+                          showModalLocation(location.id)
+                      "
+                    >
+                      <i class="fa-solid fa-pen-to-square"></i>
+                    </div>
+                    <div class="button__action text-danger">
+                      <i
+                        class="fa-solid fa-circle-xmark"
+                        @click="deleteLocation(Number(location.id))"
+                      ></i>
+                    </div>
+                  </b-col>
+                </b-row>
+              </div>
             </div>
           </b-card>
         </b-col>
@@ -351,38 +363,50 @@
               </h4>
               <div
                 class="button__action button__action--success"
-                @click="showModalAcount = !showModalAcount"
+                @click="showAccount()"
               >
                 <i class="fa-solid fa-plus"></i>
               </div>
             </div>
             <hr class="mt-0" />
-            <div class="px-0 py-0">
-              <b-row
-                class="acount__item mx-0 mb-3 py-3"
-                v-for="acount in acountsList"
-                :key="acount.id"
-              >
-                <b-col cols="10" class="d-flex align-items-center">
-                  <b-form-checkbox size="lg" class="check"></b-form-checkbox>
-                  <div class="d-flex flex-wrap center-resp">
-                    <div class="acount__image ms-2 mb-2 mb-md-0">
-                      <img src="@/assets/img-delete/visa-logo.jpg" alt="" />
+            <div>
+              <div v-if="loadingModal.bank">Cargando datos...</div>
+              <div v-else-if="acountsList.length === 0">
+                <p>No hay datos para mostrar.</p>
+              </div>
+              <div class="px-0 py-0" v-else>
+                <b-row
+                  class="acount__item mx-0 mb-3 py-3"
+                  v-for="acount in acountsList"
+                  :key="acount.id"
+                >
+                  <b-col cols="10" class="d-flex align-items-center">
+                    <b-form-checkbox
+                      :id="`${acount.id}`"
+                      size="lg"
+                      class="check"
+                      v-model="acount.preferred"
+                      @change="updatePreferredBank(acount.id)"
+                    ></b-form-checkbox>
+                    <div class="d-flex flex-wrap center-resp">
+                      <div class="acount__image ms-2 mb-2 mb-md-0">
+                        <img src="@/assets/img-delete/visa-logo.jpg" alt="" />
+                      </div>
+                      <h3 class="mb-0 ms-2" for="checkbox-1">
+                        {{ acount.accountNumber }}
+                      </h3>
                     </div>
-                    <h3 class="mb-0 ms-2" for="checkbox-1">
-                      {{ acount.accountNumber }}
-                    </h3>
-                  </div>
-                </b-col>
-                <b-col cols="2" class="d-flex justify-content-center">
-                  <div class="button__action text-danger">
-                    <i
-                      class="fa-solid fa-circle-xmark"
-                      @click="deleteAcount(acount.id)"
-                    ></i>
-                  </div>
-                </b-col>
-              </b-row>
+                  </b-col>
+                  <b-col cols="2" class="d-flex justify-content-center">
+                    <div class="button__action text-danger">
+                      <i
+                        class="fa-solid fa-circle-xmark"
+                        @click="deleteAcount(acount.id)"
+                      ></i>
+                    </div>
+                  </b-col>
+                </b-row>
+              </div>
             </div>
           </b-card>
         </b-col>
@@ -400,14 +424,16 @@
           <b-col cols="12" lg="8" class="mb-4 mx-auto">
             <div
               class="form-image__file mt-2 mx-auto mb-1"
-              :class="!imageValue?.url ? 'form-image__file--aux' : ''"
+              :class="
+                !profilePhoto.value.value?.url ? 'form-image__file--aux' : ''
+              "
               @click="uploadPresentationImage"
             >
               <img
                 :src="
-                  !imageValue?.url
+                  !profilePhoto.value.value?.url
                     ? require('@/assets/img-delete/fileimage-up.png')
-                    : imageValue?.url
+                    : profilePhoto.value.value?.url
                 "
                 alt="image"
               />
@@ -424,8 +450,8 @@
               >Seleccionar la imagen para actualizarla</span
             >
           </b-col>
-          <b-form-invalid-feedback :state="imageError">
-            {{ imageError }}
+          <b-form-invalid-feedback :state="profilePhoto.errorMessage.value">
+            {{ profilePhoto.errorMessage.value }}
           </b-form-invalid-feedback>
           <b-col cols="12">
             <hr />
@@ -433,14 +459,16 @@
           <b-col cols="12" lg="5" class="mb-3">
             <b-form-group label="Nombres" label-for="input-pres-1">
               <b-form-input
-                v-model="nameValue"
-                :state="validateState(nameValue, nameError)"
+                v-model="name.value.value"
+                :state="
+                  validateState(name.value.value, name.errorMessage.value)
+                "
                 id="input-pres-1"
                 placeholder="Ingrese su nombre"
                 class="rounded-pill"
               ></b-form-input>
-              <b-form-invalid-feedback :state="nameError">
-                {{ nameError }}
+              <b-form-invalid-feedback :state="name.errorMessage.value">
+                {{ name.errorMessage.value }}
               </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
@@ -448,13 +476,18 @@
             <b-form-group label="Apellidos" label-for="input-pres-2">
               <b-form-input
                 id="input-pres-2"
-                v-model="lastNameValue"
-                :state="validateState(lastNameValue, lastNameError)"
+                v-model="lastName.value.value"
+                :state="
+                  validateState(
+                    lastName.value.value,
+                    lastName.errorMessage.value
+                  )
+                "
                 placeholder="Ingrese su apellido"
                 class="rounded-pill"
               ></b-form-input>
-              <b-form-invalid-feedback :state="lastNameError">
-                {{ lastNameError }}
+              <b-form-invalid-feedback :state="lastName.errorMessage.value">
+                {{ lastName.errorMessage.value }}
               </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
@@ -462,15 +495,17 @@
             <b-form-group label="Acerca de mi" label-for="input-pres-3">
               <b-form-textarea
                 id="input-pres-3"
-                v-model="experienceValue"
-                :state="validateState(experienceValue, experienceError)"
+                v-model="about.value.value"
+                :state="
+                  validateState(about.value.value, about.errorMessage.value)
+                "
                 placeholder="Redacta acerca de tu experiencia"
                 rows="4"
                 max-rows="6"
                 class="rounded-right rounded-left"
               ></b-form-textarea>
-              <b-form-invalid-feedback :state="experienceError">
-                {{ experienceError }}
+              <b-form-invalid-feedback :state="about.errorMessage.value">
+                {{ about.errorMessage.value }}
               </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
@@ -478,13 +513,18 @@
             <b-form-group label="Dirección" label-for="input-pres-4">
               <b-form-input
                 id="input-pres-4"
-                v-model="directionValue"
-                :state="validateState(directionValue, directionError)"
+                v-model="direction.value.value"
+                :state="
+                  validateState(
+                    direction.value.value,
+                    direction.errorMessage.value
+                  )
+                "
                 placeholder="Ingrese su dirección"
                 class="rounded-pill"
               ></b-form-input>
-              <b-form-invalid-feedback :state="directionError">
-                {{ directionError }}
+              <b-form-invalid-feedback :state="direction.errorMessage.value">
+                {{ direction.errorMessage.value }}
               </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
@@ -492,14 +532,16 @@
             <b-form-group label="Teléfono Principal" label-for="input-pres-5">
               <b-form-input
                 id="input-pres-5"
-                v-model="phoneValue"
-                :state="validateState(phoneValue, phoneError)"
+                v-model="phone.value.value"
+                :state="
+                  validateState(phone.value.value, phone.errorMessage.value)
+                "
                 placeholder="Ingrese su teléfono"
                 class="rounded-pill"
                 oninput="this.value = value.replace(/[^0-9]/g, '')"
               ></b-form-input>
-              <b-form-invalid-feedback :state="phoneError">
-                {{ phoneError }}
+              <b-form-invalid-feedback :state="phone.errorMessage.value">
+                {{ phone.errorMessage.value }}
               </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
@@ -507,14 +549,19 @@
             <b-form-group label="Teléfono Secundario" label-for="input-pres-6">
               <b-form-input
                 id="input-pres-6"
-                v-model="secondPhoneValue"
-                :state="validateState(secondPhoneValue, secondPhoneError)"
+                v-model="secondPhone.value.value"
+                :state="
+                  validateState(
+                    secondPhone.value.value,
+                    secondPhone.errorMessage.value
+                  )
+                "
                 placeholder="Ingrese su teléfono secundario"
                 class="rounded-pill"
                 oninput="this.value = value.replace(/[^0-9]/g, '')"
               ></b-form-input>
-              <b-form-invalid-feedback :state="secondPhoneError">
-                {{ secondPhoneError }}
+              <b-form-invalid-feedback :state="secondPhone.errorMessage.value">
+                {{ secondPhone.errorMessage.value }}
               </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
@@ -585,8 +632,8 @@
             @change="changeFileCover"
           />
         </b-col>
-        <b-form-invalid-feedback :state="imagesListError">
-          {{ imagesListError }}
+        <b-form-invalid-feedback :state="imagesList.errorMessage.value">
+          {{ imagesList.errorMessage.value }}
         </b-form-invalid-feedback>
       </b-row>
       <template v-slot:footer>
@@ -721,9 +768,6 @@
             </b-row>
           </b-col>
         </div>
-        <div style="display: none">
-          <button type="submit" ref="btnFormExperience"></button>
-        </div>
       </b-form>
       <template v-slot:footer>
         <b-row class="mx-0 w-100">
@@ -738,9 +782,7 @@
               class="me-3"
               >Cancelar
             </b-button>
-            <b-button variant="primary" @click="$refs.btnFormExperience.click()"
-              >Guardar</b-button
-            >
+            <b-button variant="primary" @click="">Guardar</b-button>
           </b-col>
         </b-row>
       </template>
@@ -770,13 +812,13 @@
               class="me-3"
               >Cancelar
             </b-button>
-            <b-button variant="primary" @click="$refs.btnFormLocation.click()"
+            <b-button variant="primary" @click="editLocation()"
               >Guardar</b-button
             >
           </b-col>
         </b-row>
       </template>
-      <b-form @submit.prevent="editLocation" validated>
+      <b-form>
         <b-row class="mx-0">
           <b-col cols="12" lg="11" class="mx-auto">
             <h6>Zona:</h6>
@@ -784,15 +826,28 @@
             <b-row class="mx-0 mt-2">
               <b-col cols="12" lg="5" class="px-0">
                 <b-form-select
-                  v-model="locationZone"
+                  v-model="zona.value.value"
                   :options="optionsLocation"
-                  @input="filterForZone(locationZone)"
+                  @input="filterForZone(zona.value.value)"
                   id="input-location-1"
-                ></b-form-select>
+                  :state="
+                    validateState(zona.value.value, zona.errorMessage.value)
+                  "
+                >
+                  <option disabled selected hidden value="">Seleccione</option>
+                </b-form-select>
+                <b-form-invalid-feedback :state="zona.errorMessage.value">
+                  {{ zona.errorMessage.value }}
+                </b-form-invalid-feedback>
               </b-col>
             </b-row>
           </b-col>
-          <b-col cols="12" lg="11" class="mt-5 mx-auto">
+          <b-col
+            cols="12"
+            lg="11"
+            class="mt-5 mx-auto"
+            v-show="districtForZone.length > 0"
+          >
             <h6>Distritos disponibles</h6>
             <hr />
             <b-row class="mx-0 justify-content-around">
@@ -826,11 +881,11 @@
                 </b-row>
               </b-col>
             </b-row>
+            <b-form-invalid-feedback :state="groupLocation.errorMessage.value">
+              {{ groupLocation.errorMessage.value }}
+            </b-form-invalid-feedback>
           </b-col>
         </b-row>
-        <div style="display: none">
-          <button type="submit" ref="btnFormLocation"></button>
-        </div>
       </b-form>
     </b-modal>
     <b-modal
@@ -857,42 +912,53 @@
           <b-col cols="12" class="mb-3">
             <b-form-group label="Banco:" label-for="input-acount-1">
               <b-form-select
-                v-model="bankIdValue"
-                :state="validateState(bankIdValue, bankIdError)"
+                v-model="bankId.value.value"
+                :state="
+                  validateState(bankId.value.value, bankId.errorMessage.value)
+                "
                 :options="optionsAcount"
                 id="input-acount-1"
                 class="rounded-pill"
-              ></b-form-select>
-              <b-form-invalid-feedback :state="bankIdError">
-                {{ bankIdError }}
+              >
+                <option disabled selected hidden value="">Seleccione</option>
+              </b-form-select>
+              <b-form-invalid-feedback :state="bankId.errorMessage.value">
+                {{ bankId.errorMessage.value }}
               </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
           <b-col cols="12" class="mb-3">
             <b-form-group label="Número de cuenta:" label-for="input-acount-2">
               <b-form-input
-                v-model="accountNumberValue"
-                :state="validateState(accountNumberValue, accountNumberError)"
+                v-model="accountNumber.value.value"
+                :state="
+                  validateState(
+                    accountNumber.value.value,
+                    accountNumber.errorMessage.value
+                  )
+                "
                 id="input-pres-2"
                 placeholder="Ingrese su número de cuenta"
                 class="rounded-pill"
               ></b-form-input>
-              <b-form-invalid-feedback :state="accountNumberError">
-                {{ accountNumberError }}
+              <b-form-invalid-feedback
+                :state="accountNumber.errorMessage.value"
+              >
+                {{ accountNumber.errorMessage.value }}
               </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
           <b-col cols="12">
             <b-form-group label="CCI:" label-for="input-pres-2">
               <b-form-input
-                v-model="cciValue"
-                :state="validateState(cciValue, cciError)"
+                v-model="cci.value.value"
+                :state="validateState(cci.value.value, cci.errorMessage.value)"
                 id="input-pres-2"
                 placeholder="Ingrese su CCI"
                 class="rounded-pill"
               ></b-form-input>
-              <b-form-invalid-feedback :state="cciError">
-                {{ cciError }}
+              <b-form-invalid-feedback :state="cci.errorMessage.value">
+                {{ cci.errorMessage.value }}
               </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
@@ -904,20 +970,45 @@
 
 <script setup lang="ts">
 import "vue3-carousel/dist/carousel.css";
-import { alertSuccessButton } from "@/utils/SweetAlert";
-import { computed, onMounted, ref, onBeforeMount, watch } from "vue";
+import { alertSuccessButton, alertLoading } from "@/utils/SweetAlert";
+import { computed, onMounted, ref, watch } from "vue";
 import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
 import { SpecialistServices } from "@/services/api/specialistProfileServices";
 import { GeneralServices } from "@/services/api/generalServices";
 
 import { validateState } from "@/validate/globalValidate";
 
-import { useField } from "vee-validate";
-import * as yup from "yup";
+import useProfileSpecialistValidate from "@/validate/profileSpecialistValidate";
 
-const { getWorkLocation, getBankAccount, postBankAccount } =
-  new SpecialistServices();
+const {
+  getWorkLocation,
+  getBankAccount,
+  postWorkLocation,
+  postBankAccount,
+  putBankAccount,
+} = new SpecialistServices();
 const { getDistrictList, getBank } = new GeneralServices();
+const {
+  profilePhoto,
+  name,
+  lastName,
+  about,
+  direction,
+  phone,
+  secondPhone,
+  imagesList,
+  zona,
+  groupLocation,
+  bankId,
+  accountNumber,
+  cci,
+  validateProfile,
+  validateGallery,
+  validateWorkLocation,
+  validateAccount,
+  inputValidate,
+  inputReset,
+} = useProfileSpecialistValidate();
 
 const galleryPhotos = [
   {
@@ -947,7 +1038,7 @@ const breakpoints = ref({
   },
 });
 const presentationFile = ref<HTMLInputElement>();
-const idEspecialist = ref("8fd91e6e-d346-44bd-adc3-b29e30a8e459");
+const idEspecialist = ref("a47995ce-74d3-4586-8ed2-71e453ae76a3");
 const isLoading = ref(true);
 const isShowMenuDesk = ref(true);
 const isShowMenuResponsive = ref(false);
@@ -956,8 +1047,13 @@ const showModalGalery = ref(false);
 const showModalExperience = ref(false);
 const showModalLocationEdit = ref(false);
 const showModalAcount = ref(false);
-
-const slide = ref(0);
+const showError = ref({
+  location: true,
+});
+const loadingModal = ref({
+  bank: true,
+  workLocation: true,
+});
 const sliding = ref(false);
 const experiences = ref([
   {
@@ -1007,16 +1103,16 @@ const experiences = ref([
     ],
   },
 ]);
-const acountsList = ref(); // Lista de cuentas bancarias del especialista
+
 const imageSelected = ref(0);
 const formPresentation = ref({
-  image: {
+  profilePhoto: {
     url: "",
     file: "",
   },
   name: "",
   lastName: "",
-  experience: "",
+  about: "",
   direction: "",
   phone: "",
   secondPhone: "",
@@ -1055,6 +1151,7 @@ const formGalery = ref({
     },
   ],
 });
+//activa el titulo Experiencia
 const isModalProfessionEdit = ref(true);
 const formProfession = ref({
   selectedProfession: 0,
@@ -1091,33 +1188,50 @@ const optionsProfessions = ref([
   { value: 3, text: "Carpintero" },
   { value: 4, text: "Lima" },
 ]);
+//activa el titulo editar locaciones de trabajo
 const isModalLocationEdit = ref(true);
-
+//locaciones de trabajo del especialista
+const listWorkLocation = ref();
+//Lista de cuentas bancarias del especialista
+const acountsList = ref();
+//datos para enviar a NEW_ACCOUNT_SPECIALIST
 const formAcount = ref({
   accountNumber: "",
   cci: "",
   currency: 1,
   preferred: false,
   specialistId: idEspecialist.value,
-  bankId: "",
-}); // datos para enviar a NEW_ACCOUNT_SPECIALIST
-
-const locationsList = ref(); // Lista de Locaciones de trabajo
-
-//#region variables - ZONA-DISTRITOS
-const locationZone = ref(); // Zona seleccionada 1-4
-const districtList = ref(); // Lista de todos los distritos
-const districtForZone = ref(); // Distritos filtrados por zona
-const optionsLocation = ref([
-  { value: "", text: "Seleccione" },
+  bankId: 1,
+});
+//Lista de Locaciones de trabajo
+const locationsList = ref();
+interface forLocation {
+  active: boolean;
+  id: number;
+  name: string;
+  zone: number;
+}
+//Lista de todos los distritos
+const districtList = ref();
+//Distritos filtrados por zona
+const districtForZone = ref<Array<forLocation>>([]);
+//Distritos filtrados no modificables
+const districtForZoneOld = ref();
+//Distritos con active=true para ser enviado
+const districtTrueForAdd = ref();
+//Distritos con active=false para ser eliminado
+const districtFalseForAdd = ref();
+//Modelo de referencia para las zonas a mostrar
+const optionsLocationModel = ref([
   { value: 1, text: "Lima Norte" },
   { value: 2, text: "Lima Sur" },
   { value: 3, text: "Lima Este" },
   { value: 4, text: "Lima Oeste" },
 ]);
-//#endregion
-
-const optionsAcount = ref(); //Lista de los bancos - Account
+//Lista de las zonas a mostrar
+const optionsLocation = ref();
+//Lista de los bancos - Account
+const optionsAcount = ref();
 
 const section1 = ref(0);
 const section2 = ref(0);
@@ -1127,145 +1241,42 @@ const section5 = ref(0);
 
 //funcion para filtrar distritos por zona
 function filterForZone(idZone: any) {
-  districtForZone.value = districtList.value
-    .filter((data: any) => data.zone === idZone)
-    .map((data: any) => {
-      return {
-        id: data.id,
-        active: false,
-        name: data.value,
-      };
-    });
+  let copiaDistrict = JSON.parse(JSON.stringify(districtList.value));
+  districtForZone.value = copiaDistrict.filter(
+    (data: any) => data.zone == idZone
+  );
+  districtForZoneOld.value = JSON.parse(JSON.stringify(districtForZone.value));
 }
 
-//#region YUP
-const schemaPerfil = {
-  image: yup
-    .object()
-    .shape({
-      url: yup.mixed().required("Imagen requerida"),
-      file: yup.mixed().required("Imagen requerida"),
-    })
-    .strict(true)
-    .required("Imagen requerida"),
-  name: yup.string().required("Campo requerido"),
-  lastName: yup.string().required("Campo requerido"),
-  experience: yup.string().required("Campo requerido"),
-  direction: yup.string().required("Campo requerido"),
-  phone: yup
-    .string()
-    .matches(/^[0-9]+$/, "Campo requerido")
-    .required("Campo requerido"),
-  secondPhone: yup
-    .string()
-    .matches(/^[0-9]+$/, "Campo requerido")
-    .required("Campo requerido"),
-};
-
-const schemaGalleryPhotos = {
-  imagesList: yup
-    .array()
-    .of(
-      yup.object({
-        id: yup.number(),
-        url: yup.string(),
-        file: yup.mixed(),
-      })
-    )
-    .test("", "Suba una imagen como minimo", (values: any) => {
-      return values.some((value: any) => value.url !== "");
-    })
-    .required("Suba una imagen como minimo"),
-};
-
-const schemaExperience = {
-  profession: yup.string().required("Campo requerido"),
-  expYear: yup.string().required("Campo requerido"),
-  expMonths: yup.string().required("Campo requerido"),
-};
-
-const schemadirectionWork = {
-  location: yup.string().required("Campo requerido"),
-  district: yup.string().required("Campo requerido"),
-};
-
-const schemaAcount = {
-  bankId: yup.string().required("Campo requerido"),
-  accountNumber: yup
-    .string()
-    .min(12, "Minimo 12 digitos")
-    .max(24, "Maximo 24 digitos")
-    .required("Campo requerido"),
-  cci: yup
-    .string()
-    .min(12, "Minimo 12 digitos")
-    .max(30, "Maximo 30 digitos")
-    .required("Campo requerido"),
-};
-//#endregion
-
-//#region VEE-VALIDATE USE-FIELD
-//schemaPerfil
-const {
-  value: imageValue,
-  errorMessage: imageError,
-  validate: imageValidate,
-} = useField("image", schemaPerfil.image);
-const {
-  value: nameValue,
-  errorMessage: nameError,
-  validate: nameValidate,
-} = useField("name", schemaPerfil.name);
-const {
-  value: lastNameValue,
-  errorMessage: lastNameError,
-  validate: lastNameValidate,
-} = useField("lastName", schemaPerfil.lastName);
-const {
-  value: experienceValue,
-  errorMessage: experienceError,
-  validate: experienceValidate,
-} = useField("experience", schemaPerfil.experience);
-const {
-  value: directionValue,
-  errorMessage: directionError,
-  validate: directionValidate,
-} = useField("direction", schemaPerfil.direction);
-const {
-  value: phoneValue,
-  errorMessage: phoneError,
-  validate: phoneValidate,
-} = useField("phone", schemaPerfil.phone);
-const {
-  value: secondPhoneValue,
-  errorMessage: secondPhoneError,
-  validate: secondPhoneValidate,
-} = useField("secondPhone", schemaPerfil.secondPhone);
-
-//galleryPhotos
-const {
-  value: imagesListValue,
-  errorMessage: imagesListError,
-  validate: imagesListValidate,
-} = useField("imagesList", schemaGalleryPhotos.imagesList);
-
-//schemaAcount
-const {
-  value: bankIdValue,
-  errorMessage: bankIdError,
-  validate: bankIdValidate,
-} = useField("bankId", schemaAcount.bankId);
-const {
-  value: accountNumberValue,
-  errorMessage: accountNumberError,
-  validate: accountNumberValidate,
-} = useField("accountNumber", schemaAcount.accountNumber);
-const {
-  value: cciValue,
-  errorMessage: cciError,
-  validate: cciValidate,
-} = useField("cci", schemaAcount.cci);
-//#endregion
+watch(
+  () => districtForZone.value,
+  () => {
+    var newa = districtForZone.value;
+    var old = districtForZoneOld.value;
+    let trueChanges = [];
+    let falseChanges = [];
+    if (old && newa) {
+      for (let i = 0; i < old.length; i++) {
+        const originalActive = old[i]?.active;
+        const changedActive = newa[i]?.active;
+        if (originalActive && !changedActive) {
+          falseChanges.push(newa[i]);
+        } else if (!originalActive && changedActive) {
+          trueChanges.push(newa[i]);
+        }
+      }
+      groupLocation.value.value = {
+        objetosAAgregar: trueChanges,
+        objetosAEliminar: falseChanges,
+      };
+      districtTrueForAdd.value = trueChanges;
+      districtFalseForAdd.value = falseChanges;
+    }
+  },
+  {
+    deep: true,
+  }
+);
 
 onMounted(async () => {
   isLoading.value = false;
@@ -1277,67 +1288,233 @@ onMounted(async () => {
   section3.value = experienceBox.offsetTop - 110;
   section4.value = locationBox.offsetTop - 10;
   section5.value = acountBox.offsetTop + 40;
+  await fetchDistrict();
+  await fetchWorkLocation();
+  await fetchListNameBank();
+  await fetchAccountBank();
 });
 
-onBeforeMount(async () => {
-  let dataWorkLocation = await getWorkLocation(idEspecialist.value);
+//CARGAR Distritos
+async function fetchDistrict() {
   let dataDistrictList = await getDistrictList(); //Obtiene lista de los Distritos
-  let dataBank = await getBank(); //Obtiene lista de los bancos
-  acountsList.value = await getBankAccount(idEspecialist.value);
-
-  //#region Adaptando datos para utilizarlos - DISTRITOS, Zona
   let listDistric = dataDistrictList.map((data: any) => {
     return {
       id: data.id,
-      value: data.name,
+      name: data.name,
+      active: false,
       zone: data.zone,
     };
   });
   districtList.value = listDistric;
-  //#endregion
-
-  //#region Dando formato a las locaciones de trabajo
-  let listDistricSpecialist = listDistric.filter((data: any) =>
-    dataWorkLocation.some((dwork: any) => dwork.districtId === data.id)
-  );
-
-  const groupedByZone = listDistricSpecialist.reduce((acc: any, cur: any) => {
-    const zoneIndex = acc.findIndex((elem: any) => elem.zone === cur.zone);
-    if (zoneIndex === -1) {
-      acc.push({ zone: cur.zone, values: [cur.value], ids: [cur.id] });
-    } else {
-      acc[zoneIndex].values.push(cur.value);
-      acc[zoneIndex].ids.push(cur.id);
-    }
-    return acc;
-  }, []);
-
-  const newArray = groupedByZone.map((group: any) => ({
-    id: group.zone.toString(),
-    value: `${getZoneName(group.zone)}, ${group.values.join(", ")}`,
-    groupID: group.ids,
-  }));
-
-  function getZoneName(zone: any) {
-    const zoneObj = optionsLocation.value.find(
-      (loc: any) => loc.value === zone
-    );
-    return zoneObj ? zoneObj.text : "";
-  }
-
-  locationsList.value = newArray;
-  //#endregion
-
-  //#region FORMAT_LIST_BANK
+}
+//CARGAR Nombres de los bancos
+async function fetchListNameBank() {
+  let dataBank = await getBank(); //Obtiene lista de los bancos
   let listBank = dataBank.map((data: any) => {
     return {
       value: data.id,
       text: data.name,
     };
   });
-  optionsAcount.value = [{ value: "", text: "Seleccione" }, ...listBank];
-  //#endregion
-});
+  optionsAcount.value = [...listBank];
+}
+//CARGAR Localizaciones de trabajo
+async function fetchWorkLocation() {
+  //localizaciones en crudo.
+  listWorkLocation.value = await getWorkLocation(idEspecialist.value);
+  const idsSet = new Set(
+    listWorkLocation.value.map((obj: any) => obj.districtId)
+  );
+  districtList.value.forEach((obj: any) => {
+    if (idsSet.has(obj.id)) {
+      obj.active = true;
+    }
+  });
+  //lista de todas las localizaciones anteriormente cargadas de la BD
+  let listDistricSpecialist = districtList.value.filter((data: any) =>
+    listWorkLocation.value.some((dwork: any) => dwork.districtId === data.id)
+  );
+  //formateo de datos para mostrarse en localizaciones de trabajo
+  const objetosPorZona = listDistricSpecialist.reduce(
+    (acumulador: any, objeto: any) => {
+      const zona: any = optionsLocationModel.value.find(
+        (zona: any) => zona.value === objeto.zone
+      );
+      if (!acumulador[zona.value]) {
+        acumulador[zona.value] = {
+          groupID: [],
+          value: "",
+          zona: zona.text,
+          id: zona.value,
+        };
+      }
+      acumulador[zona.value].groupID.push(objeto.id);
+      acumulador[zona.value].value += `${objeto.name}, `;
+      return acumulador;
+    },
+    []
+  );
+  const nuevosObjetos = Object.values(objetosPorZona).map((obj: any) => {
+    obj.value = obj.value.slice(0, -2); // Eliminar la última coma
+    return obj;
+  });
+  locationsList.value = nuevosObjetos;
+  loadingModal.value.workLocation = false;
+}
+//CARGAR Cuentas bancarias Especialista
+async function fetchAccountBank() {
+  let dataBank = await getBankAccount(idEspecialist.value);
+  dataBank.reverse();
+  acountsList.value = dataBank;
+  loadingModal.value.bank = false;
+}
+
+//ENVIAR-DATOS
+async function editPresentation() {
+  const fields = {
+    profilePhoto: profilePhoto.value.value,
+    name: name.value.value,
+    lastName: lastName.value.value,
+    about: about.value.value,
+    direction: direction.value.value,
+    phone: phone.value.value,
+    secondPhone: secondPhone.value.value,
+  };
+  const isValid = await validateProfile(fields);
+  if (!isValid) inputValidate();
+
+  if (isValid) {
+    formPresentation.value = { ...formPresentation.value, ...fields };
+    const value = formPresentation.value;
+    console.log(value);
+    alertSuccessButton("Se realizo la operación exitosamente");
+  }
+}
+
+async function editGallery() {
+  const fields = {
+    imagesList: imagesList.value.value,
+  };
+  const isValid = await validateGallery(fields);
+  if (!isValid) inputValidate();
+
+  if (isValid) {
+    formGalery.value = { ...formGalery.value, ...fields };
+    const value = formGalery.value;
+    console.log(value);
+    alertSuccessButton("Se realizo la operación exitosamente");
+  }
+}
+
+async function editExperience() {
+  alertSuccessButton("Se realizo la operación exitosamente");
+}
+//ENVIAR Locaciones de Trabajo
+async function editLocation() {
+  const fields = {
+    zona: zona.value.value,
+    groupLocation: groupLocation.value.value,
+  };
+  const isValid = await validateWorkLocation(fields);
+  if (!isValid) {
+    inputValidate();
+  }
+
+  if (isValid) {
+    console.log("entre");
+    if (districtTrueForAdd.value.length > 0) {
+      alertLoading("Guardando...");
+      for (const district of districtTrueForAdd.value) {
+        try {
+          let data = {
+            specialistId: idEspecialist.value,
+            districtId: district.id,
+            countryId: "PER",
+          };
+          await postWorkLocation(data);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      await fetchWorkLocation();
+      showModalLocationEdit.value = false;
+      alertSuccessButton("Se realizo la operación exitosamenteA");
+    }
+  }
+}
+//ENVIAR Cuentas bancarias Especialista
+async function editAcount() {
+  const fields = {
+    bankId: bankId.value.value,
+    accountNumber: accountNumber.value.value,
+    cci: cci.value.value,
+  };
+  const isValid = await validateAccount(fields);
+  if (!isValid) inputValidate();
+
+  if (isValid) {
+    formAcount.value = { ...formAcount.value, ...fields };
+    const value = formAcount.value;
+    try {
+      alertLoading("Guardando...");
+      const response = await postBankAccount(value);
+      await fetchAccountBank();
+      showModalAcount.value = false;
+      alertSuccessButton("Se realizo la operación exitosamente");
+    } catch (error) {
+      showModalAcount.value = false;
+      alertSuccessButton("fallo algo");
+    }
+  }
+}
+
+//#region PUT - UPDATE
+//ACTUALIZAR ACCOUNT-BANK => PREFERRED
+async function updatePreferredBank(id: string) {
+  let newDato = acountsList.value.filter((data: any) => data.id === id);
+  let oldDato = acountsList.value.filter(
+    (data: any) => data.id !== id && data.preferred === true
+  );
+  try {
+    if (oldDato.length > 0) {
+      oldDato[0].preferred = false;
+      await putBankAccount(oldDato[0]);
+    }
+    await putBankAccount(newDato[0]);
+    await fetchAccountBank();
+  } catch (error) {
+    console.log(error);
+  }
+}
+//#endregion
+
+//Muestra Modal WORK-LOCATION
+function showModalLocation(idLocation: number | null) {
+  inputReset();
+  if (idLocation) {
+    let filterZone = optionsLocationModel.value.filter(
+      (data: any) => data.value == idLocation
+    );
+    optionsLocation.value = filterZone;
+    setTimeout(() => {
+      zona.value.value = idLocation;
+      filterForZone(idLocation);
+    }, 10);
+  } else {
+    let filterZone = optionsLocationModel.value.filter(
+      (data: any) =>
+        !locationsList.value.some((value: any) => value.id == data.value)
+    );
+    optionsLocation.value = filterZone;
+  }
+  showModalLocationEdit.value = true;
+  districtForZone.value = [];
+}
+//Muestra Modal ACCOUNT-BANK
+function showAccount() {
+  showModalAcount.value = true;
+  inputReset();
+}
 
 function showEditPresentacion() {
   showModalEditPresentacion.value = true;
@@ -1351,10 +1528,6 @@ function modalProfessionEdit() {
 function modalProfessionCreate() {
   isModalProfessionEdit.value = false;
   showModalExperience.value = true;
-}
-
-function showModalLocation() {
-  showModalLocationEdit.value = true;
 }
 
 function deleteLocation(id: number) {
@@ -1424,22 +1597,22 @@ function uploadImage(index: any) {
 }
 
 function changeFileCover(event: any) {
-  if (imagesListValue.value === undefined) {
-    imagesListValue.value = formGalery.value.imagesList;
+  if (imagesList.value.value === undefined) {
+    imagesList.value.value = formGalery.value.imagesList;
   }
   const index = imageSelected.value;
   const file: any = event.target.files[0];
   if (!file) {
     // formGalery.value.imagesList[index].url = "";
     // formGalery.value.imagesList[index].file = null;
-    imagesListValue.value[index].url = "";
-    imagesListValue.value[index].file = "";
+    imagesList.value.value[index].url = "";
+    imagesList.value.value[index].file = "";
     return;
   }
   console.log("changeFileCover");
-  imagesListValue.value[index].file = file;
+  imagesList.value.value[index].file = file;
   const fr = new FileReader();
-  fr.onload = () => (imagesListValue.value[index].url = String(fr.result));
+  fr.onload = () => (imagesList.value.value[index].url = String(fr.result));
   fr.readAsDataURL(file);
   event.target.value = ""; // Restablecer valor del input
 }
@@ -1455,131 +1628,20 @@ function uploadPresentationImage() {
 }
 
 function changeFilePresentation(event: any) {
-  if (imageValue.value === undefined) {
-    imageValue.value = formPresentation.value.image;
+  if (profilePhoto.value.value === undefined) {
+    profilePhoto.value.value = formPresentation.value.profilePhoto;
   }
   const file = event.target.files[0];
   if (!file) {
-    imageValue.value.file = null;
-    imageValue.value.url = null;
+    profilePhoto.value.value.file = null;
+    profilePhoto.value.value.url = null;
     return;
   }
-  imageValue.value.file = file;
+  profilePhoto.value.value.file = file;
   const fr = new FileReader();
-  fr.onload = () => (imageValue.value.url = String(fr.result));
+  fr.onload = () => (profilePhoto.value.value.url = String(fr.result));
   fr.readAsDataURL(file);
 }
-
-//#region POST-DATA
-async function editPresentation() {
-  const fields = {
-    image: imageValue.value,
-    name: nameValue.value,
-    lastName: lastNameValue.value,
-    experience: experienceValue.value,
-    direction: directionValue.value,
-    phone: phoneValue.value,
-    secondPhone: secondPhoneValue.value,
-  };
-
-  const valideSchema = yup.object({
-    image: schemaPerfil.image,
-    name: schemaPerfil.name,
-    lastName: schemaPerfil.lastName,
-    experience: schemaPerfil.experience,
-    direction: schemaPerfil.direction,
-    phone: schemaPerfil.phone,
-    secondPhone: schemaPerfil.secondPhone,
-  });
-
-  const isValid = await valideSchema.isValid(fields);
-
-  if (!isValid) {
-    imageValidate();
-    nameValidate();
-    lastNameValidate();
-    experienceValidate();
-    directionValidate();
-    phoneValidate();
-    secondPhoneValidate();
-  }
-
-  if (isValid) {
-    formPresentation.value = { ...formPresentation.value, ...fields };
-    const value = formPresentation.value;
-    console.log(value);
-    alertSuccessButton("Se realizo la operación exitosamente");
-  }
-}
-
-async function editGallery() {
-  const fields = {
-    imagesList: imagesListValue.value,
-  };
-
-  const valideSchema = yup.object({
-    imagesList: schemaGalleryPhotos.imagesList,
-  });
-
-  const isValid = await valideSchema.isValid(fields);
-
-  if (!isValid) {
-    imagesListValidate();
-  }
-
-  if (isValid) {
-    formGalery.value = { ...formGalery.value, ...fields };
-    const value = formGalery.value;
-
-    console.log(value);
-    alertSuccessButton("Se realizo la operación exitosamente");
-  }
-}
-
-async function editExperience() {
-  alertSuccessButton("Se realizo la operación exitosamente");
-}
-
-async function editLocation() {
-  console.log(districtForZone.value);
-  // alertSuccessButton("Se realizo la operación exitosamenteA");
-}
-
-async function editAcount() {
-  const fields = {
-    bankId: bankIdValue.value,
-    accountNumber: accountNumberValue.value,
-    cci: cciValue.value,
-  };
-
-  const valideSchema = yup.object({
-    bankId: schemaAcount.bankId,
-    accountNumber: schemaAcount.accountNumber,
-    cci: schemaAcount.cci,
-  });
-
-  const isValid = await valideSchema.isValid(fields);
-
-  if (!isValid) {
-    bankIdValidate();
-    accountNumberValidate();
-    cciValidate();
-  }
-
-  if (isValid) {
-    formAcount.value = { ...formAcount.value, ...fields };
-    const value = formAcount.value;
-    try {
-      const response = await postBankAccount(value);
-      acountsList.value = await getBankAccount(idEspecialist.value);
-      console.log(response);
-      alertSuccessButton("Se realizo la operación exitosamente");
-    } catch (error) {
-      alertSuccessButton("fallo algo");
-    }
-  }
-}
-//#endregion
 
 const menuChange = computed(() => {
   if (!isLoading.value) {

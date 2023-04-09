@@ -1,10 +1,10 @@
-interface BankAccountSpecialist {
+export interface BankAccountSpecialistValidate {
+  bankId: number,
   accountNumber: string,
   cci: string,
-  currency: number,
-  preferred: boolean,
-  specialistId: string,
-  bankId: number,
 }
 
-export default BankAccountSpecialist;
+export interface BankAccountSpecialist extends BankAccountSpecialistValidate {
+  preferred: boolean,
+  specialistId: string,
+}
