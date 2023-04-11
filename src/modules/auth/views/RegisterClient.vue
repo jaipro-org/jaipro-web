@@ -7,76 +7,95 @@
           <b-form @submit.prevent="registerClient">
             <b-form-group label="Nombres" label-for="txtName_r">
               <b-form-input
-                  v-model="firstnameValue"
-                  id="txtName_r"
-                  placeholder="Ingrese sus nombres"
-                  class="rounded-pill"
-                  :state="validateState(firstnameValue, firstnameError)"
+                v-model="name.value.value"
+                id="txtName_r"
+                placeholder="Ingrese sus nombres"
+                class="rounded-pill"
+                :state="
+                  validateState(name.value.value, name.errorMessage.value)
+                "
               >
               </b-form-input>
-              <b-form-invalid-feedback :state="firstnameError">
-                {{ firstnameError }}
+              <b-form-invalid-feedback :state="name.errorMessage.value">
+                {{ name.errorMessage.value }}
               </b-form-invalid-feedback>
             </b-form-group>
             <b-form-group label="Apellidos" label-for="txtLastname_r">
               <b-form-input
-                  v-model="lastnameValue"
-                  placeholder="Ingrese sus apellidos"
-                  id="txtLastname_r"
-                  class="rounded-pill"
-                  :state="validateState(lastnameValue, lastnameError)"
+                v-model="lastName.value.value"
+                placeholder="Ingrese sus apellidos"
+                id="txtLastname_r"
+                class="rounded-pill"
+                :state="
+                  validateState(
+                    lastName.value.value,
+                    lastName.errorMessage.value
+                  )
+                "
               >
               </b-form-input>
-              <b-form-invalid-feedback :state="lastnameError">
-                {{ lastnameError }}
+              <b-form-invalid-feedback :state="lastName.errorMessage.value">
+                {{ lastName.errorMessage.value }}
               </b-form-invalid-feedback>
             </b-form-group>
             <b-form-group label="Correo electrónico" label-for="txtEmail_r">
               <b-form-input
-                  v-model="emailValue"
-                  placeholder="Ingrese su correo"
-                  id="txtEmail_r"
-                  class="rounded-pill"
-                  :state="validateState(emailValue, emailError)"
+                v-model="email.value.value"
+                placeholder="Ingrese su correo"
+                id="txtEmail_r"
+                class="rounded-pill"
+                :state="
+                  validateState(email.value.value, email.errorMessage.value)
+                "
               >
               </b-form-input>
-              <b-form-invalid-feedback :state="emailError">
-                {{ emailError }}
+              <b-form-invalid-feedback :state="email.errorMessage.value">
+                {{ email.errorMessage.value }}
               </b-form-invalid-feedback>
             </b-form-group>
             <b-form-group label="Contraseña" label-for="txtPassword_r">
               <b-form-input
-                  v-model="passwordValue"
-                  @input="confirmPasswordValidate()"
-                  type="password"
-                  placeholder="Ingrese su contraseña"
-                  id="txtPassword_r"
-                  class="rounded-pill"
-                  :state="validateState(passwordValue, passwordError)"
-              >
-              </b-form-input>
-              <b-form-invalid-feedback :state="passwordError">
-                {{ passwordError }}
-              </b-form-invalid-feedback>
-            </b-form-group>
-            <b-form-group
-                label="Confirmar contraseña"
-                label-for="txtConfirmPassword_r"
-            >
-              <b-form-input
-                  v-model="confirmPasswordValue"
-                  @input="passwordValidate()"
-                  type="password"
-                  placeholder="Confirme su contraseña"
-                  id="txtConfirmPassword_r"
-                  class="rounded-pill"
-                  :state="
-                  validateState(confirmPasswordValue, confirmPasswordError)
+                v-model="password.value.value"
+                @input="confirmPassword.validate()"
+                type="password"
+                placeholder="Ingrese su contraseña"
+                id="txtPassword_r"
+                class="rounded-pill"
+                :state="
+                  validateState(
+                    password.value.value,
+                    password.errorMessage.value
+                  )
                 "
               >
               </b-form-input>
-              <b-form-invalid-feedback :state="confirmPasswordError">
-                {{ confirmPasswordError }}
+              <b-form-invalid-feedback :state="password.errorMessage.value">
+                {{ password.errorMessage.value }}
+              </b-form-invalid-feedback>
+            </b-form-group>
+            <b-form-group
+              label="Confirmar contraseña"
+              label-for="txtConfirmPassword_r"
+            >
+              <b-form-input
+                v-model="confirmPassword.value.value"
+                @input="password.validate()"
+                type="password"
+                placeholder="Confirme su contraseña"
+                id="txtConfirmPassword_r"
+                class="rounded-pill"
+                :state="
+                  validateState(
+                    confirmPassword.value.value,
+                    confirmPassword.errorMessage.value
+                  )
+                "
+              >
+              </b-form-input>
+              <b-form-invalid-feedback
+                :state="confirmPassword.errorMessage.value"
+              >
+                {{ confirmPassword.errorMessage.value }}
               </b-form-invalid-feedback>
             </b-form-group>
             <b-button class="mt-5 w-100" variant="primary" type="submit">
@@ -90,12 +109,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
 
 //veeValidate + yup
-import { useField } from "vee-validate";
-import * as yup from "yup";
+import useRegisterClientValidate from "@/validate/registerClientValidate";
+import { validateState } from "@/validate/globalValidate";
 
 // COMPONENTS
 import RegisterTitle from "./components/RegisterTitle.vue";
@@ -122,97 +141,26 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const store = useStore();
-
-    const validateState = (value: any, error: any) => {
-      if (value === undefined && error === undefined) return null;
-      else if (error) return false;
-      return true;
-    };
-
-    //esquema yup
-    const schema = {
-      firstname: yup
-          .string()
-          .min(2, "El nombre debe tener como minimno 2 caracteres")
-          .max(36, "El nombre debe tener como maximo 36 caracteres")
-          .required("Campo requerido"),
-      lastname: yup
-          .string()
-          .min(2, "El apellido debe tener como minimno 2 caracteres")
-          .max(36, "El apellido debe tener como maximo 36 caracteres")
-          .required("Campo requerido"),
-      email: yup
-          .string()
-          .email("Escriba un correo valido")
-          .required("Campo requerido"),
-      password: yup
-          .string()
-          .min(8, "Se requiere 8 caracteres como minimo")
-          .required("Escriba su contraseña")
-          .test("a", "Las contraseñas no coinciden", (value) => {
-            if (value === confirmPasswordValue.value) return true;
-            else return false;
-          }),
-      confirmPassword: yup
-          .string()
-          .min(8, "Se requiere 8 caracteres como minimo")
-          .required("Confirme su contraseña")
-          .test("a", "Las contraseñas no coinciden", (value) => {
-            if (value === passwordValue.value) return true;
-            else return false;
-          }),
-    };
-
-    // validadores Vee-Validate
-    const {
-      value: firstnameValue,
-      errorMessage: firstnameError,
-      validate: firstnameValidate,
-    } = useField("firstname", schema.firstname);
-    const {
-      value: lastnameValue,
-      errorMessage: lastnameError,
-      validate: lastnameValidate,
-    } = useField("lastname", schema.lastname);
-    const {
-      value: emailValue,
-      errorMessage: emailError,
-      validate: emailValidate,
-    } = useField("email", schema.email);
-    const {
-      value: passwordValue,
-      errorMessage: passwordError,
-      validate: passwordValidate,
-    } = useField("password", schema.password);
-    const {
-      value: confirmPasswordValue,
-      errorMessage: confirmPasswordError,
-      validate: confirmPasswordValidate,
-    } = useField("confirmPassword", schema.confirmPassword);
+    const { name, lastName, email, password, confirmPassword, validate } =
+      useRegisterClientValidate();
 
     const registerClient = async () => {
       const fields = {
-        name: firstnameValue.value,
-        lastName: lastnameValue.value,
-        email: emailValue.value,
-        password: passwordValue.value,
+        name: name.value.value,
+        lastName: lastName.value.value,
+        email: email.value.value,
+        password: password.value.value,
+        confirmPassword: confirmPassword.value.value,
       };
 
-      const valideSchema = yup.object({
-        name: schema.firstname,
-        lastName: schema.lastname,
-        email: schema.email,
-        password: schema.password,
-      });
-
-      const isValid = await valideSchema.isValid(fields);
+      const isValid = await validate(fields);
 
       if (!isValid) {
-        firstnameValidate();
-        lastnameValidate();
-        emailValidate();
-        passwordValidate();
-        confirmPasswordValidate();
+        name.validate();
+        lastName.validate();
+        email.validate();
+        password.validate();
+        confirmPassword.validate();
       }
 
       if (isValid) {
@@ -222,8 +170,8 @@ export default defineComponent({
 
           alertLoading("Iniciando sesión del usuario.");
           await store.dispatch("authModule/loginUser", {
-            email: emailValue.value,
-            password: passwordValue.value,
+            email: email.value.value,
+            password: password.value.value,
           });
 
           alertSuccessfully("Cliente registrado exitosamente!!");
@@ -239,18 +187,11 @@ export default defineComponent({
     };
 
     return {
-      firstnameValue,
-      firstnameError,
-      lastnameValue,
-      lastnameError,
-      emailValue,
-      emailError,
-      passwordValue,
-      passwordError,
-      passwordValidate,
-      confirmPasswordValue,
-      confirmPasswordError,
-      confirmPasswordValidate,
+      name,
+      lastName,
+      email,
+      password,
+      confirmPassword,
       registerClient,
       validateState,
     };

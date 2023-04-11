@@ -9,29 +9,31 @@
           <b-form @submit.prevent="forgot">
             <b-form-group label="Correo electrónico" label-for="txtEmail_l">
               <b-form-input
-                  v-model="emailValue"
-                  placeholder="Ingrese su correo"
-                  id="txtEmail_l"
-                  class="rounded-pill"
-                  :state="validateState(emailValue, emailError)"
+                v-model="email.value.value"
+                placeholder="Ingrese su correo"
+                id="txtEmail_l"
+                class="rounded-pill"
+                :state="
+                  validateState(email.value.value, email.errorMessage.value)
+                "
               ></b-form-input>
-              <b-form-invalid-feedback :state="emailError">
-                {{ emailError }}
+              <b-form-invalid-feedback :state="email.errorMessage.value">
+                {{ email.errorMessage.value }}
               </b-form-invalid-feedback>
             </b-form-group>
             <b-button
-                class="w-100"
-                variant="primary"
-                type="submit"
-                @click="emailValidate()"
-            >Recuperar</b-button
+              class="w-100"
+              variant="primary"
+              type="submit"
+              @click="email.validate()"
+              >Recuperar</b-button
             >
             <b-button
-                class="w-100 mt-2"
-                variant="secondary"
-                type="button"
-                @click="cancel"
-            >Cancelar</b-button
+              class="w-100 mt-2"
+              variant="secondary"
+              type="button"
+              @click="cancel"
+              >Cancelar</b-button
             >
           </b-form>
         </div>
@@ -41,36 +43,30 @@
 </template>
 
 <script lang="ts">
-import { useField } from "vee-validate";
-import * as yup from "yup";
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
+import { validateState } from "@/validate/globalValidate";
+import useForgotPasswordValidate from "@/validate/forgotPasswordValidate";
 
 export default defineComponent({
   name: "ForgotPassword",
   setup() {
-    const schema = {
-      email: yup
-          .string()
-          .email("Escriba un correo valido")
-          .required("Campo requerido"),
-    };
-    const {
-      value: emailValue,
-      errorMessage: emailError,
-      validate: emailValidate,
-    } = useField("email", schema.email);
-
+    const { email, validate } = useForgotPasswordValidate();
     const router = useRouter();
 
-    const validateState = (value: any, error: any) => {
-      if (value === undefined && error === undefined) return null;
-      else if (error) return false;
-      return true;
-    };
+    const forgot = async () => {
+      const fields = {
+        email: email.value.value,
+      };
 
-    const forgot = () => {
-      console.log("forgot here!");
+      const isValid = await validate(fields);
+
+      if (!isValid) {
+        email.validate();
+      } else {
+        console.log(email.value);
+        console.log("forgot here!");
+      }
     };
 
     const forgotPassword = () => {
@@ -86,9 +82,7 @@ export default defineComponent({
     };
 
     return {
-      emailValue,
-      emailError,
-      emailValidate,
+      email,
       forgot,
       forgotPassword,
       registerUser,
@@ -103,28 +97,28 @@ export default defineComponent({
 .forgot-container {
   padding: 40px 15px 25px 15px;
 
-.forgot-title-section {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin-bottom: 30px;
-  text-align: center;
+  .forgot-title-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 30px;
+    text-align: center;
 
-.forgot-title {
-  font-family: Montserrat;
-  font-weight: 800;
-  font-size: 45px;
-  line-height: 1;
-  color: #303669;
-  margin-bottom: 0;
-}
-}
+    .forgot-title {
+      font-family: Montserrat;
+      font-weight: 800;
+      font-size: 45px;
+      line-height: 1;
+      color: #303669;
+      margin-bottom: 0;
+    }
+  }
 
-.forgot-form-section {
-  max-width: 425px;
-  margin-left: auto;
-  margin-right: auto;
-}
+  .forgot-form-section {
+    max-width: 425px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 </style>
