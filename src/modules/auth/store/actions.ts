@@ -17,6 +17,8 @@ export const loginUser = async (
     const response = await authServices.login(payload)
 
     const security: ISecurity = {
+      email: payload.email,
+      profileName: response.profileName,
       token: response.token,
       tokenType: response.tokenType,
       refreshToken: response.refreshToken,

@@ -2,6 +2,7 @@ import AxiosClient from "../axiosClient"
 
 const generalApi = {
   getProfessionList: "/profession",
+  getSpecializationList: "/specialization",
   getDistrictList: "/district",
   getBank: "/bank"
 }
@@ -10,6 +11,12 @@ export class GeneralServices {
   async getProfessionList() {
     const { data } = await AxiosClient.axiosIns.get(
       generalApi.getProfessionList
+    )
+    return data
+  }
+  async getSpecializationList() {
+    const { data } = await AxiosClient.axiosIns.get(
+      generalApi.getSpecializationList
     )
     return data
   }

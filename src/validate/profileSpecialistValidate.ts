@@ -9,7 +9,6 @@ configure({
   validateOnChange: true,
 });
 
-//INTERFACE
 
 export default function useProfileSpecialistValidate() {
   //Define validación con Yup
@@ -49,6 +48,33 @@ export default function useProfileSpecialistValidate() {
       return values.some((value: any) => value.url !== "");
     })
     .required("Suba una imagen como minimo")
+
+  //SCHEMA EXPERIENCE
+  const idProfessionSchema = yup
+    .number()
+    .required("Campo requerido")
+  const groupSpecialistSchema = yup.object().shape({
+    objetosAAgregar: yup.array().of(yup.object()),
+    objetosAEliminar: yup.array().of(yup.object()),
+  }).test(
+    'al-menos-uno',
+    'Marque o desmarque alguna nueva Especialidad',
+    function (value: any) {
+      const { objetosAAgregar = [], objetosAEliminar = [] } = value || {};
+      return objetosAAgregar.length > 0 || objetosAEliminar.length > 0;
+    }
+  );
+  const expProfessionSchema = yup.object().shape({
+    años: yup.number().integer().min(0, 'El número de años debe ser igual o mayor a 0').required('El campo de años es requerido'),
+    meses: yup.number().integer().min(0, 'El número de meses debe ser igual o mayor a 0').required('El campo de meses es requerido'),
+  }).test(
+    'al-menos-un-mes',
+    'Debe ingresar al menos un mes de experiencia',
+    function (value: any) {
+      const { años = 0, meses = 0 } = value || {};
+      return (años * 12 + meses) >= 1;
+    }
+  );
 
   //SCHEMA WORK-LOCATION
   const zonaSelectedSchema = yup
@@ -94,6 +120,11 @@ export default function useProfileSpecialistValidate() {
   //CAMPO IMAGE-LIST
   const imagesList = useField("imagesList", imagesListSchema);
 
+  //CAMPO EXPERIENCE
+  const idProfession = useField("idProfession", idProfessionSchema);
+  const groupSpecialist = useField("groupSpecialist", groupSpecialistSchema);
+  const expProfession = useField("expProfession", expProfessionSchema);
+
   //CAMPO WORK-LOCATION
   const zona = useField("zona", zonaSelectedSchema);
   const groupLocation = useField("groupLocation", groupLocationSchema);
@@ -126,6 +157,16 @@ export default function useProfileSpecialistValidate() {
     const isValid = await valideSchema.isValid(data);
     return isValid
   }
+  //VALIDATE EXPERIENCE
+  async function validateExperience(data: object) {
+    const valideSchema = yup.object({
+      idProfession: idProfessionSchema,
+      groupSpecialist: groupSpecialistSchema,
+      expProfession: expProfessionSchema,
+    });
+    const isValid = await valideSchema.isValid(data);
+    return isValid
+  }
   //VALIDATE WORK-LOCATION
   async function validateWorkLocation(data: object) {
     const valideSchema = yup.object({
@@ -148,17 +189,20 @@ export default function useProfileSpecialistValidate() {
 
   function inputReset() {
     profilePhoto.resetField();
-    name.resetField()
-    lastName.resetField()
-    about.resetField()
-    direction.resetField()
-    phone.resetField()
-    secondPhone.resetField()
+    name.resetField();
+    lastName.resetField();
+    about.resetField();
+    direction.resetField();
+    phone.resetField();
+    secondPhone.resetField();
+    idProfession.resetField();
+    groupSpecialist.resetField();
+    expProfession.resetField();
     zona.resetField();
     groupLocation.resetField();
     bankId.resetField();
     accountNumber.resetField();
-    cci.resetField()
+    cci.resetField();
   }
 
   function inputValidate() {
@@ -169,6 +213,9 @@ export default function useProfileSpecialistValidate() {
     direction.validate();
     phone.validate();
     secondPhone.validate();
+    idProfession.validate();
+    groupSpecialist.validate();
+    expProfession.validate();
     zona.validate();
     groupLocation.validate();
     bankId.validate();
@@ -185,6 +232,9 @@ export default function useProfileSpecialistValidate() {
     phone,
     secondPhone,
     imagesList,
+    idProfession,
+    groupSpecialist,
+    expProfession,
     zona,
     groupLocation,
     bankId,
@@ -192,6 +242,7 @@ export default function useProfileSpecialistValidate() {
     cci,
     validateProfile,
     validateGallery,
+    validateExperience,
     validateWorkLocation,
     validateAccount,
     inputValidate,

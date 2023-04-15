@@ -6,25 +6,25 @@
           <div class="mb-2" @click="collapseMovil = !collapseMovil">
             <i class="fa-solid fa-house-circle-check me-2"></i
             ><span>Mis Proyectos</span
-          ><i class="fa-solid fa-angle-down ms-2"></i>
+            ><i class="fa-solid fa-angle-down ms-2"></i>
           </div>
           <b-collapse v-model="collapseMovil" id="collapse-3" class="ps-4 py-2">
             <span
-                class="d-block mb-2"
-                @click="
+              class="d-block mb-2"
+              @click="
                 $router.push({
                   name: 'my-projects',
                   params: { type: 'current' },
                 })
               "
-            >Vigentes (2)</span
+              >Vigentes (2)</span
             >
             <span
-                class="d-block"
-                @click="
+              class="d-block"
+              @click="
                 $router.push({ name: 'my-projects', params: { type: 'past' } })
               "
-            >Pasados (3)</span
+              >Pasados (3)</span
             >
           </b-collapse>
         </div>
@@ -32,35 +32,35 @@
         <div><i class="fa-solid fa-heart me-2"></i><span>Favoritos</span></div>
       </div>
       <div
-          class="menu__container menu__container--web py-3 px-4 bg-white d-none d-lg-block"
+        class="menu__container menu__container--web py-3 px-4 bg-white d-none d-lg-block"
       >
         <div>
           <div class="mb-2" @click="collapseWeb = !collapseWeb">
             <i class="fa-solid fa-house-circle-check me-2"></i
             ><span>Mis Proyectos</span
-          ><i class="fa-solid fa-angle-down ms-2"></i>
+            ><i class="fa-solid fa-angle-down ms-2"></i>
           </div>
           <b-collapse
-              v-model="collapseWeb"
-              id="collapse-movil"
-              class="ps-4 py-2"
+            v-model="collapseWeb"
+            id="collapse-movil"
+            class="ps-4 py-2"
           >
             <span
-                class="d-block mb-2"
-                @click="
+              class="d-block mb-2"
+              @click="
                 $router.push({
                   name: 'my-projects',
                   params: { type: 'current' },
                 })
               "
-            >Vigentes (2)</span
+              >Vigentes (2)</span
             >
             <span
-                class="d-block"
-                @click="
+              class="d-block"
+              @click="
                 $router.push({ name: 'my-projects', params: { type: 'past' } })
               "
-            >Pasados (3)</span
+              >Pasados (3)</span
             >
           </b-collapse>
         </div>
@@ -75,8 +75,8 @@
             <div class="image__user">
               <img :src="coverLoad" alt="" />
               <div
-                  @click="showModal = true"
-                  class="button__action button__action--userImage text-warning"
+                @click="showModal = true"
+                class="button__action button__action--userImage text-warning"
               >
                 <i class="fa-solid fa-pen-to-square"></i>
               </div>
@@ -87,61 +87,85 @@
                 <b-col cols="12" lg="5" class="mb-3">
                   <b-form-group label="Nombres" label-for="input-1">
                     <b-form-input
-                        v-model="nameValue"
-                        :state="validateState(nameValue, nameError)"
-                        id="input-1"
-                        placeholder="Ingrese sus nombres"
+                      v-model="name.value.value"
+                      :state="
+                        dataf?.name === name.value.value
+                          ? null
+                          : validateState(
+                              name.value.value,
+                              name.errorMessage.value
+                            )
+                      "
+                      id="input-1"
+                      placeholder="Ingrese sus nombres"
                     ></b-form-input>
-                    <b-form-invalid-feedback :state="nameError">
-                      {{ nameError }}
+                    <b-form-invalid-feedback :state="name.errorMessage.value">
+                      {{ name.errorMessage.value }}
                     </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3">
                   <b-form-group label="Apellidos" label-for="input-2">
                     <b-form-input
-                        v-model="lastnameValue"
-                        :state="validateState(lastnameValue, lastnameError)"
-                        id="input-2"
-                        placeholder="Ingrese sus apellidos"
+                      v-model="lastname.value.value"
+                      :state="
+                        validateState(
+                          lastname.value.value,
+                          lastname.errorMessage.value
+                        )
+                      "
+                      id="input-2"
+                      placeholder="Ingrese sus apellidos"
                     ></b-form-input>
-                    <b-form-invalid-feedback :state="lastnameError">
-                      {{ lastnameError }}
+                    <b-form-invalid-feedback
+                      :state="lastname.errorMessage.value"
+                    >
+                      {{ lastname.errorMessage.value }}
                     </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3">
                   <b-form-group label="Correo" label-for="input-3">
                     <b-form-input
-                        v-model="emailValue"
-                        :state="validateState(emailValue, emailError)"
-                        id="input-3"
-                        placeholder="Ingrese su correo"
+                      v-model="email.value.value"
+                      :state="
+                        validateState(
+                          email.value.value,
+                          email.errorMessage.value
+                        )
+                      "
+                      id="input-3"
+                      placeholder="Ingrese su correo"
                     ></b-form-input>
-                    <b-form-invalid-feedback :state="emailError">
-                      {{ emailError }}
+                    <b-form-invalid-feedback :state="email.errorMessage.value">
+                      {{ email.errorMessage.value }}
                     </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3">
                   <b-form-group label="Teléfono" label-for="input-4">
                     <b-form-input
-                        v-model="phoneValue"
-                        :state="validateState(phoneValue, phoneError)"
-                        id="input-4"
-                        placeholder="Ingrese su teléfono"
+                      v-model="phone.value.value"
+                      :state="
+                        validateState(
+                          phone.value.value,
+                          phone.errorMessage.value
+                        )
+                      "
+                      id="input-4"
+                      placeholder="Ingrese su teléfono"
                     ></b-form-input>
-                    <b-form-invalid-feedback :state="phoneError">
-                      {{ phoneError }}
+                    <b-form-invalid-feedback :state="phone.errorMessage.value">
+                      {{ phone.errorMessage.value }}
                     </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" class="d-flex mb-3 justify-content-end">
                   <b-button
-                      variant="primary"
-                      type="submit"
-                      @click="setDatosPersonales()"
-                  >Actualizar</b-button
+                    variant="primary"
+                    type="submit"
+                    @click="setDatosPersonales()"
+                    >Actualizar</b-button
                   >
                 </b-col>
               </b-row>
@@ -156,34 +180,48 @@
                 <b-col cols="12" class="mb-3">
                   <b-form-group label="Dirección" label-for="input-5">
                     <b-form-input
-                        v-model="ubicationValue"
-                        :state="validateState(ubicationValue, ubicationError)"
-                        id="input-5"
-                        placeholder="Ingrese su dirección"
-                    ></b-form-input>
-                    <b-form-invalid-feedback :state="ubicationError">
-                      {{ ubicationError }}
+                      v-model="ubication.value.value"
+                      :state="
+                        validateState(
+                          ubication.value.value,
+                          ubication.errorMessage.value
+                        )
+                      "
+                      id="input-5"
+                      placeholder="Ingrese su dirección"
+                    >
+                    </b-form-input>
+                    <b-form-invalid-feedback
+                      :state="ubication.errorMessage.value"
+                    >
+                      {{ ubication.errorMessage.value }}
                     </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3">
                   <h6 class="mb-0">Distrito</h6>
                   <b-form-select
-                      v-model="districtValue"
-                      :state="validateState(districtValue, districtError)"
-                      :options="districtOptions"
-                      class="mt-3"
-                  ></b-form-select>
-                  <b-form-invalid-feedback :state="districtError">
-                    {{ districtError }}
+                    v-model="district.value.value"
+                    :state="
+                      validateState(district.value, district.errorMessage.value)
+                    "
+                    :options="districtOptions"
+                    class="mt-3"
+                  >
+                    <option disabled selected hidden value="">
+                      Seleccione
+                    </option>
+                  </b-form-select>
+                  <b-form-invalid-feedback :state="district.errorMessage.value">
+                    {{ district.errorMessage.value }}
                   </b-form-invalid-feedback>
                 </b-col>
                 <b-col cols="12" class="d-flex mb-3 justify-content-end">
                   <b-button
-                      variant="primary"
-                      type="submit"
-                      @click="setUbication"
-                  >Actualizar</b-button
+                    variant="primary"
+                    type="submit"
+                    @click="setUbication"
+                    >Actualizar</b-button
                   >
                 </b-col>
               </b-row>
@@ -198,61 +236,77 @@
                 <b-col cols="12" lg="7" class="mb-3">
                   <b-form-group label="Contraseña actual" label-for="input-77">
                     <b-form-input
-                        v-model="oldPasswordValue"
-                        :state="validateState(oldPasswordValue, oldPasswordError)"
-                        id="input-77"
-                        type="password"
-                        placeholder="Ingrese su contraseña actual"
+                      v-model="oldPassword.value.value"
+                      :state="
+                        validateState(
+                          oldPassword.value.value,
+                          oldPassword.errorMessage.value
+                        )
+                      "
+                      id="input-77"
+                      type="password"
+                      placeholder="Ingrese su contraseña actual"
                     >
                     </b-form-input>
-                    <b-form-invalid-feedback :state="oldPasswordError">
-                      {{ oldPasswordError }}
+                    <b-form-invalid-feedback
+                      :state="oldPassword.errorMessage.value"
+                    >
+                      {{ oldPassword.errorMessage.value }}
                     </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="7" class="mb-3">
                   <b-form-group label="Nueva contraseña" label-for="input-6">
                     <b-form-input
-                        v-model="passwordValue"
-                        :state="validateState(passwordValue, passwordError)"
-                        @input="confirmPasswordValidate()"
-                        id="input-6"
-                        type="password"
-                        placeholder="Ingrese su contraseña"
+                      v-model="password.value.value"
+                      :state="
+                        validateState(
+                          password.value.value,
+                          password.errorMessage.value
+                        )
+                      "
+                      @input="confirmPassword.validate()"
+                      id="input-6"
+                      type="password"
+                      placeholder="Ingrese su contraseña"
                     >
                     </b-form-input>
-                    <b-form-invalid-feedback :state="passwordError">
-                      {{ passwordError }}
+                    <b-form-invalid-feedback
+                      :state="password.errorMessage.value"
+                    >
+                      {{ password.errorMessage.value }}
                     </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="7" class="mb-3">
                   <b-form-group
-                      label="Confirmar nueva contraseña"
-                      label-for="input-7"
+                    label="Confirmar nueva contraseña"
+                    label-for="input-7"
                   >
                     <b-form-input
-                        v-model="confirmPasswordValue"
-                        :state="
+                      v-model="confirmPassword.value.value"
+                      :state="
                         validateState(
-                          confirmPasswordValue,
-                          confirmPasswordError
+                          confirmPassword.value.value,
+                          confirmPassword.errorMessage.value
                         )
                       "
-                        @input="passwordValidate()"
-                        id="input-7"
-                        type="password"
-                        placeholder="Confirme su contraseña"
+                      @input="password.validate()"
+                      id="input-7"
+                      type="password"
+                      placeholder="Confirme su contraseña"
                     >
                     </b-form-input>
-                    <b-form-invalid-feedback :state="confirmPasswordError">
-                      {{ confirmPasswordError }}
+                    <b-form-invalid-feedback
+                      :state="confirmPassword.errorMessage.value"
+                    >
+                      {{ confirmPassword.errorMessage.value }}
                     </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" class="d-flex mb-3 justify-content-end">
                   <b-button variant="primary" @click="setPassword()"
-                  >Actualizar</b-button
+                    >Actualizar</b-button
                   >
                 </b-col>
               </b-row>
@@ -265,15 +319,15 @@
     <b-col id="footer__limit"></b-col>
   </b-row>
   <b-modal
-      v-model="showModal"
-      title="Editar imagen de perfil"
-      class="p-0"
-      centered
+    v-model="showModal"
+    title="Editar imagen de perfil"
+    class="p-0"
+    centered
   >
     <template v-slot:footer>
       <div class="d-flex justify-content-between w-100">
         <b-button variant="secondary" @click="showModal = false"
-        >Cancelar</b-button
+          >Cancelar</b-button
         >
         <b-button variant="primary" @click="updateCover()">Actualizar</b-button>
       </div>
@@ -283,25 +337,25 @@
         Seleccione la imagen para elegir una nueva imagen de Portada
       </span>
       <div
-          class="form-image__file mt-2"
-          :class="!cover.coverImage ? 'form-image__file--aux' : ''"
-          @click="uploadImage"
+        class="form-image__file mt-2"
+        :class="!cover.coverImage ? 'form-image__file--aux' : ''"
+        @click="uploadImage"
       >
         <img
-            :src="
+          :src="
             !cover.coverImage
               ? require('@/assets/img-delete/fileimage-up.png')
               : cover.coverImage
           "
-            alt="image"
+          alt="image"
         />
       </div>
       <input
-          style="display: none"
-          ref="portadaFile"
-          hidden
-          type="file"
-          @change="changeFileCover"
+        style="display: none"
+        ref="portadaFile"
+        hidden
+        type="file"
+        @change="changeFileCover"
       />
     </div>
     <b-form-invalid-feedback :state="!cover.coverImage ? false : true">
@@ -313,30 +367,70 @@
 <script setup lang="ts">
 import { alertSuccessButton } from "@/utils/SweetAlert";
 import { ref, onMounted, watch } from "vue";
-import { useField } from "vee-validate";
-import * as yup from "yup";
+import { ClientServices } from "@/services/api/clientProfileServices";
+import { GeneralServices } from "@/services/api/generalServices";
+import useProfileClientValidate from "@/validate/profileClientValidate";
+
+const {
+  name,
+  lastname,
+  email,
+  phone,
+  ubication,
+  district,
+  oldPassword,
+  password,
+  confirmPassword,
+  validatePersonalData,
+  validateUbication,
+  validatePassword,
+  inputReset,
+  inputValidate,
+} = useProfileClientValidate();
+
+const { getDataClient } = new ClientServices();
+const { getDistrictList } = new GeneralServices();
 
 const collapseWeb = ref(true);
 const collapseMovil = ref(false);
-
+const idClient = ref("ddf5cdba-a4fc-4d1e-99aa-2229f7ca8825");
 const showModal = ref(false);
 const portadaFile: any = ref();
 const isLoading = ref(true);
-const disctrictSelected = ref(0);
-const districtOptions = ref([
-  { value: "", text: "Seleccione" },
-  { value: 0, text: "Los Olivos" },
-  { value: 1, text: "SMP" },
-  { value: 2, text: "Puente Piedra" },
-  { value: 3, text: "Chorrillos" },
-]);
+const districtOptions = ref();
 const coverLoad = ref(require("@/assets/img-delete/profile.jpg"));
-
+const dataf = ref();
 // const fileImage: any = ref(null);
 // const coverImage: any = ref(null);
-onMounted(() => {
+onMounted(async () => {
   isLoading.value = false;
+  await fetchDataClient();
+  await fetchListDIstrict();
 });
+
+//CARGAR Datos del Cliente
+async function fetchDataClient() {
+  let data = await getDataClient(idClient.value);
+
+  name.value.value = data.name;
+  lastname.value.value = data.lastName;
+  email.value.value = data.email;
+  phone.value.value = data.phone;
+  ubication.value.value = data.address;
+  district.value.value = data.districtId;
+  console.log(data);
+}
+//CARGAR Lista Distritos
+async function fetchListDIstrict() {
+  let data = await getDistrictList();
+  let listDistric = data.map((data: any) => {
+    return {
+      value: data.id,
+      text: data.name,
+    };
+  });
+  districtOptions.value = listDistric;
+}
 
 //#region VALUE-REF
 const cover = ref({
@@ -360,97 +454,6 @@ const formPassword = ref({
 });
 //#endregion
 
-//#region YUP
-const schemaDatosPersonales = {
-  name: yup.string().required("Campo requerido"),
-  lastname: yup.string().required("Campo requerido"),
-  email: yup
-      .string()
-      .email("Escriba un correo valido")
-      .required("Campo requerido"),
-  phone: yup
-      .string()
-      .matches(/^[0-9]+$/, "Campo requerido")
-      .required("Campo requerido"),
-};
-
-const schemaUbicacion = {
-  ubication: yup.string().required("Campo requerido"),
-  district: yup.string().required("Campo requerido"),
-};
-
-const schemaPassword = {
-  oldPassword: yup
-      .string()
-      .min(8, "Se requiere 8 caracteres como minimo")
-      .required("Campo requerido"),
-  password: yup
-      .string()
-      .min(8, "Se requiere 8 caracteres como minimo")
-      .required("Escriba su nueva contraseña")
-      .test("a", "Las contraseñas no coinciden", (value) => {
-        if (value === confirmPasswordValue.value) return true;
-        else return false;
-      }),
-  confirmPassword: yup
-      .string()
-      .min(8, "Se requiere 8 caracteres como minimo")
-      .required("Confirme su nueva contraseña")
-      .test("a", "Las contraseñas no coinciden", (value) => {
-        if (value === passwordValue.value) return true;
-        else return false;
-      }),
-};
-//#endregion
-
-//#region USE-FIELD
-const {
-  value: nameValue,
-  errorMessage: nameError,
-  validate: nameValidate,
-} = useField("name", schemaDatosPersonales.name);
-const {
-  value: lastnameValue,
-  errorMessage: lastnameError,
-  validate: lastnameValidate,
-} = useField("lastname", schemaDatosPersonales.lastname);
-const {
-  value: emailValue,
-  errorMessage: emailError,
-  validate: emailValidate,
-} = useField("email", schemaDatosPersonales.email);
-const {
-  value: phoneValue,
-  errorMessage: phoneError,
-  validate: phoneValidate,
-} = useField("phone", schemaDatosPersonales.phone);
-const {
-  value: ubicationValue,
-  errorMessage: ubicationError,
-  validate: ubicationValidate,
-} = useField("ubication", schemaUbicacion.ubication);
-const {
-  value: districtValue,
-  errorMessage: districtError,
-  validate: districtValidate,
-} = useField("district", schemaUbicacion.district);
-const {
-  value: oldPasswordValue,
-  errorMessage: oldPasswordError,
-  validate: oldPasswordValidate,
-} = useField("oldPassword", schemaPassword.oldPassword);
-const {
-  value: passwordValue,
-  errorMessage: passwordError,
-  validate: passwordValidate,
-} = useField("password", schemaPassword.password);
-const {
-  value: confirmPasswordValue,
-  errorMessage: confirmPasswordError,
-  validate: confirmPasswordValidate,
-} = useField("confirmPassword", schemaPassword.confirmPassword);
-//#endregion
-
 //#region VALIDATE AND SEND-VALUE-FOR-API
 function updateCover() {
   let coverImg = cover.value.coverImage;
@@ -465,52 +468,28 @@ function updateCover() {
 
 const setDatosPersonales = async () => {
   const fields = {
-    name: nameValue.value,
-    lastname: lastnameValue.value,
-    email: emailValue.value,
-    phone: phoneValue.value,
+    name: name.value.value,
+    lastname: lastname.value.value,
+    email: email.value.value,
+    phone: phone.value.value,
   };
-
-  const valideSchema = yup.object({
-    name: schemaDatosPersonales.name,
-    lastname: schemaDatosPersonales.lastname,
-    email: schemaDatosPersonales.email,
-    phone: schemaDatosPersonales.phone,
-  });
-
-  const isValid = await valideSchema.isValid(fields);
-
-  if (!isValid) {
-    nameValidate();
-    lastnameValidate();
-    emailValidate();
-    phoneValidate();
-  }
-
+  const isValid = await validatePersonalData(fields);
+  if (!isValid) inputValidate();
   if (isValid) {
     formDatosPersonales.value = { ...formDatosPersonales.value, ...fields };
   }
-
   return isValid;
 };
 
 const setUbication = async () => {
   const fields = {
-    ubication: ubicationValue.value,
-    district: districtValue.value,
+    ubication: ubication.value.value,
+    district: district.value.value,
   };
 
-  const valideSchema = yup.object({
-    ubication: schemaUbicacion.ubication,
-    district: schemaUbicacion.district,
-  });
+  const isValid = await validateUbication(fields);
 
-  const isValid = await valideSchema.isValid(fields);
-
-  if (!isValid) {
-    ubicationValidate();
-    districtValidate();
-  }
+  if (!isValid) inputValidate();
 
   if (isValid) {
     formUbication.value = { ...formUbication.value, ...fields };
@@ -521,24 +500,12 @@ const setUbication = async () => {
 
 const setPassword = async () => {
   const fields = {
-    oldPassword: oldPasswordValue.value,
-    password: passwordValue.value,
-    confirmPassword: confirmPasswordValue.value,
+    oldPassword: oldPassword.value.value,
+    password: password.value.value,
+    confirmPassword: confirmPassword.value.value,
   };
-
-  const valideSchema = yup.object({
-    oldPassword: schemaPassword.oldPassword,
-    password: schemaPassword.password,
-    confirmPassword: schemaPassword.confirmPassword,
-  });
-
-  const isValid = await valideSchema.isValid(fields);
-
-  if (!isValid) {
-    oldPasswordValidate();
-    passwordValidate();
-    confirmPasswordValidate();
-  }
+  const isValid = await validatePassword(fields);
+  if (!isValid) inputValidate();
 
   if (isValid) {
     formPassword.value = { ...formPassword.value, ...fields };
@@ -583,77 +550,77 @@ function changeFileCover(event: any) {
 
 <style lang="scss" scoped>
 .profile-client__container {
-.profile__menu {
-.menu__container {
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.274) !important;
+  .profile__menu {
+    .menu__container {
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.274) !important;
 
-&--web {
-   position: fixed;
-   top: 120px;
-   padding-top: 0;
-   width: 100%;
-   max-width: 250px;
- }
+      &--web {
+        position: fixed;
+        top: 120px;
+        padding-top: 0;
+        width: 100%;
+        max-width: 250px;
+      }
 
-div {
-  cursor: pointer;
-}
-}
-}
+      div {
+        cursor: pointer;
+      }
+    }
+  }
 
-.card {
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.274) !important;
-}
+  .card {
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.274) !important;
+  }
 
-.profile__menu {
-  padding-top: 70px;
-}
+  .profile__menu {
+    padding-top: 70px;
+  }
 
-.profile__content {
-  padding-top: 70px;
+  .profile__content {
+    padding-top: 70px;
 
-.image__user {
-  width: 120px;
-  height: 120px;
+    .image__user {
+      width: 120px;
+      height: 120px;
 
-  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.308);
-  position: absolute;
-  top: -60px;
-  left: 0;
-  right: 0;
-  margin: auto;
-  border-radius: 100%;
+      box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.308);
+      position: absolute;
+      top: -60px;
+      left: 0;
+      right: 0;
+      margin: auto;
+      border-radius: 100%;
 
-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 100%;
-}
-}
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 100%;
+      }
+    }
 
-.button__action {
-  font-size: 1.5rem;
-  cursor: pointer;
-}
+    .button__action {
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
 
-.button__action--userImage {
-  display: flex;
-  position: absolute;
-  right: 5px;
-  bottom: 5px;
-  background-color: white;
-  border-radius: 100%;
-  font-size: 1.2rem;
-  padding: 5px;
-  box-shadow: 0px 1px 3px black;
-}
+    .button__action--userImage {
+      display: flex;
+      position: absolute;
+      right: 5px;
+      bottom: 5px;
+      background-color: white;
+      border-radius: 100%;
+      font-size: 1.2rem;
+      padding: 5px;
+      box-shadow: 0px 1px 3px black;
+    }
 
-.button__action--userImage:hover {
-  background-color: #007bff;
-  color: white !important;
-}
-}
+    .button__action--userImage:hover {
+      background-color: #007bff;
+      color: white !important;
+    }
+  }
 }
 
 .form-image__file {
@@ -701,29 +668,29 @@ img {
 
 @media (max-width: 991px) {
   .profile-client__container {
-  .profile__menu {
-    padding: 0;
-    z-index: 1;
-    position: fixed;
-    top: 84px;
-    left: 0;
-  }
+    .profile__menu {
+      padding: 0;
+      z-index: 1;
+      position: fixed;
+      top: 84px;
+      left: 0;
+    }
 
-  .profile__content {
-    padding-top: 190px;
+    .profile__content {
+      padding-top: 190px;
+    }
   }
-}
 }
 
 @media (max-width: 575px) {
   .profile-client__container {
-  .profile__menu {
-    top: 53px;
-  }
+    .profile__menu {
+      top: 53px;
+    }
 
-  .profile__content {
-    padding-top: 195px;
+    .profile__content {
+      padding-top: 195px;
+    }
   }
-}
 }
 </style>
