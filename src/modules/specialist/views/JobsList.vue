@@ -513,7 +513,8 @@ export default defineComponent({
           .required("Campo requerido")
           .typeError("Campo requerido")
           .test("aaa", "El monto de ser menor al maximo", (value) => {
-            if (value < honorarioMaxValue.value) return true;
+            var honMaxValue = Number(honorarioMaxValue.value);
+            if (value < (isNaN(honMaxValue) ? 0 : honMaxValue)) return true;
             else return false;
           }),
       honorarioMax: yup
@@ -521,7 +522,9 @@ export default defineComponent({
           .required("Campo requerido")
           .typeError("Campo requerido")
           .test("aa", "El monto de ser mayor al minimo", (value) => {
-            if (value > honorarioMinValue.value) return true;
+            var honMinValue = Number(honorarioMinValue.value);
+
+            if (value > (isNaN(honMinValue) ? 0 : honMinValue)) return true;
             else return false;
           }),
       comentario: yup.string().required("Campo requerido"),
