@@ -118,7 +118,7 @@
               <i class="fa-solid fa-pen-to-square"></i>
             </div>
             <h4>
-              Armando paredes
+              {{ formPresentation.name + " " + formPresentation.lastName }}
               <span class="profile__status ms-2"
                 ><i class="fa-solid fa-circle-check"></i> Perfil
                 verificado</span
@@ -126,17 +126,11 @@
             </h4>
             <hr class="mt-0" />
             <div class="mb-1">Pintor, albañil, Carpintero</div>
-            <div>Av.Los pinos, lima, Perú</div>
-            <div>+51 999 999 999 / 0800600</div>
+            <div>{{ formPresentation.direction }}</div>
+            <div>{{ formPresentation.phone }}</div>
             <span class="d-block mt-2"><b>Acerca de ti</b></span>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Recusandae, deleniti officiis! Quidem beatae quaerat laboriosam
-              impedit hic quam doloribus tempore, sapiente libero. Laborum sunt
-              dignissimos voluptatum sequi dolore, molestiae similique nihil
-              itaque rerum incidunt ab? Nam placeat ullam odio cum dolor!
-              Repellendus quidem excepturi ut animi at quia? Quo accusantium
-              quis iusto dolor, exercitationem debitis sed odio illo itaque est!
+              {{ formPresentation.about }}
             </p>
           </b-card>
         </b-col>
@@ -202,10 +196,15 @@
             </div>
             <hr class="mt-0" />
             <div class="p-2">
+              <div v-if="loadingModal.experience">Cargando datos...</div>
+              <div v-else-if="experiences.length === 0">
+                <p>No hay datos para mostrar.</p>
+              </div>
               <div
                 class="experience__item p-3 mb-3"
                 v-for="(experience, id) in experiences"
                 :key="id"
+                v-else
               >
                 <b-row class="mx-0">
                   <b-col
@@ -234,7 +233,8 @@
                         {{ experience.title }}
                       </h1>
                       <h2 class="experience__range">
-                        ANIOS EN EL SECTOR: {{ experience.time }} años
+                        AÑOS EN EL SECTOR: {{ experience.years }} años y
+                        {{ experience.months }} meses
                       </h2>
                     </div>
                   </b-col>
@@ -270,24 +270,6 @@
                       <i class="fa-solid fa-circle-notch me-2 text-primary"></i>
                     </div>
                     <span> {{ especiality.name }} </span>
-                  </b-col>
-                  <b-col cols="12" md="6" class="d-flex">
-                    <div>
-                      <i class="fa-solid fa-circle-notch me-2 text-primary"></i>
-                    </div>
-                    <span> Concreto/Armado </span>
-                  </b-col>
-                  <b-col cols="12" md="6" class="d-flex">
-                    <div>
-                      <i class="fa-solid fa-circle-notch me-2 text-primary"></i>
-                    </div>
-                    <span> Instalación de interruptores y tomacorrientes </span>
-                  </b-col>
-                  <b-col cols="12" md="6" class="d-flex">
-                    <div>
-                      <i class="fa-solid fa-circle-notch me-2 text-primary"></i>
-                    </div>
-                    <span> Servicios Generales </span>
                   </b-col>
                 </b-row>
               </div>
@@ -662,7 +644,7 @@
       centered
       v-model="showModalExperience"
     >
-      <b-form @submit.prevent="editExperience" validated>
+      <b-form>
         <div class="row mx-0 px-0 px-lg-2">
           <b-col cols="12" lg="11" class="mx-auto">
             <h6>Profesion:</h6>
@@ -670,10 +652,24 @@
             <div class="row mx-0 mt-2">
               <b-col cols="12" lg="4" class="px-0 my-auto mb-3">
                 <b-form-select
-                  v-model="formProfession.selectedProfession"
-                  :options="optionsProfessions"
+                  v-model="idProfession.value.value"
+                  :state="
+                    validateState(
+                      idProfession.value.value,
+                      idProfession.errorMessage.value
+                    )
+                  "
+                  @input="filterForProfession(idProfession.value.value)"
+                  :options="listProfessions"
                   id="input-experience-1"
-                ></b-form-select>
+                >
+                  <option disabled selected hidden value="">Seleccione</option>
+                </b-form-select>
+                <b-form-invalid-feedback
+                  :state="idProfession.errorMessage.value"
+                >
+                  {{ idProfession.errorMessage.value }}
+                </b-form-invalid-feedback>
               </b-col>
               <b-col cols="12" lg="8" class="mt-3 mx-auto">
                 <div class="row mx-0 justify-content-around">
@@ -687,11 +683,15 @@
                         -
                       </div>
                       <b-form-input
-                        v-model="formProfession.workExperience.years"
-                        type="text"
+                        v-model="workExperience.years"
+                        :state="
+                          validateState(
+                            expProfession.value.value?.años,
+                            expProfession.errorMessage.value
+                          )
+                        "
                         placeholder="0"
-                        required
-                        class="rounded-pill"
+                        class="rounded-pill text-center"
                         oninput="this.value = value.replace(/[^0-9]/g, '')"
                       ></b-form-input>
                       <div
@@ -712,11 +712,15 @@
                         -
                       </div>
                       <b-form-input
-                        v-model="formProfession.workExperience.months"
-                        type="text"
+                        v-model="workExperience.months"
+                        :state="
+                          validateState(
+                            expProfession.value.value?.meses,
+                            expProfession.errorMessage.value
+                          )
+                        "
                         placeholder="0"
-                        required
-                        class="rounded-pill"
+                        class="rounded-pill text-center"
                         oninput="this.value == value.replace(/[^0-9]/g, '')"
                       ></b-form-input>
                       <div
@@ -728,11 +732,21 @@
                     </b-col>
                   </b-col>
                 </div>
+                <b-form-invalid-feedback
+                  :state="expProfession.errorMessage.value"
+                >
+                  {{ expProfession.errorMessage.value }}
+                </b-form-invalid-feedback>
               </b-col>
             </div>
           </b-col>
 
-          <b-col cols="12" lg="11" class="mt-4 mx-auto">
+          <b-col
+            cols="12"
+            lg="11"
+            class="mt-4 mx-auto"
+            v-show="specialistForProfession.length > 0"
+          >
             <h6>Especialidades</h6>
             <hr />
             <b-row class="mx-0 justify-content-around">
@@ -740,7 +754,7 @@
                 cols="12"
                 lg="6"
                 class="mb-3 mb-lg-2"
-                v-for="(specialty, index) in formProfession.specialtiesList"
+                v-for="(specialty, index) in specialistForProfession"
                 :key="index"
                 @click="specialty.active = !specialty.active"
               >
@@ -765,6 +779,11 @@
                   </b-col>
                 </b-row>
               </b-col>
+              <b-form-invalid-feedback
+                :state="groupSpecialist.errorMessage.value"
+              >
+                {{ groupSpecialist.errorMessage.value }}
+              </b-form-invalid-feedback>
             </b-row>
           </b-col>
         </div>
@@ -782,7 +801,9 @@
               class="me-3"
               >Cancelar
             </b-button>
-            <b-button variant="primary" @click="">Guardar</b-button>
+            <b-button variant="primary" @click="editExperience()"
+              >Guardar</b-button
+            >
           </b-col>
         </b-row>
       </template>
@@ -969,6 +990,7 @@
 </template>
 
 <script setup lang="ts">
+import { encryptAuthStorage } from "../../../utils/Storage";
 import "vue3-carousel/dist/carousel.css";
 import { alertSuccessButton, alertLoading } from "@/utils/SweetAlert";
 import { computed, onMounted, ref, watch } from "vue";
@@ -981,13 +1003,17 @@ import { validateState } from "@/validate/globalValidate";
 import useProfileSpecialistValidate from "@/validate/profileSpecialistValidate";
 
 const {
+  getDataSpecialist,
   getWorkLocation,
+  getSpecialization,
   getBankAccount,
+  postExperience,
   postWorkLocation,
   postBankAccount,
   putBankAccount,
 } = new SpecialistServices();
-const { getDistrictList, getBank } = new GeneralServices();
+const { getProfessionList, getSpecializationList, getDistrictList, getBank } =
+  new GeneralServices();
 const {
   profilePhoto,
   name,
@@ -997,6 +1023,9 @@ const {
   phone,
   secondPhone,
   imagesList,
+  idProfession,
+  groupSpecialist,
+  expProfession,
   zona,
   groupLocation,
   bankId,
@@ -1004,6 +1033,7 @@ const {
   cci,
   validateProfile,
   validateGallery,
+  validateExperience,
   validateWorkLocation,
   validateAccount,
   inputValidate,
@@ -1047,62 +1077,14 @@ const showModalGalery = ref(false);
 const showModalExperience = ref(false);
 const showModalLocationEdit = ref(false);
 const showModalAcount = ref(false);
-const showError = ref({
-  location: true,
-});
+
 const loadingModal = ref({
+  experience: true,
   bank: true,
   workLocation: true,
 });
 const sliding = ref(false);
-const experiences = ref([
-  {
-    id: 0,
-    title: "Construccion y Techado",
-    time: 5,
-    specialities: [
-      {
-        id: 0,
-        name: "Concreto/Armado",
-      },
-      {
-        id: 1,
-        name: "Instalación de interruptores",
-      },
-      {
-        id: 2,
-        name: "Servicios generales",
-      },
-      {
-        id: 3,
-        name: "Servicios generales",
-      },
-    ],
-  },
-  {
-    id: 1,
-    title: "Arquitectura",
-    time: 5,
-    specialities: [
-      {
-        id: 1,
-        name: "Concreto/Armado",
-      },
-      {
-        id: 2,
-        name: "Instalación de interruptores",
-      },
-      {
-        id: 3,
-        name: "Servicios generales",
-      },
-      {
-        id: 4,
-        name: "Servicios generales",
-      },
-    ],
-  },
-]);
+const experiences = ref();
 
 const imageSelected = ref(0);
 const formPresentation = ref({
@@ -1116,6 +1098,9 @@ const formPresentation = ref({
   direction: "",
   phone: "",
   secondPhone: "",
+  cv: {
+    experienceTimes: [],
+  },
 });
 const formGalery = ref({
   imagesList: [
@@ -1151,43 +1136,31 @@ const formGalery = ref({
     },
   ],
 });
-//activa el titulo Experiencia
+//activa el titulo Editar Experiencia
 const isModalProfessionEdit = ref(true);
-const formProfession = ref({
-  selectedProfession: 0,
-  specialtiesList: [
-    {
-      id: 0,
-      active: true,
-      name: "Pintura de interiores",
-    },
-    {
-      id: 1,
-      active: false,
-      name: "Pintura de interiores",
-    },
-    {
-      id: 2,
-      active: true,
-      name: "Pintura de interiores",
-    },
-    {
-      id: 3,
-      active: true,
-      name: "Pintura de interiores",
-    },
-  ],
-  workExperience: {
-    years: 2020,
-    months: 12,
-  },
+const workExperience = ref({
+  years: 0,
+  months: 0,
 });
-const optionsProfessions = ref([
-  { value: 0, text: "Pintor" },
-  { value: 1, text: "Albañil" },
-  { value: 3, text: "Carpintero" },
-  { value: 4, text: "Lima" },
-]);
+//Todas las profesiones
+const listProfessions = ref();
+interface forSpecialist {
+  active: boolean;
+  id: number;
+  name: string;
+  professionId: number;
+}
+//Todas las especialidades
+const specialization = ref();
+const listSpecialist = ref();
+//Especialidades filtradas por profesion
+const specialistForProfession = ref<Array<forSpecialist>>([]);
+//Especialidades filtrados no modificables
+const specialistForProfessionOld = ref();
+//Especialidades con active=true para ser enviado
+const specialistTrueForAdd = ref();
+//Especialidades con active=false para ser enviado
+const specialistFalseForAdd = ref();
 //activa el titulo editar locaciones de trabajo
 const isModalLocationEdit = ref(true);
 //locaciones de trabajo del especialista
@@ -1240,14 +1213,25 @@ const section4 = ref(0);
 const section5 = ref(0);
 
 //funcion para filtrar distritos por zona
-function filterForZone(idZone: any) {
+function filterForZone(idZone: number) {
   let copiaDistrict = JSON.parse(JSON.stringify(districtList.value));
   districtForZone.value = copiaDistrict.filter(
     (data: any) => data.zone == idZone
   );
   districtForZoneOld.value = JSON.parse(JSON.stringify(districtForZone.value));
 }
+//funcion para filtrar especialidades por profesion
+function filterForProfession(idProfession: number) {
+  let copiaSpecialist = JSON.parse(JSON.stringify(listSpecialist.value));
+  specialistForProfession.value = copiaSpecialist.filter(
+    (data: any) => data.professionId == idProfession
+  );
+  specialistForProfessionOld.value = JSON.parse(
+    JSON.stringify(specialistForProfession.value)
+  );
+}
 
+//Observador true or false en districtForZone
 watch(
   () => districtForZone.value,
   () => {
@@ -1277,6 +1261,49 @@ watch(
     deep: true,
   }
 );
+//Observador true or false en specialistForProfession
+watch(
+  () => specialistForProfession.value,
+  () => {
+    var newa = specialistForProfession.value;
+    var old = specialistForProfessionOld.value;
+    let trueChanges = [];
+    let falseChanges = [];
+    if (old && newa) {
+      for (let i = 0; i < old.length; i++) {
+        const originalActive = old[i]?.active;
+        const changedActive = newa[i]?.active;
+        if (originalActive && !changedActive) {
+          falseChanges.push(newa[i]);
+        } else if (!originalActive && changedActive) {
+          trueChanges.push(newa[i]);
+        }
+      }
+      groupSpecialist.value.value = {
+        objetosAAgregar: trueChanges,
+        objetosAEliminar: falseChanges,
+      };
+      specialistTrueForAdd.value = trueChanges;
+      specialistFalseForAdd.value = falseChanges;
+    }
+  },
+  {
+    deep: true,
+  }
+);
+//Observador meses y años Experiencia
+watch(
+  () => workExperience.value,
+  () => {
+    expProfession.value.value = {
+      años: workExperience.value.years,
+      meses: workExperience.value.months,
+    };
+  },
+  {
+    deep: true,
+  }
+);
 
 onMounted(async () => {
   isLoading.value = false;
@@ -1288,16 +1315,46 @@ onMounted(async () => {
   section3.value = experienceBox.offsetTop - 110;
   section4.value = locationBox.offsetTop - 10;
   section5.value = acountBox.offsetTop + 40;
-  await fetchDistrict();
-  await fetchWorkLocation();
-  await fetchListNameBank();
-  await fetchAccountBank();
+  await Promise.all([
+    fetchProfession(),
+    fetchEspecialidades(),
+    fetchSpecialization(),
+    fetchDistrict(),
+    fetchDataSpecialist(),
+    fetchListNameBank(),
+    fetchWorkLocation(),
+    fetchAccountBank(),
+  ]);
+  await FormatoExperiencia();
 });
 
+//CARGAR Profesiones
+async function fetchProfession() {
+  let dataProfession = await getProfessionList(); //Obtiene lista de las profesiones
+  let listProfession = dataProfession.map((data: any) => {
+    return {
+      value: data.id,
+      text: data.name,
+    };
+  });
+  listProfessions.value = [...listProfession];
+}
+//CARGAR Especialidades
+async function fetchEspecialidades() {
+  let dataSpecialist = await getSpecializationList(); //Obtiene lista de las especialidades
+  listSpecialist.value = dataSpecialist.map((data: any) => {
+    return {
+      id: data.id,
+      name: data.name,
+      active: false,
+      professionId: data.professionId,
+    };
+  });
+}
 //CARGAR Distritos
 async function fetchDistrict() {
   let dataDistrictList = await getDistrictList(); //Obtiene lista de los Distritos
-  let listDistric = dataDistrictList.map((data: any) => {
+  districtList.value = dataDistrictList.map((data: any) => {
     return {
       id: data.id,
       name: data.name,
@@ -1305,7 +1362,6 @@ async function fetchDistrict() {
       zone: data.zone,
     };
   });
-  districtList.value = listDistric;
 }
 //CARGAR Nombres de los bancos
 async function fetchListNameBank() {
@@ -1317,6 +1373,56 @@ async function fetchListNameBank() {
     };
   });
   optionsAcount.value = [...listBank];
+}
+//CARGAR Datos del especialista
+async function fetchDataSpecialist() {
+  let data = await getDataSpecialist(idEspecialist.value);
+  formPresentation.value = {
+    profilePhoto: {
+      url: "",
+      file: "",
+    },
+    name: data.specialist.name,
+    lastName: data.specialist.lastName,
+    about: data.cv.about,
+    direction: data.specialist.address,
+    phone: data.specialist.phone,
+    secondPhone: "",
+    cv: data.cv,
+  };
+}
+//CARGAR Experiencia del especialista
+async function fetchSpecialization() {
+  specialization.value = await getSpecialization(idEspecialist.value);
+}
+async function FormatoExperiencia() {
+  let value = formPresentation.value.cv.experienceTimes.map((x: any) => {
+    return {
+      id: x.professionId,
+      title: x.professionName,
+      years: x.years,
+      months: x.months,
+      specialities: [],
+    };
+  });
+  const resultado = value.map((obj: any) => {
+    const profesionEspecialidad = specialization.value.filter(
+      (item: any) => item.professionId === obj.id
+    );
+    const specialities = listSpecialist.value
+      .filter((especialidad: any) =>
+        profesionEspecialidad.some(
+          (a: any) => a.specializationId === especialidad.id
+        )
+      )
+      .map(({ id, name }: any) => ({ id, name }));
+    return {
+      ...obj,
+      specialities,
+    };
+  });
+  experiences.value = resultado;
+  loadingModal.value.experience = false;
 }
 //CARGAR Localizaciones de trabajo
 async function fetchWorkLocation() {
@@ -1369,7 +1475,7 @@ async function fetchAccountBank() {
   loadingModal.value.bank = false;
 }
 
-//ENVIAR-DATOS
+//ENVIAR DATOS
 async function editPresentation() {
   const fields = {
     profilePhoto: profilePhoto.value.value,
@@ -1390,7 +1496,7 @@ async function editPresentation() {
     alertSuccessButton("Se realizo la operación exitosamente");
   }
 }
-
+//ENVIAR GALERIA
 async function editGallery() {
   const fields = {
     imagesList: imagesList.value.value,
@@ -1405,9 +1511,34 @@ async function editGallery() {
     alertSuccessButton("Se realizo la operación exitosamente");
   }
 }
-
+//ENVIAR EXPERIENCIA
 async function editExperience() {
-  alertSuccessButton("Se realizo la operación exitosamente");
+  const fields = {
+    idProfession: idProfession.value.value,
+    groupSpecialist: groupSpecialist.value.value,
+    expProfession: expProfession.value.value,
+  };
+  const isValid = await validateExperience(fields);
+  if (!isValid) inputValidate();
+
+  if (isValid) {
+    let value = fields.groupSpecialist.objetosAAgregar.map((x: any) => {
+      return {
+        specializationId: x.id,
+        professionId: fields.idProfession,
+        specialistId: idEspecialist.value,
+      };
+    });
+    try {
+      alertLoading("Guardando...");
+      await postExperience(value);
+      showModalExperience.value = false;
+      alertSuccessButton("Se realizo la operación exitosamente");
+    } catch (error) {
+      showModalExperience.value = false;
+      alertSuccessButton("fallo algo");
+    }
+  }
 }
 //ENVIAR Locaciones de Trabajo
 async function editLocation() {
@@ -1526,6 +1657,8 @@ function modalProfessionEdit() {
 }
 
 function modalProfessionCreate() {
+  inputReset();
+  specialistForProfession.value = [];
   isModalProfessionEdit.value = false;
   showModalExperience.value = true;
 }
@@ -1544,7 +1677,7 @@ function deleteAcount(id: string) {
 
 function deleteExperience(id: number) {
   const index = experiences.value.findIndex(
-    (experience) => experience.id == id
+    (experience: any) => experience.id == id
   );
   experiences.value.splice(index, 1);
 }
@@ -1569,24 +1702,24 @@ function goBox(boxName: string) {
 }
 
 function addYear() {
-  formProfession.value.workExperience.years++;
+  workExperience.value.years++;
 }
 
 function substractYear() {
-  if (formProfession.value.workExperience.years > 0) {
-    formProfession.value.workExperience.years--;
+  if (workExperience.value.years > 0) {
+    workExperience.value.years--;
   }
 }
 
 function addMonth() {
-  if (formProfession.value.workExperience.months < 12) {
-    formProfession.value.workExperience.months++;
+  if (workExperience.value.months < 12) {
+    workExperience.value.months++;
   }
 }
 
 function substractMonth() {
-  if (formProfession.value.workExperience.months > 0) {
-    formProfession.value.workExperience.months--;
+  if (workExperience.value.months > 0) {
+    workExperience.value.months--;
   }
 }
 
@@ -1931,7 +2064,7 @@ h2 {
     display: flex;
     cursor: pointer;
     position: absolute;
-    top: 0px;
+    top: 132px;
     bottom: 0px;
     align-items: center;
     justify-content: center;
@@ -1942,12 +2075,10 @@ h2 {
   }
 
   .work__buttons--left {
-    top: 35.8%;
     margin: 0px -37px;
   }
 
   .work__buttons--right {
-    top: 35.8%;
     margin: 0px 119px;
   }
 
@@ -2072,6 +2203,11 @@ h2 {
       left: 125px;
     }
   }
+  #modal-experience {
+    .work__buttons {
+      top: 188px;
+    }
+  }
 }
 
 @media (max-width: 767px) {
@@ -2082,20 +2218,25 @@ h2 {
     }
   }
   .mRes {
-    top: 323px !important;
+    top: 315px !important;
     left: 140px;
   }
   .mAdd {
-    top: 323px !important;
+    top: 315px !important;
     right: -16px;
   }
   .aRes {
     left: 140px;
-    top: 194px !important;
+    top: 188px !important;
   }
   .aAdd {
-    top: 194px !important;
+    top: 188px !important;
     right: -16px;
+  }
+  #modal-experience {
+    .work__buttons {
+      top: 188px;
+    }
   }
 }
 
