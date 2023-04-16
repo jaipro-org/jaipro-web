@@ -495,8 +495,8 @@ export default defineComponent({
     ]);
     const jobsListFilter = ref<Job[]>([]);
     const form = ref({
-      min: "",
-      max: "",
+      min: 0,
+      max: 0,
       coment: "",
     });
 
