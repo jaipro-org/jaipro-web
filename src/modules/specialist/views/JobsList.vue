@@ -537,19 +537,19 @@ export default defineComponent({
       errorMessage: honorarioMinError,
       validate: honorarioMinValidate,
       resetField: honorarioMinReset,
-    } = useField("honorarioMin", schema.honorarioMin);
+    } = useField<number>("honorarioMin", schema.honorarioMin);
     const {
       value: honorarioMaxValue,
       errorMessage: honorarioMaxError,
       validate: honorarioMaxValidate,
       resetField: honorarioMaxReset,
-    } = useField("honorarioMax", schema.honorarioMax);
+    } = useField<number>("honorarioMax", schema.honorarioMax);
     const {
       value: comentarioValue,
       errorMessage: comentarioError,
       validate: comentarioValidate,
       resetField: comentarioReset,
-    } = useField("comentario", schema.comentario);
+    } = useField<string>("comentario", schema.comentario);
     //#endregion
 
     const changePage = (page: number) => {
