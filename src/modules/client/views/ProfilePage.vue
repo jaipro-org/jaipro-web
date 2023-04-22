@@ -89,12 +89,11 @@
                     <b-form-input
                       v-model="name.value.value"
                       :state="
-                        dataf?.name === name.value.value
-                          ? null
-                          : validateState(
-                              name.value.value,
-                              name.errorMessage.value
-                            )
+                        validate(
+                          currentData?.name,
+                          name.value.value,
+                          name.errorMessage.value
+                        )
                       "
                       id="input-1"
                       placeholder="Ingrese sus nombres"
@@ -109,7 +108,8 @@
                     <b-form-input
                       v-model="lastname.value.value"
                       :state="
-                        validateState(
+                        validate(
+                          currentData?.lastName,
                           lastname.value.value,
                           lastname.errorMessage.value
                         )
@@ -129,7 +129,8 @@
                     <b-form-input
                       v-model="email.value.value"
                       :state="
-                        validateState(
+                        validate(
+                          currentData?.email,
                           email.value.value,
                           email.errorMessage.value
                         )
@@ -147,7 +148,8 @@
                     <b-form-input
                       v-model="phone.value.value"
                       :state="
-                        validateState(
+                        validate(
+                          currentData?.phone,
                           phone.value.value,
                           phone.errorMessage.value
                         )
@@ -182,7 +184,8 @@
                     <b-form-input
                       v-model="ubication.value.value"
                       :state="
-                        validateState(
+                        validate(
+                          currentData?.address,
                           ubication.value.value,
                           ubication.errorMessage.value
                         )
@@ -203,7 +206,11 @@
                   <b-form-select
                     v-model="district.value.value"
                     :state="
-                      validateState(district.value, district.errorMessage.value)
+                      validate(
+                        currentData?.districtId,
+                        district.value.value,
+                        district.errorMessage.value
+                      )
                     "
                     :options="districtOptions"
                     class="mt-3"
@@ -365,7 +372,11 @@
 </template>
 <!--  -->
 <script setup lang="ts">
-import { alertSuccessButton } from "@/utils/SweetAlert";
+import {
+  alertError,
+  alertLoading,
+  alertSuccessButton,
+} from "@/utils/SweetAlert";
 import { ref, onMounted, watch } from "vue";
 import { ClientServices } from "@/services/api/clientProfileServices";
 import { GeneralServices } from "@/services/api/generalServices";
@@ -388,18 +399,19 @@ const {
   inputValidate,
 } = useProfileClientValidate();
 
-const { getDataClient } = new ClientServices();
+const { getDataClient, putInformation, putLocation, putPassword } =
+  new ClientServices();
 const { getDistrictList } = new GeneralServices();
 
 const collapseWeb = ref(true);
 const collapseMovil = ref(false);
-const idClient = ref("ddf5cdba-a4fc-4d1e-99aa-2229f7ca8825");
+const idClient = ref("4fbe22ad-f876-4893-816b-42011d10c770");
 const showModal = ref(false);
 const portadaFile: any = ref();
 const isLoading = ref(true);
 const districtOptions = ref();
 const coverLoad = ref(require("@/assets/img-delete/profile.jpg"));
-const dataf = ref();
+const currentData = ref();
 // const fileImage: any = ref(null);
 // const coverImage: any = ref(null);
 onMounted(async () => {
@@ -407,10 +419,19 @@ onMounted(async () => {
   await fetchDataClient();
   await fetchListDIstrict();
 });
-
+//funcion ValidateState
+function validate(current: any, value: any, error: any) {
+  if (current === value) {
+    return null;
+  } else {
+    return validateState(value, error);
+  }
+}
 //CARGAR Datos del Cliente
 async function fetchDataClient() {
   let data = await getDataClient(idClient.value);
+
+  currentData.value = data;
 
   name.value.value = data.name;
   lastname.value.value = data.lastName;
@@ -447,11 +468,6 @@ const formUbication = ref({
   ubication: 0,
   district: "",
 });
-const formPassword = ref({
-  oldPassword: "",
-  password: "",
-  confirmPassword: "",
-});
 //#endregion
 
 //#region VALIDATE AND SEND-VALUE-FOR-API
@@ -476,9 +492,23 @@ const setDatosPersonales = async () => {
   const isValid = await validatePersonalData(fields);
   if (!isValid) inputValidate();
   if (isValid) {
-    formDatosPersonales.value = { ...formDatosPersonales.value, ...fields };
+    let sendValue = {
+      id: idClient.value,
+      name: name.value.value,
+      lastName: lastname.value.value,
+      email: email.value.value,
+      phone: phone.value.value,
+    };
+    try {
+      alertLoading("Actualizando...");
+      await putInformation(sendValue);
+      inputReset();
+      await fetchDataClient();
+      alertSuccessButton("Se realizo la actualizacion exitosamente");
+    } catch (error: any) {
+      alertError(error.response.data.message);
+    }
   }
-  return isValid;
 };
 
 const setUbication = async () => {
@@ -492,12 +522,24 @@ const setUbication = async () => {
   if (!isValid) inputValidate();
 
   if (isValid) {
-    formUbication.value = { ...formUbication.value, ...fields };
+    let sendValue = {
+      id: idClient.value,
+      address: ubication.value.value,
+      districtId: district.value.value,
+    };
+    try {
+      alertLoading("Actualizando...");
+      await putLocation(sendValue);
+      inputReset();
+      await fetchDataClient();
+      alertSuccessButton("Se realizo la actualizacion exitosamente");
+    } catch (error: any) {
+      alertError(error.response.data.message);
+    }
   }
-
-  return isValid;
 };
 
+// ACTUALIZANDO PASSWORD DEL CLIENTE
 const setPassword = async () => {
   const fields = {
     oldPassword: oldPassword.value.value,
@@ -505,13 +547,25 @@ const setPassword = async () => {
     confirmPassword: confirmPassword.value.value,
   };
   const isValid = await validatePassword(fields);
+
   if (!isValid) inputValidate();
 
   if (isValid) {
-    formPassword.value = { ...formPassword.value, ...fields };
+    let sendValue = {
+      currentPassword: fields.oldPassword,
+      nwPassword: fields.password,
+      userId: idClient.value,
+      username: currentData.value.email,
+    };
+    try {
+      alertLoading("Actualizando...");
+      await putPassword(sendValue);
+      inputReset();
+      alertSuccessButton("Se realizo la actualizacion exitosamente");
+    } catch (error: any) {
+      alertError(error.response.data.message);
+    }
   }
-
-  return isValid;
 };
 //#endregion
 

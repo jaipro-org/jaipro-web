@@ -19,6 +19,8 @@ export default function useProfileClientValidate() {
       .required("Campo requerido"),
     phone: yup
       .string()
+      .min(9, "Minimo 9 caracteres")
+      .max(15, "Maximo 15 caracteres")
       .matches(/^[0-9]+$/, "Campo requerido")
       .required("Campo requerido"),
   };
