@@ -10,9 +10,13 @@ const generalApi = {
   getSpecialization: "/specialist-specialization/specialist/",
   getBankAccount: "/specialist-bank-account/specialist/",
   postExperience: "/specialist-specialization/list",
+  postExperienceTime: "/specialist/",
   postBankAccount: "/specialist-bank-account",
+  putExperienceTime: "/specialist/",
   postWorkLocation: "/work-location",
   putBankAccount: "/specialist-bank-account",
+  deleteWorkLocation: "/work-location/",
+  deleteBankAccount: "/specialist-bank-account/specialist-bank-account/",
 }
 
 export class SpecialistServices {
@@ -36,6 +40,10 @@ export class SpecialistServices {
     const { data } = await AxiosClient.axiosIns.post(generalApi.postExperience, payload)
     return data
   }
+  async postExperienceTime(idSpecialist: string, payload: any) {
+    const { data } = await AxiosClient.axiosIns.post(generalApi.postExperienceTime + idSpecialist + "/experience", payload)
+    return data
+  }
   async postBankAccount(payload: BankAccountSpecialist) {
     const { data } = await AxiosClient.axiosIns.post(generalApi.postBankAccount, payload)
     return data
@@ -44,8 +52,20 @@ export class SpecialistServices {
     const { data } = await AxiosClient.axiosIns.post(generalApi.postWorkLocation, payload)
     return data
   }
+  async putExperienceTime(idSpecialist: string, payload: any) {
+    const { data } = await AxiosClient.axiosIns.put(generalApi.putExperienceTime + idSpecialist + "/experience", payload)
+    return data
+  }
   async putBankAccount(payload: BankAccountSpecialist) {
     const { data } = await AxiosClient.axiosIns.put(generalApi.putBankAccount, payload)
+    return data
+  }
+  async deleteWorkLocation(idSpecialist: string, idDistrict: number) {
+    const { data } = await AxiosClient.axiosIns.delete(generalApi.deleteWorkLocation + idSpecialist + "/" + idDistrict)
+    return data
+  }
+  async deleteBankAccount(id: string) {
+    const { data } = await AxiosClient.axiosIns.delete(generalApi.deleteBankAccount + id)
     return data
   }
 }
