@@ -213,7 +213,7 @@
                   >
                     <div
                       class="button__action text-warning me-2"
-                      @click="modalProfessionEdit"
+                      @click="modalProfessionEdit(experience.id, id)"
                     >
                       <i class="fa-solid fa-pen-to-square"></i>
                     </div>
@@ -244,7 +244,7 @@
                   >
                     <div
                       class="button__action text-warning me-3"
-                      @click="modalProfessionEdit"
+                      @click="modalProfessionEdit(experience.id, id)"
                     >
                       <i class="fa-solid fa-pen-to-square"></i>
                     </div>
@@ -286,6 +286,7 @@
                 ></span>
               </h4>
               <div
+                v-show="locationsList?.length === 4 ? false : true"
                 class="button__action button__action--success"
                 @click="(isModalLocationEdit = false), showModalLocation(null)"
               >
@@ -325,7 +326,7 @@
                     <div class="button__action text-danger">
                       <i
                         class="fa-solid fa-circle-xmark"
-                        @click="deleteLocation(Number(location.id))"
+                        @click="deleteLocation(index)"
                       ></i>
                     </div>
                   </b-col>
@@ -780,7 +781,11 @@
                 </b-row>
               </b-col>
               <b-form-invalid-feedback
-                :state="groupSpecialist.errorMessage.value"
+                :state="
+                  !isModalProfessionEdit
+                    ? groupSpecialist.errorMessage.value
+                    : null
+                "
               >
                 {{ groupSpecialist.errorMessage.value }}
               </b-form-invalid-feedback>
@@ -992,7 +997,11 @@
 <script setup lang="ts">
 import { encryptAuthStorage } from "../../../utils/Storage";
 import "vue3-carousel/dist/carousel.css";
-import { alertSuccessButton, alertLoading } from "@/utils/SweetAlert";
+import {
+  alertSuccessButton,
+  alertLoading,
+  alertError,
+} from "@/utils/SweetAlert";
 import { computed, onMounted, ref, watch } from "vue";
 import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
 import { SpecialistServices } from "@/services/api/specialistProfileServices";
@@ -1008,9 +1017,13 @@ const {
   getSpecialization,
   getBankAccount,
   postExperience,
+  postExperienceTime,
   postWorkLocation,
   postBankAccount,
+  putExperienceTime,
   putBankAccount,
+  deleteWorkLocation,
+  deleteBankAccount,
 } = new SpecialistServices();
 const { getProfessionList, getSpecializationList, getDistrictList, getBank } =
   new GeneralServices();
@@ -1137,12 +1150,14 @@ const formGalery = ref({
   ],
 });
 //activa el titulo Editar Experiencia
-const isModalProfessionEdit = ref(true);
+const isModalProfessionEdit = ref(false);
 const workExperience = ref({
   years: 0,
   months: 0,
 });
-//Todas las profesiones
+//Lista de todas las profesiones
+const AllProfessions = ref();
+//Lista de las profesiones a mostrar
 const listProfessions = ref();
 interface forSpecialist {
   active: boolean;
@@ -1153,6 +1168,8 @@ interface forSpecialist {
 //Todas las especialidades
 const specialization = ref();
 const listSpecialist = ref();
+//id Index para editar experiencia
+const indexExperience = ref();
 //Especialidades filtradas por profesion
 const specialistForProfession = ref<Array<forSpecialist>>([]);
 //Especialidades filtrados no modificables
@@ -1176,7 +1193,7 @@ const formAcount = ref({
   specialistId: idEspecialist.value,
   bankId: 1,
 });
-//Lista de Locaciones de trabajo
+//Lista de Locaciones de trabajo del especialista
 const locationsList = ref();
 interface forLocation {
   active: boolean;
@@ -1316,28 +1333,29 @@ onMounted(async () => {
   section4.value = locationBox.offsetTop - 10;
   section5.value = acountBox.offsetTop + 40;
   await Promise.all([
-    fetchProfession(),
-    fetchEspecialidades(),
-    fetchSpecialization(),
-    fetchDistrict(),
-    fetchDataSpecialist(),
-    fetchListNameBank(),
-    fetchWorkLocation(),
-    fetchAccountBank(),
+    fetchEspecialidades(), // obtiene todas las especializaciones
+    fetchProfession(), // obtiene todas las profesiones
+    fetchDistrict(), // obtiene todos los distritos
+    fetchListNameBank(), //obtiene nombre de los bancos
   ]);
-  await FormatoExperiencia();
+  await fetchDataSpecialist(); // obtiene datos personales del especialista
+  await fetchSpecialization(); // obtiene especialidades del especialista
+  await FormatoExperiencia(); // Procesa Experiencia para Front
+  await fetchWorkLocation(); // Procesa WorkLocation para Front
+  await fetchAccountBank(); // Procesa AccountBank para Front
+
+  console.log(locationsList.value);
 });
 
 //CARGAR Profesiones
 async function fetchProfession() {
   let dataProfession = await getProfessionList(); //Obtiene lista de las profesiones
-  let listProfession = dataProfession.map((data: any) => {
+  AllProfessions.value = dataProfession.map((data: any) => {
     return {
       value: data.id,
       text: data.name,
     };
   });
-  listProfessions.value = [...listProfession];
 }
 //CARGAR Especialidades
 async function fetchEspecialidades() {
@@ -1394,14 +1412,23 @@ async function fetchDataSpecialist() {
 //CARGAR Experiencia del especialista
 async function fetchSpecialization() {
   specialization.value = await getSpecialization(idEspecialist.value);
+  // establece true a las especialidades registradas en el especialista
+  specialization.value.forEach((item1: any) => {
+    const item2 = listSpecialist.value.find(
+      (item: any) => item.id === item1.specializationId
+    );
+    if (item2) {
+      item2.active = true;
+    }
+  });
 }
 async function FormatoExperiencia() {
   let value = formPresentation.value.cv.experienceTimes.map((x: any) => {
     return {
       id: x.professionId,
       title: x.professionName,
-      years: x.years,
-      months: x.months,
+      years: Math.floor(x.time / 12),
+      months: x.time % 12,
       specialities: [],
     };
   });
@@ -1518,10 +1545,26 @@ async function editExperience() {
     groupSpecialist: groupSpecialist.value.value,
     expProfession: expProfession.value.value,
   };
+  let experienceTime = {
+    professionId: fields.idProfession,
+    professionName: listProfessions.value.find(
+      (obj: any) => obj.value === fields.idProfession
+    ).text,
+    time: fields.expProfession.años * 12 + fields.expProfession.meses,
+  };
+
   const isValid = await validateExperience(fields);
+
   if (!isValid) inputValidate();
 
-  if (isValid) {
+  if (isModalProfessionEdit.value) {
+    let updateProfession = {
+      index: indexExperience.value,
+      professionId: experienceTime.professionId,
+      time: experienceTime.time,
+    };
+    let oldTimeExp: any =
+      formPresentation.value.cv.experienceTimes[indexExperience.value];
     let value = fields.groupSpecialist.objetosAAgregar.map((x: any) => {
       return {
         specializationId: x.id,
@@ -1530,8 +1573,43 @@ async function editExperience() {
       };
     });
     try {
+      if (oldTimeExp.time !== updateProfession.time || value.length > 0) {
+        alertLoading("Guardando...");
+        if (oldTimeExp.time !== updateProfession.time) {
+          await putExperienceTime(idEspecialist.value, updateProfession);
+        }
+        if (value.length > 0) {
+          await postExperience(value);
+        }
+        await fetchDataSpecialist(); // obtiene datos personales del especialista
+        await fetchSpecialization(); // obtiene especialidades del especialista
+        await FormatoExperiencia(); // Procesa Experiencia para Front
+        showModalExperience.value = false;
+        alertSuccessButton("Se realizo la operación exitosamente");
+      }
+    } catch (error) {
+      showModalExperience.value = false;
+      alertSuccessButton("fallo algo");
+    }
+  }
+  if (isValid && !isModalProfessionEdit.value) {
+    let value = fields.groupSpecialist.objetosAAgregar.map((x: any) => {
+      return {
+        specializationId: x.id,
+        professionId: fields.idProfession,
+        specialistId: idEspecialist.value,
+      };
+    });
+
+    try {
       alertLoading("Guardando...");
-      await postExperience(value);
+      await Promise.all([
+        postExperience(value),
+        postExperienceTime(idEspecialist.value, experienceTime),
+      ]);
+      await fetchDataSpecialist(); // obtiene datos personales del especialista
+      await fetchSpecialization(); // obtiene especialidades del especialista
+      await FormatoExperiencia(); // Procesa Experiencia para Front
       showModalExperience.value = false;
       alertSuccessButton("Se realizo la operación exitosamente");
     } catch (error) {
@@ -1551,25 +1629,40 @@ async function editLocation() {
     inputValidate();
   }
 
+  let numAdd = districtTrueForAdd.value.length;
+  let numDel = districtFalseForAdd.value.length;
   if (isValid) {
-    console.log("entre");
-    if (districtTrueForAdd.value.length > 0) {
+    if (numAdd > 0 || numDel > 0) {
       alertLoading("Guardando...");
-      for (const district of districtTrueForAdd.value) {
-        try {
-          let data = {
-            specialistId: idEspecialist.value,
-            districtId: district.id,
-            countryId: "PER",
-          };
-          await postWorkLocation(data);
-        } catch (error) {
-          console.error(error);
+      if (numAdd) {
+        console.log("Agregando...");
+        for (const district of districtTrueForAdd.value) {
+          try {
+            let data = {
+              specialistId: idEspecialist.value,
+              districtId: district.id,
+              countryId: "PER",
+            };
+            await postWorkLocation(data);
+          } catch (error: any) {
+            console.error(error.response.data.message);
+          }
         }
       }
+      if (numDel) {
+        console.log("Eliminando...");
+        try {
+          for (const district of districtFalseForAdd.value) {
+            await deleteWorkLocation(idEspecialist.value, district.id);
+          }
+        } catch (error: any) {
+          console.error(error.response.data.message);
+        }
+      }
+      await fetchDistrict();
       await fetchWorkLocation();
       showModalLocationEdit.value = false;
-      alertSuccessButton("Se realizo la operación exitosamenteA");
+      alertSuccessButton("Se realizo la operación exitosamente");
     }
   }
 }
@@ -1623,10 +1716,9 @@ async function updatePreferredBank(id: string) {
 function showModalLocation(idLocation: number | null) {
   inputReset();
   if (idLocation) {
-    let filterZone = optionsLocationModel.value.filter(
+    optionsLocation.value = optionsLocationModel.value.filter(
       (data: any) => data.value == idLocation
     );
-    optionsLocation.value = filterZone;
     setTimeout(() => {
       zona.value.value = idLocation;
       filterForZone(idLocation);
@@ -1651,43 +1743,81 @@ function showEditPresentacion() {
   showModalEditPresentacion.value = true;
 }
 
-function modalProfessionEdit() {
+function modalProfessionEdit(id: number, index: number) {
+  inputReset();
+  indexExperience.value = index;
+  let data = experiences.value.find((obj: any) => obj.id === id);
+  listProfessions.value = AllProfessions.value.filter(
+    (data: any) => data.value == id
+  );
+
+  setTimeout(() => {
+    filterForProfession(id);
+    idProfession.value.value = id;
+    workExperience.value.years = data.years;
+    workExperience.value.months = data.months;
+    expProfession.value.value = {
+      años: data.years,
+      meses: data.months,
+    };
+  }, 10);
   isModalProfessionEdit.value = true;
   showModalExperience.value = true;
 }
 
 function modalProfessionCreate() {
-  inputReset();
+  let filterProfession = AllProfessions.value.filter(
+    (data: any) =>
+      !specialization.value.some(
+        (value: any) => value.professionId == data.value
+      )
+  );
+  listProfessions.value = filterProfession;
   specialistForProfession.value = [];
+  workExperience.value = {
+    years: 0,
+    months: 0,
+  };
   isModalProfessionEdit.value = false;
   showModalExperience.value = true;
+  setTimeout(() => {
+    inputReset();
+  }, 10);
 }
 
-function deleteLocation(id: number) {
-  const index = locationsList.value.findIndex(
-    (location: any) => Number(location.id) == id
-  );
-  locationsList.value.splice(index, 1);
+async function deleteLocation(id: number) {
+  let listIdDistritic = locationsList.value[id].groupID;
+  console.log(listIdDistritic);
+  try {
+    alertLoading("Eliminando...");
+    for (const id of listIdDistritic) {
+      await deleteWorkLocation(idEspecialist.value, id);
+    }
+    await fetchDistrict();
+    await fetchWorkLocation();
+    alertSuccessButton("Se realizo la eliminación exitosamente");
+  } catch (error: any) {
+    alertError(error.response.data.message);
+  }
 }
 
-function deleteAcount(id: string) {
-  const index = acountsList.value.findIndex((acount: any) => acount.id == id);
-  acountsList.value.splice(index, 1);
+async function deleteAcount(id: string) {
+  try {
+    alertLoading("Eliminando...");
+    await deleteBankAccount(id);
+    await fetchAccountBank();
+    alertSuccessButton("Se elimino exitosamente");
+  } catch (error: any) {
+    alertError(error.response.data.message);
+  }
 }
 
 function deleteExperience(id: number) {
-  const index = experiences.value.findIndex(
-    (experience: any) => experience.id == id
-  );
-  experiences.value.splice(index, 1);
-}
-
-function onSlideStart() {
-  sliding.value = true;
-}
-
-function onSlideEnd() {
-  sliding.value = false;
+  console.log(id);
+  // const index = experiences.value.findIndex(
+  //   (experience: any) => experience.id == id
+  // );
+  // experiences.value.splice(index, 1);
 }
 
 function goBox(boxName: string) {
