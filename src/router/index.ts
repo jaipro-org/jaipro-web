@@ -6,6 +6,9 @@ import ClientRouter from "@/modules/client/router";
 import SpecialistRouter from "@/modules/specialist/router";
 import GeneralRouter from "@/modules/general/router";
 
+import store from "@/modules/auth/store/state"
+
+
 const myPageRoutes: Array<RouteRecordRaw> = [
   {
     path: "/",
@@ -30,10 +33,24 @@ const myPageRoutes: Array<RouteRecordRaw> = [
   },
   {
     path: "/cliente",
+    beforeEnter: async (to: any, from: any, next: any) => {
+      const state = store()
+      const userType = await state.security.profileName === "CUSTOMER";
+      console.log(userType)
+      if (userType) next();
+      else next({ name: '' });
+    },
     ...ClientRouter,
   },
   {
     path: "/especialista",
+    beforeEnter: async (to: any, from: any, next: any) => {
+      const state = store()
+      const userType = await state.security.profileName === "SPECIALIST";
+      console.log(userType)
+      if (userType) next();
+      else next({ name: '' });
+    },
     meta: { layout: "master-landing" },
     ...SpecialistRouter,
   },

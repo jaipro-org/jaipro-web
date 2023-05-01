@@ -8,6 +8,7 @@ export interface IUser {
   email: string
 }
 export interface ISecurity {
+  id: string,
   email: string
   profileName: string
   token: string

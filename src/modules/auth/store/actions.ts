@@ -16,7 +16,11 @@ export const loginUser = async (
   try {
     const response = await authServices.login(payload)
 
+    //descodifica el JWT
+    const decoded = JSON.parse(atob(response.token.split('.')[1]));
+
     const security: ISecurity = {
+      id: decoded.sub,
       email: payload.email,
       profileName: response.profileName,
       token: response.token,
