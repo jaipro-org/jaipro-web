@@ -995,7 +995,7 @@
 </template>
 
 <script setup lang="ts">
-import { encryptAuthStorage } from "../../../utils/Storage";
+import { encryptAuthStorage } from "@/utils/Storage";
 import "vue3-carousel/dist/carousel.css";
 import {
   alertSuccessButton,
@@ -1006,10 +1006,10 @@ import { computed, onMounted, ref, watch } from "vue";
 import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
 import { SpecialistServices } from "@/services/api/specialistProfileServices";
 import { GeneralServices } from "@/services/api/generalServices";
-
 import { validateState } from "@/validate/globalValidate";
-
 import useProfileSpecialistValidate from "@/validate/profileSpecialistValidate";
+
+const authData: string = window.localStorage.getItem("@AUTH:security") || "";
 
 const {
   getDataSpecialist,
@@ -1081,7 +1081,7 @@ const breakpoints = ref({
   },
 });
 const presentationFile = ref<HTMLInputElement>();
-const idEspecialist = ref("a47995ce-74d3-4586-8ed2-71e453ae76a3");
+const idEspecialist = ref("");
 const isLoading = ref(true);
 const isShowMenuDesk = ref(true);
 const isShowMenuResponsive = ref(false);
@@ -1323,6 +1323,10 @@ watch(
 );
 
 onMounted(async () => {
+  if (Boolean(authData)) {
+    let data = encryptAuthStorage.decryptValue(authData);
+    idEspecialist.value = data.id;
+  }
   isLoading.value = false;
   const galeryBox: any = document.getElementById("galery__box");
   const experienceBox: any = document.getElementById("experience__box");
