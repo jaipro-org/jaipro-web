@@ -57,7 +57,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { validateState } from "@/validate/globalValidate";
@@ -76,6 +76,14 @@ import { AuthServices } from "@/services/api/authServices";
 
 export default defineComponent({
   name: "LoginComponent",
+  metaInfo: {
+    meta: [
+      {
+        httpEquiv: "Cache-Control",
+        content: "no-cache, no-store, must-revalidate",
+      },
+    ],
+  },
   setup() {
     const { email, password, validate } = useLoginFormValidate();
     const router = useRouter();
@@ -98,11 +106,16 @@ export default defineComponent({
         try {
           alertLoading();
           await store.dispatch("authModule/loginUser", data);
-
           alertSuccessfully("Usuario inicio sesión exitosamente!!");
           setTimeout(function () {
-            router.push({ name: "home" });
             closeAlert();
+            let myType = store.state.authModule.security.profileName;
+            if (myType === "CUSTOMER") {
+              router.push({ path: "/cliente/perfil" });
+            }
+            if (myType === "SPECIALIST") {
+              router.push({ path: "/especialista/perfil" });
+            }
           }, 1500);
         } catch (error) {
           alertError("Sucedió un error durante el inicio de sesión.");
@@ -129,6 +142,12 @@ export default defineComponent({
       forgotPassword,
       validateState,
     };
+  },
+  mounted() {
+    console.log("carga limpio");
+    caches.open("cacheName").then((cache) => {
+      cache.delete("/auth/login");
+    });
   },
 });
 </script>

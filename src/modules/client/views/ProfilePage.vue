@@ -380,7 +380,10 @@ import {
 import { ref, onMounted, watch } from "vue";
 import { ClientServices } from "@/services/api/clientProfileServices";
 import { GeneralServices } from "@/services/api/generalServices";
+import { encryptAuthStorage } from "@/utils/Storage";
 import useProfileClientValidate from "@/validate/profileClientValidate";
+
+const authData: string = window.localStorage.getItem("@AUTH:security") || "";
 
 const {
   name,
@@ -402,10 +405,9 @@ const {
 const { getDataClient, putInformation, putLocation, putPassword } =
   new ClientServices();
 const { getDistrictList } = new GeneralServices();
-
 const collapseWeb = ref(true);
 const collapseMovil = ref(false);
-const idClient = ref("4fbe22ad-f876-4893-816b-42011d10c770");
+const idClient = ref(""); // id cliente
 const showModal = ref(false);
 const portadaFile: any = ref();
 const isLoading = ref(true);
@@ -415,6 +417,10 @@ const currentData = ref();
 // const fileImage: any = ref(null);
 // const coverImage: any = ref(null);
 onMounted(async () => {
+  if (Boolean(authData)) {
+    let data = encryptAuthStorage.decryptValue(authData);
+    idClient.value = data.id;
+  }
   isLoading.value = false;
   await fetchDataClient();
   await fetchListDIstrict();

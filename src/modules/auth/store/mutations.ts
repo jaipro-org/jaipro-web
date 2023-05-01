@@ -20,6 +20,7 @@ export const logout = (state: IStateAuth) => {
     email: "",
   }
   state.security = {
+    id: "",
     email: "",
     profileName: "",
     token: "",

@@ -68,7 +68,8 @@
                 </li>
                 <li>
                   <router-link
-                    :to="{ name: 'login' }"
+                    @click="closeSession()"
+                    :to="{}"
                     class="router-link dropdown-item"
                   >
                     <i class="fa-solid fa-right-from-bracket me-2"></i>Cerrar
@@ -83,26 +84,21 @@
     </nav>
   </div>
 </template>
-<script lang="ts">
-import { store } from "@/store/modules/general";
+<script setup lang="ts">
 import logo from "@/assets/svg/logo.svg";
-import { defineComponent } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
-export default defineComponent({
-  data() {
-    return {
-      step_login: 0,
-      step_register: 0,
-      logo,
-    };
-  },
-  computed: {
-    setScrollClass() {
-      if (store.state.scrollY > 20) return true;
-      else return false;
-    },
-  },
-});
+const router = useRouter();
+const store = useStore();
+
+function closeSession() {
+  setTimeout(() => {
+    console.log(store);
+    store.commit("authModule/logout");
+    router.push({ name: "home" });
+  }, 10);
+}
 </script>
 
 <style scoped lang="scss">
