@@ -5,9 +5,7 @@ import BackofficeRouter from "@/modules/backoffice/router";
 import ClientRouter from "@/modules/client/router";
 import SpecialistRouter from "@/modules/specialist/router";
 import GeneralRouter from "@/modules/general/router";
-
-import store from "@/modules/auth/store/state"
-
+import { encryptAuthStorage } from "@/utils/Storage"
 
 const myPageRoutes: Array<RouteRecordRaw> = [
   {
@@ -33,23 +31,25 @@ const myPageRoutes: Array<RouteRecordRaw> = [
   },
   {
     path: "/cliente",
-    beforeEnter: async (to: any, from: any, next: any) => {
-      const state = store()
-      const userType = await state.security.profileName === "CUSTOMER";
-      console.log(userType)
-      if (userType) next();
-      else next({ name: '' });
+    beforeEnter: (to: any, from: any, next: any) => {
+      const authData: string = window.localStorage.getItem("@AUTH:security") || "";
+      if (Boolean(authData)) {
+        let data = encryptAuthStorage.decryptValue(authData)
+        if (data.profileName === "CUSTOMER") next();
+        else next({ name: 'home' });
+      }
     },
     ...ClientRouter,
   },
   {
     path: "/especialista",
-    beforeEnter: async (to: any, from: any, next: any) => {
-      const state = store()
-      const userType = await state.security.profileName === "SPECIALIST";
-      console.log(userType)
-      if (userType) next();
-      else next({ name: '' });
+    beforeEnter: (to: any, from: any, next: any) => {
+      const authData: string = window.localStorage.getItem("@AUTH:security") || "";
+      if (Boolean(authData)) {
+        let data = encryptAuthStorage.decryptValue(authData)
+        if (data.profileName === "SPECIALIST") next();
+        else next({ name: 'home' });
+      }
     },
     meta: { layout: "master-landing" },
     ...SpecialistRouter,
