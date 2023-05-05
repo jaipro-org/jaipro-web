@@ -445,7 +445,6 @@ async function fetchDataClient() {
   phone.value.value = data.phone;
   ubication.value.value = data.address;
   district.value.value = data.districtId;
-  console.log(data);
 }
 //CARGAR Lista Distritos
 async function fetchListDIstrict() {

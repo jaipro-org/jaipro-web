@@ -1,10 +1,14 @@
 import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig, AxiosHeaders } from "axios"
-import store from "../store"
+// import store from "../store"
+import { useLoginStore } from "@/store"
+
+
+
 // SERVICES
 
 export default class AxiosClient {
   public static axiosIns: AxiosInstance
-  constructor(private readonly baseURL: string) {}
+  constructor(private readonly baseURL: string) { }
 
   createClient() {
     const client = axios.create({
@@ -20,7 +24,8 @@ export default class AxiosClient {
   private initializeRequestInterceptor = () => {
     AxiosClient.axiosIns.interceptors.request.use(
       (config: InternalAxiosRequestConfig) => {
-        const security = store.getters["authModule/getSecurity"]
+        const store = useLoginStore()
+        const security = store.$state.security
         if (security && security.token != "") {
           config.headers = new AxiosHeaders({
             Authorization: `${security.tokenType} ${security.token}`,

@@ -129,9 +129,10 @@ import {
 
 // SERVICES
 import { AuthServices } from "@/services/api/authServices";
-import { useStore } from "vuex";
+import { useLoginStore } from "@/store";
 
 const authServices = new AuthServices();
+const useLogin = useLoginStore();
 
 export default defineComponent({
   name: "RegisterComponent",
@@ -140,7 +141,7 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter();
-    const store = useStore();
+
     const { name, lastName, email, password, confirmPassword, validate } =
       useRegisterClientValidate();
 
@@ -169,7 +170,7 @@ export default defineComponent({
           await authServices.createClient(fields);
 
           alertLoading("Iniciando sesión del usuario.");
-          await store.dispatch("authModule/loginUser", {
+          await useLogin.loginUser({
             email: email.value.value,
             password: password.value.value,
           });

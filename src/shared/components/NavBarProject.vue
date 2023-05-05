@@ -18,9 +18,8 @@
 </template>
 
 <script lang="ts">
-import { store } from "@/store/modules/general"
-import { defineComponent, ref } from "vue"
-import logo from "@/assets/svg/logo.svg"
+import { defineComponent, ref } from "vue";
+import logo from "@/assets/svg/logo.svg";
 
 export default defineComponent({
   data() {
@@ -30,7 +29,7 @@ export default defineComponent({
       showScrollClass: ref(false),
       currentScrollPosY: ref(window.scrollY),
       logo,
-    }
+    };
   },
   // computed: {
   //   setScrollClass() {
@@ -40,26 +39,26 @@ export default defineComponent({
   // },
   computed: {
     setScrollClass() {
-      console.log("OK", window.scrollY)
-      if (window.scrollY > 20) return true
-      else return false
+      console.log("OK", window.scrollY);
+      if (window.scrollY > 20) return true;
+      else return false;
     },
   },
   watch: {
     currentScrollPosY(val, oldVal) {
       if (val > 20) {
-        this.showScrollClass = true
+        this.showScrollClass = true;
       } else {
-        this.showScrollClass = false
+        this.showScrollClass = false;
       }
     },
   },
   created() {
     setInterval(() => {
-      this.currentScrollPosY = window.scrollY
-    }, 100)
+      this.currentScrollPosY = window.scrollY;
+    }, 100);
   },
-})
+});
 </script>
 
 <style>
