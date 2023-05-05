@@ -68,6 +68,25 @@ export const useLoginStore = defineStore('store', {
         refreshToken: "",
       }
     },
+    async updateStore() {
+      try {
+        const oldData = this.security
+        this.logout()
+        const data = await authServices.refreshToken(oldData.refreshToken)
+        const security: ISecurity = {
+          id: oldData.id,
+          email: oldData.email,
+          profileName: oldData.profileName,
+          token: data.token,
+          tokenType: data.tokenType,
+          refreshToken: data.refreshToken,
+        }
+        encryptAuthStorage.setItem("security", security)
+        this.security = security
+      } catch (error) {
+        throw error
+      }
+    },
     getData() {
       return this.$state
     }

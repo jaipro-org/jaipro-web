@@ -1,10 +1,5 @@
-import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig, AxiosHeaders } from "axios"
-// import store from "../store"
+import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig, AxiosHeaders, AxiosResponse } from "axios"
 import { useLoginStore } from "@/store"
-
-
-
-// SERVICES
 
 export default class AxiosClient {
   public static axiosIns: AxiosInstance
@@ -24,8 +19,8 @@ export default class AxiosClient {
   private initializeRequestInterceptor = () => {
     AxiosClient.axiosIns.interceptors.request.use(
       (config: InternalAxiosRequestConfig) => {
-        const store = useLoginStore()
-        const security = store.$state.security
+        const loginStore = useLoginStore()
+        const security = loginStore.$state.security
         if (security && security.token != "") {
           config.headers = new AxiosHeaders({
             Authorization: `${security.tokenType} ${security.token}`,
@@ -37,6 +32,19 @@ export default class AxiosClient {
         console.error(`${JSON.stringify(error)}`)
         return Promise.reject(error)
       }
-    )
+    );
+    AxiosClient.axiosIns.interceptors.response.use(
+      (response: AxiosResponse) => {
+        return response;
+      },
+      async (error: AxiosError) => {
+        if (error.response && error.response.status === 401) {
+          const loginStore = useLoginStore();
+          await loginStore.updateStore();
+          location.reload()
+        }
+        return Promise.reject(error);
+      }
+    );
   }
 }

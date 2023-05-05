@@ -4,6 +4,7 @@ const authApi = {
   postLogin: "/auth/login",
   postCreateSpecialist: "/specialist",
   postCreateClient: "/customer",
+  refreshToken: "/auth/refresh-token"
 }
 
 export class AuthServices {
@@ -40,7 +41,11 @@ export class AuthServices {
         districtId: 1,
       }
     )
+    return data
+  }
 
+  async refreshToken(payload: string) {
+    const { data } = await AxiosClient.axiosIns.post(authApi.refreshToken, { refreshToken: payload })
     return data
   }
 }
