@@ -49,5 +49,14 @@ export default {
           /* webpackChunkName: "forgot-password" */ "@/modules/auth/views/ForgotPassword.vue"
         ),
     },
+    {
+      path: "cambiar-password",
+      name: "change-password",
+      meta: { layout: "basic-landing" },
+      component: () =>
+        import(
+          /* webpackChunkName: "change-password" */ "@/modules/auth/views/ChangePassword.vue"
+        ),
+    },
   ],
 }
