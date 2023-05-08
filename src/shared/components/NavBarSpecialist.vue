@@ -108,16 +108,15 @@
 
 <script setup lang="ts">
 import logo from "@/assets/svg/logo.svg";
-import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import { useLoginStore } from "@/store";
 
+const loginStore = useLoginStore();
 const router = useRouter();
-const store = useStore();
 
 function closeSession() {
   setTimeout(() => {
-    console.log(store);
-    store.commit("authModule/logout");
+    loginStore.logout();
     router.push({ name: "home" });
   }, 10);
 }

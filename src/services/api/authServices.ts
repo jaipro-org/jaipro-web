@@ -1,9 +1,13 @@
 import AxiosClient from "../axiosClient"
+import { changePassword } from "@/interfaces/ChangePassword.interfaces"
 
 const authApi = {
   postLogin: "/auth/login",
   postCreateSpecialist: "/specialist",
   postCreateClient: "/customer",
+  refreshToken: "/auth/refresh-token",
+  forgotPassword: "/user-demands/forgot-password",
+  forgotPasswordChange: "/user-demands/forgot-password/change"
 }
 
 export class AuthServices {
@@ -40,7 +44,21 @@ export class AuthServices {
         districtId: 1,
       }
     )
+    return data
+  }
 
+  async refreshToken(payload: string) {
+    const { data } = await AxiosClient.axiosIns.post(authApi.refreshToken, { refreshToken: payload })
+    return data
+  }
+
+  async forgotPassword(email: string) {
+    const { data } = await AxiosClient.axiosIns.post(authApi.forgotPassword + "?email=" + email)
+    return data
+  }
+
+  async forgotPasswordChange(payload: changePassword) {
+    const { data } = await AxiosClient.axiosIns.post(authApi.forgotPasswordChange, payload)
     return data
   }
 }

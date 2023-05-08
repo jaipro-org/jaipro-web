@@ -127,6 +127,7 @@
                 <b-col cols="12" lg="5" class="mb-3">
                   <b-form-group label="Correo" label-for="input-3">
                     <b-form-input
+                      disabled
                       v-model="email.value.value"
                       :state="
                         validate(
@@ -445,7 +446,6 @@ async function fetchDataClient() {
   phone.value.value = data.phone;
   ubication.value.value = data.address;
   district.value.value = data.districtId;
-  console.log(data);
 }
 //CARGAR Lista Distritos
 async function fetchListDIstrict() {

@@ -47,6 +47,9 @@ import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
 import { validateState } from "@/validate/globalValidate";
 import useForgotPasswordValidate from "@/validate/forgotPasswordValidate";
+import { AuthServices } from "@/services/api/authServices";
+
+const authServices = new AuthServices();
 
 export default defineComponent({
   name: "ForgotPassword",
@@ -61,20 +64,14 @@ export default defineComponent({
 
       const isValid = await validate(fields);
 
-      if (!isValid) {
-        email.validate();
+      if (isValid) {
+        try {
+          const data = await authServices.forgotPassword(fields.email);
+          console.log(data);
+        } catch (error) {}
       } else {
-        console.log(email.value);
-        console.log("forgot here!");
+        email.validate();
       }
-    };
-
-    const forgotPassword = () => {
-      console.log("forgotPassword here!");
-    };
-
-    const registerUser = () => {
-      console.log("registerUser here!");
     };
 
     const cancel = () => {
@@ -84,8 +81,6 @@ export default defineComponent({
     return {
       email,
       forgot,
-      forgotPassword,
-      registerUser,
       cancel,
       validateState,
     };
