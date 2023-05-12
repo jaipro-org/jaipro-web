@@ -7,7 +7,8 @@ const authApi = {
   postCreateClient: "/customer",
   refreshToken: "/auth/refresh-token",
   forgotPassword: "/user-demands/forgot-password",
-  forgotPasswordChange: "/user-demands/forgot-password/change"
+  forgotPasswordChange: "/user-demands/forgot-password/change",
+  validateRecoverTicket: "/user-demands/validate/user-recover-ticket/"
 }
 
 export class AuthServices {
@@ -59,6 +60,11 @@ export class AuthServices {
 
   async forgotPasswordChange(payload: changePassword) {
     const { data } = await AxiosClient.axiosIns.post(authApi.forgotPasswordChange, payload)
+    return data
+  }
+
+  async validateRecoverTicket(id: string, userId: string) {
+    const { data } = await AxiosClient.axiosIns.get(authApi.validateRecoverTicket + id + "/user/" + userId)
     return data
   }
 }

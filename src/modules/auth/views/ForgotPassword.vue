@@ -43,6 +43,10 @@
 </template>
 
 <script lang="ts">
+import {
+  alertLoading,
+  alertActionButton,
+} from "@/utils/SweetAlert";
 import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
 import { validateState } from "@/validate/globalValidate";
@@ -66,9 +70,14 @@ export default defineComponent({
 
       if (isValid) {
         try {
-          const data = await authServices.forgotPassword(fields.email);
-          console.log(data);
-        } catch (error) {}
+          alertLoading();
+          await authServices.forgotPassword(fields.email);
+          await alertActionButton("","En unos momentos recibira un correo");
+          router.push({ name: "login" });
+        } catch (error) {
+          await alertActionButton("","Error, no existe el correo ingresado");
+          throw error
+        }
       } else {
         email.validate();
       }

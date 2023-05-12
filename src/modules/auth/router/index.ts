@@ -52,6 +52,20 @@ export default {
     {
       path: "cambiar-password",
       name: "change-password",
+      beforeEnter: (to: any, from: any, next: any) => {
+        const internalParam = to.query.internal
+        if (!internalParam) {
+          next({ name: 'home' })
+        } else {
+          try {
+            const internal = JSON.parse(atob(internalParam))
+            if (typeof internal !== 'object') next({ name: 'home' })
+            else next()
+          } catch (error) {
+            next({ name: 'home' })
+          }
+        }
+      },
       meta: { layout: "basic-landing" },
       component: () =>
         import(
