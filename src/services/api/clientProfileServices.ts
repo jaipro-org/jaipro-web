@@ -3,12 +3,14 @@ import AxiosClient from "../axiosClient"
 import { InformationClient } from "@/interfaces/InformationClient.interfaces"
 import { LocationClient } from "@/interfaces/LocationClient.interfaces"
 import { PasswordClient } from "@/interfaces/PasswordClient.interfaces"
+import { PhotoClient } from "@/interfaces/PhotoClient.interfaces"
 
 const generalApi = {
   getDataClient: "/customer/",
   putInformation: "/customer/updateInformation",
   putLocation: "/customer/updateLocation",
   putPassword: "/customer/updatePassword",
+  putPhoto: "/customer/updatePhoto",
 }
 
 export class ClientServices {
@@ -27,6 +29,14 @@ export class ClientServices {
   }
   async putPassword(payload: PasswordClient) {
     const { data } = await AxiosClient.axiosIns.put(generalApi.putPassword, payload)
+    return data
+  }
+  async putPhoto(payload: PhotoClient) {
+    const formData = new FormData();
+    formData.append("id", payload.id);
+    formData.append("file", payload.photo);
+
+    const { data } = await AxiosClient.axiosIns.post(generalApi.putPhoto, formData, {headers: {"Content-Type": "multipart/form-data"}})
     return data
   }
 }

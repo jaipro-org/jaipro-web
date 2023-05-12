@@ -362,6 +362,7 @@
         ref="portadaFile"
         hidden
         type="file"
+        accept="image/png,image/jpg"
         @change="changeFileCover"
       />
     </div>
@@ -382,6 +383,7 @@ import { ClientServices } from "@/services/api/clientProfileServices";
 import { GeneralServices } from "@/services/api/generalServices";
 import { encryptAuthStorage } from "@/utils/Storage";
 import useProfileClientValidate from "@/validate/profileClientValidate";
+import { PhotoClient } from "@/interfaces/PhotoClient.interfaces";
 
 const authData: string = window.localStorage.getItem("@AUTH:security") || "";
 
@@ -402,7 +404,7 @@ const {
   inputValidate,
 } = useProfileClientValidate();
 
-const { getDataClient, putInformation, putLocation, putPassword } =
+const { getDataClient, putInformation, putLocation, putPassword, putPhoto } =
   new ClientServices();
 const { getDistrictList } = new GeneralServices();
 const collapseWeb = ref(true);
@@ -414,6 +416,7 @@ const isLoading = ref(true);
 const districtOptions = ref();
 const coverLoad = ref(require("@/assets/img-delete/profile.jpg"));
 const currentData = ref();
+const imgExtensions:string = process.env.VUE_APP_IMG_EXTENSIONS;
 // const fileImage: any = ref(null);
 // const coverImage: any = ref(null);
 onMounted(async () => {
@@ -477,16 +480,26 @@ const formUbication = ref({
 //#endregion
 
 //#region VALIDATE AND SEND-VALUE-FOR-API
-function updateCover() {
-  let coverImg = cover.value.coverImage;
-  let fileImg = cover.value.fileImage;
+const updateCover = async () => {
+  const coverImg = cover.value.coverImage; 
+  const fileImg = cover.value.fileImage;
+
   if (coverImg && fileImg) {
+    alertLoading("Actualizando...");
+    const inputFile: FileList = portadaFile.value.files;
+    const payload: PhotoClient = {
+      id: idClient.value,
+      photo: inputFile[0]
+    };
+
+    await putPhoto(payload);
     coverLoad.value = coverImg;
     showModal.value = false;
   }
   cover.value.fileImage = "";
   cover.value.coverImage = "";
-}
+  alertSuccessButton("Se realizo la actualizacion exitosamente");
+};
 
 const setDatosPersonales = async () => {
   const fields = {
@@ -601,6 +614,10 @@ function changeFileCover(event: any) {
     cover.value.coverImage = "";
     return;
   }
+
+  if(!imgExtensions.split(",").includes(file.type))
+    return;
+
   cover.value.fileImage = file;
   const fr = new FileReader();
   fr.onload = () => (cover.value.coverImage = String(fr.result));
