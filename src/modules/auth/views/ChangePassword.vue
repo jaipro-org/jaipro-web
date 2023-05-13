@@ -12,6 +12,7 @@
                 v-model="password.value.value"
                 class="rounded-pill"
                 type="password"
+                placeholder="Ingrese contraseña"
                 @input="confirmPassword.validate()"
                 :state="
                   validateState(
@@ -33,6 +34,7 @@
                 v-model="confirmPassword.value.value"
                 class="rounded-pill"
                 type="password"
+                placeholder="Ingrese nueva contraseña"
                 @input="password.validate()"
                 :state="
                   validateState(
@@ -129,9 +131,7 @@ export default defineComponent({
           this.internal.userId
         );
       } catch (error: any) {
-        await alertActionButton("", error.response.data.message);
         this.$router.push({ name: "home" });
-        throw error;
       }
     }
   },

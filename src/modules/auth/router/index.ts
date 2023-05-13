@@ -50,7 +50,7 @@ export default {
         ),
     },
     {
-      path: "cambiar-password",
+      path: "actualizar-password",
       name: "change-password",
       beforeEnter: (to: any, from: any, next: any) => {
         const internalParam = to.query.internal
