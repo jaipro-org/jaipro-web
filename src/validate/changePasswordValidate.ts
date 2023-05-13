@@ -29,8 +29,8 @@ export default function useChangePasswordValidate() {
   };
 
   // Define los campos de formulario validados
-  const password = useField("password", schemaChangePassword.password);
-  const confirmPassword = useField("confirmPassword", schemaChangePassword.confirmPassword);
+  const password = useField<string>("password", schemaChangePassword.password);
+  const confirmPassword = useField<string>("confirmPassword", schemaChangePassword.confirmPassword);
 
   // Define la función de validación
   async function validateChangePassword(data: any) {
