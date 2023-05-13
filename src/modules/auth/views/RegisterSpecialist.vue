@@ -724,6 +724,7 @@ watch(listProfession.value, () => {
   workList.workSelected = listProfession.value.value;
 });
 watch(location.value, () => {
+  location.value.value = location.value.value.slice(0, 3)
   locationSelected.value = location.value.value;
 });
 

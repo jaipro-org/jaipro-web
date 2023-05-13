@@ -206,7 +206,20 @@
             <li>Incrementar tus ingresos</li>
           </ul>
           <div class="services-accordion">
-            <button>Aplicar ahora</button>
+            <div class="learn-more-btn-section">
+              <router-link
+                to="/auth/registro-especialista"
+                custom
+                v-slot="{ navigate, href }"
+              >
+                <a
+                  :href="href"
+                  @click="navigate"
+                  class="nav-link learn-more-btn btn-invert"
+                  >Aplicar ahora</a
+                >
+              </router-link>
+            </div>
           </div>
         </div>
       </div>
@@ -305,6 +318,7 @@
 </template>
 
 <script lang="ts">
+import { useRouter } from "vue-router";
 import StarRating from "@/shared/components/public/StarRating.vue";
 import "vue3-carousel/dist/carousel.css";
 import { defineComponent, ref } from "vue";
@@ -384,7 +398,6 @@ export default defineComponent({
         text: "Excelente profesional. Tenía una asimetría de los párpados muy marcada, otros Medicos me habían dicho que no se podría quedar 100% igual",
       },
     ]);
-
     return {
       tabIndex,
       settings,
