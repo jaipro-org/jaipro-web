@@ -11,6 +11,8 @@
               <b-form-input
                 v-model="password.value.value"
                 class="rounded-pill"
+                type="password"
+                placeholder="Ingrese contraseña"
                 @input="confirmPassword.validate()"
                 :state="
                   validateState(
@@ -31,6 +33,8 @@
               <b-form-input
                 v-model="confirmPassword.value.value"
                 class="rounded-pill"
+                type="password"
+                placeholder="Ingrese nueva contraseña"
                 @input="password.validate()"
                 :state="
                   validateState(
@@ -56,11 +60,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 import { validateState } from "@/validate/globalValidate";
 import useChangePasswordValidate from "@/validate/changePasswordValidate";
 import { AuthServices } from "@/services/api/authServices";
+import {
+  alertLoading,
+  alertActionButton,
+} from "@/utils/SweetAlert";
 
 const authServices = new AuthServices();
 
@@ -71,10 +79,10 @@ export default defineComponent({
       password,
       confirmPassword,
       validateChangePassword,
-      inputReset,
       inputValidate,
     } = useChangePasswordValidate();
     const router = useRouter();
+    const internal = ref()
 
     const change = async () => {
       const fields = {
@@ -87,27 +95,45 @@ export default defineComponent({
       if (isValid) {
         try {
           var newdata = {
-            userRecoverId: "e856f137-b605-4a7c-823d-3da3bb5eedfc",
-            userId: "4fbe22ad-f876-4893-816b-42011d10c770",
+            userRecoverId: internal.value.id,
+            userId: internal.value.userId,
             nwPassword: fields.password,
             repeatNwPassword: fields.confirmPassword,
           };
-          const data = await authServices.forgotPasswordChange(newdata);
-          console.log(data);
-        } catch (error) {
+          alertLoading();
+          await authServices.forgotPasswordChange(newdata);
+          await alertActionButton("","Contraseña cambiada correctamente");
+          router.push({ name: "login" });
+        } catch (error: any) {
+          await alertActionButton("", error.response.data.message);
+          router.push({ name: "login" });
           throw error;
         }
       } else {
         inputValidate();
       }
     };
-
     return {
+      internal,
       password,
       confirmPassword,
       change,
       validateState,
     };
+  },
+  async mounted() {
+    const internalParam: any = this.$route.query.internal;
+    this.internal = JSON.parse(atob(internalParam));
+    if (internalParam) {
+      try {
+        const response = await authServices.validateRecoverTicket(
+          this.internal.id,
+          this.internal.userId
+        );
+      } catch (error: any) {
+        this.$router.push({ name: "home" });
+      }
+    }
   },
 });
 </script>
