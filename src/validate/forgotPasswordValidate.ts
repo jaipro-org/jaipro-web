@@ -15,7 +15,7 @@ export default function useForgotPasswordValidate() {
     .required("Campo requerido")
 
   // Define los campos de formulario validados
-  const email = useField("email", emailSchema);
+  const email = useField<string>("email", emailSchema);
 
   // Define la función de validación
   async function validate(data: object) {

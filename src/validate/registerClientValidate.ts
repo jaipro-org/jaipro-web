@@ -41,11 +41,11 @@ export default function useRegisterClientValidate() {
     })
 
   // Define los campos de formulario validados
-  const name = useField("firstname", nameSchema);
-  const lastName = useField("lastname", lastNameSchema);
-  const email = useField("email", emailSchema);
-  const password = useField("password", passwordSchema);
-  const confirmPassword = useField("confirmPassword", confirmPasswordSchema);
+  const name = useField<string>("firstname", nameSchema);
+  const lastName = useField<string>("lastname", lastNameSchema);
+  const email = useField<string>("email", emailSchema);
+  const password = useField<string>("password", passwordSchema);
+  const confirmPassword = useField<string>("confirmPassword", confirmPasswordSchema);
 
   // Define la función de validación
   async function validate(data: any) {
