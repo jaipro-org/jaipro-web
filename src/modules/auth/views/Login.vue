@@ -141,11 +141,13 @@ export default defineComponent({
       validateState,
     };
   },
-  mounted() {
-    console.log("carga limpio");
-    caches.open("cacheName").then((cache) => {
-      cache.delete("/auth/login");
-    });
+  async mounted() {
+    try {
+      const data = await fetch("http://localhost:8080/prueba")
+      console.log(data)
+    } catch (error) {
+      
+    }
   },
 });
 </script>

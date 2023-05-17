@@ -22,9 +22,13 @@ import "sweetalert2/dist/sweetalert2.min.css"
 import AxiosClient from "./services/axiosClient"
 // import "@/assets/style.css";
 // create an instance using the function
-
+import { worker } from "./mocks/worker"
 new AxiosClient(process.env.VUE_APP_BACK_URL).createClient()
 
+// NEW
+if (process.env.NODE_ENV === 'development') {
+  worker.start({ quiet: true, onUnhandledRequest: 'bypass' })
+}
 
 createApp(App)
   .use(createPinia())
