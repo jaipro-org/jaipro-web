@@ -72,6 +72,7 @@ import {
   alertSuccessfully,
   closeAlert,
 } from "../../../utils/SweetAlert";
+import { Axios } from "axios";
 
 export default defineComponent({
   name: "LoginComponent",
@@ -140,14 +141,6 @@ export default defineComponent({
       forgotPassword,
       validateState,
     };
-  },
-  async mounted() {
-    try {
-      const data = await fetch("http://localhost:8080/prueba")
-      console.log(data)
-    } catch (error) {
-      
-    }
   },
 });
 </script>
