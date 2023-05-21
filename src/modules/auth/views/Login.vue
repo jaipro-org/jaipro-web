@@ -71,7 +71,7 @@ import {
   alertLoading,
   alertSuccessfully,
   closeAlert,
-} from "../../../utils/SweetAlert";
+} from "@/utils/SweetAlert";
 
 export default defineComponent({
   name: "LoginComponent",
@@ -140,12 +140,6 @@ export default defineComponent({
       forgotPassword,
       validateState,
     };
-  },
-  mounted() {
-    console.log("carga limpio");
-    caches.open("cacheName").then((cache) => {
-      cache.delete("/auth/login");
-    });
   },
 });
 </script>

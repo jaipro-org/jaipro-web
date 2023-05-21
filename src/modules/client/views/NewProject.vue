@@ -5,12 +5,12 @@
     </b-col>
     <b-col cols="12" md="8" class="mx-auto mt-4 px-0">
       <form-wizard
-          color="#3a88ec"
-          ref="formWizard"
-          class="px-lg-0"
-          next-button-text="Siguiente"
-          back-button-text="Atras"
-          finish-button-text="Registrar proyecto"
+        color="#3a88ec"
+        ref="formWizard"
+        class="px-lg-0"
+        next-button-text="Siguiente"
+        back-button-text="Atras"
+        finish-button-text="Registrar proyecto"
       >
         <tab-content title="Describe el servicio" :beforeChange="Step1">
           <b-card class="mt-1 mb-2">
@@ -19,26 +19,36 @@
                 <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group label="Profesión">
                     <b-form-select
-                        v-model="professionValue"
-                        :state="validateState(professionValue, professionError)"
-                        :options="professionOptions"
-                        class="rounded-pill"
+                      v-model="profession.value.value"
+                      :state="
+                        validateState(
+                          profession.value.value,
+                          profession.errorMessage.value
+                        )
+                      "
+                      :options="professionOptions"
+                      class="rounded-pill"
                     ></b-form-select>
                     <b-form-invalid-feedback>
-                      {{ professionError }}
+                      {{ profession.errorMessage.value }}
                     </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group label="Distrito">
                     <b-form-select
-                        v-model="districtValue"
-                        :state="validateState(districtValue, districtError)"
-                        :options="districtOptions"
-                        class="rounded-pill"
+                      v-model="district.value.value"
+                      :state="
+                        validateState(
+                          district.value.value,
+                          district.errorMessage.value
+                        )
+                      "
+                      :options="districtOptions"
+                      class="rounded-pill"
                     ></b-form-select>
                     <b-form-invalid-feedback>
-                      {{ districtError }}
+                      {{ district.errorMessage.value }}
                     </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
@@ -53,12 +63,17 @@
                 <b-col cols="12" class="px-0">
                   <b-form-group label="Describe el servicio">
                     <b-form-textarea
-                        v-model="descriptionValue"
-                        :state="validateState(descriptionValue, descriptionError)"
-                        rows="5"
+                      v-model="description.value.value"
+                      :state="
+                        validateState(
+                          description.value.value,
+                          description.errorMessage.value
+                        )
+                      "
+                      rows="5"
                     ></b-form-textarea>
                     <b-form-invalid-feedback>
-                      {{ descriptionError }}
+                      {{ description.errorMessage.value }}
                     </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
@@ -67,41 +82,41 @@
               <label for="">Fotos de referencia</label>
               <b-row class="mx-0 justify-content-around">
                 <b-col
-                    cols="6"
-                    md="5"
-                    lg="4"
-                    v-for="(image, index) in form.imagesList"
-                    :key="index"
+                  cols="6"
+                  md="5"
+                  lg="4"
+                  v-for="(image, index) in form.imagesList"
+                  :key="index"
                 >
                   <div
-                      class="form-image__file mb-3 mt-3"
-                      :class="!image.url ? 'form-image__file--aux' : ''"
+                    class="form-image__file mb-3 mt-3"
+                    :class="!image.url ? 'form-image__file--aux' : ''"
                   >
                     <img
-                        @click="uploadImage(index)"
-                        :src="
+                      @click="uploadImage(index)"
+                      :src="
                         !image.url
                           ? require('@/assets/img-delete/fileimage-up.png')
                           : image.url
                       "
-                        alt="image"
+                      alt="image"
                     />
                     <div
-                        v-if="image.url"
-                        class="form-image__delete"
-                        @click="deleteImage(index)"
+                      v-if="image.url"
+                      class="form-image__delete"
+                      @click="deleteImage(index)"
                     >
                       <i class="fa-solid fa-circle-xmark"></i>
                     </div>
                   </div>
                   <input
-                      type="file"
-                      style="display: none"
-                      :ref="`portadaFile${index}`"
-                      :id="`portadaFile${index}`"
-                      accept="image/png, image/jpeg"
-                      hidden
-                      @change="changeFileCover"
+                    type="file"
+                    style="display: none"
+                    :ref="`portadaFile${index}`"
+                    :id="`portadaFile${index}`"
+                    accept="image/png, image/jpeg"
+                    hidden
+                    @change="changeFileCover"
                   />
                 </b-col>
               </b-row>
@@ -118,26 +133,33 @@
                 <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group label="Nombres">
                     <b-form-input
-                        v-model="nameValue"
-                        :state="validateState(nameValue, nameError)"
-                        placeholder="Ingrese su nombre"
-                        class="rounded-pill"
+                      v-model="name.value.value"
+                      :state="
+                        validateState(name.value.value, name.errorMessage.value)
+                      "
+                      placeholder="Ingrese su nombre"
+                      class="rounded-pill"
                     ></b-form-input>
                     <b-form-invalid-feedback>
-                      {{ nameError }}
+                      {{ name.errorMessage.value }}
                     </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group label="Apellidos">
                     <b-form-input
-                        v-model="lastnameValue"
-                        :state="validateState(lastnameValue, lastnameError)"
-                        placeholder="Ingrese su apellidos"
-                        class="rounded-pill"
+                      v-model="lastname.value.value"
+                      :state="
+                        validateState(
+                          lastname.value.value,
+                          lastname.errorMessage.value
+                        )
+                      "
+                      placeholder="Ingrese su apellidos"
+                      class="rounded-pill"
                     ></b-form-input>
                     <b-form-invalid-feedback>
-                      {{ lastnameError }}
+                      {{ lastname.errorMessage.value }}
                     </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
@@ -149,13 +171,18 @@
                 <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group label="Correo electrónico">
                     <b-form-input
-                        v-model="emailValue"
-                        :state="validateState(emailValue, emailError)"
-                        placeholder="Ingrese su correo"
-                        class="rounded-pill"
+                      v-model="email.value.value"
+                      :state="
+                        validateState(
+                          email.value.value,
+                          email.errorMessage.value
+                        )
+                      "
+                      placeholder="Ingrese su correo"
+                      class="rounded-pill"
                     ></b-form-input>
                     <b-form-invalid-feedback>
-                      {{ emailError }}
+                      {{ email.errorMessage.value }}
                     </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
@@ -164,35 +191,44 @@
                 <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group label="Contraseña">
                     <b-form-input
-                        v-model="passwordValue"
-                        :state="validateState(passwordValue, passwordError)"
-                        v-on:input="confirmPasswordValidate()"
-                        placeholder="Ingrese su contraseña"
-                        type="password"
-                        class="rounded-pill"
+                      v-model="password.value.value"
+                      :state="
+                        validateState(
+                          password.value.value,
+                          password.errorMessage.value
+                        )
+                      "
+                      v-on:input="confirmPassword.validate()"
+                      placeholder="Ingrese su contraseña"
+                      type="password"
+                      class="rounded-pill"
                     ></b-form-input>
-                    <b-form-invalid-feedback :state="passwordError">
-                      {{ passwordError }}
+                    <b-form-invalid-feedback
+                      :state="password.errorMessage.value"
+                    >
+                      {{ password.errorMessage.value }}
                     </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group label="Confirmar contraseña">
                     <b-form-input
-                        v-model="confirmPasswordValue"
-                        :state="
+                      v-model="confirmPassword.value.value"
+                      :state="
                         validateState(
-                          confirmPasswordValue,
-                          confirmPasswordError
+                          confirmPassword.value.value,
+                          confirmPassword.errorMessage.value
                         )
                       "
-                        v-on:input="passwordValidate()"
-                        placeholder="Confirme su contraseña"
-                        class="rounded-pill"
-                        type="password"
+                      v-on:input="password.validate()"
+                      placeholder="Confirme su contraseña"
+                      class="rounded-pill"
+                      type="password"
                     ></b-form-input>
-                    <b-form-invalid-feedback :state="confirmPasswordError">
-                      {{ confirmPasswordError }}
+                    <b-form-invalid-feedback
+                      :state="confirmPassword.errorMessage.value"
+                    >
+                      {{ confirmPassword.errorMessage.value }}
                     </b-form-invalid-feedback>
                   </b-form-group>
                 </b-col>
@@ -208,22 +244,22 @@
                 <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group label="Profesión">
                     <b-form-select
-                        v-model="professionValue"
-                        :state="true"
-                        :options="professionOptions"
-                        class="rounded-pill"
-                        disabled
+                      v-model="profession.value.value"
+                      :state="true"
+                      :options="professionOptions"
+                      class="rounded-pill"
+                      disabled
                     ></b-form-select>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3 px-0">
                   <b-form-group label="Distrito">
                     <b-form-select
-                        v-model="districtValue"
-                        :state="true"
-                        :options="districtOptions"
-                        class="rounded-pill"
-                        disabled
+                      v-model="district.value.value"
+                      :state="true"
+                      :options="districtOptions"
+                      class="rounded-pill"
+                      disabled
                     ></b-form-select>
                   </b-form-group>
                 </b-col>
@@ -235,11 +271,11 @@
                 <b-col cols="12" class="px-0">
                   <b-form-group label="Describe el servicio">
                     <b-form-textarea
-                        v-model="descriptionValue"
-                        :state="true"
-                        disabled
-                        no-resize
-                        rows="5"
+                      v-model="description.value.value"
+                      :state="true"
+                      disabled
+                      no-resize
+                      rows="5"
                     ></b-form-textarea>
                   </b-form-group>
                 </b-col>
@@ -248,23 +284,23 @@
               <label for="">Fotos de referencia</label>
               <b-row class="mx-0 justify-content-around">
                 <b-col
-                    cols="6"
-                    md="5"
-                    lg="4"
-                    v-for="(image, index) in form.imagesList"
-                    :key="index"
+                  cols="6"
+                  md="5"
+                  lg="4"
+                  v-for="(image, index) in form.imagesList"
+                  :key="index"
                 >
                   <div
-                      class="form-image__file mb-3 mt-3"
-                      :class="!image.url ? 'form-image__file--aux' : ''"
+                    class="form-image__file mb-3 mt-3"
+                    :class="!image.url ? 'form-image__file--aux' : ''"
                   >
                     <img
-                        :src="
+                      :src="
                         !image.url
                           ? require('@/assets/img-delete/fileimage-up.png')
                           : image.url
                       "
-                        alt="image"
+                      alt="image"
                     />
                   </div>
                 </b-col>
@@ -276,30 +312,30 @@
                 <b-col cols="12" lg="5" class="mb-3">
                   <b-form-group label="Nombres">
                     <b-form-input
-                        v-model="nameValue"
-                        :state="true"
-                        class="rounded-pill"
-                        disabled
+                      v-model="name.value.value"
+                      :state="true"
+                      class="rounded-pill"
+                      disabled
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3">
                   <b-form-group label="Apellidos">
                     <b-form-input
-                        v-model="lastnameValue"
-                        :state="true"
-                        class="rounded-pill"
-                        disabled
+                      v-model="lastname.value.value"
+                      :state="true"
+                      class="rounded-pill"
+                      disabled
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" lg="5" class="mb-3">
                   <b-form-group label="Correo electrónico">
                     <b-form-input
-                        v-model="emailValue"
-                        :state="true"
-                        class="rounded-pill"
-                        disabled
+                      v-model="email.value.value"
+                      :state="true"
+                      class="rounded-pill"
+                      disabled
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
@@ -308,14 +344,24 @@
             <div class="mb-4">
               <div class="d-flex">
                 <b-form-checkbox
-                    v-model="conditionsValue"
-                    name="checkbox-1"
-                    class="cursor-pointer"
-                    :style="validateStateColor(conditionsValue, conditionsError)"
+                  v-model="conditions.value.value"
+                  name="checkbox-1"
+                  class="cursor-pointer"
+                  :style="
+                    validateStateColor(
+                      conditions.value.value,
+                      conditions.errorMessage.value
+                    )
+                  "
                 >
                 </b-form-checkbox>
                 <p
-                    :style="validateStateColor(conditionsValue, conditionsError)"
+                  :style="
+                    validateStateColor(
+                      conditions.value.value,
+                      conditions.errorMessage.value
+                    )
+                  "
                 >
                   Acepto los
                   <span class="btn_conditions" @click="showConditions = true">
@@ -324,10 +370,10 @@
                 </p>
               </div>
               <b-form-invalid-feedback
-                  :state="conditionsError"
-                  style="margin-top: -15px"
+                :state="conditions.errorMessage.value"
+                style="margin-top: -15px"
               >
-                {{ conditionsError }}
+                {{ conditions.errorMessage.value }}
               </b-form-invalid-feedback>
             </div>
           </b-form>
@@ -347,9 +393,9 @@
     <template v-slot:footer>
       <div>
         <b-button
-            variant="primary"
-            @click="(showConditions = false), (conditionsValue = true)"
-        >Aceptar</b-button
+          variant="primary"
+          @click="(showConditions = false), (conditions.value.value = true)"
+          >Aceptar</b-button
         >
       </div>
     </template>
@@ -357,11 +403,35 @@
 </template>
 
 <script setup lang="ts">
-import { useField } from "vee-validate";
-import * as yup from "yup";
+import {
+  alertError,
+  alertLoading,
+  alertSuccessfully,
+  closeAlert,
+} from "@/utils/SweetAlert";
+import { useRouter } from "vue-router";
+import axios from "axios";
 import { FormWizard, TabContent } from "vue3-form-wizard";
 import "vue3-form-wizard/dist/style.css";
 import { ref, computed } from "vue";
+import { validateState } from "@/validate/globalValidate";
+import useNewProyect from "@/validate/NewProyectValidate";
+
+const router = useRouter();
+
+const {
+  profession,
+  district,
+  description,
+  name,
+  lastname,
+  email,
+  password,
+  confirmPassword,
+  conditions,
+  validateInput,
+  validateSteps,
+} = useNewProyect();
 
 //Variables Reactivas
 const imageSelected = ref(0);
@@ -370,23 +440,23 @@ const showConditions = ref(false);
 // Datos para prueba
 const professionOptions = ref([
   { text: "Seleccione", value: "" },
-  { text: "Pintor", value: 0 },
-  { text: "Carpintero", value: 1 },
-  { text: "Albañil", value: 2 },
-  { text: "Gasfitero", value: 3 },
+  { text: "Pintor", value: 1 },
+  { text: "Carpintero", value: 2 },
+  { text: "Albañil", value: 3 },
+  { text: "Gasfitero", value: 4 },
 ]);
 const districtOptions = ref([
   { text: "Seleccione", value: "" },
-  { text: "Los Olivos", value: 0 },
-  { text: "SMP", value: 1 },
-  { text: "Breña", value: 2 },
-  { text: "Independecia", value: 3 },
+  { text: "Los Olivos", value: 1 },
+  { text: "SMP", value: 2 },
+  { text: "Breña", value: 3 },
+  { text: "Independecia", value: 4 },
 ]);
 
 // Datos para enviar
 const form = ref({
-  profession: "",
-  district: "",
+  profession: 0,
+  district: 0,
   description: "",
   name: "",
   lastname: "",
@@ -414,91 +484,6 @@ const form = ref({
   ],
 });
 
-// Esquema de datos con YUP
-const schema = {
-  profession: yup.string().required("Campo requerido"),
-  district: yup.string().required("Campo requerido"),
-  description: yup.string().required("Campo requerido"),
-  name: yup.string().required("Campo requerido"),
-  lastname: yup.string().required("Campo requerido"),
-  email: yup
-      .string()
-      .email("Escriba un correo valido")
-      .required("Campo requerido"),
-  password: yup
-      .string()
-      .min(8, "Se requiere 8 caracteres como minimo")
-      .required("Escriba su contraseña")
-      .test("a", "Las contraseñas no coinciden", (value) => {
-        if (value === confirmPasswordValue.value) return true;
-        else return false;
-      }),
-  confirmPassword: yup
-      .string()
-      .min(8, "Se requiere 8 caracteres como minimo")
-      .required("Confirme su contraseña")
-      .test("a", "Las contraseñas no coinciden", (value) => {
-        if (value === passwordValue.value) return true;
-        else return false;
-      }),
-  conditions: yup
-      .boolean()
-      .oneOf([true], "Acepte los terminos y condiciones")
-      .required("Acepte los terminos y condiciones"),
-};
-
-// Validaciones INPUT with UseField
-const {
-  value: professionValue,
-  errorMessage: professionError,
-  validate: professionValidate,
-} = useField("profession", schema.profession);
-const {
-  value: districtValue,
-  errorMessage: districtError,
-  validate: districtValidate,
-} = useField("district", schema.district);
-const {
-  value: descriptionValue,
-  errorMessage: descriptionError,
-  validate: descriptionValidate,
-} = useField("description", schema.description);
-const {
-  value: nameValue,
-  errorMessage: nameError,
-  validate: nameValidate,
-} = useField("name", schema.name);
-const {
-  value: lastnameValue,
-  errorMessage: lastnameError,
-  validate: lastnameValidate,
-} = useField("lastname", schema.lastname);
-const {
-  value: emailValue,
-  errorMessage: emailError,
-  validate: emailValidate,
-} = useField("email", schema.email);
-const {
-  value: passwordValue,
-  errorMessage: passwordError,
-  validate: passwordValidate,
-} = useField("password", schema.password);
-const {
-  value: confirmPasswordValue,
-  errorMessage: confirmPasswordError,
-  validate: confirmPasswordValidate,
-} = useField("confirmPassword", schema.confirmPassword);
-const {
-  value: conditionsValue,
-  errorMessage: conditionsError,
-  validate: conditionsValidate,
-} = useField("conditions", schema.conditions);
-
-const validateState = (value: any, error: any) => {
-  if (value === undefined && error === undefined) return null;
-  else if (error) return false;
-  return true;
-};
 const validateStateColor = (value: any, error: any) => {
   if (value === undefined && error === undefined)
     return "border-color: #7e7e7e";
@@ -507,99 +492,111 @@ const validateStateColor = (value: any, error: any) => {
 };
 
 // validadores para cada paso del formulario
-// beforeChange
-const Step1 = async () => {
+const Step1 = async (): Promise<boolean> => {
   const fields = {
-    profession: professionValue.value,
-    district: districtValue.value,
+    profession: profession.value.value,
+    district: district.value.value,
   };
 
-  const valideSchema = yup.object({
-    profession: schema.profession,
-    district: schema.district,
-  });
-
-  const isValid = await valideSchema.isValid(fields);
+  const isValid = await validateSteps.validateStep1(fields);
 
   if (!isValid) {
-    professionValidate();
-    districtValidate();
+    validateInput.inputValidateStep1();
   }
 
   form.value = { ...form.value, ...fields };
 
   return isValid;
 };
-const Step2 = async () => {
+
+const Step2 = async (): Promise<boolean> => {
   const fields = {
-    description: descriptionValue.value,
+    description: description.value.value,
   };
 
-  const valideSchema = yup.object({
-    description: schema.description,
-  });
-
-  const isValid = await valideSchema.isValid(fields);
+  const isValid = await validateSteps.validateStep2(fields);
   const isValidRequired = imagenRequired.value; // control personalizado imagen
 
   if (!isValid) {
-    descriptionValidate();
+    validateInput.inputValidateStep2();
   }
 
   form.value = { ...form.value, ...fields };
 
   return isValid && isValidRequired;
 };
-const Step3 = async () => {
+
+const Step3 = async (): Promise<boolean> => {
   const fields = {
-    name: nameValue.value,
-    lastname: lastnameValue.value,
-    email: emailValue.value,
-    password: passwordValue.value,
-    confirmPassword: confirmPasswordValue.value,
+    name: name.value.value,
+    lastname: lastname.value.value,
+    email: email.value.value,
+    password: password.value.value,
+    confirmPassword: confirmPassword.value.value,
   };
 
-  const valideSchema = yup.object({
-    name: schema.name,
-    lastname: schema.lastname,
-    email: schema.email,
-    password: schema.password,
-    confirmPassword: schema.confirmPassword,
-  });
-
-  const isValid = await valideSchema.isValid(fields);
+  const isValid = await validateSteps.validateStep3(fields);
 
   if (!isValid) {
-    nameValidate();
-    lastnameValidate();
-    emailValidate();
-    passwordValidate();
-    confirmPasswordValidate();
+    validateInput.inputValidateStep3();
   }
 
   form.value = { ...form.value, ...fields };
 
   return isValid;
 };
-const Step4 = async () => {
+
+const Step4 = async (): Promise<boolean> => {
   const fields = {
-    conditions: conditionsValue.value,
+    conditions: conditions.value.value,
   };
 
-  const valideSchema = yup.object({
-    conditions: schema.conditions,
-  });
-
-  const isValid = await valideSchema.isValid(fields);
+  const isValid = await validateSteps.validateStep4(fields);
 
   if (!isValid) {
-    conditionsValidate();
+    validateInput.inputValidateStep4();
   }
 
   if (isValid) {
     form.value = { ...form.value, ...fields };
     const value = form.value;
-    console.log(value);
+
+    const sendData = {
+      customer: {
+        name: value.name,
+        lastName: value.lastname,
+        email: value.email,
+        password: value.password,
+        confirmPassword: value.confirmPassword,
+      },
+      projectRequest: {
+        type: "2",
+        detail: value.description,
+        email: value.email,
+        password: value.password,
+        confirmPassword: value.confirmPassword,
+        professionId: value.profession,
+        districtId: value.district,
+        serviceTypeId: "1",
+      },
+    };
+
+    try {
+      alertLoading();
+      const { data } = await axios.post(
+        "http://34.173.135.173:8080/eureka/gateway/v1/register/new-proyect",
+        sendData
+      );
+      alertSuccessfully("Proyecto registrado correctamente.");
+      setTimeout(function () {
+        closeAlert();
+        router.push({ name: "login" });
+      }, 1500);
+      // console.log(data);
+    } catch (error) {
+      alertError("Sucedió un error durante el registro del nuevo proyecto");
+
+    }
   }
   return isValid;
 };
