@@ -403,12 +403,21 @@
 </template>
 
 <script setup lang="ts">
+import {
+  alertError,
+  alertLoading,
+  alertSuccessfully,
+  closeAlert,
+} from "@/utils/SweetAlert";
+import { useRouter } from "vue-router";
 import axios from "axios";
 import { FormWizard, TabContent } from "vue3-form-wizard";
 import "vue3-form-wizard/dist/style.css";
 import { ref, computed } from "vue";
 import { validateState } from "@/validate/globalValidate";
 import useNewProyect from "@/validate/NewProyectValidate";
+
+const router = useRouter();
 
 const {
   profession,
@@ -500,7 +509,7 @@ const Step1 = async (): Promise<boolean> => {
   return isValid;
 };
 
-const Step2 = async (): Promise<boolean>  => {
+const Step2 = async (): Promise<boolean> => {
   const fields = {
     description: description.value.value,
   };
@@ -558,7 +567,7 @@ const Step4 = async (): Promise<boolean> => {
         lastName: value.lastname,
         email: value.email,
         password: value.password,
-        confirmPassword: value.confirmPassword
+        confirmPassword: value.confirmPassword,
       },
       projectRequest: {
         type: "2",
@@ -568,17 +577,26 @@ const Step4 = async (): Promise<boolean> => {
         confirmPassword: value.confirmPassword,
         professionId: value.profession,
         districtId: value.district,
-        serviceTypeId: "1"
+        serviceTypeId: "1",
       },
     };
 
     try {
+      alertLoading();
       const { data } = await axios.post(
         "http://34.173.135.173:8080/eureka/gateway/v1/register/new-proyect",
         sendData
       );
-      console.log(data);
-    } catch (error) {}
+      alertSuccessfully("Proyecto registrado correctamente.");
+      setTimeout(function () {
+        closeAlert();
+        router.push({ name: "login" });
+      }, 1500);
+      // console.log(data);
+    } catch (error) {
+      alertError("Sucedió un error durante el registro del nuevo proyecto");
+
+    }
   }
   return isValid;
 };

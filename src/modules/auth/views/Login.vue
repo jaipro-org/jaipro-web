@@ -71,8 +71,7 @@ import {
   alertLoading,
   alertSuccessfully,
   closeAlert,
-} from "../../../utils/SweetAlert";
-import { Axios } from "axios";
+} from "@/utils/SweetAlert";
 
 export default defineComponent({
   name: "LoginComponent",
