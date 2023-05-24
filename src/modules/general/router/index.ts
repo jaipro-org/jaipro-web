@@ -28,6 +28,12 @@ export default {
         ),
     },
     {
+      path: "nuevo-proyecto",
+      name: "new-project",
+      meta: { layout: "basic-landing" },
+      component: () => import("@/modules/general/views/NewProject.vue"),
+    },
+    {
       path: "/",
       redirect: { name: "search-specialist" },
     },
