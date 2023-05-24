@@ -287,19 +287,14 @@
                   cols="6"
                   md="5"
                   lg="4"
-                  v-for="(image, index) in form.imagesList"
-                  :key="index"
+                  v-for="(image, index) in form.imagesList.filter(image => image.url !== '')"
                 >
                   <div
                     class="form-image__file mb-3 mt-3"
                     :class="!image.url ? 'form-image__file--aux' : ''"
                   >
                     <img
-                      :src="
-                        !image.url
-                          ? require('@/assets/img-delete/fileimage-up.png')
-                          : image.url
-                      "
+                      :src="image.url"
                       alt="image"
                     />
                   </div>
