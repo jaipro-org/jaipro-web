@@ -1,25 +1,8 @@
 import { rest } from 'msw'
+import { DataNewProyect } from "./interface/DataNewProyect"
 const URL = process.env.VUE_APP_BACK_URL
 
-interface DataNewProyect {
-  customer: {
-    name: string,
-    lastName: string,
-    email: string,
-    password: string,
-    confirmPassword: string
-  },
-  projectRequest: {
-    type: string,
-    detail: string,
-    email: string,
-    password: string,
-    confirmPassword: string,
-    professionId: number,
-    districtId: number,
-    serviceTypeId: number
-  },
-};
+
 
 export const handlers = [
   rest.post(URL + '/register/new-proyect', async (req, res, ctx) => {
@@ -42,6 +25,34 @@ export const handlers = [
       publicUrl: "mypublicurl",
       verifiedEmail: true,
       districtId: requestData.projectRequest.districtId
+    }
+    return res(
+      ctx.status(200),
+      ctx.json(response)
+    )
+  }),
+  rest.post(URL + '/register/new-proyect/photos', async (req, res, ctx) => {
+    const response = {
+      projectPhotos: [
+        {
+          name: "Excel.png",
+          size: 0,
+          url: "https://storage.cloud.google.com/jaipro/jaipro/specialist/f6100e89-fe1d-49a7-912d-8cc155f43726/gallery/Excel.png",
+          date: "2023-05-22T19:49:55.340698"
+        },
+        {
+          name: "Excel2.png",
+          size: 0,
+          url: "https://storage.cloud.google.com/jaipro/jaipro/specialist/f6100e89-fe1d-49a7-912d-8cc155f43726/gallery/Excel2.png",
+          date: "2023-05-22T19:49:56.201784"
+        },
+        {
+          name: "Excel3.png",
+          size: 0,
+          url: "https://storage.cloud.google.com/jaipro/jaipro/specialist/f6100e89-fe1d-49a7-912d-8cc155f43726/gallery/Excel3.png",
+          date: "2023-05-22T19:49:56.201784"
+        }
+      ]
     }
     return res(
       ctx.status(200),

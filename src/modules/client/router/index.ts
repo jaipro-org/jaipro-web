@@ -16,12 +16,6 @@ export default {
           /* webpackChunkName: "client-profile" */ "@/modules/client/views/ProfilePage.vue"
         ),
     },
-    // {
-    //   path: "nuevo-proyecto",
-    //   name: "new-project",
-    //   meta: { layout: "basic-landing" },
-    //   component: () => import("@/modules/client/views/NewProject.vue"),
-    // },
     {
       path: "mis-proyectos/:type",
       name: "my-projects",

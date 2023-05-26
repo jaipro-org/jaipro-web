@@ -287,16 +287,15 @@
                   cols="6"
                   md="5"
                   lg="4"
-                  v-for="(image, index) in form.imagesList.filter(image => image.url !== '')"
+                  v-for="(image, index) in form.imagesList.filter(
+                    (image) => image.url !== ''
+                  )"
                 >
                   <div
                     class="form-image__file mb-3 mt-3"
                     :class="!image.url ? 'form-image__file--aux' : ''"
                   >
-                    <img
-                      :src="image.url"
-                      alt="image"
-                    />
+                    <img :src="image.url" alt="image" />
                   </div>
                 </b-col>
               </b-row>
@@ -411,7 +410,7 @@ import "vue3-form-wizard/dist/style.css";
 import { ref, computed } from "vue";
 import { validateState } from "@/validate/globalValidate";
 import useNewProyect from "@/validate/NewProyectValidate";
-
+const URL = process.env.VUE_APP_BACK_URL;
 const router = useRouter();
 
 const {
@@ -579,9 +578,12 @@ const Step4 = async (): Promise<boolean> => {
     try {
       alertLoading();
       const { data } = await axios.post(
-        "http://34.173.135.173:8080/eureka/gateway/v1/register/new-proyect",
+        URL + "/register/new-proyect",
         sendData
       );
+      await axios.post(URL + "/register/new-proyect/photos", {
+        projectId: data.id,
+      });
       alertSuccessfully("Proyecto registrado correctamente.");
       setTimeout(function () {
         closeAlert();
@@ -590,7 +592,6 @@ const Step4 = async (): Promise<boolean> => {
       // console.log(data);
     } catch (error) {
       alertError("Sucedió un error durante el registro del nuevo proyecto");
-
     }
   }
   return isValid;
