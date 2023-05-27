@@ -59,4 +59,32 @@ export const handlers = [
       ctx.json(response)
     )
   }),
+  rest.get(URL + '/customer/proyects', async (req, res, ctx) => {
+    const queryParams = req.params;
+    console.log(queryParams)
+    const response = [
+      { 
+        professionName: "Carpintero",
+        detail: "asdasdasdsa",
+        creationDate: "2023-05-16T22:24:11.919901",
+        proposalsCounter: 5,
+        rating: 4,
+        enabledRating: false,
+        ratingDone: true
+      },
+      { 
+        professionName: "Electricista",
+        detail: "asdasdasdsa",
+        creationDate: "2023-05-16T22:24:11.919901",
+        proposalsCounter: 3,
+        rating: 2,
+        enabledRating: false,
+        ratingDone: true
+      }
+    ]
+    return res(
+      ctx.status(200),
+      ctx.json(response)
+    )
+  }),
 ]
