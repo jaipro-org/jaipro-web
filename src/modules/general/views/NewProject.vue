@@ -126,7 +126,7 @@
             </b-form>
           </b-card>
         </tab-content>
-        <tab-content title="Cuéntanos de ti" :beforeChange="Step3">
+        <tab-content title="Cuéntanos de ti" :beforeChange="Step3" v-if="loginON">
           <b-card class="mt-1 mb-2">
             <b-form>
               <b-row class="mx-0 justify-content-between">
@@ -300,7 +300,7 @@
                 </b-col>
               </b-row>
             </b-card>
-            <b-card class="mb-4">
+            <b-card class="mb-4" v-if="loginON">
               <h6 class="mb-3">Cuéntanos de ti</h6>
               <b-row class="mx-0 justify-content-between">
                 <b-col cols="12" lg="5" class="mb-3">
@@ -407,11 +407,18 @@ import { useRouter } from "vue-router";
 import axios from "axios";
 import { FormWizard, TabContent } from "vue3-form-wizard";
 import "vue3-form-wizard/dist/style.css";
-import { ref, computed } from "vue";
+import { ref, computed, onBeforeMount } from "vue";
 import { validateState } from "@/validate/globalValidate";
 import useNewProyect from "@/validate/NewProyectValidate";
 const URL = process.env.VUE_APP_BACK_URL;
 const router = useRouter();
+const loginON = ref<boolean>()
+
+onBeforeMount(() => {
+  const authData: string = window.localStorage.getItem("@AUTH:security") || "";
+  if (authData) loginON.value=false
+  else loginON.value=true
+})
 
 const {
   profession,
