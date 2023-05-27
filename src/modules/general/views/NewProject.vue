@@ -126,7 +126,7 @@
             </b-form>
           </b-card>
         </tab-content>
-        <tab-content title="Cuéntanos de ti" :beforeChange="Step3">
+        <tab-content title="Cuéntanos de ti" :beforeChange="Step3" v-if="loginON">
           <b-card class="mt-1 mb-2">
             <b-form>
               <b-row class="mx-0 justify-content-between">
@@ -287,26 +287,20 @@
                   cols="6"
                   md="5"
                   lg="4"
-                  v-for="(image, index) in form.imagesList"
-                  :key="index"
+                  v-for="(image, index) in form.imagesList.filter(
+                    (image) => image.url !== ''
+                  )"
                 >
                   <div
                     class="form-image__file mb-3 mt-3"
                     :class="!image.url ? 'form-image__file--aux' : ''"
                   >
-                    <img
-                      :src="
-                        !image.url
-                          ? require('@/assets/img-delete/fileimage-up.png')
-                          : image.url
-                      "
-                      alt="image"
-                    />
+                    <img :src="image.url" alt="image" />
                   </div>
                 </b-col>
               </b-row>
             </b-card>
-            <b-card class="mb-4">
+            <b-card class="mb-4" v-if="loginON">
               <h6 class="mb-3">Cuéntanos de ti</h6>
               <b-row class="mx-0 justify-content-between">
                 <b-col cols="12" lg="5" class="mb-3">
@@ -413,11 +407,18 @@ import { useRouter } from "vue-router";
 import axios from "axios";
 import { FormWizard, TabContent } from "vue3-form-wizard";
 import "vue3-form-wizard/dist/style.css";
-import { ref, computed } from "vue";
+import { ref, computed, onBeforeMount } from "vue";
 import { validateState } from "@/validate/globalValidate";
 import useNewProyect from "@/validate/NewProyectValidate";
-
+const URL = process.env.VUE_APP_BACK_URL;
 const router = useRouter();
+const loginON = ref<boolean>()
+
+onBeforeMount(() => {
+  const authData: string = window.localStorage.getItem("@AUTH:security") || "";
+  if (authData) loginON.value=false
+  else loginON.value=true
+})
 
 const {
   profession,
@@ -584,9 +585,12 @@ const Step4 = async (): Promise<boolean> => {
     try {
       alertLoading();
       const { data } = await axios.post(
-        "http://34.173.135.173:8080/eureka/gateway/v1/register/new-proyect",
+        URL + "/register/new-proyect",
         sendData
       );
+      await axios.post(URL + "/register/new-proyect/photos", {
+        projectId: data.id,
+      });
       alertSuccessfully("Proyecto registrado correctamente.");
       setTimeout(function () {
         closeAlert();
@@ -595,7 +599,6 @@ const Step4 = async (): Promise<boolean> => {
       // console.log(data);
     } catch (error) {
       alertError("Sucedió un error durante el registro del nuevo proyecto");
-
     }
   }
   return isValid;

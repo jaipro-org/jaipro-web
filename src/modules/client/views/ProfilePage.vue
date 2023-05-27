@@ -440,12 +440,12 @@ async function fetchDataClient() {
 
   currentData.value = data;
 
-  name.value.value = data.name;
-  lastname.value.value = data.lastName;
-  email.value.value = data.email;
-  phone.value.value = data.phone;
-  ubication.value.value = data.address;
-  district.value.value = data.districtId;
+  data.name && (name.value.value = data.name);
+  data.lastName && (lastname.value.value = data.lastName);
+  data.email && (email.value.value = data.email);
+  data.phone && (phone.value.value = data.phone);
+  data.address && (ubication.value.value = data.address);
+  data.districtId && (district.value.value = data.districtId);
 }
 //CARGAR Lista Distritos
 async function fetchListDIstrict() {

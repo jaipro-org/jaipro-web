@@ -15,7 +15,7 @@
 
           <div class="learn-more-btn-section">
             <router-link
-              to="/cliente/nuevo-proyecto"
+              to="/general/nuevo-proyecto"
               custom
               v-slot="{ navigate, href }"
             >

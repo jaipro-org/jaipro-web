@@ -2,7 +2,7 @@
   <b-card class="project-card" v-if="project">
     <div class="d-flex justify-content-between flex-wrap-reverse">
       <h1 class="project-card__title">
-        Profesión: <span class="project-card__work">{{ project.work }} </span>
+        Profesión: <span class="project-card__work">{{ project.professionName }} </span>
       </h1>
       <div
         class="d-flex d-md-block justify-content-end project-card__status-icon"
@@ -16,9 +16,7 @@
       </div>
     </div>
     <p>
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Earum, nihil
-      voluptatem architecto est animi vel tenetur ut repellat reprehenderit
-      exercitationem?
+      {{ project.detail }}
     </p>
     <span class="project-card__date">Fecha: 21 de Enero del 2021</span>
     <div
