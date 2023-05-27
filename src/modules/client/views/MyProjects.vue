@@ -222,7 +222,7 @@ onMounted(async () => {
   currentProjects.value=data
 });
 
-function loadProjects() {
+function loadProjects() { 
   isLoadingProjects.value = true;
   if (isCurrentTab.value) {
     loadCurrentProjects();
@@ -233,24 +233,6 @@ function loadProjects() {
 
 //Carga projectos vigentes
 function loadCurrentProjects() {
-  // const project = {
-  //   professionName: "Carpintero",
-  //   detail: "asdasdasdsa",
-  //   creationDate: "2023-05-16T22:24:11.919901",
-  //   proposalsCounter: 5,
-  //   rating: 4,
-  //   enabledRating: false,
-  //   ratingDone: true,
-  // };
-  // console.log("Exec loadCurrentProjects...");
-  // const timeOut = setTimeout(() => {
-  //   console.log("Inside setTimeout...");
-  //   currentProjects.value.push(project);
-  //   currentProjects.value.push(project);
-  //   console.log(currentProjects);
-  //   isLoadingProjects.value = false;
-  //   clearTimeout(timeOut);
-  // }, 2000);
 }
 
 watch(currentProjects, (newValue, OldValue) => {
@@ -263,21 +245,6 @@ watchEffect(() => {
 
 //Carga proyectos pasados
 function loadPastProjects() {
-  // const project = {
-  //   id: 8,
-  //   work: "Tecnico",
-  //   description:
-  //     " Lorem ipsum dolor sit amet consectetur, adipisicing elit. Earum, nihil voluptatem architecto est animi vel tenetur ut repellat reprehenderit exercitationem?",
-  //   status: 3,
-  //   isQualified: false,
-  // };
-
-  // const timeOut = setTimeout(() => {
-  //   pastProjects.value.push(project);
-  //   pastProjects.value.push(project);
-  //   isLoadingProjects.value = false;
-  //   clearTimeout(timeOut);
-  // }, 2000);
 }
 
 //Abrir el Modal de Calificacion
