@@ -423,7 +423,7 @@
               <div
                 v-if="profilePhoto.value.value?.url"
                 class="form-image__delete"
-                @click="deleteImagePhoto(profilePhoto)"
+                @click="deleteImagePhotoPresentation(profilePhoto)"
               >
                 <i class="fa-solid fa-circle-xmark"></i>
               </div>
@@ -1438,7 +1438,7 @@ async function fetchDataSpecialist() {
   let data = await getDataSpecialist(idEspecialist.value);
   formPresentation.value = {
     profilePhoto: {
-      url: "",
+      url: data.cv.profilePhoto.url,
       file: "",
     },
     name: data.specialist.name,
@@ -1449,6 +1449,8 @@ async function fetchDataSpecialist() {
     secondPhone: "",
     cv: data.cv,
   };
+  //console.log(formPresentation.value)
+  //console.log(data.cv.profilePhoto.url)
 }
 //CARGAR Experiencia del especialista
 async function fetchSpecialization() {
@@ -1566,7 +1568,6 @@ async function editPresentation() {
   };
 
   const isValid = await validateProfile(fields);
-  console.log(isValid);
   if (!isValid) inputValidate();
 
   if (isValid) {
@@ -1578,15 +1579,20 @@ async function editPresentation() {
       about: value.about,
       address: value.direction,
       phone: value.phone,
-      secondaryPhone: value.phone,
+      secondaryPhone: value.secondPhone,
       filePhoto: value.profilePhoto.url,
       filePhotoExtension: extension.value,
       flagUpdatePhoto: flagUpdate.value
     };
-
-    await putPresentation(idEspecialist.value, payload);
-    await fetchDataSpecialist();
-    alertSuccessButton("Se realizo la operación exitosamente");
+    console.log(payload)
+    try {
+      const resp = await putPresentation(idEspecialist.value, payload);
+      console.log(resp)
+    } catch (error) {
+      
+    }
+    // await fetchDataSpecialist();
+    // alertSuccessButton("Se realizo la operación exitosamente");
   }
 }
 //ENVIAR GALERIA
@@ -1931,8 +1937,6 @@ function changeFileCover(event: any) {
   const index = imageSelected.value;
   const file: any = event.target.files[0];
   if (!file) {
-    // formGalery.value.imagesList[index].url = "";
-    // formGalery.value.imagesList[index].file = null;
     imagesList.value.value[index].url = "";
     imagesList.value.value[index].file = "";
     return;
@@ -1946,20 +1950,20 @@ function changeFileCover(event: any) {
   event.target.value = ""; // Restablecer valor del input
 }
 
-function deleteImagePhoto(photo: any) {
-  flagUpdate.value = true;
-
-  console.log(photo);
-}
-
 function deleteImage(index: any) {
   formGalery.value.imagesList[index].url = "";
   formGalery.value.imagesList[index].file = "";
 }
 
+//#region PhotoPresentation
 function uploadPresentationImage() {
   const btnFile = presentationFile.value!;
   btnFile.click();
+}
+
+function deleteImagePhotoPresentation(photo: any) {
+  // flagUpdate.value = true;
+  // console.log(photo);
 }
 
 function changeFilePresentation(event: any) {
@@ -1972,12 +1976,10 @@ function changeFilePresentation(event: any) {
     profilePhoto.value.value.url = null;
     return;
   }
-
   if(!imgExtensions.split(",").includes(file.type)){
     alertError("Por favor subir una imagen con extensión 'png' o 'jpg'");
     return;
   }
-
   flagUpdate.value = true;
   extension.value = file.type;
   profilePhoto.value.value.file = file;
@@ -1985,6 +1987,7 @@ function changeFilePresentation(event: any) {
   fr.onload = () => (profilePhoto.value.value.url = String(fr.result));
   fr.readAsDataURL(file);
 }
+//#endregion
 
 const menuChange = computed(() => {
   if (!isLoading.value) {
