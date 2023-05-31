@@ -17,12 +17,6 @@ export default {
         ),
     },
     {
-      path: "nuevo-proyecto",
-      name: "new-project",
-      meta: { layout: "basic-landing" },
-      component: () => import("@/modules/client/views/NewProject.vue"),
-    },
-    {
       path: "mis-proyectos/:type",
       name: "my-projects",
       meta: { layout: "client-landing" },

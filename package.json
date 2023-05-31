@@ -18,6 +18,7 @@
     "bootstrap-vue-3": "^0.5.1",
     "core-js": "^3.27.1",
     "encrypt-storage": "^2.12.14",
+    "pinia": "^2.0.35",
     "v-smooth-scroll": "^2.0.0-beta.2",
     "vee-validate": "^4.7.4",
     "vue": "^3.2.45",
@@ -29,7 +30,6 @@
     "vue2-smooth-scroll": "^1.6.0",
     "vue3-carousel": "^0.2.9",
     "vue3-form-wizard": "^0.1.8",
-    "vuex": "^4.1.0",
     "yup": "^1.0.2"
   },
   "devDependencies": {
@@ -44,9 +44,13 @@
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^9.8.0",
+    "msw": "^1.2.1",
     "prettier": "^2.8.2",
     "sass": "^1.57.1",
     "sass-loader": "^13.2.0",
     "typescript": "^4.9.4"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }

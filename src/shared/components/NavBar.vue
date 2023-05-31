@@ -27,7 +27,7 @@
           <ul class="navbar-nav menu-navbar-nav list-sty">
             <li class="nav-item show-item">
               <router-link
-                to="/cliente/nuevo-proyecto"
+                to="/general/nuevo-proyecto"
                 custom
                 v-slot="{ navigate, href }"
               >
@@ -121,7 +121,7 @@
               :style="showForWith ? '' : 'display:none'"
             >
               <router-link
-                to="/cliente/nuevo-proyecto"
+                to="/general/nuevo-proyecto"
                 custom
                 v-slot="{ navigate, href }"
               >

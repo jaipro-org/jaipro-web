@@ -58,10 +58,12 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { useLoginStore } from "@/store";
 import { useRouter } from "vue-router";
-import { useStore } from "vuex";
 import { validateState } from "@/validate/globalValidate";
 import useLoginFormValidate from "@/validate/loginValidate";
+
+const loginStore = useLoginStore();
 
 // FUNCTIONS
 import {
@@ -69,10 +71,7 @@ import {
   alertLoading,
   alertSuccessfully,
   closeAlert,
-} from "../../../utils/SweetAlert";
-
-// SERVICES
-import { AuthServices } from "@/services/api/authServices";
+} from "@/utils/SweetAlert";
 
 export default defineComponent({
   name: "LoginComponent",
@@ -87,7 +86,6 @@ export default defineComponent({
   setup() {
     const { email, password, validate } = useLoginFormValidate();
     const router = useRouter();
-    const store = useStore();
 
     const login = async () => {
       const data = {
@@ -105,11 +103,11 @@ export default defineComponent({
       if (isValid) {
         try {
           alertLoading();
-          await store.dispatch("authModule/loginUser", data);
+          await loginStore.loginUser(data);
           alertSuccessfully("Usuario inicio sesión exitosamente!!");
           setTimeout(function () {
             closeAlert();
-            let myType = store.state.authModule.security.profileName;
+            let myType = loginStore.$state.security.profileName;
             if (myType === "CUSTOMER") {
               router.push({ path: "/cliente/perfil" });
             }
@@ -142,12 +140,6 @@ export default defineComponent({
       forgotPassword,
       validateState,
     };
-  },
-  mounted() {
-    console.log("carga limpio");
-    caches.open("cacheName").then((cache) => {
-      cache.delete("/auth/login");
-    });
   },
 });
 </script>
