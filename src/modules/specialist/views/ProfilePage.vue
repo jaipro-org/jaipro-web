@@ -420,12 +420,20 @@
                 "
                 alt="image"
               />
+              <div
+                v-if="profilePhoto.value.value?.url"
+                class="form-image__delete"
+                @click="deleteImagePhoto(profilePhoto)"
+              >
+                <i class="fa-solid fa-circle-xmark"></i>
+              </div>
             </div>
 
             <input
               type="file"
               style="display: none"
               ref="presentationFile"
+              accept=".png, .jpg"
               hidden
               @change="changeFilePresentation"
             />
@@ -1021,6 +1029,7 @@ const {
   postWorkLocation,
   postBankAccount,
   putExperienceTime,
+  putPresentation,
   putBankAccount,
   deleteWorkLocation,
   deleteBankAccount,
@@ -1067,6 +1076,7 @@ const galleryPhotos = [
     alt: "Photo3",
   },
 ];
+const imgExtensions:string = process.env.VUE_APP_IMG_EXTENSIONS;
 const settings = ref({ itemsToShow: 1, snapAlign: "center" });
 const breakpoints = ref({
   //700px and up
@@ -1228,6 +1238,10 @@ const section2 = ref(0);
 const section3 = ref(0);
 const section4 = ref(0);
 const section5 = ref(0);
+
+//GH
+const flagUpdate = ref(false);
+const extension = ref("");
 
 //funcion para filtrar distritos por zona
 function filterForZone(idZone: number) {
@@ -1509,21 +1523,36 @@ async function fetchAccountBank() {
 //ENVIAR DATOS
 async function editPresentation() {
   const fields = {
-    profilePhoto: profilePhoto.value.value,
     name: name.value.value,
     lastName: lastName.value.value,
     about: about.value.value,
     direction: direction.value.value,
     phone: phone.value.value,
+    profilePhoto: profilePhoto.value.value,
     secondPhone: secondPhone.value.value,
   };
+
   const isValid = await validateProfile(fields);
+  console.log(isValid);
   if (!isValid) inputValidate();
 
   if (isValid) {
     formPresentation.value = { ...formPresentation.value, ...fields };
     const value = formPresentation.value;
-    console.log(value);
+    const payload = {
+      name: value.name,
+      lastName: value.lastName,
+      about: value.about,
+      address: value.direction,
+      phone: value.phone,
+      secondaryPhone: value.phone,
+      filePhoto: value.profilePhoto.url,
+      filePhotoExtension: extension.value,
+      flagUpdatePhoto: flagUpdate.value
+    };
+
+    await putPresentation(idEspecialist.value, payload);
+    await fetchDataSpecialist();
     alertSuccessButton("Se realizo la operación exitosamente");
   }
 }
@@ -1876,12 +1905,19 @@ function changeFileCover(event: any) {
     imagesList.value.value[index].file = "";
     return;
   }
+  
   console.log("changeFileCover");
   imagesList.value.value[index].file = file;
   const fr = new FileReader();
   fr.onload = () => (imagesList.value.value[index].url = String(fr.result));
   fr.readAsDataURL(file);
   event.target.value = ""; // Restablecer valor del input
+}
+
+function deleteImagePhoto(photo: any) {
+  flagUpdate.value = true;
+
+  console.log(photo);
 }
 
 function deleteImage(index: any) {
@@ -1904,6 +1940,14 @@ function changeFilePresentation(event: any) {
     profilePhoto.value.value.url = null;
     return;
   }
+
+  if(!imgExtensions.split(",").includes(file.type)){
+    alertError("Por favor subir una imagen con extensión 'png' o 'jpg'");
+    return;
+  }
+
+  flagUpdate.value = true;
+  extension.value = file.type;
   profilePhoto.value.value.file = file;
   const fr = new FileReader();
   fr.onload = () => (profilePhoto.value.value.url = String(fr.result));

@@ -3,6 +3,7 @@ import AxiosClient from "../axiosClient"
 import { WorkLocation } from "@/interfaces/WorkLocationSpecialist.interfaces"
 import { BankAccountSpecialist } from "@/interfaces/BankAccountSpecialist.interfaces"
 import { SpecializationSpecialist } from "@/interfaces/SpecializationSpecialist.interfaces"
+import { ProfileSpecialistPayload } from "@/interfaces/ProfileSpecialist.interfaces";
 
 const generalApi = {
   getDataSpecialist: "/specialist/full/",
@@ -52,6 +53,12 @@ export class SpecialistServices {
     const { data } = await AxiosClient.axiosIns.post(generalApi.postWorkLocation, payload)
     return data
   }
+
+  async putPresentation(idSpecialist: string, payload: ProfileSpecialistPayload) {
+    const { data } = await AxiosClient.axiosIns.put(generalApi.putExperienceTime + idSpecialist, payload)
+    return data;
+  }
+
   async putExperienceTime(idSpecialist: string, payload: any) {
     const { data } = await AxiosClient.axiosIns.put(generalApi.putExperienceTime + idSpecialist + "/experience", payload)
     return data
