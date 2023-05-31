@@ -137,6 +137,7 @@
 </template>
 
 <script setup lang="ts">
+import axios from "axios";
 import ProjectCard from "@/modules/client/views/Components/ProjectCard.vue";
 import {
   alertLoading,
@@ -152,6 +153,8 @@ import {
   defineProps,
   toRefs,
 } from "vue";
+
+const URL = process.env.VUE_APP_BACK_URL;
 
 const props = defineProps<{
   type: string;
@@ -170,69 +173,56 @@ const projectSelected = ref(0);
 const qualificationSelected = ref(0);
 // Ejemplo de estados del projecto para la simulación
 // Status: 0 (Abierto) , 1(Propuesta Aceptada), 2(Pendiente de pago) , 3(Terminada)
-const currentProjects = ref([
-  {
-    id: 1,
-    work: "Carpintero",
-    description:
-      " Lorem ipsum dolor sit amet consectetur, adipisicing elit. Earum, nihil voluptatem architecto est animi vel tenetur ut repellat reprehenderit exercitationem?",
-    status: 0,
-    isQualified: false,
-  },
-  {
-    id: 2,
-    work: "Pintor",
-    description:
-      " Lorem ipsum dolor sit amet consectetur, adipisicing elit. Earum, nihil volem?",
-    status: 1,
-    isQualified: false,
-  },
-  {
-    id: 3,
-    work: "Maestro de obra",
-    description:
-      " Lorem ipsum dolor sit amet consectetur, ecto est animi vel tenetur ut repellat reprehenderit exercitationem?",
-    status: 2,
-    isQualified: false,
-  },
-]);
+interface currentProyect {
+  professionName: string;
+  detail: string;
+  creationDate: string;
+  proposalsCounter: number;
+  rating: number;
+  enabledRating: boolean;
+  ratingDone: boolean;
+}
+const currentProjects = ref<Array<currentProyect>>([]);
 const pastProjects = ref([
-  {
-    id: 4,
-    work: "Tecnico",
-    description:
-      " Lorem ipsum dolor sit amet consectetur, adipisicing elit. Earum, nihil voluptatem architecto est animi vel tenetur ut repellat reprehenderit exercitationem?",
-    status: 3,
-    isQualified: false,
-  },
-  {
-    id: 5,
-    work: "Electricista",
-    description:
-      " Lorem ipsum dolor sit amet consectetur, adipisicing elit. Earum, nihil volem?",
-    status: 3,
-    isQualified: false,
-  },
-  {
-    id: 6,
-    work: "Carpintero",
-    description:
-      " Lorem ipsum dolor sit amet consectetur, ecto est animi vel tenetur ut repellat reprehenderit exercitationem?",
-    status: 3,
-    isQualified: false,
-  },
+//   {
+//     id: 4,
+//     work: "Tecnico",
+//     description:
+//       " Lorem ipsum dolor sit amet consectetur, adipisicing elit. Earum, nihil voluptatem architecto est animi vel tenetur ut repellat reprehenderit exercitationem?",
+//     status: 3,
+//     isQualified: false,
+//   },
+//   {
+//     id: 5,
+//     work: "Electricista",
+//     description:
+//       " Lorem ipsum dolor sit amet consectetur, adipisicing elit. Earum, nihil volem?",
+//     status: 3,
+//     isQualified: false,
+//   },
+//   {
+//     id: 6,
+//     work: "Carpintero",
+//     description:
+//       " Lorem ipsum dolor sit amet consectetur, ecto est animi vel tenetur ut repellat reprehenderit exercitationem?",
+//     status: 3,
+//     isQualified: false,
+//   },
 ]);
 
-onMounted(() => {
+onMounted(async () => {
   if (type.value == "current") {
     isCurrentTab.value = true;
   } else {
     isCurrentTab.value = false;
   }
   isLoading.value = false;
+
+  let {data} = await axios.get(URL + "/customer/proyects");
+  currentProjects.value=data
 });
 
-function loadProjects() {
+function loadProjects() { 
   isLoadingProjects.value = true;
   if (isCurrentTab.value) {
     loadCurrentProjects();
@@ -243,23 +233,6 @@ function loadProjects() {
 
 //Carga projectos vigentes
 function loadCurrentProjects() {
-  const project = {
-    id: 7,
-    work: "Tecnico",
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Earum, nihil voluptatem architecto est animi vel tenetur ut repellat reprehenderit exercitationem?",
-    status: 0,
-    isQualified: false,
-  };
-  console.log("Exec loadCurrentProjects...");
-  const timeOut = setTimeout(() => {
-    console.log("Inside setTimeout...");
-    currentProjects.value.push(project);
-    currentProjects.value.push(project);
-    console.log(currentProjects);
-    isLoadingProjects.value = false;
-    clearTimeout(timeOut);
-  }, 2000);
 }
 
 watch(currentProjects, (newValue, OldValue) => {
@@ -272,21 +245,6 @@ watchEffect(() => {
 
 //Carga proyectos pasados
 function loadPastProjects() {
-  const project = {
-    id: 8,
-    work: "Tecnico",
-    description:
-      " Lorem ipsum dolor sit amet consectetur, adipisicing elit. Earum, nihil voluptatem architecto est animi vel tenetur ut repellat reprehenderit exercitationem?",
-    status: 3,
-    isQualified: false,
-  };
-
-  const timeOut = setTimeout(() => {
-    pastProjects.value.push(project);
-    pastProjects.value.push(project);
-    isLoadingProjects.value = false;
-    clearTimeout(timeOut);
-  }, 2000);
 }
 
 //Abrir el Modal de Calificacion
@@ -311,21 +269,21 @@ function checkQualifaction(event: Event, qualification: number) {
 }
 
 function sendQualification() {
-  alertLoading();
-  const project = pastProjects.value.find(
-    (proj) => proj.id == projectSelected.value
-  );
-  project!.isQualified = true;
-  const timeOut = setTimeout(() => {
-    alertSuccessfully("Se envio la calificación exitosamente");
-    clearIcons();
-    closeCalificationModal();
-    const timeOut2 = setTimeout(() => {
-      closeAlert();
-      clearTimeout(timeOut2);
-    }, 1500);
-    clearTimeout(timeOut);
-  }, 1500);
+  // alertLoading();
+  // const project = pastProjects.value.find(
+  //   (proj) => proj.id == projectSelected.value
+  // );
+  // project!.isQualified = true;
+  // const timeOut = setTimeout(() => {
+  //   alertSuccessfully("Se envio la calificación exitosamente");
+  //   clearIcons();
+  //   closeCalificationModal();
+  //   const timeOut2 = setTimeout(() => {
+  //     closeAlert();
+  //     clearTimeout(timeOut2);
+  //   }, 1500);
+  //   clearTimeout(timeOut);
+  // }, 1500);
 }
 
 function clearIcons() {

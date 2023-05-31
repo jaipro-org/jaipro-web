@@ -598,7 +598,7 @@ import useRegisterSpecialistValidate from "@/validate/registerSpecialistValidate
 // SERVICES
 import { GeneralServices } from "../../../services/api/generalServices";
 import { AuthServices } from "@/services/api/authServices";
-import { useStore } from "vuex";
+import { useLoginStore } from "@/store";
 
 const generalServices = new GeneralServices();
 const authServices = new AuthServices();
@@ -724,6 +724,7 @@ watch(listProfession.value, () => {
   workList.workSelected = listProfession.value.value;
 });
 watch(location.value, () => {
+  location.value.value = location.value.value.slice(0, 3)
   locationSelected.value = location.value.value;
 });
 
@@ -883,7 +884,7 @@ const countExperience = (index: any) => {
 //#endregion
 
 //#region REGISTER SPECIALIST
-const store = useStore();
+const useLogin = useLoginStore();
 const structureDataRegister = () => {
   const specialistSpecializations: Array<any> = [];
   const experienceTimes: Array<any> = [];
@@ -947,7 +948,7 @@ const registerSpecialist = async () => {
     });
 
     alertLoading("Iniciando sesión del usuario.");
-    await store.dispatch("authModule/loginUser", {
+    await useLogin.loginUser({
       email: form.email,
       password: form.password,
     });

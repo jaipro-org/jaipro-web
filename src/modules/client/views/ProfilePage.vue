@@ -127,6 +127,7 @@
                 <b-col cols="12" lg="5" class="mb-3">
                   <b-form-group label="Correo" label-for="input-3">
                     <b-form-input
+                      disabled
                       v-model="email.value.value"
                       :state="
                         validate(
@@ -383,7 +384,6 @@ import { ClientServices } from "@/services/api/clientProfileServices";
 import { GeneralServices } from "@/services/api/generalServices";
 import { encryptAuthStorage } from "@/utils/Storage";
 import useProfileClientValidate from "@/validate/profileClientValidate";
-import { PhotoClient } from "@/interfaces/PhotoClient.interfaces";
 
 const authData: string = window.localStorage.getItem("@AUTH:security") || "";
 
@@ -404,7 +404,7 @@ const {
   inputValidate,
 } = useProfileClientValidate();
 
-const { getDataClient, putInformation, putLocation, putPassword, putPhoto } =
+const { getDataClient, putInformation, putLocation, putPassword } =
   new ClientServices();
 const { getDistrictList } = new GeneralServices();
 const collapseWeb = ref(true);
@@ -416,7 +416,6 @@ const isLoading = ref(true);
 const districtOptions = ref();
 const coverLoad = ref(require("@/assets/img-delete/profile.jpg"));
 const currentData = ref();
-const imgExtensions:string = process.env.VUE_APP_IMG_EXTENSIONS;
 // const fileImage: any = ref(null);
 // const coverImage: any = ref(null);
 onMounted(async () => {
@@ -442,13 +441,12 @@ async function fetchDataClient() {
 
   currentData.value = data;
 
-  name.value.value = data.name;
-  lastname.value.value = data.lastName;
-  email.value.value = data.email;
-  phone.value.value = data.phone;
-  ubication.value.value = data.address;
-  district.value.value = data.districtId;
-  console.log(data);
+  data.name && (name.value.value = data.name);
+  data.lastName && (lastname.value.value = data.lastName);
+  data.email && (email.value.value = data.email);
+  data.phone && (phone.value.value = data.phone);
+  data.address && (ubication.value.value = data.address);
+  data.districtId && (district.value.value = data.districtId);
 }
 //CARGAR Lista Distritos
 async function fetchListDIstrict() {
@@ -480,26 +478,16 @@ const formUbication = ref({
 //#endregion
 
 //#region VALIDATE AND SEND-VALUE-FOR-API
-const updateCover = async () => {
-  const coverImg = cover.value.coverImage; 
-  const fileImg = cover.value.fileImage;
-
+function updateCover() {
+  let coverImg = cover.value.coverImage;
+  let fileImg = cover.value.fileImage;
   if (coverImg && fileImg) {
-    alertLoading("Actualizando...");
-    const inputFile: FileList = portadaFile.value.files;
-    const payload: PhotoClient = {
-      id: idClient.value,
-      photo: inputFile[0]
-    };
-
-    await putPhoto(payload);
     coverLoad.value = coverImg;
     showModal.value = false;
   }
   cover.value.fileImage = "";
   cover.value.coverImage = "";
-  alertSuccessButton("Se realizo la actualizacion exitosamente");
-};
+}
 
 const setDatosPersonales = async () => {
   const fields = {

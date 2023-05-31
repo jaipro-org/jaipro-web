@@ -1107,7 +1107,18 @@ const loadingModal = ref({
   workLocation: true,
 });
 const sliding = ref(false);
-const experiences = ref();
+const experiences = ref<Array<forExperiences>>([]);
+interface forExperiences {
+  id: number;
+  months: number;
+  specialities: Array<forSpecialities>;
+  title: string;
+  years: number;
+}
+interface forSpecialities {
+  id: number;
+  name: string;
+}
 
 const imageSelected = ref(0);
 const formPresentation = ref({
@@ -1193,7 +1204,15 @@ const isModalLocationEdit = ref(true);
 //locaciones de trabajo del especialista
 const listWorkLocation = ref();
 //Lista de cuentas bancarias del especialista
-const acountsList = ref();
+const acountsList = ref<Array<AccountList>>([]);
+interface AccountList {
+  id: string;
+  accountNumber: string;
+  preferred: boolean;
+  bankId: number;
+  cci: string;
+  specialistId: string;
+}
 //datos para enviar a NEW_ACCOUNT_SPECIALIST
 const formAcount = ref({
   accountNumber: "",
@@ -1204,17 +1223,23 @@ const formAcount = ref({
   bankId: 1,
 });
 //Lista de Locaciones de trabajo del especialista
-const locationsList = ref();
-interface forLocation {
+const locationsList = ref<Array<LocationWork>>([]);
+interface LocationWork {
+  id: number;
+  value: string;
+  zona: string;
+  groupID: Array<number>;
+}
+//Lista de todos los distritos
+const districtList = ref();
+//Distritos filtrados por zona
+const districtForZone = ref<Array<LocationActiveForZone>>([]);
+interface LocationActiveForZone {
   active: boolean;
   id: number;
   name: string;
   zone: number;
 }
-//Lista de todos los distritos
-const districtList = ref();
-//Distritos filtrados por zona
-const districtForZone = ref<Array<forLocation>>([]);
 //Distritos filtrados no modificables
 const districtForZoneOld = ref();
 //Distritos con active=true para ser enviado
@@ -1361,8 +1386,6 @@ onMounted(async () => {
   await FormatoExperiencia(); // Procesa Experiencia para Front
   await fetchWorkLocation(); // Procesa WorkLocation para Front
   await fetchAccountBank(); // Procesa AccountBank para Front
-
-  console.log(locationsList.value);
 });
 
 //CARGAR Profesiones
@@ -1516,7 +1539,17 @@ async function fetchWorkLocation() {
 async function fetchAccountBank() {
   let dataBank = await getBankAccount(idEspecialist.value);
   dataBank.reverse();
-  acountsList.value = dataBank;
+
+  acountsList.value = dataBank.map((data: any) => {
+    return {
+      id: data.id,
+      accountNumber: data.accountNumber,
+      preferred: data.preferred,
+      cci: data.cci,
+      bankId: data.bankId,
+      specialistId: data.specialistId,
+    };
+  });
   loadingModal.value.bank = false;
 }
 
@@ -1567,7 +1600,6 @@ async function editGallery() {
   if (isValid) {
     formGalery.value = { ...formGalery.value, ...fields };
     const value = formGalery.value;
-    console.log(value);
     alertSuccessButton("Se realizo la operación exitosamente");
   }
 }
@@ -1740,7 +1772,7 @@ async function updatePreferredBank(id: string) {
     await putBankAccount(newDato[0]);
     await fetchAccountBank();
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 }
 //#endregion
@@ -1785,14 +1817,16 @@ function modalProfessionEdit(id: number, index: number) {
   );
 
   setTimeout(() => {
-    filterForProfession(id);
-    idProfession.value.value = id;
-    workExperience.value.years = data.years;
-    workExperience.value.months = data.months;
-    expProfession.value.value = {
-      años: data.years,
-      meses: data.months,
-    };
+    if (data) {
+      filterForProfession(id);
+      idProfession.value.value = id;
+      workExperience.value.years = data.years;
+      workExperience.value.months = data.months;
+      expProfession.value.value = {
+        años: data.years,
+        meses: data.months,
+      };
+    }
   }, 10);
   isModalProfessionEdit.value = true;
   showModalExperience.value = true;
@@ -1820,7 +1854,6 @@ function modalProfessionCreate() {
 
 async function deleteLocation(id: number) {
   let listIdDistritic = locationsList.value[id].groupID;
-  console.log(listIdDistritic);
   try {
     alertLoading("Eliminando...");
     for (const id of listIdDistritic) {
@@ -1846,7 +1879,6 @@ async function deleteAcount(id: string) {
 }
 
 function deleteExperience(id: number) {
-  console.log(id);
   // const index = experiences.value.findIndex(
   //   (experience: any) => experience.id == id
   // );
@@ -1992,7 +2024,6 @@ const isAcountSection = computed(() => {
   // if (!isLoading.value) {
   //   let footer: any = document.getElementById("footer__limit");
   //   let footerScrollY: number = Number(footer.offsetTop) - 320;
-  //   console.log(footerScrollY);
   //   return section1.value >= section5.value && section1.value < footerScrollY
   //     ? true
   //     : false;

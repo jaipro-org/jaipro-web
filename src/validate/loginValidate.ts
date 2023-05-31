@@ -19,8 +19,8 @@ export default function useLoginFormValidate() {
     .required("Campo requerido");
 
   // Define los campos de formulario validados
-  const email = useField("email", emailSchema);
-  const password = useField("password", passwordSchema);
+  const email = useField<string>("email", emailSchema);
+  const password = useField<string>("password", passwordSchema);
 
   // Define la función de validación
   async function validate(data: any) {

@@ -18,7 +18,7 @@
           >Quiero cotizar</a
         > -->
         <router-link
-          to="/cliente/nuevo-proyecto"
+          to="/general/nuevo-proyecto"
           custom
           v-slot="{ navigate, href }"
         >
