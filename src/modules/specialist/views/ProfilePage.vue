@@ -1838,6 +1838,7 @@ async function deleteLocation(id: number) {
   }
 }
 
+// ELIMINAR CUENTA BANCARIA 
 async function deleteAcount(id: string) {
   try {
     alertLoading("Eliminando...");
@@ -1849,10 +1850,13 @@ async function deleteAcount(id: string) {
   }
 }
 
+// ELIMINAR EXPERIENCIA COMPLETA DE UNA PROFESION
 async function deleteExperience(id: number) {
   try {
     alertLoading("Eliminando...");
     await deleteExperienceForProfessionId(idEspecialist.value, id)
+    await fetchDataSpecialist(); // obtiene datos personales del especialista
+    await FormatoExperiencia(); // Procesa Experiencia para Front
     alertSuccessButton("Se elimino exitosamente");
   } catch (error: any) {
     alertError(error.response.data.message);
