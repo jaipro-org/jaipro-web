@@ -1449,8 +1449,7 @@ async function fetchDataSpecialist() {
     secondPhone: "",
     cv: data.cv,
   };
-  //console.log(formPresentation.value)
-  //console.log(data.cv.profilePhoto.url)
+  console.log(data.cv.profilePhoto.url)
 }
 //CARGAR Experiencia del especialista
 async function fetchSpecialization() {
@@ -1555,7 +1554,7 @@ async function fetchAccountBank() {
   loadingModal.value.bank = false;
 }
 
-//ENVIAR DATOS
+//ENVIAR DATOS PERFIL
 async function editPresentation() {
   const fields = {
     name: name.value.value,
@@ -1572,27 +1571,26 @@ async function editPresentation() {
 
   if (isValid) {
     formPresentation.value = { ...formPresentation.value, ...fields };
-    const value = formPresentation.value;
     const payload = {
-      name: value.name,
-      lastName: value.lastName,
-      about: value.about,
-      address: value.direction,
-      phone: value.phone,
-      secondaryPhone: value.secondPhone,
-      filePhoto: value.profilePhoto.url,
+      name: formPresentation.value.name,
+      lastName: formPresentation.value.lastName,
+      about: formPresentation.value.about,
+      address: formPresentation.value.direction,
+      phone: formPresentation.value.phone,
+      secondaryPhone: formPresentation.value.secondPhone,
+      filePhoto: formPresentation.value.profilePhoto.url,
       filePhotoExtension: extension.value,
       flagUpdatePhoto: flagUpdate.value
     };
     console.log(payload)
     try {
-      const resp = await putPresentation(idEspecialist.value, payload);
-      console.log(resp)
-    } catch (error) {
-      
+      alertLoading("Actualizando...");
+      await putPresentation(idEspecialist.value, payload);
+      await fetchDataSpecialist()
+      alertSuccessButton("Datos actualizados...");
+    } catch (error: any) {
+      alertError(error.response.data.message);
     }
-    // await fetchDataSpecialist();
-    // alertSuccessButton("Se realizo la operación exitosamente");
   }
 }
 //ENVIAR GALERIA
@@ -1981,7 +1979,7 @@ function changeFilePresentation(event: any) {
     return;
   }
   flagUpdate.value = true;
-  extension.value = file.type;
+  extension.value = file.type.split("/")[1];
   profilePhoto.value.value.file = file;
   const fr = new FileReader();
   fr.onload = () => (profilePhoto.value.value.url = String(fr.result));
