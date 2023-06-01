@@ -65,8 +65,8 @@ export class SpecialistServices {
     const { data } = await AxiosClient.axiosIns.delete(generalApi.deleteWorkLocation + idSpecialist + "/" + idDistrict)
     return data
   }
-  async deleteExperienceForProfessionId(idSpecialist: string, idProfession: string) {
-    const { data } = await AxiosClient.axiosIns.put(generalApi.deleteExperienceForProfession + idSpecialist + "/experience/" + idProfession)
+  async deleteExperienceForProfessionId(idSpecialist: string, idProfession: number) {
+    const { data } = await AxiosClient.axiosIns.delete(generalApi.deleteExperienceForProfession + idSpecialist + "/experience/" + idProfession)
     return data
   }
   async deleteBankAccount(id: string) {

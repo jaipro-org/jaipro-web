@@ -1024,6 +1024,7 @@ const {
   putBankAccount,
   deleteWorkLocation,
   deleteBankAccount,
+  deleteExperienceForProfessionId,
 } = new SpecialistServices();
 const { getProfessionList, getSpecializationList, getDistrictList, getBank } =
   new GeneralServices();
@@ -1848,11 +1849,14 @@ async function deleteAcount(id: string) {
   }
 }
 
-function deleteExperience(id: number) {
-  // const index = experiences.value.findIndex(
-  //   (experience: any) => experience.id == id
-  // );
-  // experiences.value.splice(index, 1);
+async function deleteExperience(id: number) {
+  try {
+    alertLoading("Eliminando...");
+    await deleteExperienceForProfessionId(idEspecialist.value, id)
+    alertSuccessButton("Se elimino exitosamente");
+  } catch (error: any) {
+    alertError(error.response.data.message);
+  }
 }
 
 function goBox(boxName: string) {
