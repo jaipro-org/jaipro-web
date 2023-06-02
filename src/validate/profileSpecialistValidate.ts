@@ -14,12 +14,7 @@ export default function useProfileSpecialistValidate() {
   //Define validación con Yup
   //SCHEMA PERFIL
   const profilePhotoSchema = yup
-    .object()
-    .shape({
-      url: yup.mixed().required("Imagen requerida"),
-      file: yup.mixed().required("Imagen requerida"),
-    })
-    .strict(true)
+    .string()
     .required("Imagen requerida")
   const nameSchema = yup
     .string()

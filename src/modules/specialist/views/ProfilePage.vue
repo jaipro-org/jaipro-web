@@ -109,7 +109,13 @@
         <b-col cols="12" id="presentation__box">
           <b-card class="mb-4 pt-5">
             <div class="image__user">
-              <img src="@/assets/img-delete/profile.jpg" alt="" />
+              <img
+                :src="
+                  formPresentation.profilePhoto ||
+                  require('@/assets/img-delete/profile.jpg')
+                "
+                alt="imagen user"
+              />
             </div>
             <div
               class="button__action button__action--float text-warning"
@@ -407,21 +413,19 @@
           <b-col cols="12" lg="8" class="mb-4 mx-auto">
             <div
               class="form-image__file mt-2 mx-auto mb-1"
-              :class="
-                !profilePhoto.value.value?.url ? 'form-image__file--aux' : ''
-              "
+              :class="!profilePhoto.value.value ? 'form-image__file--aux' : ''"
               @click="uploadPresentationImage"
             >
               <img
                 :src="
-                  !profilePhoto.value.value?.url
+                  !profilePhoto.value.value
                     ? require('@/assets/img-delete/fileimage-up.png')
-                    : profilePhoto.value.value?.url
+                    : profilePhoto.value.value
                 "
                 alt="image"
               />
               <div
-                v-if="profilePhoto.value.value?.url"
+                v-if="profilePhoto.value.value"
                 class="form-image__delete"
                 @click="deleteImagePhotoPresentation(profilePhoto)"
               >
@@ -452,7 +456,11 @@
               <b-form-input
                 v-model="name.value.value"
                 :state="
-                  validateState(name.value.value, name.errorMessage.value)
+                  validate(
+                    currentPresentation.name,
+                    name.value.value,
+                    name.errorMessage.value
+                  )
                 "
                 id="input-pres-1"
                 placeholder="Ingrese su nombre"
@@ -469,7 +477,8 @@
                 id="input-pres-2"
                 v-model="lastName.value.value"
                 :state="
-                  validateState(
+                  validate(
+                    currentPresentation.lastName,
                     lastName.value.value,
                     lastName.errorMessage.value
                   )
@@ -488,7 +497,11 @@
                 id="input-pres-3"
                 v-model="about.value.value"
                 :state="
-                  validateState(about.value.value, about.errorMessage.value)
+                  validate(
+                    currentPresentation.about,
+                    about.value.value,
+                    about.errorMessage.value
+                  )
                 "
                 placeholder="Redacta acerca de tu experiencia"
                 rows="4"
@@ -506,7 +519,8 @@
                 id="input-pres-4"
                 v-model="direction.value.value"
                 :state="
-                  validateState(
+                  validate(
+                    currentPresentation.direction,
                     direction.value.value,
                     direction.errorMessage.value
                   )
@@ -525,7 +539,11 @@
                 id="input-pres-5"
                 v-model="phone.value.value"
                 :state="
-                  validateState(phone.value.value, phone.errorMessage.value)
+                  validate(
+                    currentPresentation.phone,
+                    phone.value.value,
+                    phone.errorMessage.value
+                  )
                 "
                 placeholder="Ingrese su teléfono"
                 class="rounded-pill"
@@ -542,7 +560,8 @@
                 id="input-pres-6"
                 v-model="secondPhone.value.value"
                 :state="
-                  validateState(
+                  validate(
+                    currentPresentation.secondPhone,
                     secondPhone.value.value,
                     secondPhone.errorMessage.value
                   )
@@ -1076,7 +1095,7 @@ const galleryPhotos = [
     alt: "Photo3",
   },
 ];
-const imgExtensions:string = process.env.VUE_APP_IMG_EXTENSIONS;
+const imgExtensions: string = process.env.VUE_APP_IMG_EXTENSIONS;
 const settings = ref({ itemsToShow: 1, snapAlign: "center" });
 const breakpoints = ref({
   //700px and up
@@ -1121,11 +1140,16 @@ interface forSpecialities {
 }
 
 const imageSelected = ref(0);
+const currentPresentation = ref({
+  name: "",
+  lastName: "",
+  about: "",
+  direction: "",
+  phone: "",
+  secondPhone: "",
+});
 const formPresentation = ref({
-  profilePhoto: {
-    url: "",
-    file: "",
-  },
+  profilePhoto: "",
   name: "",
   lastName: "",
   about: "",
@@ -1361,6 +1385,14 @@ watch(
   }
 );
 
+function validate(current: any, value: any, error: any) {
+  if (current === value) {
+    return null;
+  } else {
+    return validateState(value, error);
+  }
+}
+
 onMounted(async () => {
   if (Boolean(authData)) {
     let data = encryptAuthStorage.decryptValue(authData);
@@ -1437,19 +1469,26 @@ async function fetchListNameBank() {
 async function fetchDataSpecialist() {
   let data = await getDataSpecialist(idEspecialist.value);
   formPresentation.value = {
-    profilePhoto: {
-      url: data.cv.profilePhoto.url,
-      file: "",
-    },
     name: data.specialist.name,
     lastName: data.specialist.lastName,
     about: data.cv.about,
     direction: data.specialist.address,
     phone: data.specialist.phone,
-    secondPhone: "",
+    secondPhone: data.specialist.secondaryPhone,
+    profilePhoto: data.cv.profilePhoto.url + `?v=${new Date()}`,
     cv: data.cv,
   };
-  console.log(data.cv.profilePhoto.url)
+  currentPresentation.value = {
+    name: data.specialist.name,
+    lastName: data.specialist.lastName,
+    about: data.cv.about,
+    direction: data.specialist.address,
+    phone: data.specialist.phone,
+    secondPhone: data.specialist.secondaryPhone,
+  };
+}
+function cargarPhoto() {
+
 }
 //CARGAR Experiencia del especialista
 async function fetchSpecialization() {
@@ -1562,33 +1601,34 @@ async function editPresentation() {
     about: about.value.value,
     direction: direction.value.value,
     phone: phone.value.value,
-    profilePhoto: profilePhoto.value.value,
     secondPhone: secondPhone.value.value,
+    profilePhoto: profilePhoto.value.value,
   };
 
   const isValid = await validateProfile(fields);
   if (!isValid) inputValidate();
 
   if (isValid) {
-    formPresentation.value = { ...formPresentation.value, ...fields };
     const payload = {
-      name: formPresentation.value.name,
-      lastName: formPresentation.value.lastName,
-      about: formPresentation.value.about,
-      address: formPresentation.value.direction,
-      phone: formPresentation.value.phone,
-      secondaryPhone: formPresentation.value.secondPhone,
-      filePhoto: formPresentation.value.profilePhoto.url,
+      name: fields.name,
+      lastName: fields.lastName,
+      about: fields.about,
+      address: fields.direction,
+      phone: fields.phone,
+      secondaryPhone: fields.secondPhone,
+      filePhoto: fields.profilePhoto.split(",")[1],
       filePhotoExtension: extension.value,
-      flagUpdatePhoto: flagUpdate.value
+      flagUpdatePhoto: flagUpdate.value,
     };
-    console.log(payload)
     try {
       alertLoading("Actualizando...");
       await putPresentation(idEspecialist.value, payload);
-      await fetchDataSpecialist()
+      await fetchDataSpecialist();
+      console.log(payload);
+      showModalEditPresentacion.value = false;
       alertSuccessButton("Datos actualizados...");
     } catch (error: any) {
+      showModalEditPresentacion.value = false;
       alertError(error.response.data.message);
     }
   }
@@ -1810,6 +1850,15 @@ function showAccount() {
 
 function showEditPresentacion() {
   showModalEditPresentacion.value = true;
+  const data = formPresentation.value;
+
+  data.name && (name.value.value = data.name);
+  data.lastName && (lastName.value.value = data.lastName);
+  data.about && (about.value.value = data.about);
+  data.direction && (direction.value.value = data.direction);
+  data.phone && (phone.value.value = data.phone);
+  data.secondPhone && (secondPhone.value.value = data.secondPhone);
+  data.profilePhoto && (profilePhoto.value.value = data.profilePhoto);
 }
 
 function modalProfessionEdit(id: number, index: number) {
@@ -1939,7 +1988,7 @@ function changeFileCover(event: any) {
     imagesList.value.value[index].file = "";
     return;
   }
-  
+
   console.log("changeFileCover");
   imagesList.value.value[index].file = file;
   const fr = new FileReader();
@@ -1965,24 +2014,22 @@ function deleteImagePhotoPresentation(photo: any) {
 }
 
 function changeFilePresentation(event: any) {
-  if (profilePhoto.value.value === undefined) {
+  if (profilePhoto.value.value === "") {
     profilePhoto.value.value = formPresentation.value.profilePhoto;
   }
   const file = event.target.files[0];
   if (!file) {
-    profilePhoto.value.value.file = null;
     profilePhoto.value.value.url = null;
     return;
   }
-  if(!imgExtensions.split(",").includes(file.type)){
+  if (!imgExtensions.split(",").includes(file.type)) {
     alertError("Por favor subir una imagen con extensión 'png' o 'jpg'");
     return;
   }
   flagUpdate.value = true;
   extension.value = file.type.split("/")[1];
-  profilePhoto.value.value.file = file;
   const fr = new FileReader();
-  fr.onload = () => (profilePhoto.value.value.url = String(fr.result));
+  fr.onload = () => (profilePhoto.value.value = String(fr.result));
   fr.readAsDataURL(file);
 }
 //#endregion
