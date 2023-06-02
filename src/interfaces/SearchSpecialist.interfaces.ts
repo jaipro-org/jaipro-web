@@ -30,7 +30,7 @@ export interface dataForSearch {
     districtsID: number[],
 }
 
-export interface optionProfession {
+export interface option{
     value: number,
     label: string
 }

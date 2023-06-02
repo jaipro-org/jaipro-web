@@ -15,6 +15,7 @@
                     push-tags
                     v-model="dataSearch.professionID"
                     :options="listProfession"
+                    :reduce="(option:any) => option.value"
                   />
                 </b-form-group>
               </b-col>
@@ -24,7 +25,8 @@
                     multiple
                     push-tags
                     v-model="dataSearch.specialitiesID"
-                    :options="['Todas', 'Alarmas', 'Cableado']"
+                    :options="listSpecialities"
+                    :reduce="(option:any) => option.value"
                   />
                 </b-form-group>
               </b-col>
@@ -34,13 +36,8 @@
                     multiple
                     push-tags
                     v-model="dataSearch.districtsID"
-                    :options="[
-                      'Lima Norte',
-                      'Lima Sur',
-                      'Lima Este',
-                      'Lima Oeste',
-                      'Callao',
-                    ]"
+                    :options="listDistrict"
+                    :reduce="(option:any) => option.value"
                   />
                 </b-form-group>
               </b-col>
@@ -161,27 +158,51 @@
 <script setup lang="ts">
 import profileImg from "@/assets/img/profile.png";
 import StarRating from "@/shared/components/public/StarRating.vue";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { GeneralServices } from "@/services/api/generalServices";
 import {
   typeFilter,
   dataForSearch,
-  optionProfession,
+  option,
 } from "@/interfaces/SearchSpecialist.interfaces";
 
 const { getFilterSpecialist } = new GeneralServices();
+
 const imgProfile = ref(profileImg);
 const dataTypeFilter = ref<typeFilter>();
-const listProfession = ref<Array<optionProfession>>();
+const listProfession = ref<Array<option>>();
+const listSpecialities = ref<Array<option>>();
+const listDistrict = ref<Array<option>>();
 const dataSearch = ref<dataForSearch>({
   professionID: [],
   specialitiesID: [],
   districtsID: [],
 });
 
+watch(
+  () => dataSearch.value.professionID,
+  () => {
+    const filteredData =
+      dataTypeFilter.value?.specialities.filter((item) =>
+        dataSearch.value.professionID.includes(item.professionId)
+      ) || [];
+
+    listSpecialities.value = filteredData.map((data) => {
+      return {
+        value: data.id,
+        label: data.name,
+      };
+    });
+  },
+  {
+    deep: true,
+  }
+);
+
 onMounted(async () => {
   await fetchTypeFilter();
   listProfessionFilter();
+  listDistrictFilter();
 });
 
 async function fetchTypeFilter() {
@@ -189,8 +210,18 @@ async function fetchTypeFilter() {
     dataTypeFilter.value = await getFilterSpecialist();
   } catch (error) {}
 }
+
 function listProfessionFilter() {
   listProfession.value = dataTypeFilter.value?.professions.map((data) => {
+    return {
+      value: data.id,
+      label: data.name,
+    };
+  });
+}
+
+function listDistrictFilter() {
+  listDistrict.value = dataTypeFilter.value?.districts.map((data) => {
     return {
       value: data.id,
       label: data.name,
