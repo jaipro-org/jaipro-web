@@ -9,17 +9,12 @@
           <div class="panel-body">
             <b-form-row>
               <b-col>
-                <b-form-group label="Categoria">
+                <b-form-group label="Profesion">
                   <v-select
                     multiple
                     push-tags
-                    v-model="selected"
-                    :options="[
-                      'Albañil',
-                      'Electricista',
-                      'Gasfitero',
-                      'Pintor',
-                    ]"
+                    v-model="dataSearch.professionID"
+                    :options="listProfession"
                   />
                 </b-form-group>
               </b-col>
@@ -28,7 +23,7 @@
                   <v-select
                     multiple
                     push-tags
-                    v-model="selected"
+                    v-model="dataSearch.specialitiesID"
                     :options="['Todas', 'Alarmas', 'Cableado']"
                   />
                 </b-form-group>
@@ -38,7 +33,7 @@
                   <v-select
                     multiple
                     push-tags
-                    v-model="selected"
+                    v-model="dataSearch.districtsID"
                     :options="[
                       'Lima Norte',
                       'Lima Sur',
@@ -166,19 +161,45 @@
 <script setup lang="ts">
 import profileImg from "@/assets/img/profile.png";
 import StarRating from "@/shared/components/public/StarRating.vue";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import { GeneralServices } from "@/services/api/generalServices";
+import {
+  typeFilter,
+  dataForSearch,
+  optionProfession,
+} from "@/interfaces/SearchSpecialist.interfaces";
 
+const { getFilterSpecialist } = new GeneralServices();
 const imgProfile = ref(profileImg);
+const dataTypeFilter = ref<typeFilter>();
+const listProfession = ref<Array<optionProfession>>();
+const dataSearch = ref<dataForSearch>({
+  professionID: [],
+  specialitiesID: [],
+  districtsID: [],
+});
+
+onMounted(async () => {
+  await fetchTypeFilter();
+  listProfessionFilter();
+});
+
+async function fetchTypeFilter() {
+  try {
+    dataTypeFilter.value = await getFilterSpecialist();
+  } catch (error) {}
+}
+function listProfessionFilter() {
+  listProfession.value = dataTypeFilter.value?.professions.map((data) => {
+    return {
+      value: data.id,
+      label: data.name,
+    };
+  });
+}
 
 function search() {
-  console.log("buscando.....");
-}
-
-function myChangeEvent(val) {
-  console.log(val);
-}
-function mySelectEvent({ id, text }) {
-  console.log({ id, text });
+  console.log(dataSearch.value);
 }
 </script>
 
