@@ -1610,16 +1610,17 @@ async function editPresentation() {
 
   if (isValid) {
     const payload = {
-      name: fields.name,
-      lastName: fields.lastName,
-      about: fields.about,
-      address: fields.direction,
-      phone: fields.phone,
-      secondaryPhone: fields.secondPhone,
-      filePhoto: fields.profilePhoto.split(",")[1],
+      ...(fields.name !== currentPresentation.value.name && {name: fields.name}),
+      ...(fields.lastName !== currentPresentation.value.lastName && {lastName: fields.lastName}),
+      ...(fields.about !== currentPresentation.value.about && {about: fields.about}),
+      ...(fields.direction !== currentPresentation.value.direction && {address: fields.direction}),
+      ...(fields.phone !== currentPresentation.value.phone && {phone: fields.phone}),
+      ...(fields.secondPhone !== currentPresentation.value.secondPhone && {secondaryPhone: fields.secondPhone}),
+      filePhoto:  fields.profilePhoto.split(",")[1],
       filePhotoExtension: extension.value,
       flagUpdatePhoto: flagUpdate.value,
     };
+    console.log(payload)
     try {
       alertLoading("Actualizando...");
       await putPresentation(idEspecialist.value, payload);

@@ -9,13 +9,13 @@ export interface ProfileSpecialist {
 }
 
 export interface ProfileSpecialistPayload {
-  name: string,
-  lastName: string,
-  about: string,
-  address: string,
-  phone: string,
-  secondaryPhone: string,
-  filePhoto: string,
-  filePhotoExtension: string,
-  flagUpdatePhoto: boolean
+  name?: string,
+  lastName?: string,
+  about?: string,
+  address?: string,
+  phone?: string,
+  secondaryPhone?: string,
+  filePhoto?: string,
+  filePhotoExtension?: string,
+  flagUpdatePhoto?: boolean
 }
