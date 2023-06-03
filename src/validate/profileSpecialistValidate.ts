@@ -14,23 +14,38 @@ export default function useProfileSpecialistValidate() {
   //Define validación con Yup
   //SCHEMA PERFIL
   const profilePhotoSchema = yup
-    .object()
-    .shape({
-      url: yup.mixed().required("Imagen requerida"),
-      file: yup.mixed().required("Imagen requerida"),
-    })
-    .strict(true)
+    .string()
     .required("Imagen requerida")
-  const nameSchema = yup.string().required("Campo requerido")
-  const lastNameSchema = yup.string().required("Campo requerido")
-  const aboutSchema = yup.string().required("Campo requerido")
-  const directionSchema = yup.string().required("Campo requerido")
+  const nameSchema = yup
+    .string()
+    .max(36, "36 caracteres como maximo")
+    .min(2, "2 caracteres como minimo")
+    .required("Campo requerido")
+  const lastNameSchema = yup
+    .string()
+    .max(36, "36 caracteres como maximo")
+    .min(2, "2 caracteres como minimo")
+    .required("Campo requerido")
+  const aboutSchema = yup
+    .string()
+    .max(1300, "1300 caracteres como maximo")
+    .min(30, "30 caracteres como minimo")
+    .required("Campo requerido")
+  const directionSchema = yup
+    .string()
+    .max(127, "127 caracteres como maximo")
+    .min(2, "2 caracteres como minimo")
+    .required("Campo requerido")
   const phoneSchema = yup
     .string()
+    .max(15, "15 digitos como maximo")
+    .min(9, "9 digitos como minimo")
     .matches(/^[0-9]+$/, "Campo requerido")
     .required("Campo requerido")
   const secondPhoneSchema = yup
     .string()
+    .max(15, "15 digitos maximo")
+    .min(9, "9 digitos minimos")
     .matches(/^[0-9]+$/, "Campo requerido")
     .required("Campo requerido")
 

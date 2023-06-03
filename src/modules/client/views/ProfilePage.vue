@@ -363,6 +363,7 @@
         ref="portadaFile"
         hidden
         type="file"
+        accept=".png, .jpg"
         @change="changeFileCover"
       />
     </div>
@@ -601,6 +602,12 @@ function changeFileCover(event: any) {
     cover.value.coverImage = "";
     return;
   }
+
+  if(!imgExtensions.split(",").includes(file.type)){
+    alertError("Por favor subir una imagen con extensión 'png' o 'jpg'");
+    return;
+  }
+
   cover.value.fileImage = file;
   const fr = new FileReader();
   fr.onload = () => (cover.value.coverImage = String(fr.result));
