@@ -414,9 +414,9 @@
             <div
               class="form-image__file mt-2 mx-auto mb-1"
               :class="!profilePhoto.value.value ? 'form-image__file--aux' : ''"
-              @click="uploadPresentationImage"
             >
               <img
+                @click="uploadPresentationImage"
                 :src="
                   !profilePhoto.value.value
                     ? require('@/assets/img-delete/fileimage-up.png')
@@ -426,7 +426,7 @@
               />
               <div
                 v-if="profilePhoto.value.value"
-                class="form-image__delete"
+                class="deleteImagePresentation"
                 @click="deleteImagePhotoPresentation(profilePhoto)"
               >
                 <i class="fa-solid fa-circle-xmark"></i>
@@ -506,6 +506,7 @@
                 placeholder="Redacta acerca de tu experiencia"
                 rows="4"
                 max-rows="6"
+                :style="{ height: '230px' }"
                 class="rounded-right rounded-left"
               ></b-form-textarea>
               <b-form-invalid-feedback :state="about.errorMessage.value">
@@ -1487,9 +1488,7 @@ async function fetchDataSpecialist() {
     secondPhone: data.specialist.secondaryPhone,
   };
 }
-function cargarPhoto() {
-
-}
+function cargarPhoto() {}
 //CARGAR Experiencia del especialista
 async function fetchSpecialization() {
   specialization.value = await getSpecialization(idEspecialist.value);
@@ -1610,22 +1609,24 @@ async function editPresentation() {
 
   if (isValid) {
     const payload = {
-      ...(fields.name !== currentPresentation.value.name && {name: fields.name}),
-      ...(fields.lastName !== currentPresentation.value.lastName && {lastName: fields.lastName}),
-      ...(fields.about !== currentPresentation.value.about && {about: fields.about}),
-      ...(fields.direction !== currentPresentation.value.direction && {address: fields.direction}),
-      ...(fields.phone !== currentPresentation.value.phone && {phone: fields.phone}),
-      ...(fields.secondPhone !== currentPresentation.value.secondPhone && {secondaryPhone: fields.secondPhone}),
-      filePhoto:  fields.profilePhoto.split(",")[1],
-      filePhotoExtension: extension.value,
-      flagUpdatePhoto: flagUpdate.value,
+      name: fields.name,
+      lastName: fields.lastName,
+      ...(fields.about !== currentPresentation.value.about && {
+        about: fields.about,
+      }),
+      address: fields.direction,
+      phone: fields.phone,
+      secondaryPhone: fields.secondPhone,
+      ...(flagUpdate.value && {
+        filePhoto: fields.profilePhoto.split(",")[1],
+        filePhotoExtension: extension.value,
+        flagUpdatePhoto: flagUpdate.value,
+      }),
     };
-    console.log(payload)
     try {
       alertLoading("Actualizando...");
       await putPresentation(idEspecialist.value, payload);
       await fetchDataSpecialist();
-      console.log(payload);
       showModalEditPresentacion.value = false;
       alertSuccessButton("Datos actualizados...");
     } catch (error: any) {
@@ -1853,6 +1854,9 @@ function showEditPresentacion() {
   showModalEditPresentacion.value = true;
   const data = formPresentation.value;
 
+  flagUpdate.value = false;
+  extension.value = "";
+
   data.name && (name.value.value = data.name);
   data.lastName && (lastName.value.value = data.lastName);
   data.about && (about.value.value = data.about);
@@ -2020,7 +2024,7 @@ function changeFilePresentation(event: any) {
   }
   const file = event.target.files[0];
   if (!file) {
-    profilePhoto.value.value.url = null;
+    profilePhoto.value.value = null;
     return;
   }
   if (!imgExtensions.split(",").includes(file.type)) {
@@ -2083,6 +2087,17 @@ const isAcountSection = computed(() => {
 </script>
 
 <style lang="scss" scoped>
+.deleteImagePresentation {
+  position: fixed;
+  margin-left: 175px;
+  margin-top: -170px;
+  font-size: 24px;
+  color: rgb(241, 46, 46);
+  border-radius: 100%;
+  z-index: 10;
+  cursor: pointer;
+}
+
 h4 {
   font-size: calc(0.4vw + 16px);
 }
@@ -2372,6 +2387,7 @@ h2 {
     }
   }
 }
+
 #modal-galery {
   .form-image__file {
     border: 1px solid rgba(66, 66, 66, 0.473);
