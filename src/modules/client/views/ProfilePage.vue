@@ -75,7 +75,7 @@
             <div class="image__user">
               <img :src="coverLoad" alt="" />
               <div
-                @click="showModal = true"
+                @click="openPhotoModal(coverLoad)"
                 class="button__action button__action--userImage text-warning"
               >
                 <i class="fa-solid fa-pen-to-square"></i>
@@ -127,6 +127,7 @@
                 <b-col cols="12" lg="5" class="mb-3">
                   <b-form-group label="Correo" label-for="input-3">
                     <b-form-input
+                      disabled
                       v-model="email.value.value"
                       :state="
                         validate(
@@ -442,13 +443,17 @@ async function fetchDataClient() {
 
   currentData.value = data;
 
-  name.value.value = data.name;
-  lastname.value.value = data.lastName;
-  email.value.value = data.email;
-  phone.value.value = data.phone;
-  ubication.value.value = data.address;
-  district.value.value = data.districtId;
-  console.log(data);
+  data.name && (name.value.value = data.name);
+  data.lastName && (lastname.value.value = data.lastName);
+  data.email && (email.value.value = data.email);
+  data.phone && (phone.value.value = data.phone);
+  data.address && (ubication.value.value = data.address);
+  data.districtId && (district.value.value = data.districtId);
+  if(data.avatar){
+    const utcNow = new Date().getTime();
+    cover.value.coverImage = data.avatar + "?" + utcNow;
+    coverLoad.value = data.avatar + "?" + utcNow;
+  }
 }
 //CARGAR Lista Distritos
 async function fetchListDIstrict() {
@@ -479,23 +484,38 @@ const formUbication = ref({
 });
 //#endregion
 
+const openPhotoModal = (currentCover: any) => {
+  if(currentCover)
+    cover.value.coverImage = currentCover;
+  showModal.value = true;
+}
+
 //#region VALIDATE AND SEND-VALUE-FOR-API
 const updateCover = async () => {
   const coverImg = cover.value.coverImage; 
   const fileImg = cover.value.fileImage;
 
-  if (coverImg && fileImg) {
+  // if (coverImg && fileImg) {
     alertLoading("Actualizando...");
     const inputFile: FileList = portadaFile.value.files;
+    console.log(inputFile)
     const payload: PhotoClient = {
       id: idClient.value,
-      photo: inputFile[0]
+      photo: inputFile[0],
+      extension: "png"
     };
 
     await putPhoto(payload);
     coverLoad.value = coverImg;
     showModal.value = false;
-  }
+  // }else{
+  //   const payload: PhotoClient = {
+  //     id: idClient.value,
+  //     photo: 
+  //   };
+  //   await putPhoto(payload);
+  // }
+
   cover.value.fileImage = "";
   cover.value.coverImage = "";
   alertSuccessButton("Se realizo la actualizacion exitosamente");
