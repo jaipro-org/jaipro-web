@@ -1053,6 +1053,7 @@ const {
   putBankAccount,
   deleteWorkLocation,
   deleteBankAccount,
+  deleteExperienceForProfessionId,
 } = new SpecialistServices();
 const { getProfessionList, getSpecializationList, getDistrictList, getBank } =
   new GeneralServices();
@@ -1925,6 +1926,7 @@ async function deleteLocation(id: number) {
   }
 }
 
+// ELIMINAR CUENTA BANCARIA 
 async function deleteAcount(id: string) {
   try {
     alertLoading("Eliminando...");
@@ -1936,11 +1938,17 @@ async function deleteAcount(id: string) {
   }
 }
 
-function deleteExperience(id: number) {
-  // const index = experiences.value.findIndex(
-  //   (experience: any) => experience.id == id
-  // );
-  // experiences.value.splice(index, 1);
+// ELIMINAR EXPERIENCIA COMPLETA DE UNA PROFESION
+async function deleteExperience(id: number) {
+  try {
+    alertLoading("Eliminando...");
+    await deleteExperienceForProfessionId(idEspecialist.value, id)
+    await fetchDataSpecialist(); // obtiene datos personales del especialista
+    await FormatoExperiencia(); // Procesa Experiencia para Front
+    alertSuccessButton("Se elimino exitosamente");
+  } catch (error: any) {
+    alertError(error.response.data.message);
+  }
 }
 
 function goBox(boxName: string) {

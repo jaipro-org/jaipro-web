@@ -31,10 +31,15 @@ import { defineComponent, ref } from "vue";
 
 export default defineComponent({
   name: "StarRatingComponent",
-  setup(){
+  props:{
+    totalStars:{
+     default: 5
+    }
+  },
+  setup(props){
     const isShow = ref(false); // Controla el muestreo desplegado de la card
     const isActive = ref(false); //Controla la activacion de la clase para la animación de despliegue
-    const totalStar = ref(5);
+    const totalStar = ref(props.totalStars);
 
     return{
       isShow,
