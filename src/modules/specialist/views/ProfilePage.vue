@@ -442,7 +442,7 @@
               @change="changeFilePresentation"
             />
             <span class="d-block text-center"
-              >Seleccionar la imagen para actualizarla</span
+              ><i class="fa-solid fa-info-circle text-primary"></i> Seleccionar la imagen para actualizarla</span
             >
           </b-col>
           <b-form-invalid-feedback :state="profilePhoto.errorMessage.value">
@@ -1045,6 +1045,7 @@ const {
   getSpecialization,
   getBankAccount,
   postExperience,
+  deleteSpecializations,
   postExperienceTime,
   postWorkLocation,
   postBankAccount,
@@ -1493,6 +1494,10 @@ function cargarPhoto() {}
 //CARGAR Experiencia del especialista
 async function fetchSpecialization() {
   specialization.value = await getSpecialization(idEspecialist.value);
+  
+  listSpecialist.value.forEach( (ele: any) => {
+    ele.active = false;
+  })
   // establece true a las especialidades registradas en el especialista
   specialization.value.forEach((item1: any) => {
     const item2 = listSpecialist.value.find(
@@ -1684,14 +1689,24 @@ async function editExperience() {
         specialistId: idEspecialist.value,
       };
     });
+    let specializationsToDelete = fields.groupSpecialist.objetosAEliminar.map((x: any) => {
+      return {
+        specializationId: x.id,
+        professionId: fields.idProfession,
+        specialistId: idEspecialist.value,
+      };
+    });
     try {
-      if (oldTimeExp.time !== updateProfession.time || value.length > 0) {
+      if (oldTimeExp.time !== updateProfession.time || value.length > 0 || specializationsToDelete.length > 0) {
         alertLoading("Guardando...");
         if (oldTimeExp.time !== updateProfession.time) {
           await putExperienceTime(idEspecialist.value, updateProfession);
         }
         if (value.length > 0) {
           await postExperience(value);
+        }
+        if (specializationsToDelete.length > 0) {
+          await deleteSpecializations(specializationsToDelete);
         }
         await fetchDataSpecialist(); // obtiene datos personales del especialista
         await fetchSpecialization(); // obtiene especialidades del especialista

@@ -11,6 +11,7 @@ const generalApi = {
   getSpecialization: "/specialist-specialization/specialist/",
   getBankAccount: "/specialist-bank-account/specialist/",
   postExperience: "/specialist-specialization/list",
+  deleteSpecializations: "/specialist-specialization/delete/list",
   postExperienceTime: "/specialist/",
   postBankAccount: "/specialist-bank-account",
   putExperienceTime: "/specialist/",
@@ -40,6 +41,10 @@ export class SpecialistServices {
   }
   async postExperience(payload: Array<SpecializationSpecialist>) {
     const { data } = await AxiosClient.axiosIns.post(generalApi.postExperience, payload)
+    return data
+  }
+  async deleteSpecializations(payload: Array<SpecializationSpecialist>) {
+    const { data } = await AxiosClient.axiosIns.post(generalApi.deleteSpecializations, payload)
     return data
   }
   async postExperienceTime(idSpecialist: string, payload: any) {
