@@ -24,13 +24,22 @@ export interface typeFilter {
         countryId: string;
     }>;
 }
-export interface dataForSearch {
+export interface paramsSearchs {
     professionID: number[],
     specialitiesID: number[],
     districtsID: number[],
 }
 
-export interface option{
+export interface option {
     value: number,
-    label: string
+    label: string,
 }
+
+export interface dataFromSearchs {
+    specialistId: string,
+    fullName: string,
+    photo: any,
+    assessment: any,
+    about: string,
+    professions: string,
+};

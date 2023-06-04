@@ -159,7 +159,7 @@
           size="lg"
           variant="primary"
           class="mx-3"
-          @click="$refs['form-button'].click()"
+          
           >Pagar
         </b-button>
       </b-col>
