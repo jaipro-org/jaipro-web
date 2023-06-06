@@ -9,18 +9,17 @@
           <div class="panel-body">
             <b-form-row>
               <b-col>
-                <b-form-group label="Categoria">
+                <b-form-group label="Profesion">
                   <v-select
                     multiple
                     push-tags
-                    v-model="selected"
-                    :options="[
-                      'Albañil',
-                      'Electricista',
-                      'Gasfitero',
-                      'Pintor',
-                    ]"
-                  />
+                    v-model="paramsSearch.professionID"
+                    :options="listProfession"
+                    :reduce="(option:any) => option.value"
+                    placeholder="Seleccione"
+                  >
+                    <template v-slot:no-options>Cargando...</template>
+                  </v-select>
                 </b-form-group>
               </b-col>
               <b-col>
@@ -28,9 +27,15 @@
                   <v-select
                     multiple
                     push-tags
-                    v-model="selected"
-                    :options="['Todas', 'Alarmas', 'Cableado']"
-                  />
+                    v-model="paramsSearch.specialitiesID"
+                    :options="listSpecialities"
+                    :reduce="(option:any) => option.value"
+                    placeholder="Seleccione"
+                  >
+                    <template v-slot:no-options
+                      >Seleccione una profesion</template
+                    >
+                  </v-select>
                 </b-form-group>
               </b-col>
               <b-col>
@@ -38,15 +43,13 @@
                   <v-select
                     multiple
                     push-tags
-                    v-model="selected"
-                    :options="[
-                      'Lima Norte',
-                      'Lima Sur',
-                      'Lima Este',
-                      'Lima Oeste',
-                      'Callao',
-                    ]"
-                  />
+                    v-model="paramsSearch.districtsID"
+                    :options="listDistrict"
+                    :reduce="(option:any) => option.value"
+                    placeholder="Seleccione"
+                  >
+                    <template v-slot:no-options>Cargando...</template>
+                  </v-select>
                 </b-form-group>
               </b-col>
               <b-col style="align-self: flex-end">
@@ -62,16 +65,20 @@
         </div>
       </div>
       <b-card class="card_profesional">
-        <b-row>
+        <div v-if="loading">Cargando datos...</div>
+        <div v-else-if="dataFromSearch.length === 0">
+          <p>No hay datos para mostrar.</p>
+        </div>
+        <b-row v-for="(data, index) in dataFromSearch" :key="index" v-else>
           <b-col md="3" class="cardH">
             <div class="img_profile">
-              <b-img :src="imgProfile"></b-img>
+              <b-img :src="data.photo"></b-img>
               <i class="fa fa-heart-o" />
             </div>
             <div
               class="b-rating form-control align-items-center mb-2 px-2 text-center align-middle"
             >
-              <star-rating></star-rating>
+              <star-rating :total-stars="3"></star-rating>
             </div>
             <p class="total-rating text-center">
               4.7 <span>(13 valoraciones)</span>
@@ -80,69 +87,14 @@
           <b-col md="9">
             <div class="datos">
               <h2>
-                Pedro Ramirez Estrada
+                {{ data.fullName }}
                 <i class="fa-solid fa-circle-check checkAjust"></i>
               </h2>
               <div class="tags">
-                <b-link>Carpintero</b-link>
-                <b-link>Gasfitero</b-link>
-                <b-link>Electricista</b-link>
+                <b-link>{{ data.professions }}</b-link>
               </div>
               <p class="card-text">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries.
-              </p>
-              <div class="btn-page">
-                <b-button
-                  class="me-2"
-                  variant="primary"
-                  @click="$router.push({ name: 'specialist' })"
-                  >Ver Perfil</b-button
-                >
-                <b-button variant="success" class="btn-invert"
-                  >Cotizar</b-button
-                >
-              </div>
-            </div>
-          </b-col>
-        </b-row>
-      </b-card>
-      <b-card class="card_profesional">
-        <b-row>
-          <b-col md="3" class="cardH">
-            <div class="img_profile">
-              <b-img :src="imgProfile"></b-img>
-              <i class="fa fa-heart" />
-            </div>
-            <div
-              class="b-rating form-control align-items-center mb-2 px-2 text-center align-middle"
-            >
-              <star-rating></star-rating>
-            </div>
-            <p class="total-rating text-center">
-              4.7 <span>(13 valoraciones)</span>
-            </p>
-          </b-col>
-          <b-col md="9">
-            <div class="datos">
-              <h2>
-                Pedro Ramirez Estrada
-                <i class="fa-solid fa-circle-check checkAjust"></i>
-              </h2>
-              <div class="tags">
-                <b-link>Carpintero</b-link>
-                <b-link>Gasfitero</b-link>
-                <b-link>Electricista</b-link>
-              </div>
-              <p class="card-text">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries.
+                {{ data.about }}
               </p>
               <div class="btn-page">
                 <b-button
@@ -164,21 +116,117 @@
 </template>
 
 <script setup lang="ts">
-import profileImg from "@/assets/img/profile.png";
 import StarRating from "@/shared/components/public/StarRating.vue";
-import { ref } from "vue";
+import { ref, onMounted, watch } from "vue";
+import { GeneralServices } from "@/services/api/generalServices";
+import {
+  typeFilter,
+  paramsSearchs,
+  dataFromSearchs,
+  option,
+} from "@/interfaces/SearchSpecialist.interfaces";
 
-const imgProfile = ref(profileImg);
+const { getFilterSpecialist, getSearch } = new GeneralServices();
 
-function search() {
-  console.log("buscando.....");
+const loading = ref(true);
+const dataFromSearch = ref<Array<dataFromSearchs>>([]);
+const dataTypeFilter = ref<typeFilter>();
+const listProfession = ref<Array<option>>();
+const listSpecialities = ref<Array<option>>();
+const listDistrict = ref<Array<option>>();
+const paramsSearch = ref<paramsSearchs>({
+  professionID: [],
+  specialitiesID: [],
+  districtsID: [],
+});
+
+//Ejecuta cuando se monta la pagina
+onMounted(async () => {
+  await fetchTypeFilter();
+  listProfessionFilter();
+  listDistrictFilter();
+  await search();
+});
+//observa el Array de professionID
+watch(
+  () => paramsSearch.value.professionID,
+  () => {
+    //lista las especialidades dependiendo la cantidad de profesiones seleccionadas
+    const filteredData =
+      dataTypeFilter.value?.specialities.filter((item) =>
+        paramsSearch.value.professionID.includes(item.professionId)
+      ) || [];
+
+    //Formato de datos para ser mostrato en el option de especialidad
+    listSpecialities.value = filteredData.map((data) => {
+      return {
+        value: data.id,
+        label: data.name,
+      };
+    });
+
+    //Borra las especialidades asociadas a la profesion eliminada
+    paramsSearch.value.specialitiesID =
+      paramsSearch.value.specialitiesID.filter((id) =>
+        listSpecialities.value?.some((data) => data.value === id)
+      );
+  },
+  {
+    deep: true,
+  }
+);
+
+//Obtiene los datos para usar como parametros de busqueda
+async function fetchTypeFilter() {
+  try {
+    dataTypeFilter.value = await getFilterSpecialist();
+  } catch (error) {}
 }
 
-function myChangeEvent(val) {
-  console.log(val);
+//Formato para usar en option Profession
+function listProfessionFilter() {
+  listProfession.value = dataTypeFilter.value?.professions.map((data) => {
+    return {
+      value: data.id,
+      label: data.name,
+    };
+  });
 }
-function mySelectEvent({ id, text }) {
-  console.log({ id, text });
+
+//Formato para usar en option Ubicacion
+function listDistrictFilter() {
+  listDistrict.value = dataTypeFilter.value?.districts.map((data) => {
+    return {
+      value: data.id,
+      label: data.name,
+    };
+  });
+}
+
+//Se envia la busqueda
+async function search() {
+  loading.value = true;
+  const payload = {
+    sortColumn: "string",
+    sortDirection: "string",
+    pageSize: 1,
+    pageNumber: 2,
+    enabled: true,
+    categories: paramsSearch.value.professionID.join(","),
+    specialties: paramsSearch.value.specialitiesID.join(","),
+    districts: paramsSearch.value.districtsID.join(","),
+  };
+  const params = `
+    ?categories=${payload.categories}&
+    specialties=${payload.specialties}&
+    districts=${payload.districts}&
+    pageNumber=${payload.pageNumber}&
+    pageSize=${payload.pageSize}&
+    sortColumn=string&
+    sortDirection=string`;
+
+  dataFromSearch.value = await getSearch(params);
+  loading.value = false;
 }
 </script>
 

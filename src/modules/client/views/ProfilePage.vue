@@ -370,7 +370,7 @@
         ref="portadaFile"
         hidden
         type="file"
-        accept="image/png,image/jpg"
+        accept=".png, .jpg"
         @change="changeFileCover"
       />
     </div>
@@ -391,7 +391,6 @@ import { ClientServices } from "@/services/api/clientProfileServices";
 import { GeneralServices } from "@/services/api/generalServices";
 import { encryptAuthStorage } from "@/utils/Storage";
 import useProfileClientValidate from "@/validate/profileClientValidate";
-import { PhotoClient } from "@/interfaces/PhotoClient.interfaces";
 
 const authData: string = window.localStorage.getItem("@AUTH:security") || "";
 
@@ -412,7 +411,7 @@ const {
   inputValidate,
 } = useProfileClientValidate();
 
-const { getDataClient, putInformation, putLocation, putPassword, putPhoto } =
+const { getDataClient, putInformation, putLocation, putPassword } =
   new ClientServices();
 const { getDistrictList } = new GeneralServices();
 const collapseWeb = ref(true);
@@ -661,8 +660,10 @@ function changeFileCover(event: any) {
     return;
   }
 
-  if(!imgExtensions.split(",").includes(file.type))
+  if(!imgExtensions.split(",").includes(file.type)){
+    alertError("Por favor subir una imagen con extensión 'png' o 'jpg'");
     return;
+  }
 
   cover.value.fileImage = file;
   const fr = new FileReader();

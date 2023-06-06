@@ -109,7 +109,13 @@
         <b-col cols="12" id="presentation__box">
           <b-card class="mb-4 pt-5">
             <div class="image__user">
-              <img src="@/assets/img-delete/profile.jpg" alt="" />
+              <img
+                :src="
+                  formPresentation.profilePhoto ||
+                  require('@/assets/img-delete/profile.jpg')
+                "
+                alt="imagen user"
+              />
             </div>
             <div
               class="button__action button__action--float text-warning"
@@ -407,30 +413,36 @@
           <b-col cols="12" lg="8" class="mb-4 mx-auto">
             <div
               class="form-image__file mt-2 mx-auto mb-1"
-              :class="
-                !profilePhoto.value.value?.url ? 'form-image__file--aux' : ''
-              "
-              @click="uploadPresentationImage"
+              :class="!profilePhoto.value.value ? 'form-image__file--aux' : ''"
             >
               <img
+                @click="uploadPresentationImage"
                 :src="
-                  !profilePhoto.value.value?.url
+                  !profilePhoto.value.value
                     ? require('@/assets/img-delete/fileimage-up.png')
-                    : profilePhoto.value.value?.url
+                    : profilePhoto.value.value
                 "
                 alt="image"
               />
+              <div
+                v-if="profilePhoto.value.value"
+                class="deleteImagePresentation"
+                @click="deleteImagePhotoPresentation(profilePhoto)"
+              >
+                <i class="fa-solid fa-circle-xmark"></i>
+              </div>
             </div>
 
             <input
               type="file"
               style="display: none"
               ref="presentationFile"
+              accept=".png, .jpg"
               hidden
               @change="changeFilePresentation"
             />
             <span class="d-block text-center"
-              >Seleccionar la imagen para actualizarla</span
+              ><i class="fa-solid fa-info-circle text-primary"></i> Seleccionar la imagen para actualizarla</span
             >
           </b-col>
           <b-form-invalid-feedback :state="profilePhoto.errorMessage.value">
@@ -444,7 +456,11 @@
               <b-form-input
                 v-model="name.value.value"
                 :state="
-                  validateState(name.value.value, name.errorMessage.value)
+                  validate(
+                    currentPresentation.name,
+                    name.value.value,
+                    name.errorMessage.value
+                  )
                 "
                 id="input-pres-1"
                 placeholder="Ingrese su nombre"
@@ -461,7 +477,8 @@
                 id="input-pres-2"
                 v-model="lastName.value.value"
                 :state="
-                  validateState(
+                  validate(
+                    currentPresentation.lastName,
                     lastName.value.value,
                     lastName.errorMessage.value
                   )
@@ -480,11 +497,16 @@
                 id="input-pres-3"
                 v-model="about.value.value"
                 :state="
-                  validateState(about.value.value, about.errorMessage.value)
+                  validate(
+                    currentPresentation.about,
+                    about.value.value,
+                    about.errorMessage.value
+                  )
                 "
                 placeholder="Redacta acerca de tu experiencia"
                 rows="4"
                 max-rows="6"
+                :style="{ height: '230px' }"
                 class="rounded-right rounded-left"
               ></b-form-textarea>
               <b-form-invalid-feedback :state="about.errorMessage.value">
@@ -498,7 +520,8 @@
                 id="input-pres-4"
                 v-model="direction.value.value"
                 :state="
-                  validateState(
+                  validate(
+                    currentPresentation.direction,
                     direction.value.value,
                     direction.errorMessage.value
                   )
@@ -517,7 +540,11 @@
                 id="input-pres-5"
                 v-model="phone.value.value"
                 :state="
-                  validateState(phone.value.value, phone.errorMessage.value)
+                  validate(
+                    currentPresentation.phone,
+                    phone.value.value,
+                    phone.errorMessage.value
+                  )
                 "
                 placeholder="Ingrese su teléfono"
                 class="rounded-pill"
@@ -534,7 +561,8 @@
                 id="input-pres-6"
                 v-model="secondPhone.value.value"
                 :state="
-                  validateState(
+                  validate(
+                    currentPresentation.secondPhone,
                     secondPhone.value.value,
                     secondPhone.errorMessage.value
                   )
@@ -1017,13 +1045,16 @@ const {
   getSpecialization,
   getBankAccount,
   postExperience,
+  deleteSpecializations,
   postExperienceTime,
   postWorkLocation,
   postBankAccount,
   putExperienceTime,
+  putPresentation,
   putBankAccount,
   deleteWorkLocation,
   deleteBankAccount,
+  deleteExperienceForProfessionId,
 } = new SpecialistServices();
 const { getProfessionList, getSpecializationList, getDistrictList, getBank } =
   new GeneralServices();
@@ -1067,6 +1098,7 @@ const galleryPhotos = [
     alt: "Photo3",
   },
 ];
+const imgExtensions: string = process.env.VUE_APP_IMG_EXTENSIONS;
 const settings = ref({ itemsToShow: 1, snapAlign: "center" });
 const breakpoints = ref({
   //700px and up
@@ -1111,11 +1143,16 @@ interface forSpecialities {
 }
 
 const imageSelected = ref(0);
+const currentPresentation = ref({
+  name: "",
+  lastName: "",
+  about: "",
+  direction: "",
+  phone: "",
+  secondPhone: "",
+});
 const formPresentation = ref({
-  profilePhoto: {
-    url: "",
-    file: "",
-  },
+  profilePhoto: "",
   name: "",
   lastName: "",
   about: "",
@@ -1254,6 +1291,10 @@ const section3 = ref(0);
 const section4 = ref(0);
 const section5 = ref(0);
 
+//GH
+const flagUpdate = ref(false);
+const extension = ref("");
+
 //funcion para filtrar distritos por zona
 function filterForZone(idZone: number) {
   let copiaDistrict = JSON.parse(JSON.stringify(districtList.value));
@@ -1347,6 +1388,14 @@ watch(
   }
 );
 
+function validate(current: any, value: any, error: any) {
+  if (current === value) {
+    return null;
+  } else {
+    return validateState(value, error);
+  }
+}
+
 onMounted(async () => {
   if (Boolean(authData)) {
     let data = encryptAuthStorage.decryptValue(authData);
@@ -1423,22 +1472,32 @@ async function fetchListNameBank() {
 async function fetchDataSpecialist() {
   let data = await getDataSpecialist(idEspecialist.value);
   formPresentation.value = {
-    profilePhoto: {
-      url: "",
-      file: "",
-    },
     name: data.specialist.name,
     lastName: data.specialist.lastName,
     about: data.cv.about,
     direction: data.specialist.address,
     phone: data.specialist.phone,
-    secondPhone: "",
+    secondPhone: data.specialist.secondaryPhone,
+    profilePhoto: data.cv.profilePhoto.url + `?v=${new Date()}`,
     cv: data.cv,
   };
+  currentPresentation.value = {
+    name: data.specialist.name,
+    lastName: data.specialist.lastName,
+    about: data.cv.about,
+    direction: data.specialist.address,
+    phone: data.specialist.phone,
+    secondPhone: data.specialist.secondaryPhone,
+  };
 }
+function cargarPhoto() {}
 //CARGAR Experiencia del especialista
 async function fetchSpecialization() {
   specialization.value = await getSpecialization(idEspecialist.value);
+  
+  listSpecialist.value.forEach( (ele: any) => {
+    ele.active = false;
+  })
   // establece true a las especialidades registradas en el especialista
   specialization.value.forEach((item1: any) => {
     const item2 = listSpecialist.value.find(
@@ -1539,24 +1598,47 @@ async function fetchAccountBank() {
   loadingModal.value.bank = false;
 }
 
-//ENVIAR DATOS
+//ENVIAR DATOS PERFIL
 async function editPresentation() {
   const fields = {
-    profilePhoto: profilePhoto.value.value,
     name: name.value.value,
     lastName: lastName.value.value,
     about: about.value.value,
     direction: direction.value.value,
     phone: phone.value.value,
     secondPhone: secondPhone.value.value,
+    profilePhoto: profilePhoto.value.value,
   };
+
   const isValid = await validateProfile(fields);
   if (!isValid) inputValidate();
 
   if (isValid) {
-    formPresentation.value = { ...formPresentation.value, ...fields };
-    const value = formPresentation.value;
-    alertSuccessButton("Se realizo la operación exitosamente");
+    const payload = {
+      name: fields.name,
+      lastName: fields.lastName,
+      ...(fields.about !== currentPresentation.value.about && {
+        about: fields.about,
+      }),
+      address: fields.direction,
+      phone: fields.phone,
+      secondaryPhone: fields.secondPhone,
+      ...(flagUpdate.value && {
+        filePhoto: fields.profilePhoto.split(",")[1],
+        filePhotoExtension: extension.value,
+        flagUpdatePhoto: flagUpdate.value,
+      }),
+    };
+    try {
+      alertLoading("Actualizando...");
+      await putPresentation(idEspecialist.value, payload);
+      await fetchDataSpecialist();
+      showModalEditPresentacion.value = false;
+      alertSuccessButton("Datos actualizados...");
+    } catch (error: any) {
+      showModalEditPresentacion.value = false;
+      alertError(error.response.data.message);
+    }
   }
 }
 //ENVIAR GALERIA
@@ -1607,14 +1689,24 @@ async function editExperience() {
         specialistId: idEspecialist.value,
       };
     });
+    let specializationsToDelete = fields.groupSpecialist.objetosAEliminar.map((x: any) => {
+      return {
+        specializationId: x.id,
+        professionId: fields.idProfession,
+        specialistId: idEspecialist.value,
+      };
+    });
     try {
-      if (oldTimeExp.time !== updateProfession.time || value.length > 0) {
+      if (oldTimeExp.time !== updateProfession.time || value.length > 0 || specializationsToDelete.length > 0) {
         alertLoading("Guardando...");
         if (oldTimeExp.time !== updateProfession.time) {
           await putExperienceTime(idEspecialist.value, updateProfession);
         }
         if (value.length > 0) {
           await postExperience(value);
+        }
+        if (specializationsToDelete.length > 0) {
+          await deleteSpecializations(specializationsToDelete);
         }
         await fetchDataSpecialist(); // obtiene datos personales del especialista
         await fetchSpecialization(); // obtiene especialidades del especialista
@@ -1776,6 +1868,18 @@ function showAccount() {
 
 function showEditPresentacion() {
   showModalEditPresentacion.value = true;
+  const data = formPresentation.value;
+
+  flagUpdate.value = false;
+  extension.value = "";
+
+  data.name && (name.value.value = data.name);
+  data.lastName && (lastName.value.value = data.lastName);
+  data.about && (about.value.value = data.about);
+  data.direction && (direction.value.value = data.direction);
+  data.phone && (phone.value.value = data.phone);
+  data.secondPhone && (secondPhone.value.value = data.secondPhone);
+  data.profilePhoto && (profilePhoto.value.value = data.profilePhoto);
 }
 
 function modalProfessionEdit(id: number, index: number) {
@@ -1837,6 +1941,7 @@ async function deleteLocation(id: number) {
   }
 }
 
+// ELIMINAR CUENTA BANCARIA 
 async function deleteAcount(id: string) {
   try {
     alertLoading("Eliminando...");
@@ -1848,11 +1953,17 @@ async function deleteAcount(id: string) {
   }
 }
 
-function deleteExperience(id: number) {
-  // const index = experiences.value.findIndex(
-  //   (experience: any) => experience.id == id
-  // );
-  // experiences.value.splice(index, 1);
+// ELIMINAR EXPERIENCIA COMPLETA DE UNA PROFESION
+async function deleteExperience(id: number) {
+  try {
+    alertLoading("Eliminando...");
+    await deleteExperienceForProfessionId(idEspecialist.value, id)
+    await fetchDataSpecialist(); // obtiene datos personales del especialista
+    await FormatoExperiencia(); // Procesa Experiencia para Front
+    alertSuccessButton("Se elimino exitosamente");
+  } catch (error: any) {
+    alertError(error.response.data.message);
+  }
 }
 
 function goBox(boxName: string) {
@@ -1901,12 +2012,11 @@ function changeFileCover(event: any) {
   const index = imageSelected.value;
   const file: any = event.target.files[0];
   if (!file) {
-    // formGalery.value.imagesList[index].url = "";
-    // formGalery.value.imagesList[index].file = null;
     imagesList.value.value[index].url = "";
     imagesList.value.value[index].file = "";
     return;
   }
+
   console.log("changeFileCover");
   imagesList.value.value[index].file = file;
   const fr = new FileReader();
@@ -1920,26 +2030,37 @@ function deleteImage(index: any) {
   formGalery.value.imagesList[index].file = "";
 }
 
+//#region PhotoPresentation
 function uploadPresentationImage() {
   const btnFile = presentationFile.value!;
   btnFile.click();
 }
 
+function deleteImagePhotoPresentation(photo: any) {
+  // flagUpdate.value = true;
+  // console.log(photo);
+}
+
 function changeFilePresentation(event: any) {
-  if (profilePhoto.value.value === undefined) {
+  if (profilePhoto.value.value === "") {
     profilePhoto.value.value = formPresentation.value.profilePhoto;
   }
   const file = event.target.files[0];
   if (!file) {
-    profilePhoto.value.value.file = null;
-    profilePhoto.value.value.url = null;
+    profilePhoto.value.value = null;
     return;
   }
-  profilePhoto.value.value.file = file;
+  if (!imgExtensions.split(",").includes(file.type)) {
+    alertError("Por favor subir una imagen con extensión 'png' o 'jpg'");
+    return;
+  }
+  flagUpdate.value = true;
+  extension.value = file.type.split("/")[1];
   const fr = new FileReader();
-  fr.onload = () => (profilePhoto.value.value.url = String(fr.result));
+  fr.onload = () => (profilePhoto.value.value = String(fr.result));
   fr.readAsDataURL(file);
 }
+//#endregion
 
 const menuChange = computed(() => {
   if (!isLoading.value) {
@@ -1989,6 +2110,17 @@ const isAcountSection = computed(() => {
 </script>
 
 <style lang="scss" scoped>
+.deleteImagePresentation {
+  position: fixed;
+  margin-left: 175px;
+  margin-top: -170px;
+  font-size: 24px;
+  color: rgb(241, 46, 46);
+  border-radius: 100%;
+  z-index: 10;
+  cursor: pointer;
+}
+
 h4 {
   font-size: calc(0.4vw + 16px);
 }
@@ -2278,6 +2410,7 @@ h2 {
     }
   }
 }
+
 #modal-galery {
   .form-image__file {
     border: 1px solid rgba(66, 66, 66, 0.473);
