@@ -34,10 +34,10 @@ export class ClientServices {
   async putPhoto(payload: PhotoClient) {
     const formData = new FormData();
     formData.append("id", payload.id);
-    if(payload.photo != null){
+    formData.append("extension", payload.extension!);
+
+    if(payload.photo != null)
       formData.append("file", payload.photo);
-      formData.append("extension", payload.extension!);
-    }
 
     const { data } = await AxiosClient.axiosIns.post(generalApi.putPhoto, formData, {headers: {"Content-Type": "multipart/form-data"}})
     return data

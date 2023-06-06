@@ -357,6 +357,13 @@
           "
           alt="image"
         />
+        <div
+          v-if="cover.coverImage"
+          class="form-image__delete"
+          @click="deleteImage()"
+        >
+          <i class="fa-solid fa-circle-xmark"></i>
+        </div>
       </div>
       <input
         style="display: none"
@@ -418,6 +425,8 @@ const districtOptions = ref();
 const coverLoad = ref(require("@/assets/img-delete/profile.jpg"));
 const currentData = ref();
 const imgExtensions:string = process.env.VUE_APP_IMG_EXTENSIONS;
+const extension = ref("");
+const defaultPhoto: string = require("@/assets/img-delete/profile.jpg");
 // const fileImage: any = ref(null);
 // const coverImage: any = ref(null);
 onMounted(async () => {
@@ -453,6 +462,7 @@ async function fetchDataClient() {
     const utcNow = new Date().getTime();
     cover.value.coverImage = data.avatar + "?" + utcNow;
     coverLoad.value = data.avatar + "?" + utcNow;
+    extension.value = data.avatar.split(".").at(1);
   }
 }
 //CARGAR Lista Distritos
@@ -485,39 +495,49 @@ const formUbication = ref({
 //#endregion
 
 const openPhotoModal = (currentCover: any) => {
-  if(currentCover)
+  if(cover.value.coverImage)
     cover.value.coverImage = currentCover;
   showModal.value = true;
 }
 
 //#region VALIDATE AND SEND-VALUE-FOR-API
 const updateCover = async () => {
-  const coverImg = cover.value.coverImage; 
-  const fileImg = cover.value.fileImage;
+  const coverImg = cover.value.coverImage;
 
-  // if (coverImg && fileImg) {
-    alertLoading("Actualizando...");
-    const inputFile: FileList = portadaFile.value.files;
-    console.log(inputFile)
+  alertLoading("Actualizando...");
+  const inputFile: FileList = portadaFile.value.files;
+
+  if(inputFile.length){
     const payload: PhotoClient = {
       id: idClient.value,
       photo: inputFile[0],
-      extension: "png"
+      extension: extension.value
+    };
+
+    const resp = await putPhoto(payload);
+    console.log(resp);
+    extension.value = inputFile[0].type.split("/")[1];
+    coverLoad.value = coverImg;
+    cover.value.coverImage = coverImg;
+    // coverLoad.value = "";//coverImg;
+  }
+  else {
+    const payload: PhotoClient = {
+      id: idClient.value,
+      photo: null,
+      extension: extension.value
     };
 
     await putPhoto(payload);
-    coverLoad.value = coverImg;
-    showModal.value = false;
-  // }else{
-  //   const payload: PhotoClient = {
-  //     id: idClient.value,
-  //     photo: 
-  //   };
-  //   await putPhoto(payload);
-  // }
+    extension.value = "";
+    coverLoad.value = defaultPhoto;
+    cover.value.coverImage = "";
+  }
 
-  cover.value.fileImage = "";
-  cover.value.coverImage = "";
+  // coverLoad.value = coverImg;
+  // cover.value.fileImage = "";
+  // cover.value.coverImage = "";
+  showModal.value = false;
   alertSuccessButton("Se realizo la actualizacion exitosamente");
 };
 
@@ -611,7 +631,7 @@ const setPassword = async () => {
 watch(showModal, (newValue, oldValue) => {
   if (newValue === false) {
     cover.value.fileImage = "";
-    cover.value.coverImage = "";
+    // cover.value.coverImage = "";
   }
 });
 
@@ -625,6 +645,12 @@ const validateState = (value: any, error: any) => {
 function uploadImage() {
   const btnFile = portadaFile.value;
   btnFile.click();
+}
+
+function deleteImage() {
+  cover.value.fileImage = "";
+  cover.value.coverImage = "";
+  coverLoad.value = "";
 }
 
 function changeFileCover(event: any) {
@@ -746,6 +772,23 @@ function changeFileCover(event: any) {
 .form-image__file--aux img {
   height: 160px;
   width: auto;
+}
+
+.form-image__delete {
+  position: relative;
+  bottom: 125px;
+  font-size: 24px;
+  color: rgb(241, 46, 46);
+  border-radius: 100%;
+  z-index: 10;
+  cursor: pointer;
+  width: fit-content;
+
+  i {
+    background-color: white;
+    border-radius: 100%;
+    border: solid white 2px;
+  }
 }
 
 .span-info {

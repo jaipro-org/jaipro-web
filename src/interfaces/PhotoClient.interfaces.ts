@@ -1,5 +1,5 @@
 export interface PhotoClient {
     id: string,
-    photo: File,
+    photo: File | null,
     extension?: string
 }
