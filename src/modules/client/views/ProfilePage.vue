@@ -391,6 +391,7 @@ import { ClientServices } from "@/services/api/clientProfileServices";
 import { GeneralServices } from "@/services/api/generalServices";
 import { encryptAuthStorage } from "@/utils/Storage";
 import useProfileClientValidate from "@/validate/profileClientValidate";
+import { PhotoClient } from "@/interfaces/PhotoClient.interfaces";
 
 const authData: string = window.localStorage.getItem("@AUTH:security") || "";
 
@@ -411,7 +412,7 @@ const {
   inputValidate,
 } = useProfileClientValidate();
 
-const { getDataClient, putInformation, putLocation, putPassword } =
+const { getDataClient, putInformation, putLocation, putPassword, putPhoto } =
   new ClientServices();
 const { getDistrictList } = new GeneralServices();
 const collapseWeb = ref(true);
@@ -513,8 +514,7 @@ const updateCover = async () => {
       extension: extension.value
     };
 
-    const resp = await putPhoto(payload);
-    console.log(resp);
+    await putPhoto(payload);
     extension.value = inputFile[0].type.split("/")[1];
     coverLoad.value = coverImg;
     cover.value.coverImage = coverImg;
