@@ -75,7 +75,7 @@
             <div class="image__user">
               <img :src="coverLoad" alt="" />
               <div
-                @click="showModal = true"
+                @click="openPhotoModal(coverLoad)"
                 class="button__action button__action--userImage text-warning"
               >
                 <i class="fa-solid fa-pen-to-square"></i>
@@ -357,6 +357,13 @@
           "
           alt="image"
         />
+        <div
+          v-if="cover.coverImage"
+          class="form-image__delete"
+          @click="deleteImage()"
+        >
+          <i class="fa-solid fa-circle-xmark"></i>
+        </div>
       </div>
       <input
         style="display: none"
@@ -384,6 +391,7 @@ import { ClientServices } from "@/services/api/clientProfileServices";
 import { GeneralServices } from "@/services/api/generalServices";
 import { encryptAuthStorage } from "@/utils/Storage";
 import useProfileClientValidate from "@/validate/profileClientValidate";
+import { PhotoClient } from "@/interfaces/PhotoClient.interfaces";
 
 const authData: string = window.localStorage.getItem("@AUTH:security") || "";
 
@@ -404,7 +412,7 @@ const {
   inputValidate,
 } = useProfileClientValidate();
 
-const { getDataClient, putInformation, putLocation, putPassword } =
+const { getDataClient, putInformation, putLocation, putPassword, putPhoto } =
   new ClientServices();
 const { getDistrictList } = new GeneralServices();
 const collapseWeb = ref(true);
@@ -416,6 +424,9 @@ const isLoading = ref(true);
 const districtOptions = ref();
 const coverLoad = ref(require("@/assets/img-delete/profile.jpg"));
 const currentData = ref();
+const imgExtensions:string = process.env.VUE_APP_IMG_EXTENSIONS;
+const extension = ref("");
+const defaultPhoto: string = require("@/assets/img-delete/profile.jpg");
 // const fileImage: any = ref(null);
 // const coverImage: any = ref(null);
 onMounted(async () => {
@@ -447,6 +458,12 @@ async function fetchDataClient() {
   data.phone && (phone.value.value = data.phone);
   data.address && (ubication.value.value = data.address);
   data.districtId && (district.value.value = data.districtId);
+  if(data.avatar){
+    const utcNow = new Date().getTime();
+    cover.value.coverImage = data.avatar + "?" + utcNow;
+    coverLoad.value = data.avatar + "?" + utcNow;
+    extension.value = data.avatar.split(".").at(1);
+  }
 }
 //CARGAR Lista Distritos
 async function fetchListDIstrict() {
@@ -477,17 +494,51 @@ const formUbication = ref({
 });
 //#endregion
 
-//#region VALIDATE AND SEND-VALUE-FOR-API
-function updateCover() {
-  let coverImg = cover.value.coverImage;
-  let fileImg = cover.value.fileImage;
-  if (coverImg && fileImg) {
-    coverLoad.value = coverImg;
-    showModal.value = false;
-  }
-  cover.value.fileImage = "";
-  cover.value.coverImage = "";
+const openPhotoModal = (currentCover: any) => {
+  if(cover.value.coverImage)
+    cover.value.coverImage = currentCover;
+  showModal.value = true;
 }
+
+//#region VALIDATE AND SEND-VALUE-FOR-API
+const updateCover = async () => {
+  const coverImg = cover.value.coverImage;
+
+  alertLoading("Actualizando...");
+  const inputFile: FileList = portadaFile.value.files;
+
+  if(inputFile.length){
+    const payload: PhotoClient = {
+      id: idClient.value,
+      photo: inputFile[0],
+      extension: extension.value
+    };
+
+    await putPhoto(payload);
+    extension.value = inputFile[0].type.split("/")[1];
+    coverLoad.value = coverImg;
+    cover.value.coverImage = coverImg;
+    // coverLoad.value = "";//coverImg;
+  }
+  else {
+    const payload: PhotoClient = {
+      id: idClient.value,
+      photo: null,
+      extension: extension.value
+    };
+
+    await putPhoto(payload);
+    extension.value = "";
+    coverLoad.value = defaultPhoto;
+    cover.value.coverImage = "";
+  }
+
+  // coverLoad.value = coverImg;
+  // cover.value.fileImage = "";
+  // cover.value.coverImage = "";
+  showModal.value = false;
+  alertSuccessButton("Se realizo la actualizacion exitosamente");
+};
 
 const setDatosPersonales = async () => {
   const fields = {
@@ -579,7 +630,7 @@ const setPassword = async () => {
 watch(showModal, (newValue, oldValue) => {
   if (newValue === false) {
     cover.value.fileImage = "";
-    cover.value.coverImage = "";
+    // cover.value.coverImage = "";
   }
 });
 
@@ -593,6 +644,12 @@ const validateState = (value: any, error: any) => {
 function uploadImage() {
   const btnFile = portadaFile.value;
   btnFile.click();
+}
+
+function deleteImage() {
+  cover.value.fileImage = "";
+  cover.value.coverImage = "";
+  coverLoad.value = "";
 }
 
 function changeFileCover(event: any) {
@@ -716,6 +773,23 @@ function changeFileCover(event: any) {
 .form-image__file--aux img {
   height: 160px;
   width: auto;
+}
+
+.form-image__delete {
+  position: relative;
+  bottom: 125px;
+  font-size: 24px;
+  color: rgb(241, 46, 46);
+  border-radius: 100%;
+  z-index: 10;
+  cursor: pointer;
+  width: fit-content;
+
+  i {
+    background-color: white;
+    border-radius: 100%;
+    border: solid white 2px;
+  }
 }
 
 .span-info {
