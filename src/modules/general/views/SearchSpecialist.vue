@@ -72,7 +72,7 @@
         <b-row v-for="(data, index) in dataFromSearch" :key="index" v-else>
           <b-col md="3" class="cardH">
             <div class="img_profile">
-              <b-img :src="data.photo"></b-img>
+              <b-img :src="(data.photo || profileImg)"></b-img>
               <i class="fa fa-heart-o" />
             </div>
             <div
@@ -116,6 +116,7 @@
 </template>
 
 <script setup lang="ts">
+import profileImg from "@/assets/img/profile.png";
 import StarRating from "@/shared/components/public/StarRating.vue";
 import { ref, onMounted, watch } from "vue";
 import { GeneralServices } from "@/services/api/generalServices";
@@ -139,6 +140,9 @@ const paramsSearch = ref<paramsSearchs>({
   specialitiesID: [],
   districtsID: [],
 });
+const pageNumber = ref(1)
+const pageSize = ref(10)
+
 
 //Ejecuta cuando se monta la pagina
 onMounted(async () => {
@@ -209,8 +213,8 @@ async function search() {
   const payload = {
     sortColumn: "string",
     sortDirection: "string",
-    pageSize: 1,
-    pageNumber: 2,
+    pageSize: pageSize.value,
+    pageNumber: pageNumber.value,
     enabled: true,
     categories: paramsSearch.value.professionID.join(","),
     specialties: paramsSearch.value.specialitiesID.join(","),
