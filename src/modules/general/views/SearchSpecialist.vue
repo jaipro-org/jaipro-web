@@ -64,53 +64,61 @@
           </div>
         </div>
       </div>
-      <b-card class="card_profesional">
+      <div>
         <div v-if="loading">Cargando datos...</div>
         <div v-else-if="dataFromSearch.length === 0">
           <p>No hay datos para mostrar.</p>
         </div>
-        <b-row v-for="(data, index) in dataFromSearch" :key="index" v-else>
-          <b-col md="3" class="cardH">
-            <div class="img_profile">
-              <b-img :src="(data.photo || profileImg)"></b-img>
-              <i class="fa fa-heart-o" />
-            </div>
-            <div
-              class="b-rating form-control align-items-center mb-2 px-2 text-center align-middle"
-            >
-              <star-rating :total-stars="3"></star-rating>
-            </div>
-            <p class="total-rating text-center">
-              4.7 <span>(13 valoraciones)</span>
-            </p>
-          </b-col>
-          <b-col md="9">
-            <div class="datos">
-              <h2>
-                {{ data.fullName }}
-                <i class="fa-solid fa-circle-check checkAjust"></i>
-              </h2>
-              <div class="tags">
-                <b-link>{{ data.professions }}</b-link>
-              </div>
-              <p class="card-text">
-                {{ data.about }}
-              </p>
-              <div class="btn-page">
-                <b-button
-                  class="me-2"
-                  variant="primary"
-                  @click="$router.push({ name: 'specialist' })"
-                  >Ver Perfil</b-button
+        <div v-else>
+          <b-card
+            class="card_profesional"
+            v-for="(data, index) in dataFromSearch"
+            :key="index"
+          >
+            <b-row>
+              <b-col md="3" class="cardH">
+                <div class="img_profile">
+                  <b-img :src="data.photo || profileImg"></b-img>
+                  <i class="fa fa-heart-o" />
+                </div>
+                <div
+                  class="b-rating form-control align-items-center mb-2 px-2 text-center align-middle"
                 >
-                <b-button variant="success" class="btn-invert"
-                  >Cotizar</b-button
-                >
-              </div>
-            </div>
-          </b-col>
-        </b-row>
-      </b-card>
+                  <star-rating :total-stars="3"></star-rating>
+                </div>
+                <p class="total-rating text-center">
+                  4.7 <span>(13 valoraciones)</span>
+                </p>
+              </b-col>
+              <b-col md="9">
+                <div class="datos">
+                  <h2>
+                    {{ data.fullName }}
+                    <i class="fa-solid fa-circle-check checkAjust"></i>
+                  </h2>
+                  <div class="tags">
+                    <b-link>{{ data.professions }}</b-link>
+                  </div>
+                  <p class="card-text">
+                    {{ data.about }}
+                  </p>
+                  <div class="btn-page">
+                    <b-button
+                      class="me-2"
+                      variant="primary"
+                      @click="$router.push({ name: 'specialist' })"
+                      >Ver Perfil</b-button
+                    >
+                    <b-button variant="success" class="btn-invert"
+                      >Cotizar</b-button
+                    >
+                  </div>
+                </div>
+              </b-col>
+            </b-row>
+          </b-card>
+        </div>
+      </div>
     </b-container>
   </div>
 </template>
@@ -140,9 +148,8 @@ const paramsSearch = ref<paramsSearchs>({
   specialitiesID: [],
   districtsID: [],
 });
-const pageNumber = ref(1)
-const pageSize = ref(10)
-
+const pageNumber = ref(1);
+const pageSize = ref(10);
 
 //Ejecuta cuando se monta la pagina
 onMounted(async () => {
