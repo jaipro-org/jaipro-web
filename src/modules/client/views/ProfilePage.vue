@@ -360,9 +360,8 @@
         <div
           v-if="cover.coverImage"
           class="form-image__delete"
-          @click="deleteImage()"
         >
-          <i class="fa-solid fa-circle-xmark"></i>
+          <i @click="deleteImage()" class="fa-solid fa-circle-xmark"></i>
         </div>
       </div>
       <input
@@ -434,9 +433,9 @@ onMounted(async () => {
     let data = encryptAuthStorage.decryptValue(authData);
     idClient.value = data.id;
   }
-  isLoading.value = false;
   await fetchDataClient();
   await fetchListDIstrict();
+  isLoading.value = false;
 });
 //funcion ValidateState
 function validate(current: any, value: any, error: any) {
@@ -776,15 +775,16 @@ function changeFileCover(event: any) {
 }
 
 .form-image__delete {
-  position: relative;
-  bottom: 125px;
+  position: absolute;
+  margin-bottom: 49%;
   font-size: 24px;
   color: rgb(241, 46, 46);
   border-radius: 100%;
   z-index: 10;
   cursor: pointer;
   width: fit-content;
-
+  margin-left: 82%;
+  
   i {
     background-color: white;
     border-radius: 100%;
