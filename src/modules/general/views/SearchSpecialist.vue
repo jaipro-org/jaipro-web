@@ -117,6 +117,14 @@
               </b-col>
             </b-row>
           </b-card>
+          <b-pagination
+            v-model="pageNumber"
+            :total-rows="totalRows"
+            :per-page="pageSize"
+            first-number
+            last-number
+            align="center"
+          ></b-pagination>
         </div>
       </div>
     </b-container>
@@ -150,6 +158,7 @@ const paramsSearch = ref<paramsSearchs>({
 });
 const pageNumber = ref(1);
 const pageSize = ref(10);
+const totalRows = ref(0)
 
 //Ejecuta cuando se monta la pagina
 onMounted(async () => {
@@ -237,6 +246,7 @@ async function search() {
     sortDirection=string`;
 
   dataFromSearch.value = await getSearch(params);
+  totalRows.value = dataFromSearch.value.length
   loading.value = false;
 }
 </script>
