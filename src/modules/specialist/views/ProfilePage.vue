@@ -138,19 +138,15 @@
             <p>
               {{
                 verAbout
-                ? formPresentation.about
-                : formPresentation.about.substring(0, aboutLength)
+                  ? formPresentation.about
+                  : formPresentation.about.substring(0, aboutLength)
               }}
               <a
                 class="vermas"
                 @click="verAbout = !verAbout"
                 v-if="formPresentation.about.length > aboutLength"
               >
-                {{
-                  verAbout
-                  ? "Ver menos"
-                  : "Ver más"
-                }}</a
+                {{ verAbout ? "Ver menos" : "Ver más" }}</a
               >
             </p>
           </b-card>
@@ -1652,13 +1648,29 @@ async function editGallery() {
   const fields = {
     imagesList: imagesList.value.value,
   };
+
   const isValid = await validateGallery(fields);
   if (!isValid) inputValidate();
 
   if (isValid) {
+    const inputFile: File[] = fields.imagesList
+      .filter((data: any) => data.url !== "")
+      .map((data: any) => data.file);
+
+    const payload = {
+      specialistGallery: {
+        specialistId: idEspecialist.value,
+        fileIdsToRemove: [],
+      },
+      images: inputFile,
+    };
+
+    const data = await specialistServices.postGallery(payload);
+    console.log(data);
+
     formGalery.value = { ...formGalery.value, ...fields };
     const value = formGalery.value;
-    alertSuccessButton("Se realizo la operación exitosamente");
+    // alertSuccessButton("Se realizo la operación exitosamente");
   }
 }
 //ENVIAR EXPERIENCIA
@@ -2025,6 +2037,7 @@ function substractMonth() {
   }
 }
 
+//#region GalleryImage
 function uploadImage(index: any) {
   imageSelected.value = index;
   const btnFile: any = document.getElementById(`portadaFile${index}`);
@@ -2035,15 +2048,20 @@ function changeFileCover(event: any) {
   if (imagesList.value.value === undefined) {
     imagesList.value.value = formGalery.value.imagesList;
   }
+
   const index = imageSelected.value;
   const file: any = event.target.files[0];
+
   if (!file) {
     imagesList.value.value[index].url = "";
-    imagesList.value.value[index].file = "";
     return;
   }
 
-  console.log("changeFileCover");
+  if (!imgExtensions.split(",").includes(file.type)) {
+    alertError("Por favor subir una imagen con extensión 'png' o 'jpg'");
+    return;
+  }
+
   imagesList.value.value[index].file = file;
   const fr = new FileReader();
   fr.onload = () => (imagesList.value.value[index].url = String(fr.result));
@@ -2055,6 +2073,7 @@ function deleteImage(index: any) {
   formGalery.value.imagesList[index].url = "";
   formGalery.value.imagesList[index].file = "";
 }
+//#endregion
 
 //#region PhotoPresentation
 function uploadPresentationImage() {
