@@ -132,7 +132,7 @@
 </template>
 
 <script setup lang="ts">
-import profileImg from "@/assets/img/profile.png";
+import profileImg from "@/assets/img-delete/profile.jpg";
 import StarRating from "@/shared/components/public/StarRating.vue";
 import { ref, onMounted, watch } from "vue";
 import { GeneralServices } from "@/services/api/generalServices";

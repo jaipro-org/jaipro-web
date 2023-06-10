@@ -438,7 +438,7 @@
               <div
                 v-if="profilePhoto.value.value"
                 class="deleteImagePresentation"
-                @click="deleteImagePhotoPresentation(profilePhoto)"
+                @click="deleteImagePhotoPresentation()"
               >
                 <i class="fa-solid fa-circle-xmark"></i>
               </div>
@@ -1476,7 +1476,7 @@ async function fetchDataSpecialist() {
     direction: data.specialist.address,
     phone: data.specialist.phone,
     secondPhone: data.specialist.secondaryPhone,
-    profilePhoto: data.cv.profilePhoto.url + `?v=${new Date()}`,
+    profilePhoto: data.cv.profilePhoto ? data.cv.profilePhoto?.url + `?v=${new Date()}` : "",
     cv: data.cv,
   };
   currentPresentation.value = {
@@ -1626,7 +1626,7 @@ async function editPresentation() {
       phone: fields.phone,
       secondaryPhone: fields.secondPhone,
       ...(flagUpdate.value && {
-        filePhoto: fields.profilePhoto.split(",")[1],
+        filePhoto: fields.profilePhoto.split(",")[1] || "",
         filePhotoExtension: extension.value,
         flagUpdatePhoto: flagUpdate.value,
       }),
@@ -1904,7 +1904,7 @@ function showAccount() {
 function showEditPresentacion() {
   showModalEditPresentacion.value = true;
   const data = formPresentation.value;
-
+  
   flagUpdate.value = false;
   extension.value = "";
 
@@ -1914,6 +1914,7 @@ function showEditPresentacion() {
   data.direction && (direction.value.value = data.direction);
   data.phone && (phone.value.value = data.phone);
   data.secondPhone && (secondPhone.value.value = data.secondPhone);
+  profilePhoto.value.value = ""
   data.profilePhoto && (profilePhoto.value.value = data.profilePhoto);
 }
 
@@ -2081,9 +2082,9 @@ function uploadPresentationImage() {
   btnFile.click();
 }
 
-function deleteImagePhotoPresentation(photo: any) {
-  // flagUpdate.value = true;
-  // console.log(photo);
+function deleteImagePhotoPresentation() {
+  flagUpdate.value = true
+  profilePhoto.value.value = ""
 }
 
 function changeFilePresentation(event: any) {
@@ -2104,6 +2105,7 @@ function changeFilePresentation(event: any) {
   const fr = new FileReader();
   fr.onload = () => (profilePhoto.value.value = String(fr.result));
   fr.readAsDataURL(file);
+  event.target.value = ""; 
 }
 //#endregion
 

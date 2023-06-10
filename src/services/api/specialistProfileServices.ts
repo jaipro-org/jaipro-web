@@ -68,18 +68,24 @@ export class SpecialistServices {
   }
 
   async postGallery(payload: GallerySpecialist) {
+    const fileName = 'nombreArchivo1.jpg';
+    const fileExtension = fileName.split('.').pop();
+    const fileType = getFileTypeByExtension(fileExtension);
     const formData = new FormData();
-    formData.append("specialistGallery", JSON.stringify(payload.specialistGallery));
-    // formData.append("images", payload.images[0]);
 
-    payload.images.forEach((element: any) => {
-      formData.append(`images`, element);
-    });
+    //imagen
+    const file1 = new Blob([payload.images[0]], { type: fileType });
+    formData.append('images', file1, fileName);
+
+    //specialistGallery
+    const jsonPart = new Blob([JSON.stringify(payload.specialistGallery)], { type: 'application/json' });
+    formData.append("specialistGallery", jsonPart);
+
     const prueba = formData.get("specialistGallery")
-    const prueba2 = formData.getAll("images")
+    const prueba2 = formData.get("images")
 
     debugger
-    const { data } = await AxiosClient.axiosIns.post(generalApi.postGallery, formData)
+    const { data } = await AxiosClient.axiosIns.post(generalApi.postGallery, formData, { headers: { "Content-Type": undefined } })
     return data
   }
 
@@ -103,4 +109,15 @@ export class SpecialistServices {
     const { data } = await AxiosClient.axiosIns.delete(generalApi.deleteBankAccount + id)
     return data
   }
+}
+
+function getFileTypeByExtension(extension: any) {
+  const fileTypeMap: any = {
+    jpeg: 'image/jpeg',
+    jpg: 'image/jpeg',
+    png: 'image/png',
+    // Agrega más extensiones y tipos de contenido según sea necesario
+  };
+
+  return fileTypeMap[extension.toLowerCase()] || '';
 }
