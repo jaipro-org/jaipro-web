@@ -15,7 +15,6 @@ export default function useProfileSpecialistValidate() {
   //SCHEMA PERFIL
   const profilePhotoSchema = yup
     .string()
-    .required("Imagen requerida")
   const nameSchema = yup
     .string()
     .max(36, "36 caracteres como maximo")

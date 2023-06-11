@@ -136,7 +136,18 @@
             <div>{{ formPresentation.phone }}</div>
             <span class="d-block mt-2"><b>Acerca de ti</b></span>
             <p>
-              {{ formPresentation.about }}
+              {{
+                verAbout
+                  ? formPresentation.about
+                  : formPresentation.about.substring(0, aboutLength)
+              }}
+              <a
+                class="vermas"
+                @click="verAbout = !verAbout"
+                v-if="formPresentation.about.length > aboutLength"
+              >
+                {{ verAbout ? "Ver menos" : "Ver más" }}</a
+              >
             </p>
           </b-card>
         </b-col>
@@ -427,7 +438,7 @@
               <div
                 v-if="profilePhoto.value.value"
                 class="deleteImagePresentation"
-                @click="deleteImagePhotoPresentation(profilePhoto)"
+                @click="deleteImagePhotoPresentation()"
               >
                 <i class="fa-solid fa-circle-xmark"></i>
               </div>
@@ -442,7 +453,8 @@
               @change="changeFilePresentation"
             />
             <span class="d-block text-center"
-              ><i class="fa-solid fa-info-circle text-primary"></i> Seleccionar la imagen para actualizarla</span
+              ><i class="fa-solid fa-info-circle text-primary"></i> Seleccionar
+              la imagen para actualizarla</span
             >
           </b-col>
           <b-form-invalid-feedback :state="profilePhoto.errorMessage.value">
@@ -1039,25 +1051,9 @@ import useProfileSpecialistValidate from "@/validate/profileSpecialistValidate";
 
 const authData: string = window.localStorage.getItem("@AUTH:security") || "";
 
-const {
-  getDataSpecialist,
-  getWorkLocation,
-  getSpecialization,
-  getBankAccount,
-  postExperience,
-  deleteSpecializations,
-  postExperienceTime,
-  postWorkLocation,
-  postBankAccount,
-  putExperienceTime,
-  putPresentation,
-  putBankAccount,
-  deleteWorkLocation,
-  deleteBankAccount,
-  deleteExperienceForProfessionId,
-} = new SpecialistServices();
-const { getProfessionList, getSpecializationList, getDistrictList, getBank } =
-  new GeneralServices();
+const specialistServices = new SpecialistServices();
+const generalServices = new GeneralServices();
+
 const {
   profilePhoto,
   name,
@@ -1084,6 +1080,8 @@ const {
   inputReset,
 } = useProfileSpecialistValidate();
 
+const verAbout = ref(false);
+const aboutLength = ref(420);
 const galleryPhotos = [
   {
     img: "https://picsum.photos/1024/480/?image=52",
@@ -1425,7 +1423,7 @@ onMounted(async () => {
 
 //CARGAR Profesiones
 async function fetchProfession() {
-  let dataProfession = await getProfessionList(); //Obtiene lista de las profesiones
+  let dataProfession = await generalServices.getProfessionList(); //Obtiene lista de las profesiones
   AllProfessions.value = dataProfession.map((data: any) => {
     return {
       value: data.id,
@@ -1435,7 +1433,7 @@ async function fetchProfession() {
 }
 //CARGAR Especialidades
 async function fetchEspecialidades() {
-  let dataSpecialist = await getSpecializationList(); //Obtiene lista de las especialidades
+  let dataSpecialist = await generalServices.getSpecializationList(); //Obtiene lista de las especialidades
   listSpecialist.value = dataSpecialist.map((data: any) => {
     return {
       id: data.id,
@@ -1447,7 +1445,7 @@ async function fetchEspecialidades() {
 }
 //CARGAR Distritos
 async function fetchDistrict() {
-  let dataDistrictList = await getDistrictList(); //Obtiene lista de los Distritos
+  let dataDistrictList = await generalServices.getDistrictList(); //Obtiene lista de los Distritos
   districtList.value = dataDistrictList.map((data: any) => {
     return {
       id: data.id,
@@ -1459,7 +1457,7 @@ async function fetchDistrict() {
 }
 //CARGAR Nombres de los bancos
 async function fetchListNameBank() {
-  let dataBank = await getBank(); //Obtiene lista de los bancos
+  let dataBank = await generalServices.getBank(); //Obtiene lista de los bancos
   let listBank = dataBank.map((data: any) => {
     return {
       value: data.id,
@@ -1470,7 +1468,7 @@ async function fetchListNameBank() {
 }
 //CARGAR Datos del especialista
 async function fetchDataSpecialist() {
-  let data = await getDataSpecialist(idEspecialist.value);
+  let data = await specialistServices.getDataSpecialist(idEspecialist.value);
   formPresentation.value = {
     name: data.specialist.name,
     lastName: data.specialist.lastName,
@@ -1478,7 +1476,7 @@ async function fetchDataSpecialist() {
     direction: data.specialist.address,
     phone: data.specialist.phone,
     secondPhone: data.specialist.secondaryPhone,
-    profilePhoto: data.cv.profilePhoto.url + `?v=${new Date()}`,
+    profilePhoto: data.cv.profilePhoto ? data.cv.profilePhoto?.url + `?v=${new Date()}` : "",
     cv: data.cv,
   };
   currentPresentation.value = {
@@ -1493,11 +1491,13 @@ async function fetchDataSpecialist() {
 function cargarPhoto() {}
 //CARGAR Experiencia del especialista
 async function fetchSpecialization() {
-  specialization.value = await getSpecialization(idEspecialist.value);
-  
-  listSpecialist.value.forEach( (ele: any) => {
+  specialization.value = await specialistServices.getSpecialization(
+    idEspecialist.value
+  );
+
+  listSpecialist.value.forEach((ele: any) => {
     ele.active = false;
-  })
+  });
   // establece true a las especialidades registradas en el especialista
   specialization.value.forEach((item1: any) => {
     const item2 = listSpecialist.value.find(
@@ -1540,7 +1540,9 @@ async function FormatoExperiencia() {
 //CARGAR Localizaciones de trabajo
 async function fetchWorkLocation() {
   //localizaciones en crudo.
-  listWorkLocation.value = await getWorkLocation(idEspecialist.value);
+  listWorkLocation.value = await specialistServices.getWorkLocation(
+    idEspecialist.value
+  );
   const idsSet = new Set(
     listWorkLocation.value.map((obj: any) => obj.districtId)
   );
@@ -1582,7 +1584,7 @@ async function fetchWorkLocation() {
 }
 //CARGAR Cuentas bancarias Especialista
 async function fetchAccountBank() {
-  let dataBank = await getBankAccount(idEspecialist.value);
+  let dataBank = await specialistServices.getBankAccount(idEspecialist.value);
   dataBank.reverse();
 
   acountsList.value = dataBank.map((data: any) => {
@@ -1624,14 +1626,14 @@ async function editPresentation() {
       phone: fields.phone,
       secondaryPhone: fields.secondPhone,
       ...(flagUpdate.value && {
-        filePhoto: fields.profilePhoto.split(",")[1],
+        filePhoto: fields.profilePhoto.split(",")[1] || "",
         filePhotoExtension: extension.value,
         flagUpdatePhoto: flagUpdate.value,
       }),
     };
     try {
       alertLoading("Actualizando...");
-      await putPresentation(idEspecialist.value, payload);
+      await specialistServices.putPresentation(idEspecialist.value, payload);
       await fetchDataSpecialist();
       showModalEditPresentacion.value = false;
       alertSuccessButton("Datos actualizados...");
@@ -1646,13 +1648,29 @@ async function editGallery() {
   const fields = {
     imagesList: imagesList.value.value,
   };
+
   const isValid = await validateGallery(fields);
   if (!isValid) inputValidate();
 
   if (isValid) {
+    const inputFile: File[] = fields.imagesList
+      .filter((data: any) => data.url !== "")
+      .map((data: any) => data.file);
+
+    const payload = {
+      specialistGallery: {
+        specialistId: idEspecialist.value,
+        fileIdsToRemove: [],
+      },
+      images: inputFile,
+    };
+
+    const data = await specialistServices.postGallery(payload);
+    console.log(data);
+
     formGalery.value = { ...formGalery.value, ...fields };
     const value = formGalery.value;
-    alertSuccessButton("Se realizo la operación exitosamente");
+    // alertSuccessButton("Se realizo la operación exitosamente");
   }
 }
 //ENVIAR EXPERIENCIA
@@ -1689,24 +1707,35 @@ async function editExperience() {
         specialistId: idEspecialist.value,
       };
     });
-    let specializationsToDelete = fields.groupSpecialist.objetosAEliminar.map((x: any) => {
-      return {
-        specializationId: x.id,
-        professionId: fields.idProfession,
-        specialistId: idEspecialist.value,
-      };
-    });
+    let specializationsToDelete = fields.groupSpecialist.objetosAEliminar.map(
+      (x: any) => {
+        return {
+          specializationId: x.id,
+          professionId: fields.idProfession,
+          specialistId: idEspecialist.value,
+        };
+      }
+    );
     try {
-      if (oldTimeExp.time !== updateProfession.time || value.length > 0 || specializationsToDelete.length > 0) {
+      if (
+        oldTimeExp.time !== updateProfession.time ||
+        value.length > 0 ||
+        specializationsToDelete.length > 0
+      ) {
         alertLoading("Guardando...");
         if (oldTimeExp.time !== updateProfession.time) {
-          await putExperienceTime(idEspecialist.value, updateProfession);
+          await specialistServices.putExperienceTime(
+            idEspecialist.value,
+            updateProfession
+          );
         }
         if (value.length > 0) {
-          await postExperience(value);
+          await specialistServices.postExperience(value);
         }
         if (specializationsToDelete.length > 0) {
-          await deleteSpecializations(specializationsToDelete);
+          await specialistServices.deleteSpecializations(
+            specializationsToDelete
+          );
         }
         await fetchDataSpecialist(); // obtiene datos personales del especialista
         await fetchSpecialization(); // obtiene especialidades del especialista
@@ -1731,8 +1760,11 @@ async function editExperience() {
     try {
       alertLoading("Guardando...");
       await Promise.all([
-        postExperience(value),
-        postExperienceTime(idEspecialist.value, experienceTime),
+        specialistServices.postExperience(value),
+        specialistServices.postExperienceTime(
+          idEspecialist.value,
+          experienceTime
+        ),
       ]);
       await fetchDataSpecialist(); // obtiene datos personales del especialista
       await fetchSpecialization(); // obtiene especialidades del especialista
@@ -1770,7 +1802,7 @@ async function editLocation() {
               districtId: district.id,
               countryId: "PER",
             };
-            await postWorkLocation(data);
+            await specialistServices.postWorkLocation(data);
           } catch (error: any) {
             console.error(error.response.data.message);
           }
@@ -1780,7 +1812,10 @@ async function editLocation() {
         console.log("Eliminando...");
         try {
           for (const district of districtFalseForAdd.value) {
-            await deleteWorkLocation(idEspecialist.value, district.id);
+            await specialistServices.deleteWorkLocation(
+              idEspecialist.value,
+              district.id
+            );
           }
         } catch (error: any) {
           console.error(error.response.data.message);
@@ -1808,7 +1843,7 @@ async function editAcount() {
     const value = formAcount.value;
     try {
       alertLoading("Guardando...");
-      const response = await postBankAccount(value);
+      const response = await specialistServices.postBankAccount(value);
       await fetchAccountBank();
       showModalAcount.value = false;
       alertSuccessButton("Se realizo la operación exitosamente");
@@ -1829,9 +1864,9 @@ async function updatePreferredBank(id: string) {
   try {
     if (oldDato.length > 0) {
       oldDato[0].preferred = false;
-      await putBankAccount(oldDato[0]);
+      await specialistServices.putBankAccount(oldDato[0]);
     }
-    await putBankAccount(newDato[0]);
+    await specialistServices.putBankAccount(newDato[0]);
     await fetchAccountBank();
   } catch (error) {
     throw error;
@@ -1869,7 +1904,7 @@ function showAccount() {
 function showEditPresentacion() {
   showModalEditPresentacion.value = true;
   const data = formPresentation.value;
-
+  
   flagUpdate.value = false;
   extension.value = "";
 
@@ -1879,6 +1914,7 @@ function showEditPresentacion() {
   data.direction && (direction.value.value = data.direction);
   data.phone && (phone.value.value = data.phone);
   data.secondPhone && (secondPhone.value.value = data.secondPhone);
+  profilePhoto.value.value = ""
   data.profilePhoto && (profilePhoto.value.value = data.profilePhoto);
 }
 
@@ -1931,7 +1967,7 @@ async function deleteLocation(id: number) {
   try {
     alertLoading("Eliminando...");
     for (const id of listIdDistritic) {
-      await deleteWorkLocation(idEspecialist.value, id);
+      await specialistServices.deleteWorkLocation(idEspecialist.value, id);
     }
     await fetchDistrict();
     await fetchWorkLocation();
@@ -1941,11 +1977,11 @@ async function deleteLocation(id: number) {
   }
 }
 
-// ELIMINAR CUENTA BANCARIA 
+// ELIMINAR CUENTA BANCARIA
 async function deleteAcount(id: string) {
   try {
     alertLoading("Eliminando...");
-    await deleteBankAccount(id);
+    await specialistServices.deleteBankAccount(id);
     await fetchAccountBank();
     alertSuccessButton("Se elimino exitosamente");
   } catch (error: any) {
@@ -1957,7 +1993,10 @@ async function deleteAcount(id: string) {
 async function deleteExperience(id: number) {
   try {
     alertLoading("Eliminando...");
-    await deleteExperienceForProfessionId(idEspecialist.value, id)
+    await specialistServices.deleteExperienceForProfessionId(
+      idEspecialist.value,
+      id
+    );
     await fetchDataSpecialist(); // obtiene datos personales del especialista
     await FormatoExperiencia(); // Procesa Experiencia para Front
     alertSuccessButton("Se elimino exitosamente");
@@ -1999,6 +2038,7 @@ function substractMonth() {
   }
 }
 
+//#region GalleryImage
 function uploadImage(index: any) {
   imageSelected.value = index;
   const btnFile: any = document.getElementById(`portadaFile${index}`);
@@ -2009,15 +2049,20 @@ function changeFileCover(event: any) {
   if (imagesList.value.value === undefined) {
     imagesList.value.value = formGalery.value.imagesList;
   }
+
   const index = imageSelected.value;
   const file: any = event.target.files[0];
+
   if (!file) {
     imagesList.value.value[index].url = "";
-    imagesList.value.value[index].file = "";
     return;
   }
 
-  console.log("changeFileCover");
+  if (!imgExtensions.split(",").includes(file.type)) {
+    alertError("Por favor subir una imagen con extensión 'png' o 'jpg'");
+    return;
+  }
+
   imagesList.value.value[index].file = file;
   const fr = new FileReader();
   fr.onload = () => (imagesList.value.value[index].url = String(fr.result));
@@ -2029,6 +2074,7 @@ function deleteImage(index: any) {
   formGalery.value.imagesList[index].url = "";
   formGalery.value.imagesList[index].file = "";
 }
+//#endregion
 
 //#region PhotoPresentation
 function uploadPresentationImage() {
@@ -2036,9 +2082,9 @@ function uploadPresentationImage() {
   btnFile.click();
 }
 
-function deleteImagePhotoPresentation(photo: any) {
-  // flagUpdate.value = true;
-  // console.log(photo);
+function deleteImagePhotoPresentation() {
+  flagUpdate.value = true
+  profilePhoto.value.value = ""
 }
 
 function changeFilePresentation(event: any) {
@@ -2059,6 +2105,7 @@ function changeFilePresentation(event: any) {
   const fr = new FileReader();
   fr.onload = () => (profilePhoto.value.value = String(fr.result));
   fr.readAsDataURL(file);
+  event.target.value = ""; 
 }
 //#endregion
 
@@ -2097,21 +2144,15 @@ const isLocationSection = computed(() => {
 });
 const isAcountSection = computed(() => {
   return section1.value >= section5.value ? true : false;
-  // if (!isLoading.value) {
-  //   let footer: any = document.getElementById("footer__limit");
-  //   let footerScrollY: number = Number(footer.offsetTop) - 320;
-  //   return section1.value >= section5.value && section1.value < footerScrollY
-  //     ? true
-  //     : false;
-  // } else {
-  //   return false;
-  // }
 });
 </script>
 
 <style lang="scss" scoped>
+.vermas {
+  cursor: pointer;
+}
 .deleteImagePresentation {
-  position: fixed;
+  position: absolute;
   margin-left: 175px;
   margin-top: -170px;
   font-size: 24px;
