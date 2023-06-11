@@ -331,10 +331,11 @@
     title="Editar imagen de perfil"
     class="p-0"
     centered
+    @close="closePhotoModal()"
   >
     <template v-slot:footer>
       <div class="d-flex justify-content-between w-100">
-        <b-button variant="secondary" @click="showModal = false"
+        <b-button variant="secondary" @click="closePhotoModal()"
           >Cancelar</b-button
         >
         <b-button variant="primary" @click="updateCover()">Actualizar</b-button>
@@ -344,6 +345,12 @@
       <span class="span-info">
         Seleccione la imagen para elegir una nueva imagen de Portada
       </span>
+      <div
+       v-if="cover.coverImage"
+       class="form-image__delete"
+      >
+        <i @click="deleteImage()" class="fa-solid fa-circle-xmark"></i>
+      </div>
       <div
         class="form-image__file mt-2"
         :class="!cover.coverImage ? 'form-image__file--aux' : ''"
@@ -357,12 +364,6 @@
           "
           alt="image"
         />
-        <div
-          v-if="cover.coverImage"
-          class="form-image__delete"
-        >
-          <i @click="deleteImage()" class="fa-solid fa-circle-xmark"></i>
-        </div>
       </div>
       <input
         style="display: none"
@@ -426,6 +427,7 @@ const currentData = ref();
 const imgExtensions:string = process.env.VUE_APP_IMG_EXTENSIONS;
 const extension = ref("");
 const defaultPhoto: string = require("@/assets/img-delete/profile.jpg");
+const baseCustomerPhoto = ref("");
 // const fileImage: any = ref(null);
 // const coverImage: any = ref(null);
 onMounted(async () => {
@@ -459,8 +461,10 @@ async function fetchDataClient() {
   data.districtId && (district.value.value = data.districtId);
   if(data.avatar){
     const utcNow = new Date().getTime();
-    cover.value.coverImage = data.avatar + "?" + utcNow;
-    coverLoad.value = data.avatar + "?" + utcNow;
+    const urlPhoto = `${data.avatar}?${utcNow}`;
+    baseCustomerPhoto.value = urlPhoto;
+    cover.value.coverImage = urlPhoto;
+    coverLoad.value = urlPhoto;
     extension.value = data.avatar.split(".").at(1);
   }
 }
@@ -492,6 +496,12 @@ const formUbication = ref({
   district: "",
 });
 //#endregion
+
+const closePhotoModal = () => {
+  cover.value.coverImage = baseCustomerPhoto.value;
+  coverLoad.value = baseCustomerPhoto.value;
+  showModal.value = false;
+}
 
 const openPhotoModal = (currentCover: any) => {
   if(cover.value.coverImage)
@@ -776,14 +786,14 @@ function changeFileCover(event: any) {
 
 .form-image__delete {
   position: absolute;
-  margin-bottom: 49%;
   font-size: 24px;
   color: rgb(241, 46, 46);
   border-radius: 100%;
   z-index: 10;
   cursor: pointer;
   width: fit-content;
-  margin-left: 82%;
+  margin-left: 82.5%;
+  margin-top: 1.1%;
   
   i {
     background-color: white;
