@@ -181,8 +181,8 @@
                   <div class="carousel__item">
                     <img
                       class="gallery-item"
-                      :src="photo.img"
-                      :alt="photo.alt"
+                      :src="photo.url"
+                      :alt="photo.name"
                     />
                   </div>
                 </Slide>
@@ -1082,20 +1082,7 @@ const {
 
 const verAbout = ref(false);
 const aboutLength = ref(420);
-const galleryPhotos = [
-  {
-    img: "https://picsum.photos/1024/480/?image=52",
-    alt: "Photo1",
-  },
-  {
-    img: "https://picsum.photos/1024/480/?image=54",
-    alt: "Photo3",
-  },
-  {
-    img: "https://picsum.photos/1024/480/?image=58",
-    alt: "Photo3",
-  },
-];
+const galleryPhotos = ref();
 const imgExtensions: string = process.env.VUE_APP_IMG_EXTENSIONS;
 const settings = ref({ itemsToShow: 1, snapAlign: "center" });
 const breakpoints = ref({
@@ -1469,6 +1456,44 @@ async function fetchListNameBank() {
 //CARGAR Datos del especialista
 async function fetchDataSpecialist() {
   let data = await specialistServices.getDataSpecialist(idEspecialist.value);
+
+  galleryPhotos.value = [...data.cv.gallery];
+  formGalery.value = {
+    imagesList: [
+      {
+        id: 0,
+        url: data.cv.gallery[0] ? data.cv.gallery[0].url : "",
+        file: "",
+      },
+      {
+        id: 1,
+        url: data.cv.gallery[1] ? data.cv.gallery[1].url : "",
+        file: "",
+      },
+      {
+        id: 2,
+        url: data.cv.gallery[2] ? data.cv.gallery[2].url : "",
+        file: "",
+      },
+      {
+        id: 3,
+        url: data.cv.gallery[3] ? data.cv.gallery[3].url : "",
+        file: "",
+      },
+      {
+        id: 4,
+        url: data.cv.gallery[4] ? data.cv.gallery[4].url : "",
+        file: "",
+      },
+      {
+        id: 5,
+        url: data.cv.gallery[5] ? data.cv.gallery[5].url : "",
+        file: "",
+      },
+    ],
+  };
+  console.log(formGalery.value);
+
   formPresentation.value = {
     name: data.specialist.name,
     lastName: data.specialist.lastName,
@@ -1476,7 +1501,9 @@ async function fetchDataSpecialist() {
     direction: data.specialist.address,
     phone: data.specialist.phone,
     secondPhone: data.specialist.secondaryPhone,
-    profilePhoto: data.cv.profilePhoto ? data.cv.profilePhoto?.url + `?v=${new Date()}` : "",
+    profilePhoto: data.cv.profilePhoto
+      ? data.cv.profilePhoto?.url + `?v=${new Date()}`
+      : "",
     cv: data.cv,
   };
   currentPresentation.value = {
@@ -1487,6 +1514,8 @@ async function fetchDataSpecialist() {
     phone: data.specialist.phone,
     secondPhone: data.specialist.secondaryPhone,
   };
+
+  //debugger
 }
 function cargarPhoto() {}
 //CARGAR Experiencia del especialista
@@ -1904,7 +1933,7 @@ function showAccount() {
 function showEditPresentacion() {
   showModalEditPresentacion.value = true;
   const data = formPresentation.value;
-  
+
   flagUpdate.value = false;
   extension.value = "";
 
@@ -1914,7 +1943,7 @@ function showEditPresentacion() {
   data.direction && (direction.value.value = data.direction);
   data.phone && (phone.value.value = data.phone);
   data.secondPhone && (secondPhone.value.value = data.secondPhone);
-  profilePhoto.value.value = ""
+  profilePhoto.value.value = "";
   data.profilePhoto && (profilePhoto.value.value = data.profilePhoto);
 }
 
@@ -2083,8 +2112,8 @@ function uploadPresentationImage() {
 }
 
 function deleteImagePhotoPresentation() {
-  flagUpdate.value = true
-  profilePhoto.value.value = ""
+  flagUpdate.value = true;
+  profilePhoto.value.value = "";
 }
 
 function changeFilePresentation(event: any) {
@@ -2105,7 +2134,7 @@ function changeFilePresentation(event: any) {
   const fr = new FileReader();
   fr.onload = () => (profilePhoto.value.value = String(fr.result));
   fr.readAsDataURL(file);
-  event.target.value = ""; 
+  event.target.value = "";
 }
 //#endregion
 
