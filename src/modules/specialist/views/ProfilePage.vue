@@ -160,38 +160,42 @@
                   ><i class="fa-solid fa-circle-info"></i
                 ></span>
               </h4>
-              <div
-                class="button__action text-warning"
-                @click="showModalGalery = true"
-              >
+              <div class="button__action text-warning" @click="showGalery()">
                 <i class="fa-solid fa-pen-to-square"></i>
               </div>
             </div>
             <hr class="mt-0" />
             <div class="py-2">
-              <Carousel
-                :settings="settings"
-                :breakpoints="breakpoints"
-                :autoplay="2000"
-                :wrap-around="true"
-                id="carousel-1"
-              >
-                <!-- Text slides with image -->
-                <Slide v-for="photo in galleryPhotos" :key="photo">
-                  <div class="carousel__item">
-                    <img
-                      class="gallery-item"
-                      :src="photo.url"
-                      :alt="photo.name"
-                    />
-                  </div>
-                </Slide>
-
-                <template #addons>
-                  <Navigation />
-                  <Pagination />
-                </template>
-              </Carousel>
+              <div v-if="loadingModal.gallery">
+                <p>Cargando...</p>
+              </div>
+              <div v-else-if="galleryPhotos.length">
+                <Carousel
+                  :settings="settings"
+                  :breakpoints="breakpoints"
+                  :autoplay="2000"
+                  :wrap-around="true"
+                  id="carousel-1"
+                >
+                  <!-- Text slides with image -->
+                  <Slide v-for="photo in galleryPhotos" :key="photo">
+                    <div class="carousel__item">
+                      <img
+                        class="gallery-item"
+                        :src="photo.url"
+                        :alt="photo.name"
+                      />
+                    </div>
+                  </Slide>
+                  <template #addons>
+                    <Navigation />
+                    <Pagination />
+                  </template>
+                </Carousel>
+              </div>
+              <div v-else>
+                <p>No hay fotos para mostrar.</p>
+              </div>
             </div>
           </b-card>
         </b-col>
@@ -622,7 +626,7 @@
           cols="6"
           md="5"
           lg="4"
-          v-for="(image, index) in formGalery.imagesList"
+          v-for="(image, index) in formGalery?.imagesList"
           :key="index"
         >
           <div
@@ -1082,7 +1086,11 @@ const {
 
 const verAbout = ref(false);
 const aboutLength = ref(420);
-const galleryPhotos = ref();
+interface galleryShow {
+  url: string;
+  name: string;
+}
+const galleryPhotos = ref<Array<galleryShow>>([]);
 const imgExtensions: string = process.env.VUE_APP_IMG_EXTENSIONS;
 const settings = ref({ itemsToShow: 1, snapAlign: "center" });
 const breakpoints = ref({
@@ -1109,6 +1117,7 @@ const showModalLocationEdit = ref(false);
 const showModalAcount = ref(false);
 
 const loadingModal = ref({
+  gallery: true,
   experience: true,
   bank: true,
   workLocation: true,
@@ -1148,40 +1157,14 @@ const formPresentation = ref({
     experienceTimes: [],
   },
 });
-const formGalery = ref({
-  imagesList: [
-    {
-      id: 0,
-      url: "",
-      file: "",
-    },
-    {
-      id: 1,
-      url: "",
-      file: "",
-    },
-    {
-      id: 2,
-      url: "",
-      file: "",
-    },
-    {
-      id: 3,
-      url: "",
-      file: "",
-    },
-    {
-      id: 4,
-      url: "",
-      file: "",
-    },
-    {
-      id: 5,
-      url: "",
-      file: "",
-    },
-  ],
-});
+interface gallery {
+  imagesList: Array<{
+    id: number;
+    url: string;
+  }>;
+}
+const formGalery = ref<gallery>({ imagesList: [] });
+const imgGaleryRemove = ref<Array<string>>([]);
 //activa el titulo Editar Experiencia
 const isModalProfessionEdit = ref(false);
 const workExperience = ref({
@@ -1458,41 +1441,6 @@ async function fetchDataSpecialist() {
   let data = await specialistServices.getDataSpecialist(idEspecialist.value);
 
   galleryPhotos.value = [...data.cv.gallery];
-  formGalery.value = {
-    imagesList: [
-      {
-        id: 0,
-        url: data.cv.gallery[0] ? data.cv.gallery[0].url : "",
-        file: "",
-      },
-      {
-        id: 1,
-        url: data.cv.gallery[1] ? data.cv.gallery[1].url : "",
-        file: "",
-      },
-      {
-        id: 2,
-        url: data.cv.gallery[2] ? data.cv.gallery[2].url : "",
-        file: "",
-      },
-      {
-        id: 3,
-        url: data.cv.gallery[3] ? data.cv.gallery[3].url : "",
-        file: "",
-      },
-      {
-        id: 4,
-        url: data.cv.gallery[4] ? data.cv.gallery[4].url : "",
-        file: "",
-      },
-      {
-        id: 5,
-        url: data.cv.gallery[5] ? data.cv.gallery[5].url : "",
-        file: "",
-      },
-    ],
-  };
-  console.log(formGalery.value);
 
   formPresentation.value = {
     name: data.specialist.name,
@@ -1515,9 +1463,42 @@ async function fetchDataSpecialist() {
     secondPhone: data.specialist.secondaryPhone,
   };
 
-  //debugger
+  cargarGallery();
 }
-function cargarPhoto() {}
+
+function cargarGallery() {
+  const currentGalery = galleryPhotos.value;
+  formGalery.value = {
+    imagesList: [
+      {
+        id: 0,
+        url: currentGalery[0] ? currentGalery[0].url : "",
+      },
+      {
+        id: 1,
+        url: currentGalery[1] ? currentGalery[1].url : "",
+      },
+      {
+        id: 2,
+        url: currentGalery[2] ? currentGalery[2].url : "",
+      },
+      {
+        id: 3,
+        url: currentGalery[3] ? currentGalery[3].url : "",
+      },
+      {
+        id: 4,
+        url: currentGalery[4] ? currentGalery[4].url : "",
+      },
+      {
+        id: 5,
+        url: currentGalery[5] ? currentGalery[5].url : "",
+      },
+    ],
+  };
+  loadingModal.value.gallery = false;
+}
+
 //CARGAR Experiencia del especialista
 async function fetchSpecialization() {
   specialization.value = await specialistServices.getSpecialization(
@@ -1678,29 +1659,46 @@ async function editGallery() {
     imagesList: imagesList.value.value,
   };
 
+  const imagesRemove = galleryPhotos.value
+      .filter(
+        (modifiedObj) =>
+          !formGalery.value.imagesList.some(
+            (currentObj) => currentObj.url === modifiedObj.url
+          )
+      )
+      .map((obj) => obj.url);
+
   const isValid = await validateGallery(fields);
   if (!isValid) inputValidate();
 
   if (isValid) {
     const inputFile: File[] = fields.imagesList
       .filter((data: any) => data.url !== "")
-      .map((data: any) => data.file);
+      .map((data: any) => data.file)
+      .filter((file: File | undefined) => file !== undefined);
 
     const payload = {
       specialistGallery: {
         specialistId: idEspecialist.value,
-        fileIdsToRemove: [],
+        fileIdsToRemove: imagesRemove,
       },
       images: inputFile,
     };
 
-    const data = await specialistServices.postGallery(payload);
-    console.log(data);
-
-    formGalery.value = { ...formGalery.value, ...fields };
-    const value = formGalery.value;
-    // alertSuccessButton("Se realizo la operación exitosamente");
+    try {
+      alertLoading("Guardando...");
+      const data = await specialistServices.postGallery(payload);
+      galleryPhotos.value = [...data.gallery];
+      cargarGallery();
+      showModalGalery.value = false;
+      alertSuccessButton("Se realizo la operación exitosamente");
+    } catch (error) {
+      showModalGalery.value = false;
+      alertSuccessButton("fallo algo");
+    }
   }
+  
+  imagesList.resetField();
 }
 //ENVIAR EXPERIENCIA
 async function editExperience() {
@@ -2068,6 +2066,12 @@ function substractMonth() {
 }
 
 //#region GalleryImage
+function showGalery() {
+  showModalGalery.value = true;
+  imagesList.resetField();
+  cargarGallery();
+}
+
 function uploadImage(index: any) {
   imageSelected.value = index;
   const btnFile: any = document.getElementById(`portadaFile${index}`);
@@ -2101,7 +2105,6 @@ function changeFileCover(event: any) {
 
 function deleteImage(index: any) {
   formGalery.value.imagesList[index].url = "";
-  formGalery.value.imagesList[index].file = "";
 }
 //#endregion
 
