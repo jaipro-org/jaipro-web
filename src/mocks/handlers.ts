@@ -61,9 +61,8 @@ export const handlers = [
   }),
   rest.get(URL + '/customer/proyects', async (req, res, ctx) => {
     const queryParams = req.params;
-    console.log(queryParams)
     const response = [
-      { 
+      {
         professionName: "Carpintero",
         detail: "asdasdasdsa",
         creationDate: "2023-05-16T22:24:11.919901",
@@ -72,7 +71,7 @@ export const handlers = [
         enabledRating: false,
         ratingDone: true
       },
-      { 
+      {
         professionName: "Electricista",
         detail: "asdasdasdsa",
         creationDate: "2023-05-16T22:24:11.919901",
@@ -82,6 +81,49 @@ export const handlers = [
         ratingDone: true
       }
     ]
+    return res(
+      ctx.status(200),
+      ctx.json(response)
+    )
+  }),
+  rest.get(URL + '/specialist/proposals', async (req, res, ctx) => {
+    const queryParams = req.params;
+    const response = {
+      totalRows: 30,
+      data: [{
+        projectDetail: {
+          projectId: "b08c1fcf-aae1-4167-bcb6-1325351796aa",
+          status: 1,
+          professionName: "Carpintero",
+          district: "Los Olivos",
+          detail: "Se busca realizar la reparacion...",
+          creationDate: "2021-01-01 15:34:21"
+        },
+        statusProposal: 1,
+        proposal: "Te cobraria X soles",
+        profName: "Pedro Pablo",
+        profLastName: "Castle",
+        profPublicUrl: "https://....com",
+        minCost: 100,
+        maxCost: 200
+      }, {
+        projectDetail: {
+          projectId: "b08c1fcf-aae1-4167-bcb6-1325351796ss",
+          status: 2,
+          professionName: "Limpieza",
+          district: "Lima",
+          detail: "Se busca realizar la limpieza de...",
+          creationDate: "2023-01-01 15:34:21"
+        },
+        statusProposal: 2,
+        proposal: "Te cobraria X dolares",
+        profName: "Jesner Ramirez",
+        profLastName: "Castle",
+        profPublicUrl: "https://....com",
+        minCost: 300,
+        maxCost: 500
+      }]
+    }
     return res(
       ctx.status(200),
       ctx.json(response)

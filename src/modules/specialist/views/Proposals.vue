@@ -33,17 +33,17 @@
             :key="index"
           >
             <span class="job__data d-block">
-              <b>Cliente:</b> {{ item.petitioner }}
+              <b>Cliente:</b> {{ item.profName + " " + item.profLastName }}
             </span>
             <span class="job__data d-block">
-              <b>Se necesita:</b> {{ item.category }}
+              <b>Se necesita:</b> {{ item.projectDetail.professionName }}
             </span>
             <span class="job__data d-block mt-2"><b>Descripción:</b></span>
             <p class="job__data">
-              {{ item.description }}
+              {{ item.projectDetail.detail }}
             </p>
             <span class="job__data d-block">
-              <b>Fecha de envío:</b> {{ item.quotationDate }}
+              <b>Fecha de envío:</b> {{ item.projectDetail.creationDate }}
             </span>
             <div class="d-flex justify-content-between align-items-center mt-3">
               <b-button variant="primary" @click="isWorkDetailActive = true"
@@ -51,8 +51,11 @@
               >
               <!-- <span>Hace 2 días</span> -->
               <span>
-                <i class="fa-solid me-1" :class="item.icon"></i>
-                {{ item.state }}
+                <i
+                  class="fa-solid me-1"
+                  :class="iconForState(item.projectDetail.status)"
+                ></i>
+                {{ statusForID(item.projectDetail.status) }}
               </span>
             </div>
           </b-card>
@@ -101,34 +104,38 @@
                 <div class="d-flex align-items-center">
                   <span class="d-block mb-1">
                     <b>Cliente:</b>
-
-                    Ernesto Chavez
+                    {{ proposalDetail.name }}
                   </span>
                 </div>
                 <span class="job-detail__status">
                   <i class="fa-solid fa-circle-dollar-to-slot"></i>
                   <!-- <i class="fa-solid fa-dollar-sign dollar"></i> -->
-                  Por cobrar
+                  {{ proposalDetail.status }}
                 </span>
               </div>
 
               <div class="mx-0 mt-3 align-items-center">
                 <b>Se necesita:</b>
-                <span class="job-detail__work text-center ms-5">Pintor</span>
+                <span class="job-detail__work text-center ms-5">
+                  {{ proposalDetail.profession }}</span
+                >
               </div>
 
               <div class="mt-3 mb-1">
                 <b>Ubicacion de trabajo:</b>
-                Ventanilla
+                {{ proposalDetail.ubication }}
               </div>
 
               <div class="mt-3 mb-3">
                 <b>Fecha de solicitud:</b>
-                19/12/2020
+                {{ proposalDetail.date }}
               </div>
 
               <router-link
-                :to="{ name: 'project-detail', params: { projectId: 1 } }"
+                :to="{
+                  name: 'project-detail',
+                  params: { projectId: proposalDetail.id },
+                }"
                 >Ver mas detalles del proyecto</router-link
               >
 
@@ -162,12 +169,17 @@
 
               <div class="text-center mt-2">
                 <span>
-                  Mínimo: <span class="badge bg-secondary">$120</span>
+                  Mínimo:
+                  <span class="badge bg-secondary">
+                    {{ "$" + proposalDetail.min }}
+                  </span>
                 </span>
                 -
                 <span>
                   Máximo:
-                  <span class="badge bg-secondary">$250</span>
+                  <span class="badge bg-secondary">
+                    {{ "$" + proposalDetail.max }}
+                  </span>
                 </span>
               </div>
 
@@ -222,31 +234,34 @@
       <div class="jobs__list px-3 pt-1">
         <b-card
           class="job__item mb-4"
-          v-for="(job, index) in proposalListFilter"
+          v-for="(item, index) in proposalListFilter"
           :key="index"
         >
           <span class="job__data d-block">
-            <b>Cliente:</b> {{ job.petitioner }}
+            <b>Cliente:</b> {{ item.profName + " " + item.profLastName }}
           </span>
           <span class="job__data d-block">
-            <b>Se necesita:</b> {{ job.category }}
+            <b>Se necesita:</b> {{ item.projectDetail.professionName }}
           </span>
           <span class="job__data d-block mt-2"><b>Descripción:</b></span>
           <p class="job__data">
-            {{ job.description }}
+            {{ item.projectDetail.detail }}
           </p>
           <span class="job__data d-block">
-            <b>Fecha de envío:</b> {{ job.quotationDate }}
+            <b>Fecha de envío:</b> {{ item.projectDetail.creationDate }}
           </span>
           <div class="d-flex justify-content-between align-items-center mt-3">
-            <b-button variant="primary" @click="isWorkDetailActive = true"
+            <b-button variant="primary" @click="showDetail(item)"
               >Ver detaille</b-button
             >
             <!-- <span>Hace 2 días</span> -->
             <span>
               <!-- <i class="fa-solid fa-clock me-1"></i> -->
-              <i class="fa-solid me-1" :class="job.icon"></i>
-              {{ job.state }}
+              <i
+                class="fa-solid me-1"
+                :class="iconForState(item.projectDetail.status)"
+              ></i>
+              {{ statusForID(item.projectDetail.status) }}
             </span>
           </div>
         </b-card>
@@ -262,110 +277,17 @@
         ></b-pagination>
       </div>
     </div>
-
-    <b-modal
-      id="modal-proposal"
-      title="Mi propuesta"
-      size="lg"
-      centered
-      hide-footer
-    >
-      <b-form @submit.prevent="sendProposal" ref="formModal" validated>
-        <p>
-          Estima un rango de tus honorarios por el trabajo. Excluye el precio de
-          los materiales u otros
-        </p>
-        <div class="row mx-0 justify-content-around align-items-center mt-3">
-          <div class="col-12 col-lg-5 col-sm-12">
-            <b-input-group prepend="S/" id="input-proposal-1">
-              <b-form-input
-                placeholder="Minimo"
-                v-model="form.min"
-                oninput="this.value = value.replace(/[^0-9]/g, '')"
-                required
-                class="rounded-right"
-              ></b-form-input>
-            </b-input-group>
-          </div>
-          <div class="col-12 col-lg-2 col-sm-12 text-center">-</div>
-          <div class="col-12 col-lg-5 col-sm-12">
-            <b-input-group prepend="S/" id="input-proposal-2">
-              <b-form-input
-                placeholder="Maximo"
-                oninput="this.value = value.replace(/[^0-9]/g, '')"
-                v-model="form.max"
-                required
-                class="rounded-right"
-              ></b-form-input>
-            </b-input-group>
-          </div>
-        </div>
-        <b-form-group
-          id="input-group-3"
-          label="Comentarios adicionales:"
-          label-for="textarea"
-          class="mt-5"
-        >
-          <b-form-textarea
-            id="textarea"
-            v-model="form.coment"
-            placeholder="Ingrese un comentario adicional"
-            class="rounded-left"
-            rows="3"
-            max-rows="6"
-          ></b-form-textarea>
-        </b-form-group>
-        <div style="display: none">
-          <button type="submit" ref="btnModal"></button>
-        </div>
-      </b-form>
-      <div class="modal-footer row mt-5 pb-0">
-        <div class="mx-0 w-100">
-          <div class="col-12 d-flex justify-content-between w-100">
-            <b-button
-              variant="secondary"
-              @click="$bvModal.hide('modal-proposal')"
-              >Cancelar</b-button
-            >
-            <b-button variant="primary" @click="$refs.btnModal.click()"
-              >Enviar</b-button
-            >
-          </div>
-        </div>
-      </div>
-    </b-modal>
-
-    <!-- <BModal
-      size="md"
-      id="modal-imagen"
-      class="modal__imagen"
-      title="Imagen del trabajo"
-    >
-      <template #modal-footer>
-        <div class="mx-0 w-100">
-          <div class="col-12 cold-flex justify-content-between w-100">
-            <b-button variant="secondary" @click="$bvModal.hide('modal-imagen')"
-              >Cancelar</b-button
-            >
-            <b-button variant="primary" @click="$refs.btnModal.click()"
-              >Enviar</b-button
-            >
-          </div>
-        </div>
-      </template>
-      <div id="imagen__content">
-        <img src="@/assets/img-delete/pintor.jpg" alt="pintor" />
-      </div>
-    </BModal> -->
   </div>
 </template>
 
 <script lang="ts">
-import { alertSuccessButton } from "@/utils/SweetAlert"
-import { defineComponent, onMounted, ref, watch, watchEffect } from "vue"
-import Proposal from "@/interfaces/Proposal.interface"
-import DropDownItem from "@/interfaces/DropDownItem.interface"
-import PaymentStatusFlow from "./components/PaymentStatus/PaymentStatusFlow.vue"
+import axios from "axios";
+import { alertSuccessButton } from "@/utils/SweetAlert";
+import { defineComponent, onMounted, ref, watch, watchEffect } from "vue";
+import Proposal from "@/interfaces/Proposal.interface";
+import DropDownItem from "@/interfaces/DropDownItem.interface";
+import PaymentStatusFlow from "./components/PaymentStatus/PaymentStatusFlow.vue";
+import { optionToElement } from "bootstrap-vue-3/dist/composables";
 
 export default defineComponent({
   name: "JobsListComponent",
@@ -373,106 +295,73 @@ export default defineComponent({
     PaymentStatusFlow,
   },
   setup() {
-    const isWorkDetailActive = ref<boolean>(false)
-    const totalRows = ref<number>(0)
-    const currentPage = ref<number>(1)
-    const perPage = ref<number>(4)
-    const statusSelected = ref<number>(0)
+    const URL = process.env.VUE_APP_BACK_URL;
+    const isWorkDetailActive = ref<boolean>(false);
+    const totalRows = ref<number>(0);
+    const currentPage = ref<number>(1);
+    const perPage = ref<number>(10);
+    const statusSelected = ref<number>(0);
     const statusOptions = ref<DropDownItem[]>([
       { value: 0, label: "Todas" },
       { value: 1, label: "Enviado" },
       { value: 2, label: "Aceptado" },
       { value: 3, label: "Rechazado" },
       { value: 4, label: "Finalizado" },
-    ])
-    const dateSelected = ref<number>(0)
+    ]);
+    const dateSelected = ref<number>(0);
     const selectDates = ref<DropDownItem[]>([
       { value: 0, label: "Todas" },
       { value: 1, label: "Hoy" },
       { value: 2, label: "Esta semana" },
       { value: 3, label: "Este mes" },
-    ])
-    const locationSelected = ref<number>(0)
+    ]);
+    const locationSelected = ref<number>(0);
     const selectLocations = ref<DropDownItem[]>([
       { value: 0, label: "Todas" },
       { value: 1, label: "Lima Norte" },
       { value: 2, label: "Lima Sur" },
       { value: 3, label: "Lima Este" },
-    ])
-    const jobsList = ref<Proposal[]>([
-      {
-        id: 1,
-        petitioner: "Solicitante 1",
-        category: "Categoria 1",
-        description: "Descripcion de prueba para la card de trabajos",
-        quotationDate: "05/01/2021",
-        state: "Enviado",
-        icon: "fa-paper-plane",
-      },
-      {
-        id: 2,
-        petitioner: "Solicitante 2",
-        category: "Categoria 2",
-        description: "Descripcion de prueba para la card de trabajos",
-        quotationDate: "05/01/2021",
-        state: "Aceptada",
-        icon: "fa-face-smile",
-      },
-      {
-        id: 3,
-        petitioner: "Solicitante 3",
-        category: "Categoria 3",
-        description: "Descripcion de prueba para la card de trabajos",
-        quotationDate: "05/01/2021",
-        state: "Por cobrar",
-        icon: "fa-money-bill",
-      },
-      {
-        id: 4,
-        petitioner: "Solicitante 4",
-        category: "Categoria 4",
-        description: "Descripcion de prueba para la card de trabajos",
-        quotationDate: "05/01/2021",
-        state: "Finalizada",
-        icon: "fa-circle-check",
-      },
-      {
-        id: 5,
-        petitioner: "Solicitante 5",
-        category: "Categoria 5",
-        description: "Descripcion de prueba para la card de trabajos",
-        quotationDate: "05/01/2021",
-        state: "Enviado",
-        icon: "fa-paper-plane",
-      },
-      {
-        id: 6,
-        petitioner: "Solicitante 6",
-        category: "Categoria 6",
-        description: "Descripcion de prueba para la card de trabajos",
-        quotationDate: "05/01/2021",
-        state: "Enviado",
-        icon: "fa-paper-plane",
-      },
-      {
-        id: 7,
-        petitioner: "Solicitante 7",
-        category: "Categoria 7",
-        description: "Descripcion de prueba para la card de trabajos",
-        quotationDate: "05/01/2021",
-        state: "Enviado",
-        icon: "fa-paper-plane",
-      },
-    ])
-    const proposalListFilter = ref<Proposal[]>([])
+    ]);
+    const jobsList = ref<Proposal[]>([]);
+    const proposalListFilter = ref<Proposal[]>([]);
+    const proposalDetail = ref();
     const form = ref({
-      min: "",
-      max: "",
-      coment: "",
-    })
+      min: 10,
+      max: 20,
+      coment: "aaaa",
+    });
+
+    const showDetail = (item: any) => {
+      isWorkDetailActive.value = true;
+      proposalDetail.value = {
+        id: item.projectDetail.projectId,
+        fullName: item.profName + " " + item.profLastName,
+        profession: item.projectDetail.professionName,
+        status: "Por cobrar",
+        ubication: item.projectDetail.district,
+        date: item.projectDetail.creationDate,
+        min: item.minCost,
+        max: item.maxCost,
+      };
+    };
+
+    const iconForState = (stateID: number) => {
+      const stateToIcon = [
+        "fa-paper-plane",
+        "fa-face-smile",
+        "fa-money-bill",
+        "fa-circle-check",
+      ];
+
+      return stateToIcon[stateID - 1] || "";
+    };
+
+    const statusForID = (stateID: number) => {
+      const state = ["Enviado", "Aceptado", "Rechazado", "Finalizado"];
+      return state[stateID - 1] || "";
+    };
 
     const changePage = (page: number) => {
-
       const mq = window.matchMedia("(max-width: 991px)");
       if (!mq.matches) {
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -482,35 +371,38 @@ export default defineComponent({
       if (container && mq.matches) {
         container.scrollTo({ left: 0, behavior: "smooth" });
       }
-      
+
       proposalListFilter.value = jobsList.value.slice(
         (page - 1) * perPage.value,
         page * perPage.value
-      )
-    }
+      );
+    };
 
-    const getAllProposals = () => {
-      totalRows.value = jobsList.value.length
-      changePage(1)
-    }
+    const getAllProposals = async () => {
+      const { data } = await axios.get(URL + "/specialist/proposals");
+      console.log(data);
+      jobsList.value = data.data;
+      totalRows.value = data.totalRows;
+      changePage(1);
+    };
 
     const sendProposal = () => {
-      alertSuccessButton("Se envio una propuesta exitosamente")
-    }
+      alertSuccessButton("Se envio una propuesta exitosamente");
+    };
 
     watch(currentPage, (newValue, oldValue) => {
       //changePage(newValue);
-      console.log(newValue, oldValue)
-    })
+      // console.log(newValue, oldValue);
+    });
 
     watchEffect(() => {
       //console.log(currentPage.value);
-      changePage(currentPage.value)
-    })
+      changePage(currentPage.value);
+    });
 
     onMounted(() => {
-      getAllProposals()
-    })
+      getAllProposals();
+    });
 
     return {
       isWorkDetailActive,
@@ -526,10 +418,14 @@ export default defineComponent({
       jobsList,
       proposalListFilter,
       form,
+      proposalDetail,
       sendProposal,
-    }
+      iconForState,
+      statusForID,
+      showDetail,
+    };
   },
-})
+});
 </script>
 
 <style lang="scss" scoped>
