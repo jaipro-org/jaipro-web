@@ -25,10 +25,9 @@ import AxiosClient from "./services/axiosClient"
 import { worker } from "./mocks/worker"
 new AxiosClient(process.env.VUE_APP_BACK_URL).createClient()
 
-// NEW
-if (process.env.NODE_ENV === 'development') {
-  worker.start({ quiet: true, onUnhandledRequest: 'bypass' })
-}
+//Inicializador del MockWebServices
+worker.start({ quiet: true, onUnhandledRequest: 'bypass'})
+
 
 createApp(App)
   .use(createPinia())

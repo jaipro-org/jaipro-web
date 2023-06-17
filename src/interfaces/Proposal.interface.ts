@@ -1,11 +1,19 @@
 interface Proposal {
-    id: number,
-    petitioner: string,
-    category: string,
-    description: string,
-    quotationDate: string,
-    state: string,
-    icon: string
+    projectDetail: {
+        projectId: string,
+        status: number,
+        professionName: string,
+        district: string,
+        detail: string,
+        creationDate: string
+    },
+    statusProposal: number,
+    proposal: string,
+    profName: string,
+    profLastName: string,
+    profPublicUrl: string,
+    minCost: number,
+    maxCost: number
 }
 
 export default Proposal;

@@ -71,11 +71,17 @@ export class SpecialistServices {
     const formData = new FormData();
 
     //specialistGallery
-    payload.images.forEach(image => {
-      formData.append('images', image);
+    formData.append("specialistGallery",
+      new Blob(
+        [JSON.stringify(payload.specialistGallery)],
+        { type: 'application/json' }
+      )
+    );
+
+    //imagen
+    payload.images.forEach((img: any) => {
+      formData.append('images', new Blob([img], { type: img.type }), img.name);
     })
-    const jsonPart = new Blob([JSON.stringify(payload.specialistGallery)], { type: 'application/json' });
-    formData.append("specialistGallery", jsonPart);
 
     const { data } = await AxiosClient.axiosIns.post(generalApi.postGallery, formData)
     return data
@@ -103,13 +109,3 @@ export class SpecialistServices {
   }
 }
 
-function getFileTypeByExtension(extension: any) {
-  const fileTypeMap: any = {
-    jpeg: 'image/jpeg',
-    jpg: 'image/jpeg',
-    png: 'image/png',
-    // Agrega más extensiones y tipos de contenido según sea necesario
-  };
-
-  return fileTypeMap[extension.toLowerCase()] || '';
-}
