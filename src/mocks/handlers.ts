@@ -129,4 +129,33 @@ export const handlers = [
       ctx.json(response)
     )
   }),
+  rest.get(URL + '/specialist/proposals/details', async (req, res, ctx) => {
+    const queryParams = req.params;
+    const response = {
+      projectDetail: {
+        projectId: "b08c1fcf-aae1-4167-bcb6-1325351796aa",
+        status: 1,
+        professionName: "Carpintero",
+        district: "Los Olivos",
+        detail: "Se busca realizar la reparacion...",
+        creationDate: "2021-01-01 15:34:21"
+      },
+      payment: {
+        type: 1,
+        modality: 1,
+        amount: 999.99
+      },
+      statusProposal: 1,
+      proposal: "Te cobraria X soles",
+      profName: "Pedro Pablo",
+      profLastName: "Castle",
+      profPublicUrl: "https://....com",
+      minCost: 100,
+      maxCost: 200
+    }
+    return res(
+      ctx.status(200),
+      ctx.json(response)
+    )
+  }),
 ]

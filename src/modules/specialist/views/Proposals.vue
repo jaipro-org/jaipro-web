@@ -46,7 +46,7 @@
               <b>Fecha de envío:</b> {{ item.projectDetail.creationDate }}
             </span>
             <div class="d-flex justify-content-between align-items-center mt-3">
-              <b-button variant="primary" @click="isWorkDetailActive = true"
+              <b-button variant="primary" @click="showDetail(item)"
                 >Ver detalle</b-button
               >
               <!-- <span>Hace 2 días</span> -->
@@ -104,7 +104,7 @@
                 <div class="d-flex align-items-center">
                   <span class="d-block mb-1">
                     <b>Cliente:</b>
-                    {{ proposalDetail.name }}
+                    {{ proposalDetail.fullName }}
                   </span>
                 </div>
                 <span class="job-detail__status">
@@ -331,18 +331,24 @@ export default defineComponent({
       coment: "aaaa",
     });
 
-    const showDetail = (item: any) => {
-      isWorkDetailActive.value = true;
-      proposalDetail.value = {
-        id: item.projectDetail.projectId,
-        fullName: item.profName + " " + item.profLastName,
-        profession: item.projectDetail.professionName,
-        status: "Por cobrar",
-        ubication: item.projectDetail.district,
-        date: item.projectDetail.creationDate,
-        min: item.minCost,
-        max: item.maxCost,
+    const showDetail = async (item: any) => {
+      const projectID = {
+        serviceProposalId: item.projectDetail.projectId,
       };
+
+      const { data } = await axios.get(URL + "/specialist/proposals/details");
+
+      proposalDetail.value = {
+        id: projectID.serviceProposalId,
+        fullName: data.profName + " " + data.profLastName,
+        profession: data.projectDetail.professionName,
+        status: "Por cobrar",
+        ubication: data.projectDetail.district,
+        date: data.projectDetail.creationDate,
+        min: data.minCost,
+        max: data.maxCost,
+      };
+      isWorkDetailActive.value = true;
     };
 
     const iconForState = (stateID: number) => {
