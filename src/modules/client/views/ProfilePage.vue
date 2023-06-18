@@ -465,7 +465,7 @@ async function fetchDataClient() {
     baseCustomerPhoto.value = urlPhoto;
     cover.value.coverImage = urlPhoto;
     coverLoad.value = urlPhoto;
-    extension.value = data.avatar.split(".").at(1);
+    extension.value = data.avatar.split(".").pop();
   }
 }
 //CARGAR Lista Distritos
@@ -520,7 +520,7 @@ const updateCover = async () => {
     const payload: PhotoClient = {
       id: idClient.value,
       photo: inputFile[0],
-      extension: extension.value
+      extension: inputFile[0].type.split("/").pop()
     };
 
     await putPhoto(payload);
