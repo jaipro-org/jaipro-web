@@ -517,6 +517,8 @@ const updateCover = async () => {
   const inputFile: FileList = portadaFile.value.files;
 
   if(inputFile.length){
+    console.log('....enter')
+    console.log('....file', inputFile)
     const payload: PhotoClient = {
       id: idClient.value,
       photo: inputFile[0],
@@ -659,6 +661,7 @@ function deleteImage() {
   cover.value.fileImage = "";
   cover.value.coverImage = "";
   coverLoad.value = "";
+  portadaFile.value.value = "";
 }
 
 function changeFileCover(event: any) {
