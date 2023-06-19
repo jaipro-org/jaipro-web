@@ -1438,20 +1438,23 @@ async function fetchListNameBank() {
 }
 //CARGAR Datos del especialista
 async function fetchDataSpecialist() {
-  let data = await specialistServices.getDataSpecialist(idEspecialist.value);
+  const data = await specialistServices.getDataSpecialist(idEspecialist.value);
 
-  galleryPhotos.value = [...data.cv.gallery];
+  const photo = data.cv.gallery || [];
+  galleryPhotos.value = [...photo];
+
+  const photoAccount = data.cv.profilePhoto
+    ? data.cv.profilePhoto?.url + `?v=${new Date()}`
+    : "";
 
   formPresentation.value = {
     name: data.specialist.name,
     lastName: data.specialist.lastName,
-    about: data.cv.about,
+    about: data.cv.about || "No tienes datos sobre ti, agregalos...",
     direction: data.specialist.address,
     phone: data.specialist.phone,
     secondPhone: data.specialist.secondaryPhone,
-    profilePhoto: data.cv.profilePhoto
-      ? data.cv.profilePhoto?.url + `?v=${new Date()}`
-      : "",
+    profilePhoto: photoAccount,
     cv: data.cv,
   };
   currentPresentation.value = {
@@ -1463,6 +1466,15 @@ async function fetchDataSpecialist() {
     secondPhone: data.specialist.secondaryPhone,
   };
 
+  localStorage.setItem("photoAccount", photoAccount);
+
+  window.dispatchEvent(
+    new CustomEvent("photoAccount-localstorage-changed", {
+      detail: {
+        storage: localStorage.getItem("photoAccount"),
+      },
+    })
+  );
   cargarGallery();
 }
 
@@ -1660,13 +1672,13 @@ async function editGallery() {
   };
 
   const imagesRemove = galleryPhotos.value
-      .filter(
-        (modifiedObj) =>
-          !formGalery.value.imagesList.some(
-            (currentObj) => currentObj.url === modifiedObj.url
-          )
-      )
-      .map((obj) => obj.url);
+    .filter(
+      (modifiedObj) =>
+        !formGalery.value.imagesList.some(
+          (currentObj) => currentObj.url === modifiedObj.url
+        )
+    )
+    .map((obj) => obj.url);
 
   const isValid = await validateGallery(fields);
   if (!isValid) inputValidate();
@@ -1697,7 +1709,7 @@ async function editGallery() {
       alertSuccessButton("fallo algo");
     }
   }
-  
+
   imagesList.resetField();
 }
 //ENVIAR EXPERIENCIA
