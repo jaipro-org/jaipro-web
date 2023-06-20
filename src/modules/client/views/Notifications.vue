@@ -47,6 +47,7 @@
 </template>
 
 <script setup lang="ts">
+import { GeneralServices } from "@/services/api/generalServices";
 import {
   alertLoading,
   alertSuccessfully,
@@ -54,8 +55,14 @@ import {
   closeAlert,
 } from "@/utils/SweetAlert";
 import NotificationCard from "@/modules/client/views/Components/NotificationCard.vue";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import { encryptAuthStorage } from "@/utils/Storage";
 
+const authData: string = window.localStorage.getItem("@AUTH:security") || "";
+
+const generalServices = new GeneralServices();
+
+const idCustomer = ref();
 const isLoadingNotifications = ref(false);
 const newNotifications = ref([
   {
@@ -96,6 +103,23 @@ const oldNotifications = ref([
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Id omnis sequi dolorem assumenda saa sd epe amet perspiciatis. Cupiditate incidunt dolorum pariatur, quisquam obcaecati ratione odio eveniet ",
   },
 ]);
+
+onMounted(async () => {
+  if (Boolean(authData)) {
+    let data = encryptAuthStorage.decryptValue(authData);
+    idCustomer.value = data.id;
+  }
+  await cargarNotificaciones()
+});
+
+async function cargarNotificaciones() {
+  const payload = {
+    profileType: 1,
+    id: idCustomer.value,
+  };
+  const data = await generalServices.getNotification(payload.profileType, payload.id);
+  console.log(data)
+}
 
 // Eliminar una notificación
 async function handleDeleteNotification(notification: any) {

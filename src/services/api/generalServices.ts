@@ -1,6 +1,7 @@
 import AxiosClient from "../axiosClient"
 
 const generalApi = {
+  getNotification: "/notification/profile/",
   getProfessionList: "/profession",
   getSpecializationList: "/specialization",
   getDistrictList: "/district",
@@ -10,6 +11,10 @@ const generalApi = {
 }
 
 export class GeneralServices {
+  async getNotification(profileType: number, userId: string) {
+    const { data } = await AxiosClient.axiosIns.get(generalApi.getNotification + profileType + "/user/" + userId)
+    return data
+  }
   async getProfessionList() {
     const { data } = await AxiosClient.axiosIns.get(
       generalApi.getProfessionList

@@ -115,7 +115,7 @@ import logo from "@/assets/svg/logo.svg";
 import { useRouter } from "vue-router";
 import { useLoginStore } from "@/store";
 
-const photoPerfil = ref("")
+const photoPerfil = ref(window.localStorage.getItem("photoAccount") || "")
 const loginStore = useLoginStore();
 const router = useRouter();
 
