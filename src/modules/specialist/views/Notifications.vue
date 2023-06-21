@@ -56,8 +56,12 @@ import {
 } from "@/utils/SweetAlert";
 import NotificationCard from "@/modules/client/views/Components/NotificationCard.vue";
 import { defineComponent, ref, onMounted } from "vue";
-import Notification from "@/interfaces/Notification.interface";
+import {
+  Notification,
+  NotificationBack,
+} from "@/interfaces/Notification.interface";
 import { encryptAuthStorage } from "@/utils/Storage";
+import { read } from "@popperjs/core";
 
 export default defineComponent({
   name: "NotificationComponent",
@@ -72,45 +76,8 @@ export default defineComponent({
 
     const idSpecialist = ref();
     const isLoadingNotifications = ref(false);
-    const newNotifications = ref<Notification[]>([
-      {
-        id: 1,
-        status: 0,
-        title: "Notificacion #100",
-        description:
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Id omnis sequi dolorem assumenda saa sd epe amet perspiciatis. Cupiditate incidunt dolorum pariatur, quisquam obcaecati ratione odio eveniet ",
-      },
-      {
-        id: 2,
-        status: 0,
-        title: "Notificacion #101",
-        description:
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Id omnis sequi dolorem assumenda saa sd epe amet perspiciatis. Cupiditate incidunt dolorum pariatur, quisquam obcaecati ratione odio eveniet ",
-      },
-    ]);
-    const oldNotifications = ref<Notification[]>([
-      {
-        id: 3,
-        status: 1,
-        title: "Notificacion #102",
-        description:
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Id omnis sequi dolorem assumenda saa sd epe amet perspiciatis. Cupiditate incidunt dolorum pariatur, quisquam obcaecati ratione odio eveniet ",
-      },
-      {
-        id: 4,
-        status: 1,
-        title: "Notificacion #103",
-        description:
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Id omnis sequi dolorem assumenda saa sd epe amet perspiciatis. Cupiditate incidunt dolorum pariatur, quisquam obcaecati ratione odio eveniet ",
-      },
-      {
-        id: 5,
-        status: 1,
-        title: "Notificacion #104",
-        description:
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Id omnis sequi dolorem assumenda saa sd epe amet perspiciatis. Cupiditate incidunt dolorum pariatur, quisquam obcaecati ratione odio eveniet ",
-      },
-    ]);
+    const newNotifications = ref<Notification[]>([]);
+    const oldNotifications = ref<Notification[]>([]);
 
     onMounted(async () => {
       if (Boolean(authData)) {
@@ -122,14 +89,26 @@ export default defineComponent({
 
     async function cargarNotificaciones() {
       const payload = {
-        profileType: 1,
+        profileType: 2,
         id: idSpecialist.value,
       };
+      
       const data = await generalServices.getNotification(
         payload.profileType,
         payload.id
       );
-      console.log(data)
+
+      newNotifications.value = data.map((value: NotificationBack) => {
+        return {
+          id: value.id,
+          title: value.title,
+          description: value.message,
+          read: value.read,
+          deleted: value.deleted,
+        };
+      });
+
+      console.log(data);
     }
 
     // Eliminar una notificación
@@ -198,6 +177,8 @@ export default defineComponent({
         title: "Notificacion #105",
         description:
           "Lorem ipsum dolor sit amet consectetur adipisicing elit. Id omnis sequi dolorem assumenda saa sd epe amet perspiciatis. Cupiditate incidunt dolorum pariatur, quisquam obcaecati ratione odio eveniet ",
+        read: false,
+        deleted: false,
       };
 
       const timeOut = setTimeout(() => {
