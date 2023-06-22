@@ -1,5 +1,5 @@
 <template>
-  <div class="notifications__container mb-2">
+  <div class="notifications__container mb-2 minH">
     <div class="row mx-0 pt-4">
       <div cols="12" class="col-12 mb-3 mb-md-1">
         <h1 class="notifications__title mb-3">Recientes</h1>
@@ -18,7 +18,7 @@
           >No se encontraron nuevas notificaciones</span
         >
       </div>
-      <div cols="12" class="col-12 mb-3 mb-md-1">
+      <div cols="12" class="col-12 mb-3 mb-md-1" v-if="oldNotifications.length > 0">
         <h1 class="notifications__title mb-3">Leídos</h1>
         <div class="notifications-list">
           <notification-card
@@ -49,10 +49,10 @@
 <script lang="ts">
 import { GeneralServices } from "@/services/api/generalServices";
 import {
+  alertError,
   alertLoading,
   alertSuccessfully,
   alertActionButton,
-  closeAlert,
 } from "@/utils/SweetAlert";
 import NotificationCard from "@/modules/client/views/Components/NotificationCard.vue";
 import { defineComponent, ref, onMounted } from "vue";
@@ -61,7 +61,6 @@ import {
   NotificationBack,
 } from "@/interfaces/Notification.interface";
 import { encryptAuthStorage } from "@/utils/Storage";
-import { read } from "@popperjs/core";
 
 export default defineComponent({
   name: "NotificationComponent",
@@ -87,6 +86,7 @@ export default defineComponent({
       await cargarNotificaciones();
     });
 
+    //#region Cargar Notificaciones
     async function cargarNotificaciones() {
       const payload = {
         profileType: 2,
@@ -98,77 +98,72 @@ export default defineComponent({
         payload.id
       );
 
-      newNotifications.value = data.map((value: NotificationBack) => {
+      let formatNotificationCurrent = data.map((value: NotificationBack) => {
         return {
           id: value.id,
+          status: value.read ? 1 : 0,
           title: value.title,
           description: value.message,
-          read: value.read,
+          lastUpdate: value.modifiedDate,
           deleted: value.deleted,
         };
       });
 
-      console.log(data);
-    }
+      formatNotificationCurrent = formatNotificationCurrent.filter((data: Notification) => data.deleted === false)
 
-    // Eliminar una notificación
-    const handleDeleteNotification = async (notification: any) => {
+      newNotifications.value = formatNotificationCurrent.filter(
+        (data: Notification) => data.status === 0
+      );
+      oldNotifications.value = formatNotificationCurrent.filter(
+        (data: Notification) => data.status === 1
+      );
+    }
+    //#endregion Cargar Notificaciones
+
+    //#region Marcar como leida una notificación
+    const handleCheckNotification = async (id: string) => {
+      try {
+        alertLoading();
+        const payload = {
+          id: id,
+          read: true,
+        };
+        await generalServices.putNotification(payload);
+        await cargarNotificaciones();
+        alertSuccessfully("Notificación actualizada");
+      } catch (error) {
+        alertError("Sucedio algo inesperado");
+      }
+    };
+    //#endregion Marcar como leida una notificación
+
+    //#region Eliminar una notificación
+    const handleDeleteNotification = async (id: string) => {
       const alertResult = await alertActionButton(
         "Eliminar Notificación",
         "¿Seguro que desea eliminar la notificación?",
-        "Rechazar",
+        "Si, Eliminar",
         "error"
       );
-      if (alertResult) {
-        //Simulación de carga del Backend
-        alertLoading();
-        const timeOut = setTimeout(() => {
-          let index = 0;
-          if (notification.status == 0) {
-            index = newNotifications.value.findIndex(
-              (not: any) => not.id == notification.id
-            );
-            newNotifications.value.splice(index, 1);
-          } else {
-            index = oldNotifications.value.findIndex(
-              (not: any) => not.id == notification.id
-            );
-            oldNotifications.value.splice(index, 1);
-          }
 
+      if (alertResult) {
+        try {
+          alertLoading();
+          const payload = {
+            id: id,
+            deleted: true,
+          };
+          await generalServices.putNotification(payload);
+          await cargarNotificaciones();
           alertSuccessfully("Se elimino la notificación correctamente");
-          const timeOut2 = setTimeout(function () {
-            closeAlert();
-            clearTimeout(timeOut2);
-          }, 2500);
-          clearTimeout(timeOut);
-        }, 1500);
+        } catch (error) {
+          alertError("Sucedio algo inesperado");
+        }
       }
     };
+    //#endregion Eliminar una notificación
 
-    // Marcar como leida una notificación
-    const handleCheckNotification = (id: number) => {
-      alertLoading();
-      const notification: any = newNotifications.value.find(
-        (not: any) => not.id == id
-      );
-      const index = newNotifications.value.findIndex(
-        (not: any) => not.id == id
-      );
-      notification!.status = 1;
-      const timeOut = setTimeout(() => {
-        oldNotifications.value.unshift(notification);
-        newNotifications.value.splice(index, 1);
-        alertSuccessfully("Notificacion actualizada");
-        const timeOut2 = setTimeout(() => {
-          closeAlert();
-          clearTimeout(timeOut2);
-        }, 1500);
-        clearTimeout(timeOut);
-      }, 1500);
-    };
-
-    // Cargar mas notificación
+    //#region Cargar mas notificación
     const loadNotifications = () => {
       isLoadingNotifications.value = true;
       const notifications: Notification = {
@@ -177,7 +172,6 @@ export default defineComponent({
         title: "Notificacion #105",
         description:
           "Lorem ipsum dolor sit amet consectetur adipisicing elit. Id omnis sequi dolorem assumenda saa sd epe amet perspiciatis. Cupiditate incidunt dolorum pariatur, quisquam obcaecati ratione odio eveniet ",
-        read: false,
         deleted: false,
       };
 
@@ -188,6 +182,7 @@ export default defineComponent({
         clearTimeout(timeOut);
       }, 2000);
     };
+    //#endregion Cargar mas notificación
 
     return {
       isLoadingNotifications,
@@ -202,6 +197,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.minH{
+  min-height: 50vh;
+}
 .notifications__container {
   .notifications__title {
     font-size: 1.5rem;

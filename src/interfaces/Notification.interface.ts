@@ -3,7 +3,6 @@ export interface Notification {
     status: number,
     title: string,
     description: string,
-    read: boolean,
     deleted: boolean,
 }
 

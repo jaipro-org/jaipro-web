@@ -7,7 +7,8 @@ const generalApi = {
   getDistrictList: "/district",
   getBank: "/bank",
   getFilterSpecialist: "/specialist/filters",
-  getSearch: "/specialist/search"
+  getSearch: "/specialist/search",
+  putNotification: "/notification"
 }
 
 export class GeneralServices {
@@ -41,6 +42,10 @@ export class GeneralServices {
   }
   async getSearch(payload: string) {
     const { data } = await AxiosClient.axiosIns.get(generalApi.getSearch + payload.replace(/\s/g, ''))
+    return data
+  }
+  async putNotification(payload: { id: string, read?: boolean, deleted?: boolean }) {
+    const { data } = await AxiosClient.axiosIns.put(generalApi.putNotification, payload)
     return data
   }
 }

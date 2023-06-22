@@ -11,14 +11,7 @@
               <i class="fa-solid fa-ellipsis" role="button"></i>
             </template>
 
-            <b-dropdown-item
-              @click="
-                $emit('handle-delete', {
-                  id: notification.id,
-                  status: notification.status,
-                })
-              "
-            >
+            <b-dropdown-item @click="$emit('handle-delete', notification.id)">
               <i class="fa-solid fa-trash-can me-2 icon-danger"></i>Eliminar
             </b-dropdown-item>
             <b-dropdown-item
@@ -44,8 +37,12 @@
             {{ notification.description }}
           </div>
         </div>
-        <div cols="12" md="2" class="notification-card__time text-end col-12 col-md-2">
-          Hace 4 horas
+        <div
+          cols="12"
+          md="2"
+          class="notification-card__time text-end col-12 col-md-2"
+        >
+          {{ tiempoPasado }}
         </div>
       </div>
     </b-card>
@@ -53,7 +50,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, defineProps, ref, toRefs } from "vue";
+import { defineComponent, toRefs } from "vue";
 
 export default defineComponent({
   name: "NotificationCardComponent",
@@ -62,9 +59,21 @@ export default defineComponent({
   },
   setup(props) {
     const { notification } = toRefs(props);
+    const data = notification.value || {};
 
+    const currentDateTime = new Date();
+    const inputDateTime = new Date(data.lastUpdate);
+
+    const diff = currentDateTime.getTime() - inputDateTime.getTime();
+
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+
+    const tiempoPasado = `Hace ${hours} horas y ${minutes} minutos.`;
+    
     return {
       notification,
+      tiempoPasado,
     };
   },
 });
@@ -129,7 +138,7 @@ export default defineComponent({
     .notification-card__description {
       font-size: 0.8rem;
     }
-    .notification-card__time{
+    .notification-card__time {
       font-size: 0.8rem;
     }
   }
