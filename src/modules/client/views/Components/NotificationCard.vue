@@ -69,7 +69,12 @@ export default defineComponent({
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const minutes = Math.floor((diff / (1000 * 60)) % 60);
 
-    const tiempoPasado = `Hace ${hours} horas y ${minutes} minutos.`;
+    var tiempoPasado = ''
+    if(hours >=1){
+      tiempoPasado = `Hace ${hours} horas`;
+    }else{
+      tiempoPasado = `Hace ${minutes} minutos`;
+    }
     
     return {
       notification,

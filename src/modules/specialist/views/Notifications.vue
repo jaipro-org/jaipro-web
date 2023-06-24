@@ -11,6 +11,20 @@
             @handle-delete="handleDeleteNotification"
             @handle-check="handleCheckNotification"
           />
+          <b-button
+            variant="primary"
+            @click="loadNotifications"
+            class="w-100 mb-4 notifications-list__btn-loading"
+            v-if="newNotifications.length > 5"
+          >
+            <i
+              class="fa-regular me-2"
+              :class="
+                isLoadingNotifications ? 'fas fa-spinner fa-spin' : 'fa-plus'
+              "
+            ></i>
+            {{ isLoadingNotifications ? "Cargando" : "Ver mas" }}
+          </b-button>
         </div>
         <span
           class="d-block text-center notifications__subtitle"
@@ -31,6 +45,7 @@
             variant="primary"
             @click="loadNotifications"
             class="w-100 mb-4 notifications-list__btn-loading"
+            v-if="oldNotifications.length > 5"
           >
             <i
               class="fa-regular me-2"
