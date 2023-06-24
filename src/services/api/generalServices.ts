@@ -1,15 +1,21 @@
 import AxiosClient from "../axiosClient"
 
 const generalApi = {
+  getNotification: "/notification/profile/",
   getProfessionList: "/profession",
   getSpecializationList: "/specialization",
   getDistrictList: "/district",
   getBank: "/bank",
   getFilterSpecialist: "/specialist/filters",
-  getSearch: "/specialist/search"
+  getSearch: "/specialist/search",
+  putNotification: "/notification"
 }
 
 export class GeneralServices {
+  async getNotification(profileType: number, userId: string) {
+    const { data } = await AxiosClient.axiosIns.get(generalApi.getNotification + profileType + "/user/" + userId)
+    return data
+  }
   async getProfessionList() {
     const { data } = await AxiosClient.axiosIns.get(
       generalApi.getProfessionList
@@ -36,6 +42,10 @@ export class GeneralServices {
   }
   async getSearch(payload: string) {
     const { data } = await AxiosClient.axiosIns.get(generalApi.getSearch + payload.replace(/\s/g, ''))
+    return data
+  }
+  async putNotification(payload: { id: string, read?: boolean, deleted?: boolean }) {
+    const { data } = await AxiosClient.axiosIns.put(generalApi.putNotification, payload)
     return data
   }
 }

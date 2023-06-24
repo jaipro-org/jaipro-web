@@ -248,6 +248,7 @@ async function search() {
   dataFromSearch.value = await getSearch(params);
   totalRows.value = dataFromSearch.value.length
   loading.value = false;
+  debugger
 }
 </script>
 

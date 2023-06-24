@@ -11,6 +11,20 @@
             @handle-delete="handleDeleteNotification"
             @handle-check="handleCheckNotification"
           />
+          <b-button
+            variant="primary"
+            @click="loadNotifications"
+            class="w-100 mb-4 notifications-list__btn-loading"
+            v-if="newNotifications.length > 5"
+          >
+            <i
+              class="fa-regular me-2"
+              :class="
+                isLoadingNotifications ? 'fas fa-spinner fa-spin' : 'fa-plus'
+              "
+            ></i>
+            {{ isLoadingNotifications ? "Cargando" : "Ver mas" }}
+          </b-button>
         </div>
         <span
           class="d-block text-center notifications__subtitle"
@@ -31,6 +45,7 @@
             variant="primary"
             @click="loadNotifications"
             class="w-100 mb-4 notifications-list__btn-loading"
+            v-if="oldNotifications.length > 5"
           >
             <i
               class="fa-regular me-2"
@@ -48,109 +63,114 @@
 
 <script setup lang="ts">
 import {
+  Notification,
+  NotificationBack,
+} from "@/interfaces/Notification.interface";
+import { GeneralServices } from "@/services/api/generalServices";
+import {
   alertLoading,
   alertSuccessfully,
   alertActionButton,
-  closeAlert,
+  alertError,
 } from "@/utils/SweetAlert";
 import NotificationCard from "@/modules/client/views/Components/NotificationCard.vue";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import { encryptAuthStorage } from "@/utils/Storage";
 
+const authData: string = window.localStorage.getItem("@AUTH:security") || "";
+
+const generalServices = new GeneralServices();
+
+const idCustomer = ref();
 const isLoadingNotifications = ref(false);
-const newNotifications = ref([
-  {
-    id: 1,
-    status: 0,
-    title: "Notificacion #100",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Id omnis sequi dolorem assumenda saa sd epe amet perspiciatis. Cupiditate incidunt dolorum pariatur, quisquam obcaecati ratione odio eveniet ",
-  },
-  {
-    id: 2,
-    status: 0,
-    title: "Notificacion #101",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Id omnis sequi dolorem assumenda saa sd epe amet perspiciatis. Cupiditate incidunt dolorum pariatur, quisquam obcaecati ratione odio eveniet ",
-  },
-]);
-const oldNotifications = ref([
-  {
-    id: 3,
-    status: 1,
-    title: "Notificacion #102",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Id omnis sequi dolorem assumenda saa sd epe amet perspiciatis. Cupiditate incidunt dolorum pariatur, quisquam obcaecati ratione odio eveniet ",
-  },
-  {
-    id: 4,
-    status: 1,
-    title: "Notificacion #103",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Id omnis sequi dolorem assumenda saa sd epe amet perspiciatis. Cupiditate incidunt dolorum pariatur, quisquam obcaecati ratione odio eveniet ",
-  },
-  {
-    id: 5,
-    status: 1,
-    title: "Notificacion #104",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Id omnis sequi dolorem assumenda saa sd epe amet perspiciatis. Cupiditate incidunt dolorum pariatur, quisquam obcaecati ratione odio eveniet ",
-  },
-]);
+const newNotifications = ref<Notification[]>([]);
+const oldNotifications = ref<Notification[]>([]);
 
-// Eliminar una notificación
-async function handleDeleteNotification(notification: any) {
+onMounted(async () => {
+  if (Boolean(authData)) {
+    let data = encryptAuthStorage.decryptValue(authData);
+    idCustomer.value = data.id;
+  }
+  await cargarNotificaciones();
+});
+
+//#region Cargar Notificaciones
+async function cargarNotificaciones() {
+  const payload = {
+    profileType: 1,
+    id: idCustomer.value,
+  };
+
+  const data = await generalServices.getNotification(
+    payload.profileType,
+    payload.id
+  );
+
+  let formatNotificationCurrent = data.map((value: NotificationBack) => {
+    return {
+      id: value.id,
+      status: value.read ? 1 : 0,
+      title: value.title,
+      description: value.message,
+      lastUpdate: value.modifiedDate,
+      deleted: value.deleted,
+    };
+  });
+
+  formatNotificationCurrent = formatNotificationCurrent.filter(
+    (data: Notification) => data.deleted === false
+  );
+
+  newNotifications.value = formatNotificationCurrent.filter(
+    (data: Notification) => data.status === 0
+  );
+  oldNotifications.value = formatNotificationCurrent.filter(
+    (data: Notification) => data.status === 1
+  );
+}
+//#endregion Cargar Notificaciones
+
+//#region Eliminar una notificación
+async function handleDeleteNotification(id: string) {
   const alertResult = await alertActionButton(
     "Eliminar Notificación",
     "¿Seguro que desea eliminar la notificación?",
-    "Rechazar",
+    "Si, Eliminar",
     "error"
   );
   if (alertResult) {
-    //Simulación de carga del Backend
-    alertLoading();
-    const timeOut = setTimeout(() => {
-      let index = 0;
-      if (notification.status == 0) {
-        index = newNotifications.value.findIndex(
-          (not: any) => not.id == notification.id
-        );
-        newNotifications.value.splice(index, 1);
-      } else {
-        index = oldNotifications.value.findIndex(
-          (not: any) => not.id == notification.id
-        );
-        oldNotifications.value.splice(index, 1);
-      }
-
+    try {
+      alertLoading();
+      const payload = {
+        id: id,
+        deleted: true,
+      };
+      await generalServices.putNotification(payload);
+      await cargarNotificaciones();
       alertSuccessfully("Se elimino la notificación correctamente");
-      const timeOut2 = setTimeout(function () {
-        closeAlert();
-        clearTimeout(timeOut2);
-      }, 2500);
-      clearTimeout(timeOut);
-    }, 1500);
+    } catch (error) {
+      alertError("Sucedio algo inesperado");
+    }
   }
 }
+//#endregion Eliminar una notificación
 
-// Marcar como leida una notificación
-function handleCheckNotification(id: number) {
-  alertLoading();
-  const notification: any = newNotifications.value.find(
-    (not: any) => not.id == id
-  );
-  const index = newNotifications.value.findIndex((not: any) => not.id == id);
-  notification!.status = 1;
-  const timeOut = setTimeout(() => {
-    oldNotifications.value.unshift(notification);
-    newNotifications.value.splice(index, 1);
-    alertSuccessfully("Notificacion actualizada");
-    const timeOut2 = setTimeout(() => {
-      closeAlert();
-      clearTimeout(timeOut2);
-    }, 1500);
-    clearTimeout(timeOut);
-  }, 1500);
+//#region Marcar como leida una notificación
+async function handleCheckNotification(id: string) {
+  try {
+    alertLoading();
+    const payload = {
+      id: id,
+      read: true,
+    };
+    await generalServices.putNotification(payload);
+    await cargarNotificaciones();
+    alertSuccessfully("Notificación actualizada");
+  } catch (error) {
+    alertError("Sucedio algo inesperado");
+  }
 }
+//#endregion Marcar como leida una notificación
 
 // Cargar mas notificación
 function loadNotifications() {
@@ -161,6 +181,7 @@ function loadNotifications() {
     title: "Notificacion #105",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Id omnis sequi dolorem assumenda saa sd epe amet perspiciatis. Cupiditate incidunt dolorum pariatur, quisquam obcaecati ratione odio eveniet ",
+    deleted: false,
   };
 
   const timeOut = setTimeout(() => {

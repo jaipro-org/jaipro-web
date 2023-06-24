@@ -345,10 +345,7 @@
       <span class="span-info">
         Seleccione la imagen para elegir una nueva imagen de Portada
       </span>
-      <div
-       v-if="cover.coverImage"
-       class="form-image__delete"
-      >
+      <div v-if="cover.coverImage" class="form-image__delete">
         <i @click="deleteImage()" class="fa-solid fa-circle-xmark"></i>
       </div>
       <div
@@ -424,7 +421,7 @@ const isLoading = ref(true);
 const districtOptions = ref();
 const coverLoad = ref(require("@/assets/img-delete/profile.jpg"));
 const currentData = ref();
-const imgExtensions:string = process.env.VUE_APP_IMG_EXTENSIONS;
+const imgExtensions: string = process.env.VUE_APP_IMG_EXTENSIONS;
 const extension = ref("");
 const defaultPhoto: string = require("@/assets/img-delete/profile.jpg");
 const baseCustomerPhoto = ref("");
@@ -452,6 +449,7 @@ async function fetchDataClient() {
   let data = await getDataClient(idClient.value);
 
   currentData.value = data;
+  var photoAccount = "";
 
   data.name && (name.value.value = data.name);
   data.lastName && (lastname.value.value = data.lastName);
@@ -459,14 +457,17 @@ async function fetchDataClient() {
   data.phone && (phone.value.value = data.phone);
   data.address && (ubication.value.value = data.address);
   data.districtId && (district.value.value = data.districtId);
-  if(data.avatar){
+
+  if (data.avatar) {
     const utcNow = new Date().getTime();
     const urlPhoto = `${data.avatar}?${utcNow}`;
     baseCustomerPhoto.value = urlPhoto;
     cover.value.coverImage = urlPhoto;
     coverLoad.value = urlPhoto;
     extension.value = data.avatar.split(".").pop();
+    photoAccount = urlPhoto;
   }
+  navPhoto(photoAccount)
 }
 //CARGAR Lista Distritos
 async function fetchListDIstrict() {
@@ -501,13 +502,12 @@ const closePhotoModal = () => {
   cover.value.coverImage = baseCustomerPhoto.value;
   coverLoad.value = baseCustomerPhoto.value;
   showModal.value = false;
-}
+};
 
 const openPhotoModal = (currentCover: any) => {
-  if(cover.value.coverImage)
-    cover.value.coverImage = currentCover;
+  if (cover.value.coverImage) cover.value.coverImage = currentCover;
   showModal.value = true;
-}
+};
 
 //#region VALIDATE AND SEND-VALUE-FOR-API
 const updateCover = async () => {
@@ -516,26 +516,27 @@ const updateCover = async () => {
   alertLoading("Actualizando...");
   const inputFile: FileList = portadaFile.value.files;
 
-  if(inputFile.length){
-    console.log('....enter')
-    console.log('....file', inputFile)
+  if (inputFile.length) {
+    console.log("....enter");
+    console.log("....file", inputFile);
     const payload: PhotoClient = {
       id: idClient.value,
       photo: inputFile[0],
-      extension: inputFile[0].type.split("/").pop()
+      extension: inputFile[0].type.split("/").pop(),
     };
 
     await putPhoto(payload);
+    await fetchDataClient();
     extension.value = inputFile[0].type.split("/")[1];
     coverLoad.value = coverImg;
     cover.value.coverImage = coverImg;
     // coverLoad.value = "";//coverImg;
-  }
-  else {
+  } else {
+    navPhoto("");
     const payload: PhotoClient = {
       id: idClient.value,
       photo: null,
-      extension: extension.value
+      extension: extension.value,
     };
 
     await putPhoto(payload);
@@ -547,9 +548,22 @@ const updateCover = async () => {
   // coverLoad.value = coverImg;
   // cover.value.fileImage = "";
   // cover.value.coverImage = "";
+
   showModal.value = false;
   alertSuccessButton("Se realizo la actualizacion exitosamente");
 };
+
+function navPhoto(url: string) {
+  localStorage.setItem("photoAccount", url);
+
+  window.dispatchEvent(
+    new CustomEvent("photoAccount-localstorage-changed", {
+      detail: {
+        storage: localStorage.getItem("photoAccount"),
+      },
+    })
+  );
+}
 
 const setDatosPersonales = async () => {
   const fields = {
@@ -672,7 +686,7 @@ function changeFileCover(event: any) {
     return;
   }
 
-  if(!imgExtensions.split(",").includes(file.type)){
+  if (!imgExtensions.split(",").includes(file.type)) {
     alertError("Por favor subir una imagen con extensión 'png' o 'jpg'");
     return;
   }
@@ -797,7 +811,7 @@ function changeFileCover(event: any) {
   width: fit-content;
   margin-left: 82.5%;
   margin-top: 1.1%;
-  
+
   i {
     background-color: white;
     border-radius: 100%;

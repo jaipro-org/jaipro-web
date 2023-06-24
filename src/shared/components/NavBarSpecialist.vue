@@ -72,7 +72,10 @@
                 aria-expanded="false"
               >
                 <div class="user__image">
-                  <img src="@/assets/img-delete/profile.jpg" alt="" />
+                  <img :src="
+                  photoPerfil ||
+                  require('@/assets/img-delete/profile.jpg')
+                " alt="" />
                 </div>
               </a>
               <ul class="dropdown-menu dropdown-menu-end">
@@ -107,12 +110,20 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, ref  } from "vue";
 import logo from "@/assets/svg/logo.svg";
 import { useRouter } from "vue-router";
 import { useLoginStore } from "@/store";
 
+const photoPerfil = ref(window.localStorage.getItem("photoAccount") || "")
 const loginStore = useLoginStore();
 const router = useRouter();
+
+onMounted(async () => {
+  window.addEventListener('photoAccount-localstorage-changed', (event: any) => {
+    photoPerfil.value = event.detail.storage || "";
+  });
+});
 
 function closeSession() {
   setTimeout(() => {
