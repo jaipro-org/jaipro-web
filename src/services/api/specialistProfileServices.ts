@@ -22,6 +22,7 @@ const generalApi = {
   deleteWorkLocation: "/work-location/",
   deleteExperienceForProfession: "/specialist/",
   deleteBankAccount: "/specialist-bank-account/specialist-bank-account/",
+  deleteGallery: "/specialist-cv/gallery/"
 }
 
 export class SpecialistServices {
@@ -105,6 +106,10 @@ export class SpecialistServices {
   }
   async deleteBankAccount(id: string) {
     const { data } = await AxiosClient.axiosIns.delete(generalApi.deleteBankAccount + id)
+    return data
+  }
+  async deleteGallery(idSpecialist: string, imageName: string) {
+    const { data } = await AxiosClient.axiosIns.delete(generalApi.deleteGallery + idSpecialist + "/" + imageName)
     return data
   }
 }

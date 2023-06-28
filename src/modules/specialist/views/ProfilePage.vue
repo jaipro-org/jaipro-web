@@ -1680,10 +1680,7 @@ async function editGallery() {
     )
     .map((obj) => obj.url);
 
-  const isValid = await validateGallery(fields);
-  if (!isValid) inputValidate();
-
-  if (isValid) {
+  if (fields.imagesList) {
     const inputFile: File[] = fields.imagesList
       .filter((data: any) => data.url !== "")
       .map((data: any) => data.file)
@@ -1708,8 +1705,25 @@ async function editGallery() {
       showModalGalery.value = false;
       alertSuccessButton("fallo algo");
     }
+  } else {
+    try {
+      alertLoading("Guardando...");
+      for (const data of imagesRemove) {
+        let url = data.split("/");
+        let image = url[url.length - 1]
+        await specialistServices.deleteGallery(
+          idEspecialist.value,
+          image
+        );
+      }
+      await fetchDataSpecialist()
+      showModalGalery.value = false;
+      alertSuccessButton("Se realizo la operación exitosamente");
+    } catch (error) {
+      showModalGalery.value = false;
+      alertSuccessButton("fallo algo");
+    }
   }
-
   imagesList.resetField();
 }
 //ENVIAR EXPERIENCIA
