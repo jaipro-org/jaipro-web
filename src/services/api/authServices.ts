@@ -36,10 +36,7 @@ export class AuthServices {
       {
         ...payload,
         identity: 0,
-        gender: 1,
-        publicUrl: "mypublicurl",
-        verified: true,
-        districtId: 1,
+        gender: 1
       }
     )
     return data
