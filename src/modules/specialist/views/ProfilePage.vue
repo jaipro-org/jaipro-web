@@ -1884,6 +1884,7 @@ async function editAcount() {
     bankId: bankId.value.value,
     accountNumber: accountNumber.value.value,
     cci: cci.value.value,
+    specialistId: idEspecialist.value
   };
   const isValid = await validateAccount(fields);
   if (!isValid) inputValidate();
@@ -1897,9 +1898,9 @@ async function editAcount() {
       await fetchAccountBank();
       showModalAcount.value = false;
       alertSuccessButton("Se realizo la operación exitosamente");
-    } catch (error) {
-      showModalAcount.value = false;
-      alertSuccessButton("fallo algo");
+    } catch (error: any) {
+      showModalAcount.value = true;
+      alertError(error.response.data.message);
     }
   }
 }
