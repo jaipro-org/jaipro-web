@@ -1710,13 +1710,10 @@ async function editGallery() {
       alertLoading("Guardando...");
       for (const data of imagesRemove) {
         let url = data.split("/");
-        let image = url[url.length - 1]
-        await specialistServices.deleteGallery(
-          idEspecialist.value,
-          image
-        );
+        let image = url[url.length - 1];
+        await specialistServices.deleteGallery(idEspecialist.value, image);
       }
-      await fetchDataSpecialist()
+      await fetchDataSpecialist();
       showModalGalery.value = false;
       alertSuccessButton("Se realizo la operación exitosamente");
     } catch (error) {

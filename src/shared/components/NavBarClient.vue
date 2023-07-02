@@ -162,10 +162,6 @@ function closeSession() {
       &:hover {
         color: #3a88ec;
       }
-
-      &.router-link-active {
-        color: #3a88ec !important;
-      }
     }
 
     .nav-link {

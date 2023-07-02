@@ -23,11 +23,8 @@ export class AuthServices {
       document: null,
       identity: 0,
       gender: 2,
-      phone: "999888780",
       profilePhoto: null,
-      publicUrl: "mypublicurl",
       verifiedEmail: true,
-      districtId: 1,
     })
 
     return data
@@ -40,9 +37,6 @@ export class AuthServices {
         ...payload,
         identity: 0,
         gender: 1,
-        publicUrl: "mypublicurl",
-        verified: true,
-        districtId: 1,
       }
     )
     return data

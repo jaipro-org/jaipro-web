@@ -8,7 +8,7 @@
             v-for="(notification, index) in newNotifications"
             :key="index"
             :notification="notification"
-            @handle-delete="handleDeleteNotification"
+            
             @handle-check="handleCheckNotification"
           />
           <b-button
@@ -68,6 +68,7 @@ import {
   alertLoading,
   alertSuccessfully,
   alertActionButton,
+  closeAlert
 } from "@/utils/SweetAlert";
 import NotificationCard from "@/modules/client/views/Components/NotificationCard.vue";
 import { defineComponent, ref, onMounted } from "vue";
@@ -145,7 +146,7 @@ export default defineComponent({
         };
         await generalServices.putNotification(payload);
         await cargarNotificaciones();
-        alertSuccessfully("Notificación actualizada");
+        closeAlert();
       } catch (error) {
         alertError("Sucedio algo inesperado");
       }

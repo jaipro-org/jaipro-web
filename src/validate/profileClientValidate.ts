@@ -20,7 +20,7 @@ export default function useProfileClientValidate() {
     phone: yup
       .string()
       .min(9, "Minimo 9 caracteres")
-      .max(15, "Maximo 15 caracteres")
+      .max(9, "Maximo 9 caracteres")
       .matches(/^[0-9]+$/, "Campo requerido")
       .required("Campo requerido"),
   };
@@ -90,29 +90,41 @@ export default function useProfileClientValidate() {
     return isValid
   }
 
-  function inputReset() {
+
+  //inputReset
+  function inputResetDatosPersonales() {
     name.resetField();
     lastname.resetField();
     email.resetField();
     phone.resetField();
+  }
+  function inputResetUbication() {
     ubication.resetField();
     district.resetField();
+  }
+  function inputResetPasswordChange() {
     oldPassword.resetField();
     password.resetField();
     confirmPassword.resetField();
   }
 
-  function inputValidate() {
+  //inputValidate
+  function inputValidateDatosPersonales() {
     name.validate();
     lastname.validate();
     email.validate();
     phone.validate();
+  }
+  function inputValidateUbication() {
     ubication.validate();
     district.validate();
+  }
+  function inputValidatePasswordChange() {
     oldPassword.validate();
     password.validate();
     confirmPassword.validate();
   }
+
 
   return {
     name,
@@ -127,7 +139,11 @@ export default function useProfileClientValidate() {
     validatePersonalData,
     validateUbication,
     validatePassword,
-    inputReset,
-    inputValidate,
+    inputResetDatosPersonales,
+    inputResetUbication,
+    inputResetPasswordChange,
+    inputValidateDatosPersonales,
+    inputValidateUbication,
+    inputValidatePasswordChange
   };
 }

@@ -163,6 +163,7 @@
               <ul class="dropdown-menu dropdown-menu-end">
                 <b-dropdown-item
                   @click="$router.push({ name: 'register-type' })"
+                  v-show="!loginON"
                   ><img
                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAMRJREFUOE+Vk4ENAiEMRd9NoG7iCI5wbuAGOoIrOImO4ig6geYbS0opHpJcAoX/2g+9iXqcgSOwduELcArnynIKGy9gAzxcXHMPrCQC6MDKRTOoF1X7WiirBTWP4+kqaKqJgJ5VH98CV2AP3P8FSHwDdNn65giI96HMZsHEszIDB0FGK4jish4BdMXZHZiFXtkR9nk+/4zxFQTcfT03Yh1eAhg8FWeAaMEaS5askqaVf1nILFX/xZKFCGiSGWCkhX1TlfNvPoU8UQKU0bMAAAAASUVORK5CYII="
                     alt=""
@@ -170,13 +171,27 @@
                   />
                   Regístrate
                 </b-dropdown-item>
-                <b-dropdown-item @click="$router.push({ name: 'login' })">
+                <b-dropdown-item
+                  @click="$router.push({ name: 'login' })"
+                  v-show="!loginON"
+                >
                   <img
                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAQBJREFUSEvFlOERwUAQhb9UgAqUQAfogArQgQ5QCSqgA3RAB3RAB+aZi0niLptJ3Nh/mcvu9/bd7SZEjiRyfaoChsAS6DtBF2ANnCyBVQArV9xXSxCdB8MCSPnRUDkq68QCyIKBATgDEuINC/AAWgZA/3RiAp5Auy4gukXRL1mdR32mqbXqRKDsoOn7J4NmDWvpufVMGxVXchlgBkydLaFnqBnQXtoCO58aH0DF9mXTGWhL9zEBBP2ED1Dl7YesU652UxAgWzYNjZ87y95lih00UZ/qyi2/IqDKcrMazC2/IuAGdK0Kxvk1M5BfFo3dxPZqQu7AAjik+X8dtJpN5NNeB3cqGcN/RF4AAAAASUVORK5CYII="
                     alt=""
                     class="iconLoginRegister"
                   />
                   Iniciar sesión
+                </b-dropdown-item>
+                <b-dropdown-item
+                  @click="$router.push({ name: pathNamePerfil })"
+                  v-show="loginON"
+                >
+                  <img
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAQBJREFUSEvFlOERwUAQhb9UgAqUQAfogArQgQ5QCSqgA3RAB3RAB+aZi0niLptJ3Nh/mcvu9/bd7SZEjiRyfaoChsAS6DtBF2ANnCyBVQArV9xXSxCdB8MCSPnRUDkq68QCyIKBATgDEuINC/AAWgZA/3RiAp5Auy4gukXRL1mdR32mqbXqRKDsoOn7J4NmDWvpufVMGxVXchlgBkydLaFnqBnQXtoCO58aH0DF9mXTGWhL9zEBBP2ED1Dl7YesU652UxAgWzYNjZ87y95lih00UZ/qyi2/IqDKcrMazC2/IuAGdK0Kxvk1M5BfFo3dxPZqQu7AAjik+X8dtJpN5NNeB3cqGcN/RF4AAAAASUVORK5CYII="
+                    alt=""
+                    class="iconLoginRegister"
+                  />
+                  Ver perfil
                 </b-dropdown-item>
               </ul>
             </li>
@@ -186,6 +201,7 @@
             <a
               class="nav-link"
               @click="$router.push({ name: 'register-type' })"
+              v-show="!loginON"
             >
               <img
                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAMRJREFUOE+Vk4ENAiEMRd9NoG7iCI5wbuAGOoIrOImO4ig6geYbS0opHpJcAoX/2g+9iXqcgSOwduELcArnynIKGy9gAzxcXHMPrCQC6MDKRTOoF1X7WiirBTWP4+kqaKqJgJ5VH98CV2AP3P8FSHwDdNn65giI96HMZsHEszIDB0FGK4jish4BdMXZHZiFXtkR9nk+/4zxFQTcfT03Yh1eAhg8FWeAaMEaS5askqaVf1nILFX/xZKFCGiSGWCkhX1TlfNvPoU8UQKU0bMAAAAASUVORK5CYII="
@@ -194,13 +210,29 @@
               />
               Regístrate
             </a>
-            <a class="nav-link" @click="$router.push({ name: 'login' })">
+            <a
+              class="nav-link"
+              @click="$router.push({ name: 'login' })"
+              v-show="!loginON"
+            >
               <img
                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAQBJREFUSEvFlOERwUAQhb9UgAqUQAfogArQgQ5QCSqgA3RAB3RAB+aZi0niLptJ3Nh/mcvu9/bd7SZEjiRyfaoChsAS6DtBF2ANnCyBVQArV9xXSxCdB8MCSPnRUDkq68QCyIKBATgDEuINC/AAWgZA/3RiAp5Auy4gukXRL1mdR32mqbXqRKDsoOn7J4NmDWvpufVMGxVXchlgBkydLaFnqBnQXtoCO58aH0DF9mXTGWhL9zEBBP2ED1Dl7YesU652UxAgWzYNjZ87y95lih00UZ/qyi2/IqDKcrMazC2/IuAGdK0Kxvk1M5BfFo3dxPZqQu7AAjik+X8dtJpN5NNeB3cqGcN/RF4AAAAASUVORK5CYII="
                 alt=""
                 class="iconLoginRegister"
               />
               Iniciar sesión
+            </a>
+            <a
+              class="nav-link"
+              @click="$router.push({ name: pathNamePerfil })"
+              v-show="loginON"
+            >
+              <img
+                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAQBJREFUSEvFlOERwUAQhb9UgAqUQAfogArQgQ5QCSqgA3RAB3RAB+aZi0niLptJ3Nh/mcvu9/bd7SZEjiRyfaoChsAS6DtBF2ANnCyBVQArV9xXSxCdB8MCSPnRUDkq68QCyIKBATgDEuINC/AAWgZA/3RiAp5Auy4gukXRL1mdR32mqbXqRKDsoOn7J4NmDWvpufVMGxVXchlgBkydLaFnqBnQXtoCO58aH0DF9mXTGWhL9zEBBP2ED1Dl7YesU652UxAgWzYNjZ87y95lih00UZ/qyi2/IqDKcrMazC2/IuAGdK0Kxvk1M5BfFo3dxPZqQu7AAjik+X8dtJpN5NNeB3cqGcN/RF4AAAAASUVORK5CYII="
+                alt=""
+                class="iconLoginRegister"
+              />
+              Ver perfil
             </a>
           </div>
         </div>
@@ -212,6 +244,7 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import logo from "@/assets/svg/logo.svg";
+import { encryptAuthStorage } from "@/utils/Storage";
 
 export default defineComponent({
   data() {
@@ -224,6 +257,8 @@ export default defineComponent({
       anchura: window.innerWidth,
       showForWith: ref(false),
       logo,
+      loginON: ref<boolean>(),
+      pathNamePerfil: ref(""),
     };
   },
   computed: {
@@ -261,6 +296,19 @@ export default defineComponent({
         this.showForWith = true;
       }
     },
+  },
+  beforeMount() {
+    const authData: string =
+      window.localStorage.getItem("@AUTH:security") || "";
+    if (authData) this.loginON = true;
+    else this.loginON = false;
+
+    if (Boolean(authData)) {
+      let data = encryptAuthStorage.decryptValue(authData);
+      if (data.profileName === "CUSTOMER")
+        this.pathNamePerfil = "client-profile";
+      else this.pathNamePerfil = "specialist-profile";
+    }
   },
   mounted() {
     window.addEventListener("resize", this.actualizarAnchura);

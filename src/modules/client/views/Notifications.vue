@@ -72,6 +72,7 @@ import {
   alertSuccessfully,
   alertActionButton,
   alertError,
+  closeAlert,
 } from "@/utils/SweetAlert";
 import NotificationCard from "@/modules/client/views/Components/NotificationCard.vue";
 import { ref, onMounted } from "vue";
@@ -114,6 +115,7 @@ async function cargarNotificaciones() {
       description: value.message,
       lastUpdate: value.modifiedDate,
       deleted: value.deleted,
+      read: value.read
     };
   });
 
@@ -148,6 +150,7 @@ async function handleDeleteNotification(id: string) {
       await generalServices.putNotification(payload);
       await cargarNotificaciones();
       alertSuccessfully("Se elimino la notificación correctamente");
+      
     } catch (error) {
       alertError("Sucedio algo inesperado");
     }
@@ -165,7 +168,7 @@ async function handleCheckNotification(id: string) {
     };
     await generalServices.putNotification(payload);
     await cargarNotificaciones();
-    alertSuccessfully("Notificación actualizada");
+    closeAlert();
   } catch (error) {
     alertError("Sucedio algo inesperado");
   }

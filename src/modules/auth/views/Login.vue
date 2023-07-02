@@ -116,7 +116,7 @@ export default defineComponent({
             }
           }, 1500);
         } catch (error) {
-          alertError("Sucedió un error durante el inicio de sesión.");
+          alertError("Usuario y/o contraseña incorrecto");
         }
       }
     };
