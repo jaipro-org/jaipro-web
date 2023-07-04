@@ -56,12 +56,12 @@
                   <span class="iconShowMenuMobile"
                     ><img
                       :style="!showMenuEsp ? '' : 'display:none'"
-                      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAANtJREFUSEtjZKAxYKSx+QyjFhAM4WEcRAIKAQIfHmz4QDAMGBgY8KnFGkScKt4XGBgY9Bn/Myz4dndrIj5LuFS9F/z/zxDPwMBw4fudrYboajEsALnmJ8vv9zCF+CxBMhysnP0PqyC6r7H6AF0jNksw1DAyLPx2e2sCQR/AFOCzhFjDQWbhTabYLGFgYmCEhjnYLYw4XA4PYkKpBN0SZPWEDCfoA1zBRYzLifYBNkuIcTnJFoA0cKh6gVPJj9vbFhAKWrIsINZQlHgiRxMpeoZxaUpKMOBTO/SDCAA1JGcZhaOelAAAAABJRU5ErkJggg=="
+                      :src="downIcon"
                       alt="down"
                     />
                     <img
                       :style="!showMenuEsp ? 'display:none' : ''"
-                      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAANVJREFUSEtjZKAxYKSx+QyjFhAM4REWRByqXgkM/xj//7i7dSHBsIEqIDqIuFS9F/z/zxAP0sf4n2HBt7tbE4mxhCgLkA2HGUqsJQQtwGY4KZbgtQDdcEZGBnDYw4KKmODCaQE2w7/d3poAMhRDDk+cYLUAn+Gw4CHWEgwLBBQCBH6y/H4PD2dGhoUwl6OnGnRL2P+wCn54sOEDsjqsPuBU8b7AwMCgDwpzXIZj8cnF73e2GqA7AmccgHyC7hpc6R6fWoLJlJjMhE/NqAUEQ3A0iAgGEQCP+GoZVHdS0QAAAABJRU5ErkJggg=="
+                      :src="upIcon"
                       alt="up"
                     />
                   </span>
@@ -165,7 +165,7 @@
                   @click="$router.push({ name: 'register-type' })"
                   v-show="!loginON"
                   ><img
-                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAMRJREFUOE+Vk4ENAiEMRd9NoG7iCI5wbuAGOoIrOImO4ig6geYbS0opHpJcAoX/2g+9iXqcgSOwduELcArnynIKGy9gAzxcXHMPrCQC6MDKRTOoF1X7WiirBTWP4+kqaKqJgJ5VH98CV2AP3P8FSHwDdNn65giI96HMZsHEszIDB0FGK4jish4BdMXZHZiFXtkR9nk+/4zxFQTcfT03Yh1eAhg8FWeAaMEaS5askqaVf1nILFX/xZKFCGiSGWCkhX1TlfNvPoU8UQKU0bMAAAAASUVORK5CYII="
+                    :src="registerIcon"
                     alt=""
                     class="iconLoginRegister"
                   />
@@ -176,7 +176,7 @@
                   v-show="!loginON"
                 >
                   <img
-                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAQBJREFUSEvFlOERwUAQhb9UgAqUQAfogArQgQ5QCSqgA3RAB3RAB+aZi0niLptJ3Nh/mcvu9/bd7SZEjiRyfaoChsAS6DtBF2ANnCyBVQArV9xXSxCdB8MCSPnRUDkq68QCyIKBATgDEuINC/AAWgZA/3RiAp5Auy4gukXRL1mdR32mqbXqRKDsoOn7J4NmDWvpufVMGxVXchlgBkydLaFnqBnQXtoCO58aH0DF9mXTGWhL9zEBBP2ED1Dl7YesU652UxAgWzYNjZ87y95lih00UZ/qyi2/IqDKcrMazC2/IuAGdK0Kxvk1M5BfFo3dxPZqQu7AAjik+X8dtJpN5NNeB3cqGcN/RF4AAAAASUVORK5CYII="
+                    :src="userIcon"
                     alt=""
                     class="iconLoginRegister"
                   />
@@ -187,7 +187,7 @@
                   v-show="loginON"
                 >
                   <img
-                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAQBJREFUSEvFlOERwUAQhb9UgAqUQAfogArQgQ5QCSqgA3RAB3RAB+aZi0niLptJ3Nh/mcvu9/bd7SZEjiRyfaoChsAS6DtBF2ANnCyBVQArV9xXSxCdB8MCSPnRUDkq68QCyIKBATgDEuINC/AAWgZA/3RiAp5Auy4gukXRL1mdR32mqbXqRKDsoOn7J4NmDWvpufVMGxVXchlgBkydLaFnqBnQXtoCO58aH0DF9mXTGWhL9zEBBP2ED1Dl7YesU652UxAgWzYNjZ87y95lih00UZ/qyi2/IqDKcrMazC2/IuAGdK0Kxvk1M5BfFo3dxPZqQu7AAjik+X8dtJpN5NNeB3cqGcN/RF4AAAAASUVORK5CYII="
+                    :src="userIcon"
                     alt=""
                     class="iconLoginRegister"
                   />
@@ -204,7 +204,7 @@
               v-show="!loginON"
             >
               <img
-                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAMRJREFUOE+Vk4ENAiEMRd9NoG7iCI5wbuAGOoIrOImO4ig6geYbS0opHpJcAoX/2g+9iXqcgSOwduELcArnynIKGy9gAzxcXHMPrCQC6MDKRTOoF1X7WiirBTWP4+kqaKqJgJ5VH98CV2AP3P8FSHwDdNn65giI96HMZsHEszIDB0FGK4jish4BdMXZHZiFXtkR9nk+/4zxFQTcfT03Yh1eAhg8FWeAaMEaS5askqaVf1nILFX/xZKFCGiSGWCkhX1TlfNvPoU8UQKU0bMAAAAASUVORK5CYII="
+                :src="registerIcon"
                 alt=""
                 class="iconLoginRegister"
               />
@@ -216,7 +216,7 @@
               v-show="!loginON"
             >
               <img
-                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAQBJREFUSEvFlOERwUAQhb9UgAqUQAfogArQgQ5QCSqgA3RAB3RAB+aZi0niLptJ3Nh/mcvu9/bd7SZEjiRyfaoChsAS6DtBF2ANnCyBVQArV9xXSxCdB8MCSPnRUDkq68QCyIKBATgDEuINC/AAWgZA/3RiAp5Auy4gukXRL1mdR32mqbXqRKDsoOn7J4NmDWvpufVMGxVXchlgBkydLaFnqBnQXtoCO58aH0DF9mXTGWhL9zEBBP2ED1Dl7YesU652UxAgWzYNjZ87y95lih00UZ/qyi2/IqDKcrMazC2/IuAGdK0Kxvk1M5BfFo3dxPZqQu7AAjik+X8dtJpN5NNeB3cqGcN/RF4AAAAASUVORK5CYII="
+                :src="userIcon"
                 alt=""
                 class="iconLoginRegister"
               />
@@ -228,7 +228,7 @@
               v-show="loginON"
             >
               <img
-                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAQBJREFUSEvFlOERwUAQhb9UgAqUQAfogArQgQ5QCSqgA3RAB3RAB+aZi0niLptJ3Nh/mcvu9/bd7SZEjiRyfaoChsAS6DtBF2ANnCyBVQArV9xXSxCdB8MCSPnRUDkq68QCyIKBATgDEuINC/AAWgZA/3RiAp5Auy4gukXRL1mdR32mqbXqRKDsoOn7J4NmDWvpufVMGxVXchlgBkydLaFnqBnQXtoCO58aH0DF9mXTGWhL9zEBBP2ED1Dl7YesU652UxAgWzYNjZ87y95lih00UZ/qyi2/IqDKcrMazC2/IuAGdK0Kxvk1M5BfFo3dxPZqQu7AAjik+X8dtJpN5NNeB3cqGcN/RF4AAAAASUVORK5CYII="
+                :src="userIcon"
                 alt=""
                 class="iconLoginRegister"
               />
@@ -244,6 +244,10 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import logo from "@/assets/svg/logo.svg";
+import downIcon from "@/assets/img/downIcon.png";
+import upIcon from "@/assets/img/upIcon.png";
+import registerIcon from "@/assets/img/registerIcon.png";
+import userIcon from "@/assets/img/userIcon.png";
 import { encryptAuthStorage } from "@/utils/Storage";
 
 export default defineComponent({
@@ -257,6 +261,10 @@ export default defineComponent({
       anchura: window.innerWidth,
       showForWith: ref(false),
       logo,
+      downIcon,
+      upIcon,
+      userIcon,
+      registerIcon,
       loginON: ref<boolean>(),
       pathNamePerfil: ref(""),
     };
