@@ -54,7 +54,10 @@
               </b-col>
               <b-col style="align-self: flex-end">
                 <b-form-group>
-                  <b-button variant="outline-primary" size="sm" @click="search"
+                  <b-button
+                    variant="outline-primary"
+                    size="sm"
+                    @click="searchWithFilter"
                     >Buscar</b-button
                   >
                 </b-form-group>
@@ -64,7 +67,7 @@
           </div>
         </div>
       </div>
-      <div>
+      <div class="specialist__list">
         <div v-if="loading">Cargando datos...</div>
         <div v-else-if="dataFromSearch.length === 0">
           <p>No hay datos para mostrar.</p>
@@ -130,6 +133,7 @@
             :per-page="pageSize"
             first-number
             last-number
+            @click="paginacion"
             align="center"
           ></b-pagination>
         </div>
@@ -231,7 +235,7 @@ function listDistrictFilter() {
   });
 }
 
-//Se envia la busqueda
+//funcion que realiza la solicitud de busqueda
 async function search() {
   loading.value = true;
   const payload = {
@@ -253,9 +257,32 @@ async function search() {
     sortColumn=string&
     sortDirection=string`;
 
-  dataFromSearch.value = await getSearch(params);
-  totalRows.value = dataFromSearch.value.length;
+  const data = await getSearch(params);
+  const dataFormat = data.data.map((val: any) => {
+    if (val.about === null) {
+      val.about = "";
+      return val;
+    } else return val;
+  });
+  dataFromSearch.value = dataFormat;
+  totalRows.value = data.totalRows;
   loading.value = false;
+}
+
+//Ejecuta la busqueda con los parametros establecidos
+async function searchWithFilter() {
+  pageNumber.value = 1;
+  await search();
+}
+
+//recorre las diferentes paginas existente por totalrows
+async function paginacion() {
+  window.scroll({
+    top: 0,
+    left: 0,
+    behavior: "smooth",
+  });
+  await search();
 }
 </script>
 
