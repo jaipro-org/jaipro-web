@@ -1,73 +1,7 @@
 <template>
-  <b-row class="profile-client__container mx-0 pt-0 pt-lg-2 pb-2 mt-0">
-    <b-col cols="12" lg="3" class="profile__menu">
-      <div class="menu__container py-3 px-4 bg-white d-block d-lg-none">
-        <div>
-          <div class="mb-2" @click="collapseMovil = !collapseMovil">
-            <i class="fa-solid fa-house-circle-check me-2"></i
-            ><span>Mis Proyectos</span
-            ><i class="fa-solid fa-angle-down ms-2"></i>
-          </div>
-          <b-collapse v-model="collapseMovil" id="collapse-3" class="ps-4 py-2">
-            <span
-              class="d-block mb-2"
-              @click="
-                $router.push({
-                  name: 'my-projects',
-                  params: { type: 'current' },
-                })
-              "
-              >Vigentes (2)</span
-            >
-            <span
-              class="d-block"
-              @click="
-                $router.push({ name: 'my-projects', params: { type: 'past' } })
-              "
-              >Pasados (3)</span
-            >
-          </b-collapse>
-        </div>
-        <hr />
-        <div><i class="fa-solid fa-heart me-2"></i><span>Favoritos</span></div>
-      </div>
-      <div
-        class="menu__container menu__container--web py-3 px-4 bg-white d-none d-lg-block"
-      >
-        <div>
-          <div class="mb-2" @click="collapseWeb = !collapseWeb">
-            <i class="fa-solid fa-house-circle-check me-2"></i
-            ><span>Mis Proyectos</span
-            ><i class="fa-solid fa-angle-down ms-2"></i>
-          </div>
-          <b-collapse
-            v-model="collapseWeb"
-            id="collapse-movil"
-            class="ps-4 py-2"
-          >
-            <span
-              class="d-block mb-2"
-              @click="
-                $router.push({
-                  name: 'my-projects',
-                  params: { type: 'current' },
-                })
-              "
-              >Vigentes (2)</span
-            >
-            <span
-              class="d-block"
-              @click="
-                $router.push({ name: 'my-projects', params: { type: 'past' } })
-              "
-              >Pasados (3)</span
-            >
-          </b-collapse>
-        </div>
-        <hr />
-        <div><i class="fa-solid fa-heart me-2"></i><span>Favoritos</span></div>
-      </div>
-    </b-col>
+  <b-row
+    class="profile-client__container mx-0 pt-0 pt-lg-2 pb-2 mt-0 justify-content-center"
+  >
     <b-col cols="12" lg="9" class="profile__content">
       <b-row class="mx-0 mt-3 mt-lg-0">
         <b-col cols="12">
@@ -155,6 +89,7 @@
                           phone.errorMessage.value
                         )
                       "
+                      oninput="this.value = value.replace(/[^0-9]/g, '').substring(0, 9)"
                       id="input-4"
                       placeholder="Ingrese su teléfono"
                     ></b-form-input>
@@ -323,8 +258,6 @@
         </b-col>
       </b-row>
     </b-col>
-
-    <b-col id="footer__limit"></b-col>
   </b-row>
   <b-modal
     v-model="showModal"
@@ -372,7 +305,7 @@
       />
     </div>
     <b-form-invalid-feedback :state="!cover.coverImage ? false : true">
-      *Este campo es obligatorio
+      <!-- *Este campo es obligatorio -->
     </b-form-invalid-feedback>
   </b-modal>
 </template>
@@ -392,6 +325,10 @@ import { PhotoClient } from "@/interfaces/PhotoClient.interfaces";
 
 const authData: string = window.localStorage.getItem("@AUTH:security") || "";
 
+const profileValidate = useProfileClientValidate();
+const clientServices = new ClientServices()
+const generalServices = new GeneralServices()
+
 const {
   name,
   lastname,
@@ -402,16 +339,8 @@ const {
   oldPassword,
   password,
   confirmPassword,
-  validatePersonalData,
-  validateUbication,
-  validatePassword,
-  inputReset,
-  inputValidate,
-} = useProfileClientValidate();
+} = profileValidate;
 
-const { getDataClient, putInformation, putLocation, putPassword, putPhoto } =
-  new ClientServices();
-const { getDistrictList } = new GeneralServices();
 const collapseWeb = ref(true);
 const collapseMovil = ref(false);
 const idClient = ref(""); // id cliente
@@ -425,6 +354,7 @@ const imgExtensions: string = process.env.VUE_APP_IMG_EXTENSIONS;
 const extension = ref("");
 const defaultPhoto: string = require("@/assets/img-delete/profile.jpg");
 const baseCustomerPhoto = ref("");
+const coverDelete = ref(false);
 // const fileImage: any = ref(null);
 // const coverImage: any = ref(null);
 onMounted(async () => {
@@ -446,7 +376,7 @@ function validate(current: any, value: any, error: any) {
 }
 //CARGAR Datos del Cliente
 async function fetchDataClient() {
-  let data = await getDataClient(idClient.value);
+  let data = await clientServices.getDataClient(idClient.value);
 
   currentData.value = data;
   var photoAccount = "";
@@ -467,11 +397,11 @@ async function fetchDataClient() {
     extension.value = data.avatar.split(".").pop();
     photoAccount = urlPhoto;
   }
-  navPhoto(photoAccount)
+  navPhoto(photoAccount);
 }
 //CARGAR Lista Distritos
 async function fetchListDIstrict() {
-  let data = await getDistrictList();
+  let data = await generalServices.getDistrictList();
   let listDistric = data.map((data: any) => {
     return {
       value: data.id,
@@ -512,45 +442,46 @@ const openPhotoModal = (currentCover: any) => {
 //#region VALIDATE AND SEND-VALUE-FOR-API
 const updateCover = async () => {
   const coverImg = cover.value.coverImage;
-
-  alertLoading("Actualizando...");
   const inputFile: FileList = portadaFile.value.files;
 
   if (inputFile.length) {
-    console.log("....enter");
-    console.log("....file", inputFile);
+    alertLoading("Actualizando...");
+
     const payload: PhotoClient = {
       id: idClient.value,
       photo: inputFile[0],
       extension: inputFile[0].type.split("/").pop(),
     };
 
-    await putPhoto(payload);
+    await clientServices.putPhoto(payload);
     await fetchDataClient();
+
     extension.value = inputFile[0].type.split("/")[1];
     coverLoad.value = coverImg;
     cover.value.coverImage = coverImg;
-    // coverLoad.value = "";//coverImg;
-  } else {
+    alertSuccessButton("Se realizo la actualizacion exitosamente");
+    portadaFile.value.value = "";
+    showModal.value = false;
+  }
+
+  if (coverDelete.value) {
+    alertLoading("Actualizando...");
     navPhoto("");
+
     const payload: PhotoClient = {
       id: idClient.value,
       photo: null,
       extension: extension.value,
     };
 
-    await putPhoto(payload);
+    await clientServices.putPhoto(payload);
     extension.value = "";
     coverLoad.value = defaultPhoto;
     cover.value.coverImage = "";
+    coverDelete.value = false;
+    alertSuccessButton("Se realizo la actualizacion exitosamente");
+    showModal.value = false;
   }
-
-  // coverLoad.value = coverImg;
-  // cover.value.fileImage = "";
-  // cover.value.coverImage = "";
-
-  showModal.value = false;
-  alertSuccessButton("Se realizo la actualizacion exitosamente");
 };
 
 function navPhoto(url: string) {
@@ -572,8 +503,10 @@ const setDatosPersonales = async () => {
     email: email.value.value,
     phone: phone.value.value,
   };
-  const isValid = await validatePersonalData(fields);
-  if (!isValid) inputValidate();
+  const isValid = await profileValidate.validatePersonalData(fields);
+
+  if (!isValid) profileValidate.inputValidateDatosPersonales();
+
   if (isValid) {
     let sendValue = {
       id: idClient.value,
@@ -584,8 +517,8 @@ const setDatosPersonales = async () => {
     };
     try {
       alertLoading("Actualizando...");
-      await putInformation(sendValue);
-      inputReset();
+      await clientServices.putInformation(sendValue);
+      profileValidate.inputResetDatosPersonales();
       await fetchDataClient();
       alertSuccessButton("Se realizo la actualizacion exitosamente");
     } catch (error: any) {
@@ -600,9 +533,9 @@ const setUbication = async () => {
     district: district.value.value,
   };
 
-  const isValid = await validateUbication(fields);
+  const isValid = await profileValidate.validateUbication(fields);
 
-  if (!isValid) inputValidate();
+  if (!isValid) profileValidate.inputValidateUbication();
 
   if (isValid) {
     let sendValue = {
@@ -612,8 +545,8 @@ const setUbication = async () => {
     };
     try {
       alertLoading("Actualizando...");
-      await putLocation(sendValue);
-      inputReset();
+      await clientServices.putLocation(sendValue);
+      profileValidate.inputResetUbication();
       await fetchDataClient();
       alertSuccessButton("Se realizo la actualizacion exitosamente");
     } catch (error: any) {
@@ -629,9 +562,9 @@ const setPassword = async () => {
     password: password.value.value,
     confirmPassword: confirmPassword.value.value,
   };
-  const isValid = await validatePassword(fields);
+  const isValid = await profileValidate.validatePassword(fields);
 
-  if (!isValid) inputValidate();
+  if (!isValid) profileValidate.inputValidatePasswordChange();
 
   if (isValid) {
     let sendValue = {
@@ -642,8 +575,8 @@ const setPassword = async () => {
     };
     try {
       alertLoading("Actualizando...");
-      await putPassword(sendValue);
-      inputReset();
+      await clientServices.putPassword(sendValue);
+      profileValidate.inputResetPasswordChange();
       alertSuccessButton("Se realizo la actualizacion exitosamente");
     } catch (error: any) {
       alertError(error.response.data.message);
@@ -653,9 +586,11 @@ const setPassword = async () => {
 //#endregion
 
 watch(showModal, (newValue, oldValue) => {
+  portadaFile.value.value = "";
   if (newValue === false) {
     cover.value.fileImage = "";
-    // cover.value.coverImage = "";
+    //cover.value.coverImage = "";
+    coverDelete.value = false;
   }
 });
 
@@ -674,8 +609,8 @@ function uploadImage() {
 function deleteImage() {
   cover.value.fileImage = "";
   cover.value.coverImage = "";
-  coverLoad.value = "";
   portadaFile.value.value = "";
+  coverDelete.value = true;
 }
 
 function changeFileCover(event: any) {

@@ -5,13 +5,17 @@
         <h1 class="notification-card__title">{{ notification.title }}</h1>
         <div
           class="d-flex d-md-block justify-content-end notification-card__butotn"
+          v-if="notification.status == 0"
         >
           <b-nav-item-dropdown right block class="justify-self-end">
             <template #button-content>
               <i class="fa-solid fa-ellipsis" role="button"></i>
             </template>
 
-            <b-dropdown-item @click="$emit('handle-delete', notification.id)">
+            <b-dropdown-item
+              @click="$emit('handle-delete', notification.id)"
+              v-show="false"
+            >
               <i class="fa-solid fa-trash-can me-2 icon-danger"></i>Eliminar
             </b-dropdown-item>
             <b-dropdown-item
@@ -66,16 +70,18 @@ export default defineComponent({
 
     const diff = currentDateTime.getTime() - inputDateTime.getTime();
 
-    const hours = Math.floor(diff / (1000 * 60 * 60));
     const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const hours = Math.floor(diff / (1000 * 60 * 60));
 
-    var tiempoPasado = ''
-    if(hours >=1){
+    var tiempoPasado = `Hace ${minutes} minutos`;
+   
+    if (hours >= 1) {
       tiempoPasado = `Hace ${hours} horas`;
-    }else{
-      tiempoPasado = `Hace ${minutes} minutos`;
     }
-    
+    if (hours >= 25) {
+      tiempoPasado = `Hace ${Math.floor(hours / 24)} días`;
+    }
+
     return {
       notification,
       tiempoPasado,

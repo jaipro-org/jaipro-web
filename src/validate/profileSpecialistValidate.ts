@@ -58,10 +58,7 @@ export default function useProfileSpecialistValidate() {
         file: yup.mixed(),
       })
     )
-    .test("", "Suba una imagen como minimo", (values: any) => {
-      return values.some((value: any) => value.url !== "");
-    })
-    .required("Suba una imagen como minimo")
+
 
   //SCHEMA EXPERIENCE
   const idProfessionSchema = yup

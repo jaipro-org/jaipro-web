@@ -90,7 +90,7 @@
                   4.7 <span>(13 valoraciones)</span>
                 </p>
               </b-col>
-              <b-col md="9">
+              <b-col md="9" class="alturaCard">
                 <div class="datos">
                   <h2>
                     {{ data.fullName }}
@@ -100,7 +100,14 @@
                     <b-link>{{ data.professions }}</b-link>
                   </div>
                   <p class="card-text">
-                    {{ data.about }}
+                    {{ verAbout ? data.about : data.about.substring(0, 420) }}
+                    <a
+                      class="vermas"
+                      @click="verAbout = !verAbout"
+                      v-if="data.about.length > 420"
+                    >
+                      {{ verAbout ? "Ver menos" : "Ver más" }}</a
+                    >
                   </p>
                   <div class="btn-page">
                     <b-button
@@ -145,6 +152,7 @@ import {
 
 const { getFilterSpecialist, getSearch } = new GeneralServices();
 
+const verAbout = ref(false);
 const loading = ref(true);
 const dataFromSearch = ref<Array<dataFromSearchs>>([]);
 const dataTypeFilter = ref<typeFilter>();
@@ -158,7 +166,7 @@ const paramsSearch = ref<paramsSearchs>({
 });
 const pageNumber = ref(1);
 const pageSize = ref(10);
-const totalRows = ref(0)
+const totalRows = ref(0);
 
 //Ejecuta cuando se monta la pagina
 onMounted(async () => {
@@ -246,13 +254,18 @@ async function search() {
     sortDirection=string`;
 
   dataFromSearch.value = await getSearch(params);
-  totalRows.value = dataFromSearch.value.length
+  totalRows.value = dataFromSearch.value.length;
   loading.value = false;
-  debugger
 }
 </script>
 
 <style lang="scss" scoped>
+.vermas {
+  cursor: pointer;
+}
+.alturaCard {
+  min-height: 347.75px;
+}
 .btn-invert {
   border-color: #f60;
 }

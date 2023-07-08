@@ -24,7 +24,7 @@ export class AuthServices {
       identity: 0,
       gender: 2,
       profilePhoto: null,
-      verifiedEmail: true
+      verifiedEmail: true,
     })
 
     return data
@@ -36,7 +36,7 @@ export class AuthServices {
       {
         ...payload,
         identity: 0,
-        gender: 1
+        gender: 1,
       }
     )
     return data
