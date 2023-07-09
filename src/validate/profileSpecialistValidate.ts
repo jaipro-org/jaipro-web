@@ -44,9 +44,6 @@ export default function useProfileSpecialistValidate() {
   const secondPhoneSchema = yup
     .string()
     .max(15, "15 digitos maximo")
-    .min(9, "9 digitos minimos")
-    .matches(/^[0-9]+$/, "Campo requerido")
-    .required("Campo requerido")
 
   //SCHEMA IMAGE-LIST
   const imagesListSchema = yup
@@ -114,9 +111,7 @@ export default function useProfileSpecialistValidate() {
     .required("Campo requerido")
   const cciSchema = yup
     .string()
-    .min(12, "Minimo 12 digitos")
     .max(30, "Maximo 30 digitos")
-    .required("Campo requerido")
 
   //Define los campos de formulario validados
   //CAMPOS PERFIL

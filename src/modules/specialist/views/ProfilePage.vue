@@ -366,6 +366,7 @@
                 ></span>
               </h4>
               <div
+                v-if="acountsList.length < 2"
                 class="button__action button__action--success"
                 @click="showAccount()"
               >
@@ -397,7 +398,7 @@
                         <img src="@/assets/img-delete/visa-logo.jpg" alt="" />
                       </div>
                       <h3 class="mb-0 ms-2" for="checkbox-1">
-                        {{ acount.accountNumber }}
+                        {{ acount.accountNumber }} ({{ acount.nameBank }})
                       </h3>
                     </div>
                   </b-col>
@@ -824,14 +825,8 @@
                   </b-col>
                 </b-row>
               </b-col>
-              <b-form-invalid-feedback
-                :state="
-                  !isModalProfessionEdit
-                    ? groupSpecialist.errorMessage.value
-                    : null
-                "
-              >
-                {{ groupSpecialist.errorMessage.value }}
+              <b-form-invalid-feedback :state="countEspBoolean">
+                Selecciona una especialidad como minimo
               </b-form-invalid-feedback>
             </b-row>
           </b-col>
@@ -1052,6 +1047,7 @@ import { SpecialistServices } from "@/services/api/specialistProfileServices";
 import { GeneralServices } from "@/services/api/generalServices";
 import { validateState } from "@/validate/globalValidate";
 import useProfileSpecialistValidate from "@/validate/profileSpecialistValidate";
+import { object } from "yup";
 
 const authData: string = window.localStorage.getItem("@AUTH:security") || "";
 
@@ -1207,6 +1203,7 @@ interface AccountList {
   bankId: number;
   cci: string;
   specialistId: string;
+  nameBank: string;
 }
 //datos para enviar a NEW_ACCOUNT_SPECIALIST
 const formAcount = ref({
@@ -1252,6 +1249,8 @@ const optionsLocationModel = ref([
 const optionsLocation = ref();
 //Lista de los bancos - Account
 const optionsAcount = ref();
+//Lista de los bancos copiaSeguridad
+const currentOptionsAcount = ref();
 
 const section1 = ref(0);
 const section2 = ref(0);
@@ -1262,6 +1261,10 @@ const section5 = ref(0);
 //GH
 const flagUpdate = ref(false);
 const extension = ref("");
+//Contador especialidades registradas por profesion
+const countEsp = ref(0);
+//true si el contador es mayor a cero y false si es lo contrario
+const countEspBoolean = ref(false);
 
 //funcion para filtrar distritos por zona
 function filterForZone(idZone: number) {
@@ -1342,6 +1345,26 @@ watch(
     deep: true,
   }
 );
+
+//Observador meses y años Experiencia
+watch(
+  () => groupSpecialist.value.value,
+  () => {
+    const a = groupSpecialist.value.value?.objetosAAgregar.length || 0;
+    const b = groupSpecialist.value.value?.objetosAEliminar.length || 0;
+    const count = countEsp.value + a - b;
+    debugger;
+    if (!count) {
+      countEspBoolean.value = false;
+    } else {
+      countEspBoolean.value = true;
+    }
+  },
+  {
+    deep: true,
+  }
+);
+
 //Observador meses y años Experiencia
 watch(
   () => workExperience.value,
@@ -1434,7 +1457,7 @@ async function fetchListNameBank() {
       text: data.name,
     };
   });
-  optionsAcount.value = [...listBank];
+  currentOptionsAcount.value = [...listBank];
 }
 //CARGAR Datos del especialista
 async function fetchDataSpecialist() {
@@ -1540,6 +1563,7 @@ async function FormatoExperiencia() {
       specialities: [],
     };
   });
+
   const resultado = value.map((obj: any) => {
     const profesionEspecialidad = specialization.value.filter(
       (item: any) => item.professionId === obj.id
@@ -1610,6 +1634,9 @@ async function fetchAccountBank() {
   dataBank.reverse();
 
   acountsList.value = dataBank.map((data: any) => {
+    const name = currentOptionsAcount.value.filter(
+      (obj: any) => obj.value === data.bankId
+    );
     return {
       id: data.id,
       accountNumber: data.accountNumber,
@@ -1617,8 +1644,14 @@ async function fetchAccountBank() {
       cci: data.cci,
       bankId: data.bankId,
       specialistId: data.specialistId,
+      nameBank: name[0].text,
     };
   });
+  let bancosRegistrados = acountsList.value.map((obj: any) => obj.bankId);
+  let bancosDisponibles = currentOptionsAcount.value.filter(
+    (obj: any) => !bancosRegistrados.includes(obj.value)
+  );
+  optionsAcount.value = bancosDisponibles;
   loadingModal.value.bank = false;
 }
 
@@ -1750,13 +1783,15 @@ async function editExperience() {
     };
     let oldTimeExp: any =
       formPresentation.value.cv.experienceTimes[indexExperience.value];
-    let value = fields.groupSpecialist.objetosAAgregar.map((x: any) => {
-      return {
-        specializationId: x.id,
-        professionId: fields.idProfession,
-        specialistId: idEspecialist.value,
-      };
-    });
+    let specializationsToAdd = fields.groupSpecialist.objetosAAgregar.map(
+      (x: any) => {
+        return {
+          specializationId: x.id,
+          professionId: fields.idProfession,
+          specialistId: idEspecialist.value,
+        };
+      }
+    );
     let specializationsToDelete = fields.groupSpecialist.objetosAEliminar.map(
       (x: any) => {
         return {
@@ -1767,35 +1802,41 @@ async function editExperience() {
       }
     );
     try {
-      if (
-        oldTimeExp.time !== updateProfession.time ||
-        value.length > 0 ||
-        specializationsToDelete.length > 0
-      ) {
-        alertLoading("Guardando...");
-        if (oldTimeExp.time !== updateProfession.time) {
-          await specialistServices.putExperienceTime(
-            idEspecialist.value,
-            updateProfession
-          );
+      const count =
+        countEsp.value +
+        specializationsToAdd.length -
+        specializationsToDelete.length;
+      if (count > 0) {
+        if (
+          oldTimeExp.time !== updateProfession.time ||
+          specializationsToAdd.length > 0 ||
+          specializationsToDelete.length > 0
+        ) {
+          alertLoading("Guardando...");
+          if (oldTimeExp.time !== updateProfession.time) {
+            await specialistServices.putExperienceTime(
+              idEspecialist.value,
+              updateProfession
+            );
+          }
+          if (specializationsToAdd.length > 0) {
+            await specialistServices.postExperience(specializationsToAdd);
+          }
+          if (specializationsToDelete.length > 0) {
+            await specialistServices.deleteSpecializations(
+              specializationsToDelete
+            );
+          }
+          await fetchDataSpecialist(); // obtiene datos personales del especialista
+          await fetchSpecialization(); // obtiene especialidades del especialista
+          await FormatoExperiencia(); // Procesa Experiencia para Front
+          showModalExperience.value = false;
+          alertSuccessButton("Se realizo la operación exitosamente");
         }
-        if (value.length > 0) {
-          await specialistServices.postExperience(value);
-        }
-        if (specializationsToDelete.length > 0) {
-          await specialistServices.deleteSpecializations(
-            specializationsToDelete
-          );
-        }
-        await fetchDataSpecialist(); // obtiene datos personales del especialista
-        await fetchSpecialization(); // obtiene especialidades del especialista
-        await FormatoExperiencia(); // Procesa Experiencia para Front
-        showModalExperience.value = false;
-        alertSuccessButton("Se realizo la operación exitosamente");
       }
-    } catch (error) {
+    } catch (error: any) {
       showModalExperience.value = false;
-      alertSuccessButton("fallo algo");
+      alertError(error.response.data.message);
     }
   }
   if (isValid && !isModalProfessionEdit.value) {
@@ -1880,11 +1921,12 @@ async function editLocation() {
 }
 //ENVIAR Cuentas bancarias Especialista
 async function editAcount() {
+  const dataBank = await specialistServices.getBankAccount(idEspecialist.value);
   const fields = {
     bankId: bankId.value.value,
     accountNumber: accountNumber.value.value,
     cci: cci.value.value,
-    specialistId: idEspecialist.value
+    specialistId: idEspecialist.value,
   };
   const isValid = await validateAccount(fields);
   if (!isValid) inputValidate();
@@ -1892,15 +1934,20 @@ async function editAcount() {
   if (isValid) {
     formAcount.value = { ...formAcount.value, ...fields };
     const value = formAcount.value;
-    try {
-      alertLoading("Guardando...");
-      const response = await specialistServices.postBankAccount(value);
-      await fetchAccountBank();
+    if (dataBank.length < 2) {
+      try {
+        alertLoading("Guardando...");
+        await specialistServices.postBankAccount(value);
+        await fetchAccountBank();
+        showModalAcount.value = false;
+        alertSuccessButton("Se realizo la operación exitosamente");
+      } catch (error: any) {
+        showModalAcount.value = true;
+        alertError(error.response.data.message);
+      }
+    } else {
       showModalAcount.value = false;
-      alertSuccessButton("Se realizo la operación exitosamente");
-    } catch (error: any) {
-      showModalAcount.value = true;
-      alertError(error.response.data.message);
+      alertError("Solo puedes registrar 2 cuentas");
     }
   }
 }
@@ -1970,12 +2017,13 @@ function showEditPresentacion() {
 }
 
 function modalProfessionEdit(id: number, index: number) {
-  inputReset();
   indexExperience.value = index;
   let data = experiences.value.find((obj: any) => obj.id === id);
   listProfessions.value = AllProfessions.value.filter(
     (data: any) => data.value == id
   );
+
+  countEsp.value = data?.specialities.length || 0;
 
   setTimeout(() => {
     if (data) {
@@ -1994,6 +2042,7 @@ function modalProfessionEdit(id: number, index: number) {
 }
 
 function modalProfessionCreate() {
+  inputReset();
   let filterProfession = AllProfessions.value.filter(
     (data: any) =>
       !specialization.value.some(
@@ -2008,9 +2057,6 @@ function modalProfessionCreate() {
   };
   isModalProfessionEdit.value = false;
   showModalExperience.value = true;
-  setTimeout(() => {
-    inputReset();
-  }, 10);
 }
 
 async function deleteLocation(id: number) {
