@@ -1669,7 +1669,6 @@ async function editPresentation() {
 
   const isValid = await validateProfile(fields);
   if (!isValid) inputValidate();
-
   if (isValid) {
     const payload = {
       name: fields.name,
@@ -1679,7 +1678,7 @@ async function editPresentation() {
       }),
       address: fields.direction,
       phone: fields.phone,
-      secondaryPhone: fields.secondPhone,
+      secondaryPhone: fields.secondPhone === "" ? null : fields.secondPhone,
       ...(flagUpdate.value && {
         filePhoto: fields.profilePhoto.split(",")[1] || "",
         filePhotoExtension: extension.value,

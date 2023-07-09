@@ -14,7 +14,7 @@ export interface ProfileSpecialistPayload {
   about?: string,
   address?: string,
   phone?: string,
-  secondaryPhone?: string,
+  secondaryPhone?: string | null,
   filePhoto?: string,
   filePhotoExtension?: string,
   flagUpdatePhoto?: boolean
