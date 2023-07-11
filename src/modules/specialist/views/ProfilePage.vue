@@ -1353,7 +1353,6 @@ watch(
     const a = groupSpecialist.value.value?.objetosAAgregar.length || 0;
     const b = groupSpecialist.value.value?.objetosAEliminar.length || 0;
     const count = countEsp.value + a - b;
-    debugger;
     if (!count) {
       countEspBoolean.value = false;
     } else {
@@ -1999,6 +1998,7 @@ function showAccount() {
 }
 
 function showEditPresentacion() {
+  inputReset();
   showModalEditPresentacion.value = true;
   const data = formPresentation.value;
 
