@@ -1353,7 +1353,6 @@ watch(
     const a = groupSpecialist.value.value?.objetosAAgregar.length || 0;
     const b = groupSpecialist.value.value?.objetosAEliminar.length || 0;
     const count = countEsp.value + a - b;
-    debugger;
     if (!count) {
       countEspBoolean.value = false;
     } else {
@@ -1669,7 +1668,6 @@ async function editPresentation() {
 
   const isValid = await validateProfile(fields);
   if (!isValid) inputValidate();
-
   if (isValid) {
     const payload = {
       name: fields.name,
@@ -1679,7 +1677,7 @@ async function editPresentation() {
       }),
       address: fields.direction,
       phone: fields.phone,
-      secondaryPhone: fields.secondPhone,
+      secondaryPhone: fields.secondPhone === "" ? null : fields.secondPhone,
       ...(flagUpdate.value && {
         filePhoto: fields.profilePhoto.split(",")[1] || "",
         filePhotoExtension: extension.value,
@@ -2000,6 +1998,7 @@ function showAccount() {
 }
 
 function showEditPresentacion() {
+  inputReset();
   showModalEditPresentacion.value = true;
   const data = formPresentation.value;
 
